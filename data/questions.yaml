@@ -13,28 +13,98 @@
   - 问责
   - 机器学习
   answer:
-    summary: 「可解释人工智能」（XAI）的主流理由是：当模型用于信贷、医疗、刑事司法等高风险决策时，仅有预测准确率不够，还需要让相关人理解、质疑并追责。与此同时，学界对「解释」本身能否可靠存在尖锐分歧：有人主张发展事后解释技术，有人认为对黑箱做事后说明往往不忠实，高风险场景应直接使用本身可解释的模型。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 高风险场景需要某种可说明性，是较为广泛的政策与研究动机；但「解释」应如何定义与实现，存在严重分歧
+      note: Doshi-Velez 与 Kim 把可解释性当作在安全、非歧视、技术债与「解释权」等难以完全量化的准则上的退而求其次的检验手段，并呼吁把它做成可严格评估的科学。[1] Lipton
+        则指出，「可解释」并非单一概念，事后解释与对人类透明是相互竞争的观念。[2] Rudin 进一步主张：高风险决策应直接使用本质上可解释的模型，而不是为黑箱提供事后说明。[3]
+    summary: 当机器学习系统进入医疗、刑事司法、信贷和驾驶等会显著影响人身与权利的领域时，仅有预测准确率往往不够：还需要判断推理是否在安全、公平和其他辅助准则上站得住。[1] 文献对「我们为什么需要可解释人工智能」大致共享这一动机，但对「解释」是什么却缺少共识。[1][2]
+      一种路线是发展并评估事后解释技术，把可解释性变成可检验的科学问题。[1] 另一种路线警告：这个词被用得太含混，线性模型可解释、深度网络不可解释之类断言并不显然成立。[2] 第三种路线更强：在高风险决策中，试图解释黑箱可能延续不良实践，正确做法是设计一开始就可解释的模型。[3]
+    definitions:
+    - term: 事后解释（post-hoc explanation）
+      text: Lipton 把对人类透明（transparency）与事后解释列为两种相互竞争的「可解释」观念：前者关乎模型本身是否可被理解，后者是在模型训练之后再生成说明。[2]
+    - term: 本质可解释模型（inherently interpretable model）
+      text: Rudin 用来与「为黑箱提供解释」相对：模型的决策规则在构造上就可以被相关人理解，而不是另附一套可能不忠实的说明。[3]
     views:
-    - position: 高风险决策必须可解释、可追责
-      holders: 政策圈与部分机器学习研究者（如 Finale Doshi-Velez、Been Kim 等倡导把可解释性当作一门可检验的科学）
-      argument: 若模型影响人的权利与安全，使用者与受影响者需要知道依据是什么，才能发现数据偏差、满足监管并建立有限的信任。可解释性应被当作可定义、可评估的目标，而不是口号。
-      sources:
-      - title: Doshi-Velez & Kim, Towards A Rigorous Science of Interpretable Machine Learning (arXiv:1702.08608)
-        url: https://arxiv.org/abs/1702.08608
-    - position: 事后解释不可靠，高风险场景应使用本质可解释模型
-      holders: Cynthia Rudin
-      argument: 对黑箱模型再套一层「解释器」，解释可能与模型真实机制不一致，反而造成虚假安全感。在医疗、刑事司法等后果严重的领域，应优先设计本身可解读的模型，而不是先上黑箱再补解释。
-      sources:
-      - title: Rudin, Stop explaining black box machine learning models for high stakes decisions…（PMC
-          开放版本）
-        url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9122117/
-    - position: 「可解释」一词本身含混，目标需要先澄清
-      holders: Zachary Lipton
-      argument: 人们把可解释性用来指透明度、可模拟性、事后理由或因果洞察等不同东西；不清楚要解决哪种需求，就无法判断一种方法是否成功。先区分问题，再谈技术。
-      sources:
-      - title: Lipton, The Mythos of Model Interpretability (arXiv:1606.03490)
-        url: https://arxiv.org/abs/1606.03490
-    open_parts: 仍然没有公认的「解释质量」尺度：对谁解释、解释到哪一层算够、解释与隐私或商业秘密如何权衡，都未解决。本质可解释模型在大规模深度网络上能否达到与黑箱相当的性能，也仍在争论。
+    - position: 高风险应用需要可解释性，并应把它当作可严格评估的科学问题
+      consensus_role: 研究议程与政策动机上的主流表述之一
+      evidence:
+        label: 有影响的综述/议程论文，不是一项新的随机试验
+        note: Doshi-Velez 与 Kim（2017）是 arXiv 上的纲领性文章，提出应用接地、人类接地与功能接地三类评估。它对欧盟当时讨论的「解释权」有所引述，但本文并不把一篇综述当成法律文本本身。[1]
+      holders:
+      - name: Finale Doshi-Velez、Been Kim
+        identity: 《Towards A Rigorous Science of Interpretable Machine Learning》（arXiv:1702.08608v2, 2017）共同第一作者。该
+          arXiv 文本未在文首列出所属机构，故此处不补充未核到的头衔。[1]
+      argument: 作者指出，机器学习系统日益用于复杂应用，除了预期任务表现，还被要求满足安全、非歧视、避免技术债或提供解释等准则；这些准则往往不能被完全量化。在这种情况下，一个流行的退路就是可解释性：如果系统能说明其推理，我们就可以检验该推理在这些辅助准则上是否站得住。[1]
+        他们同时承认，对可解释性是什么、如何评估，几乎没有共识，并警告既有评估常依赖「看了就知道」。若要比较方法并理解何时可推广，就需要把这些概念形式化并建立在证据之上。[1]
+      quotes:
+      - text: 'In such cases, a popular fallback is the criterion of interpretability: if the system can
+          explain its reasoning, we then can verify whether that reasoning is sound with respect to these
+          auxiliary criteria.'
+        text_zh: 在这些情况下，一个流行的退路是可解释性这一准则：如果系统能说明其推理，我们就可以检验该推理相对于这些辅助准则是否站得住。
+        attribution: Finale Doshi-Velez 与 Been Kim，Towards A Rigorous Science of Interpretable Machine
+          Learning
+        locator: 作者 PDF 第 1 页（arXiv:1702.08608v2）
+        ref: 1
+    - position: 「可解释」一词本身含混，透明与事后说明不是一回事
+      consensus_role: 对概念基础的有影响力澄清
+      evidence:
+        label: 概念分析论文（研讨会/预印本）
+        note: Lipton 的文章先作为 2016 年 ICML 人类可解释性研讨会论文流传，本次打开的是 arXiv:1606.03490v3（2017-03-06）。后继若有期刊修订本，本文未打开，故只依据该版本。[2]
+      holders:
+      - name: Zachary C. Lipton
+        identity: 该文版本中的通讯单位为加州大学圣迭戈分校（University of California, San Diego）。[2]
+      argument: Lipton 开篇就指出：人们希望模型不仅表现好，还要可解释，但「解释」任务本身规定不足。不同论文给出的动机并不重合，对何种属性使模型可解释也众说纷纭；尽管如此，许多论文仍把可解释性当作公理直接宣称。[2]
+        他的澄清是：可解释性不是铁板一块的概念，而是反映若干不同观念。在讨论被认为赋予可解释性的模型性质与技术时，他把「对人类透明」和「事后解释」识别为相互竞争的概念，并质疑「线性模型可解释、深度网络不可解释」这一常见断言。[2]
+        因此，在问「我们为什么需要 XAI」之前，需要先问：需要的是哪一种可解释，以及它是否真能兑现被寄予的信任、可争辩性或发现功能。
+      quotes:
+      - text: Then, we address model properties and techniques thought to confer interpretability, identifying
+          transparency to humans and post-hoc explanations as competing notions.
+        text_zh: 然后，我们讨论那些被认为赋予可解释性的模型性质与技术，并把「对人类透明」与「事后解释」识别为相互竞争的概念。
+        attribution: Zachary C. Lipton，The Mythos of Model Interpretability
+        locator: 摘要，arXiv:1606.03490v3 第 1 页
+        ref: 2
+    - position: 高风险决策不应解释黑箱，而应使用本质可解释模型
+      consensus_role: 少数但论证完整的规范性主张
+      evidence:
+        label: 同行评议立场文章（及对应预印本）
+        note: Rudin 的文章刊于 Nature Machine Intelligence, 1, 206–215（2019）。本次打开并据以摘句的是作者 arXiv:1811.10154v3（2019-09-22）；PMC
+          条目页亦已打开，用于核对期刊与 DOI，但其 PDF 下载在本环境返回的不是 PDF 文件。[3][4]
+      holders:
+      - name: Cynthia Rudin
+        identity: 杜克大学（Duke University），该预印本署名单位。文章主张在高风险场景用本质可解释模型替代对黑箱的解释。[3]
+      argument: Rudin 的出发点与「我们需要解释」并不矛盾，但她认为路径选错了。摘要指出：黑箱模型正被用于贯穿医疗、刑事司法等领域的高风险决策；人们希望用解释方法缓解问题，然而试图解释黑箱、而不是一开始就构造可解释模型，很可能延续不良实践，并可能对社会造成灾难性伤害。出路是设计本质上可解释的模型。[3]
+        这一主张把「可解释性」从模型的附带说明，提升为模型类的选择问题：若解释不忠实，高风险场景中的问责只是表面被满足。
+      quotes:
+      - text: People have hoped that creating methods for explaining these black box models will alleviate
+          some of these problems, but trying to explain black box models, rather than creating models
+          that are interpretable in the first place, is likely to perpetuate bad practices and can potentially
+          cause catastrophic harm to society. There is a way forward – it is to design models that are
+          inherently interpretable.
+        text_zh: 人们曾希望，为这些黑箱模型创造解释方法将缓解部分问题；然而，试图解释黑箱模型，而不是一开始就创造可解释的模型，很可能延续不良实践，并可能对社会造成灾难性伤害。有一条向前的路——那就是设计本质上可解释的模型。
+        attribution: Cynthia Rudin，Stop Explaining Black Box Machine Learning Models…
+        locator: 摘要，arXiv:1811.10154v3 第 1 页
+        ref: 3
+    open_parts: 仍然没有公认的「解释质量」尺度：对谁解释、解释到哪一层算够、解释与商业秘密或隐私如何权衡，都未解决。[1][2] 本质可解释模型在大规模深度网络上能否达到与黑箱相当的性能，是经验上仍在争论的问题。[3]
+      「解释权」作为法律概念，其范围也不能由一篇机器学习论文单独决定。
+    references:
+    - id: 1
+      citation: Doshi-Velez, F., & Kim, B. (2017). Towards a rigorous science of interpretable machine
+        learning. arXiv:1702.08608v2.
+      url: https://arxiv.org/pdf/1702.08608
+    - id: 2
+      citation: Lipton, Z. C. (2016/2017). The mythos of model interpretability. arXiv:1606.03490v3. 文中注明为
+        ICML Workshop on Human Interpretability in Machine Learning (WHI 2016) 论文。
+      url: https://arxiv.org/pdf/1606.03490
+    - id: 3
+      citation: Rudin, C. (2019). Stop explaining black box machine learning models for high stakes decisions
+        and use interpretable models instead. Nature Machine Intelligence, 1(5), 206–215. https://doi.org/10.1038/s42256-019-0048-x
+        引文据 arXiv:1811.10154v3 核对。
+      url: https://arxiv.org/pdf/1811.10154
+    - id: 4
+      citation: Rudin, C. (2019). 同上。PubMed Central 条目页（用于核对期刊信息）：PMC9122117。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9122117/
 - id: 2026-11-09-ai-fooled
   date: '2026-11-09'
   category: ai
@@ -49,29 +119,110 @@
   - 对抗样本
   - 稳健性
   answer:
-    summary: 深度网络（以及许多其他分类器）会把对人眼几乎不可见的扰动判成完全不同的类别，这类「对抗样本」自 2013 年起被系统揭示。一个有影响力的解释是：高维空间里线性决策边界很容易被小扰动推过；也有研究主张，对抗样本反映的是数据中对人类不显著、对模型却有用的特征，而不只是训练缺陷。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 对抗脆弱性这一现象有强共识；主要机制与能否被消除，仍有争议
+      note: 自 Szegedy 等人系统报告「对抗样本」以来，深度网络以及其他一些分类器会把对人几乎不可见的扰动判成错误类别，这一现象已被多次独立展示。[1][2] 对原因的解释则从「高维中的线性」到「非稳健但有用的特征」不等，目前没有被广泛接受、能在保持性能的同时消除该脆弱性的训练方法。[2][4]
+    summary: 深度神经网络可以在标准测试集上达到很高准确率，却会把经过精心设计、对人往往难以察觉的扰动输入，以高置信度标成完全错误的类别。[1][2] Szegedy 等人把这类输入称为对抗样本，并观察到它们并非全然随机、甚至可在不同模型间转移。[1]
+      Goodfellow、Shlens 与 Szegedy 主张，主要原因不是高度非线性或过拟合，而是网络在高维空间中过分线性，使小扰动足以越过决策边界。[2] 另一条证据是：网络也会把人类完全无法识别的图像（例如接近白噪声的图案）以极高置信度标成具体物体。[3]
+      Ilyas 等人则提出，对抗样本可以直接归因于数据中「非稳健特征」：它们对分类很有预测力，却脆弱且对人类不可理解，因而对抗样本未必只是漏洞。[4]
+    definitions:
+    - term: 对抗样本（adversarial examples）
+      text: Szegedy 等人的用法：通过对测试图像施加精心寻找的、往往难以察觉的非随机扰动，可以任意改变网络的预测；这样得到的例子被称为对抗样本。[1]
+    - term: 非稳健特征（non-robust features）
+      text: Ilyas 等人的用法：源自数据分布中某些模式的特征，它们有高度预测力，但脆弱，因而对人类难以理解。[4]
+    milestones:
+    - year: 2013/2014
+      name: Szegedy 等系统报告对抗样本
+      explanation: 在展示深度网络的反直觉性质时，他们发现对输入的微小扰动足以任意改变预测，并引入「对抗样本」这一术语。[1] 一句话：高准确率并不等于对微小改动稳健。
+    - year: '2015'
+      name: 线性解释与「易被愚弄」的不可识别图像
+      explanation: Goodfellow 等提出线性解释，并使快速构造对抗样本、从而进行对抗训练变得可行。[2] Nguyen、Yosinski 与 Clune 则展示网络会把人类无法识别的图像标成具体类别且置信度极高。[3]
+    - year: '2019'
+      name: 「不是漏洞，而是特征」
+      explanation: Ilyas 等把对抗样本归因于非稳健却有用的特征，并在标准数据集中论证其普遍存在。[4] 一句话：模型可能在用人类看不到的统计规律做对题。
     views:
-    - position: 这是深度网络在高维输入上的结构性脆弱
-      holders: Szegedy 等人首先系统报告该现象；Goodfellow、Shlens 与 Szegedy 提出线性解释
-      argument: 即使网络在测试集上准确率很高，仍存在精心构造的微小扰动导致高置信度误判。一个简洁解释是：在高维空间中，沿权重方向累积的微小变化足以越过决策边界，因此「看起来稳健」与「对定向扰动稳健」不是一回事。
-      sources:
-      - title: Szegedy et al., Intriguing properties of neural networks (arXiv:1312.6199)
-        url: https://arxiv.org/abs/1312.6199
-      - title: Goodfellow, Shlens & Szegedy, Explaining and Harnessing Adversarial Examples (arXiv:1412.6572)
-        url: https://arxiv.org/abs/1412.6572
-    - position: 网络会被对人无意义的图像「高置信度识别」
-      holders: Nguyen、Yosinski 与 Clune
-      argument: 用进化算法生成的对人类完全不像目标物体的图像，仍可被深度网络以高置信度分类，说明模型抓到的判别依据不必与人类的形状、语义一致。
-      sources:
-      - title: Nguyen, Yosinski & Clune, Deep Neural Networks are Easily Fooled (arXiv:1412.1897)
-        url: https://arxiv.org/abs/1412.1897
-    - position: 对抗样本未必是「漏洞」，也可能是有用特征
-      holders: Ilyas 等（2019）
-      argument: 有研究显示，对抗扰动可能对应数据中真实存在、对分类有统计预测力、但人类不使用的特征；因此「愚弄」不完全等于模型瞎猜，也提出了与人类感知对齐的问题。
-      sources:
-      - title: Ilyas et al., Adversarial Examples Are Not Bugs, They Are Features (arXiv:1905.02175)
-        url: https://arxiv.org/abs/1905.02175
-    open_parts: 目前没有任何被广泛接受的训练方法能在保持性能的同时消除对抗脆弱性。对抗样本究竟主要是线性几何、非稳健特征，还是分布外泛化失败，仍无定论；它们对现实物理世界攻击的普遍程度也还在研究中。
+    - position: 这是深度网络（及其他模型）在高维输入上的结构性脆弱
+      consensus_role: 关于现象的主流描述，以及一种有影响的机制假说
+      evidence:
+        label: 多篇同行评议/正式会议论文与预印本，现象可复现；线性假说仍是一种解释
+        note: 现象本身已被多组作者展示。Goodfellow 等的线性说明能解释为何极小扰动在高维中足够，并导出快速生成方法，但它并不排除其他机制。[1][2]
+      holders:
+      - name: Christian Szegedy、Wojciech Zaremba、Ilya Sutskever、Joan Bruna、Dumitru Erhan、Ian Goodfellow、Rob
+          Fergus
+        identity: 《Intriguing properties of neural networks》（arXiv:1312.6199v4, 2014-02-19）作者。该版本署名单位包括
+          Google Inc.、New York University、University of Montreal。[1]
+      - name: Ian J. Goodfellow、Jonathon Shlens、Christian Szegedy
+        identity: Google Inc., Mountain View, CA。文章作为 ICLR 2015 会议论文发表，本次打开 arXiv:1412.6572v3。[2]
+      argument: Szegedy 等报告：通过对测试图像施加难以察觉的非随机扰动，可以任意改变网络预测，他们称之为对抗样本；并且这些样本相对稳健，可被层数、激活函数或训练子集不同的网络所共享。[1]
+        Goodfellow 等在摘要中回顾：早期解释聚焦于非线性与过拟合；他们主张，神经网络对对抗扰动脆弱的首要原因是其线性本性，这一看法既得到新的定量结果支持，也给出了此前缺失的对对抗训练为何有效的说明，并表明在高维空间中的线性行为足以产生对抗样本。[2]
+      quotes:
+      - text: We argue instead that the primary cause of neural networks’ vulnerability to adversarial
+          perturbation is their linear nature.
+        text_zh: 我们转而主张：神经网络对对抗扰动脆弱的首要原因，是它们的线性本性。
+        attribution: Ian J. Goodfellow、Jonathon Shlens 与 Christian Szegedy，Explaining and Harnessing Adversarial
+          Examples
+        locator: 摘要，arXiv:1412.6572v3 / ICLR 2015，作者 PDF 第 1 页
+        ref: 2
+    - position: 网络也会对人类无法识别的图像给出极高置信度的「识别」
+      consensus_role: 补充性的实证现象，说明脆弱不只限于微扰
+      evidence:
+        label: 同行评议会议论文中的构造性证据
+        note: Nguyen 等使用进化算法等手段生成对人类不可识别、但对在 ImageNet 或 MNIST 上训练良好的卷积网络却有极高置信度的图像。这与「只有不可见微扰才能愚弄模型」的直觉不同。[3]
+      holders:
+      - name: Anh Nguyen、Jason Yosinski、Jeff Clune
+        identity: 撰写该文时，Nguyen 与 Clune 在怀俄明大学，Yosinski 在康奈尔大学。论文发表于 2015 IEEE Conference on Computer Vision
+          and Pattern Recognition (CVPR), pp. 427–436。[3]
+      argument: 若对抗样本只是「在一张清晰的狗照片上加一点人眼看不见的噪声」，人们仍可认为模型大体抓住了正确的概念。Nguyen 等展示了另一类愚弄：图像对人类完全无法识别，最先进的深度网络却相信它们是可识别的物体，置信度可达
+        99.99%，例如把白噪声静态图确信地标成一头狮子。[3] 这说明模型的高置信度输出，并不保证其内部判别依据对人类有意义。
+      quotes:
+      - text: it is easy to produce images that are completely unrecognizable to humans, but that state-of-the-art
+          DNNs believe to be recognizable objects with 99.99% confidence (e.g. labeling with certainty
+          that white noise static is a lion).
+        text_zh: 很容易生成一些对人类完全无法识别的图像，但最先进的深度神经网络却相信它们是可识别的物体，置信度达 99.99%（例如把白噪声静态图确信地标成一头狮子）。
+        attribution: Anh Nguyen、Jason Yosinski 与 Jeff Clune，Deep Neural Networks are Easily Fooled
+        locator: 摘要，arXiv:1412.1897v4 / CVPR 2015，作者 PDF 第 1 页
+        ref: 3
+    - position: 对抗样本未必只是漏洞，也可能是有用但不稳健的特征
+      consensus_role: 有影响的另类机制解释
+      evidence:
+        label: 同行评议/预印本中的理论框架与实验
+        note: Ilyas 等（arXiv:1905.02175v4, 2019-08-12）把对抗样本直接归因于非稳健特征，并声称在标准数据集中证明其普遍存在。这是对「纯漏洞」叙事的修正，不是对脆弱性本身的否认。[4]
+      holders:
+      - name: Andrew Ilyas、Shibani Santurkar、Dimitris Tsipras、Logan Engstrom、Brandon Tran、Aleksander Madry
+        identity: 该文版本的署名单位为 MIT。[4]
+      argument: 若对抗扰动只是模型的病理缺陷，它们不应与对正确输入的分类有系统联系。Ilyas 等则证明：对抗样本可以直接归因于非稳健特征——它们来自数据分布中的模式，有高度预测力，但脆弱，因而对人类不可理解。[4]
+        在这一视角下，攻击者是在操纵那些对模型有用、对人类不显著的规律；「愚弄」揭示的是人类与模型所用特征的错位，而不只是训练失败。这并不意味着脆弱可以忽略，而是改变了「修复」应当针对什么。
+      quotes:
+      - text: 'We demonstrate that adversarial examples can be directly attributed to the presence of
+          non-robust features: features (derived from patterns in the data distribution) that are highly
+          predictive, yet brittle and (thus) incomprehensible to humans.'
+        text_zh: 我们证明，对抗样本可以直接归因于非稳健特征的存在：这些特征源自数据分布中的模式，具有高度预测力，但很脆弱，因而（也就）对人类不可理解。
+        attribution: Ilyas, Santurkar, Tsipras, Engstrom, Tran & Madry，Adversarial Examples Are Not Bugs,
+          They Are Features
+        locator: 摘要，arXiv:1905.02175v4 第 1 页
+        ref: 4
+    open_parts: 目前没有被广泛接受的训练方法能在保持标准性能的同时消除对抗脆弱性。线性几何、非稳健特征与分布外泛化失败，各自能说明一部分事实，但尚未统一。[2][4] 这些样本在物理世界（打印、拍摄、贴附）中的普遍威胁程度，也仍是经验问题。把「容易被愚弄」写成「模型毫无理解」或「已有完备补丁」，都超过了现有证据。
+    references:
+    - id: 1
+      citation: Szegedy, C., Zaremba, W., Sutskever, I., Bruna, J., Erhan, D., Goodfellow, I., & Fergus,
+        R. (2014). Intriguing properties of neural networks. arXiv:1312.6199v4.
+      url: https://arxiv.org/pdf/1312.6199
+    - id: 2
+      citation: Goodfellow, I. J., Shlens, J., & Szegedy, C. (2015). Explaining and harnessing adversarial
+        examples. In International Conference on Learning Representations (ICLR 2015). arXiv:1412.6572v3.
+      url: https://arxiv.org/pdf/1412.6572
+    - id: 3
+      citation: 'Nguyen, A., Yosinski, J., & Clune, J. (2015). Deep neural networks are easily fooled:
+        High confidence predictions for unrecognizable images. In 2015 IEEE Conference on Computer Vision
+        and Pattern Recognition (CVPR) (pp. 427–436). https://doi.org/10.1109/CVPR.2015.7298640 引文据 arXiv:1412.1897v4
+        核对。'
+      url: https://arxiv.org/pdf/1412.1897
+    - id: 4
+      citation: Ilyas, A., Santurkar, S., Tsipras, D., Engstrom, L., Tran, B., & Madry, A. (2019). Adversarial
+        examples are not bugs, they are features. arXiv:1905.02175v4.
+      url: https://arxiv.org/pdf/1905.02175
 - id: 2026-11-09-biz-cost-disease
   date: '2026-11-09'
   category: business
@@ -87,32 +238,71 @@
   - 进步研究
   - 价格
   answer:
-    summary: 医疗、教育等劳动密集型服务的实际价格长期上升，而电子产品等可贸易商品则大幅降价。一个经典解释是鲍莫尔成本病：生产率难提升的部门必须跟上高生产率部门的工资，于是相对价格上升。也有人强调监管、土地与住房成本、以及质量改进未被价格指数充分计量。Patrick
-      Collison 把这个问题列为进步研究的核心疑问之一。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 鲍莫尔机制是标准解释之一，但并非所有涨价都能用它说明
+      note: Baumol 1967 年提出：经济活动可大致分为技术进步部门与技术进步缓慢（或「非进步」）的部门；若工资在各部门大致按进步部门的生产率同步上升，则后者的相对成本将累积性、没有上限地上升。教育、表演艺术、市政服务、餐馆等被他列为后一类的例证。[1] Helland 与 Tabarrok 2019 年用美国 1950–2016 年的实际价格来论证：高等教育与初等/中等教育的实际价格大约分别升至原来的近六倍与五倍以上，专业服务与医疗也升至三倍以上；他们把这些部门的长期涨价主要归于鲍莫尔效应，并认为许多流行的部门内解释要么不成立，要么不足以说明长期涨价。他们同时承认，鲍莫尔效应并不能解释每一个部门的价格上升。[2] 1967 年的论文本身对例证「并未试图提供文献式的经验记录」。因此，机制清楚，对具体部门的定量分解仍可能有争论。
+    summary: 有些东西变得更贵，并不是因为经济整体失去了技术进步。Baumol 的「不平衡增长」模型给出一个结构性理由：一些活动（他称为技术上进步的部门）可以通过创新、资本积累与规模经济持续提高人均产出；另一些活动就其性质而言只能零星提高生产率——现场表演、课堂教学、许多个人服务都属于此类。若劳动市场未被隔绝、工资在各部门大致一起上升，那么进步部门的生产率提高会抵消工资上涨，而在生产率几乎不变的部门，成本就会年复一年地相对上升，「累积性地、没有上限」。[1] 他在开篇把市政服务、教育、表演艺术、餐馆与闲暇活动列为由此受到几乎不可避免的实际成本上升压力的领域，并说明这一假说最初是与 William G. Bowen 在表演艺术研究中共同发展的。[1] 半个世纪后，Helland 与 Tabarrok 以 Why Are the Prices So Damn High? 为题重新提出这个问题：为何在经济整体的技术与生产率都在提高时，某些部门的价格仍大幅上升，而家电与电信却变得便宜得多？他们展示了 1950–2016 年一组消费品与服务的实际价格（1950 年标准化为 100）：高等教育升至 586，初等与中等教育升至 534，专业服务与医疗则升至三倍以上。[2] 在结论中他们避免使用「成本病」这个词，因为鲍莫尔效应的一个深层教训是：物品可以涨价，同时变得更可负担；一个更深层的教训是，某些物品价格更高，是经济增长的必然结果，而不是增长的失败——「相对价格的变化是增长的必然结果，而不是增长的失败」。他们审视教育与医疗后认为，这些部门中大多数具体的流行解释要么不真实，要么不能解释成本上升；例如教育并未变得更由行政成本主导，医疗事故费用也不是医疗成本的大头；在许多行业里，监管或市场集中度对长期价格变化的解释力也不大。[2]
+    definitions:
+    - term: 技术进步部门 / 非进步部门（Baumol 的二分）
+      text: Baumol 的基本前提是：经济活动并非完全任意地可分成两类——技术上进步的活动，其创新、资本积累与规模经济共同造成人均产出的累积上升；以及另一类就其性质只允许零星生产率提高的活动。他强调这是程度之别，而非绝对二分。[1]
+    - term: 鲍莫尔效应 / 不平衡增长
+      text: 若工资在各部门随进步部门的生产率一起上升，则生产率难以提高的部门，其相对成本会累积性上升。Helland 与 Tabarrok 用「鲍莫尔效应」来指这一机制，并有意少用「成本病」一词。[1][2]
+    milestones:
+    - '1967 年 6 月，William J. Baumol 在 American Economic Review 第 57 卷第 3 期第 415–426 页发表 Macroeconomics of Unbalanced Growth: The Anatomy of Urban Crisis（JSTOR 1812111）。[1]'
+    - 2019 年，Eric Helland 与 Alexander Tabarrok 在乔治梅森大学 Mercatus Center 出版 Why Are the Prices So Damn High? Health, Education, and the Baumol Effect。[2]
     views:
-    - position: 鲍莫尔成本病：生产率不对称推高相对价格
-      holders: William J. Baumol（1967）；Eric Helland 与 Alexander Tabarrok 以此解释美医疗和教育价格
-      argument: 若某部门难以用机器替代人力（如课堂教学、护理），而整个经济的工资被高生产率部门拉高，这些「停滞部门」的单位成本就会相对上升。这不一定意味着浪费，而可能是结构现象。
-      sources:
-      - title: Baumol, Macroeconomics of Unbalanced Growth（JSTOR 条目）
-        url: https://www.jstor.org/stable/1812671
-      - title: Helland & Tabarrok, Why Are the Prices So Damn High?（Mercatus，Internet Archive 存档）
-        url: https://web.archive.org/web/2020/https://www.mercatus.org/research/books/why-are-prices-so-damn-high
-      - title: Wikipedia：Baumol's cost disease
-        url: https://en.wikipedia.org/wiki/Baumol%27s_cost_disease
-    - position: 价格变化中有很大一块是质量与范围未被测准
-      holders: 价格统计与健康经济学家中的常见立场；Collison 在问题中亦明确提出这一可能
-      argument: 今天的医疗能治疗更多疾病、教育年限与服务内容也已变化。若价格指数没有充分纳入质量改进，就会把「更好」读成「更贵」。要回答「为什么贵」，必须先分清数量、质量与纯价格。
-      sources:
-      - title: Patrick Collison, Questions（含对该问题的表述）
-        url: https://patrickcollison.com/questions
-    - position: 供给约束与制度成本同样重要
-      holders: 关注住房、职业许可与行政负担的研究者与评论者（Collison 引用的 AEI/BLS 价格对照图常被用来展示部门差异）
-      argument: 若土地、许可、保险和合规成本上升，服务价格也会被推高，这与纯鲍莫尔机制可以并存。部门之间的价格分化本身，可见于基于官方统计的长期对照图。
-      sources:
-      - title: AEI：Chart of the day (or century)（BLS 数据整理的长期价格对照）
-        url: https://www.aei.org/economics/chart-of-the-day-or-century/
-    open_parts: 在医疗或高等教育的涨价中，成本病、质量改进、市场势力和监管各占多少，没有公认分解。跨国差异也提示制度很重要，但要把「该改哪一条制度」说成因果结论，证据仍然不足。
+    - position: 相对价格上升可以来自部门间生产率增长不平衡，而不必来自这些部门「出了毛病」
+      consensus_role: 机制的经典表述
+      evidence:
+        label: 理论宏观模型，附有说明性观察，但作者声明未作文献式经验记录
+        note: Baumol 写明：他在文中并不试图为说明性的经验观察提供文献式记录，尽管「在每一个例子中数据都经过考察，并且看来支持这些断言」。因此，1967 年文本确立的是机制，而不是对教育或医疗价格指数的完整计量分解。[1]
+      holders:
+      - name: William J. Baumol
+        identity: 文中作者注：普林斯顿大学经济学教授（professor of economics, Princeton University）。文中说明基本假说最初与 William G. Bowen 在二十世纪基金会资助的表演艺术研究中共同发展。[1]
+      argument: Baumol 认为，有些经济力量强大到会冲破一切为压制它们而设立的障碍。他要讨论的这种机制，有助于理解市政服务、教育、表演艺术、餐馆与闲暇活动等经济服务的前景：在这些活动的技术结构中，几乎不可避免地存在着使供给它们的实际成本累进、累积上升的力量；抵消这些成本上升的努力也许暂时有效，长期来看只是对底层趋势没有显著作用的姑息。[1] 模型的关键推论是：若某一部门的生产率增长持续落后于经济其他部分，而工资在所有领域按比例上升，则非进步部门的相对成本必然上升，而且这些成本将累积性、没有上限地上升——因为进步部门的生产率提高可以抵消工资上涨，这一抵消在非进步部门必然更小。[1] 他随后写道，技术进步部门的进步本身，会不可避免地增加技术上几乎不变的部门的成本，除非这些领域的劳动市场能被隔绝、工资被绝对冻结，「而这是极不可能的」。[1]
+      quotes:
+      - text: I will argue that inherent in the technological structure of each of these activities are forces working almost unavoidably for progressive and cumulative increases in the real costs incurred in supplying them. As a consequence, efforts to offset these cost increases, while they may succeed temporarily, in the long run are merely palliatives which can have no significant effect on the underlying trends.
+        text_zh: 我将论证，在这些活动每一种的技术结构中，几乎不可避免地存在着使供给它们所发生的实际成本累进、累积上升的力量。因此，抵消这些成本上升的努力也许暂时成功，长期来看却只不过是对底层趋势不能产生显著作用的姑息。
+        attribution: William J. Baumol, 1967
+        locator: American Economic Review, 57(3), 第 415 页
+        ref: 1
+      - text: If productivity per man hour rises cumulatively in one sector relative to its rate of growth elsewhere in the economy, while wages rise commensurately in all areas, then relative costs in the nonprogressive sectors must inevitably rise, and these costs will rise cumulatively and without limit.
+        text_zh: 若一个部门的人均小时生产率相对于经济其他部分的增长率累积上升，而工资在所有领域按比例上升，则非进步部门的相对成本必然上升，而且这些成本将累积性、没有上限地上升。
+        attribution: William J. Baumol, 1967
+        locator: American Economic Review, 57(3), 第 419 页附近（命题表述）
+        ref: 1
+    - position: 教育与医疗等部门的长期实际涨价，主要可用鲍莫尔效应理解；相对价格变化可以是增长的结果而不是失败
+      consensus_role: 对美国战后价格史的一种有影响的定量重述
+      evidence:
+        label: 专著中的价格序列与跨行业检验，不是一篇经同行评审的期刊论文
+        note: Helland 与 Tabarrok 的书由 Mercatus Center 出版。引言中的价格指数（1950=100；高等教育至 586，初等与中等教育至 534，专业服务与医疗「三倍以上」）是作者对所选序列的整理；结论中对行政成本、医疗事故、监管与集中度的判断，是作者在书中审视后的主张。本书自己设有「鲍莫尔效应并不能解释每一个部门的价格上升」一章，说明作者并不把它当作万能解释。[2]
+      holders:
+      - name: Eric Helland
+        identity: 书末作者简介：Claremont McKenna College 的 William F. Podlich 经济学教授与 George R. Roberts Fellow，并任 RAND Institute for Civil Justice 经济学家；持华盛顿大学圣路易斯分校博士学位。[2]
+      - name: Alexander Tabarrok
+        identity: 书末作者简介：乔治梅森大学 Mercatus Center 的 Bartley J. Madden 经济学讲席，兼乔治梅森大学经济学教授。[2]
+      argument: 作者以一个尖锐的问题开场：为何在经济整体的技术与生产率都在改善时，某些部门的价格仍大幅上升？教育与医疗是似乎被不断涨价击中的显著例子，与此同时家电与电信却便宜得多。他们展示 1950–2016 年一组实际价格：高等教育涨了近六倍（100 到 586），初等与中等教育几乎同步（100 到 534），法律、会计等专业服务与医疗则都涨到三倍以上。[2] 结论中，他们有意避免「成本病」一词，因为鲍莫尔效应的深刻教训是：随着时间推移，物品可以涨价，同时也变得更可负担；一个更深刻的教训是，某些物品价格更高，是经济增长的必然结果。「相对价格的变化是增长的必然结果，而不是增长的失败。我们既可以拥有医疗，也可以拥有智能手机。」他们写到，人们看到教育、医疗与艺术的高且不断上升的价格，自然会断定这些部门出了问题；但在仔细审视教育与医疗、并对照 Baumol 与 Bowen 对艺术的研究之后，这些部门中大多数具体解释要么不真实，要么不能解释成本上升。教育并未变得更由行政成本或「懒惰的河流」（lazy rivers）所主导；医疗事故费用不是医疗成本的大头；在广泛的行业里，监管或集中度对长期价格变化的解释力也不大。[2] 任何针对这些部门的「今日解释」，都必须面对涨价早已成为这些部门显著特征这一事实。
+      quotes:
+      - text: Why are prices in some sectors increasing dramatically even as economy-wide technology and productivity improve? Education and healthcare are notable examples of sectors seemingly stricken by constantly rising prices. At the same time, home appliances and telecommunications have become much cheaper.
+        text_zh: 为何在经济整体的技术与生产率都在改善时，某些部门的价格仍在大幅上升？教育与医疗是似乎被不断涨价击中的显著例子。与此同时，家用电器与电信却变得便宜得多。
+        attribution: Helland & Tabarrok, 2019，引言
+        locator: 第 1 页
+        ref: 2
+      - text: Changes in relative prices are an inevitable consequence of growth and not a failure of growth. We can have our healthcare and our smartphones, too.
+        text_zh: 相对价格的变化是增长的必然结果，而不是增长的失败。我们既可以拥有医疗，也可以拥有智能手机。
+        attribution: Helland & Tabarrok, 2019，结论
+        locator: 第 72 页
+        ref: 2
+    open_parts: 第一，Baumol 1967 年的论文是机制陈述，作者自己声明未对说明性观察作文献式经验记录。[1] 第二，Helland 与 Tabarrok 提供了战后美国价格序列与跨行业检验，但该书不是经期刊同行评审的计量论文；对质量改进是否被价格指数充分捕捉、公共补贴与需求扩张扮演何种角色，仍可能有其他文献给出不同分解，本轮若未打开那些文本则不转述其数字。第三，作者自己设置专章指出鲍莫尔效应并不能解释每一个部门的涨价，住房等部门需要另外的解释。[2] 第四，政策含义（增加高技能劳动供给、提高这些部门的生产率）在书中有讨论，但是否以及如何落实，超出本文已核对的范围。
+    references:
+    - id: 1
+      citation: 'Baumol, W. J. Macroeconomics of Unbalanced Growth: The Anatomy of Urban Crisis. American Economic Review, 1967, 57(3), 415–426. JSTOR 1812111（注意：不是有时被误引的 1812671）。引语核自已打开的重印 PDF。'
+      url: https://cooperative-individualism.org/baumol-william_macroeconomics-of-unbalanced-growth-1967-jun.pdf
+    - id: 2
+      citation: 'Helland, E., & Tabarrok, A. Why Are the Prices So Damn High? Health, Education, and the Baumol Effect. Arlington, VA: Mercatus Center at George Mason University, 2019. 引语核自 Mercatus 原 PDF 的 Internet Archive 存档（2019-05-25 快照）。'
+      url: https://web.archive.org/web/20190525171124/https://www.mercatus.org/system/files/helland-tabarrok_why-are-the-prices-so-damn-high_v1.pdf
 - id: 2026-11-09-sci-pnp
   date: '2026-11-09'
   category: science
@@ -127,21 +317,198 @@
   - 计算复杂性
   - 千禧年难题
   answer:
-    summary: P 对 NP 问的是：凡是「答案可在多项式时间内验证」的问题，是否也能在多项式时间内求解。绝大多数复杂性理论研究者相信 P ≠ NP，但既没有证明，也没有被广泛接受的否定证明框架。它是克莱数学研究所七个千禧年难题之一。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 主流但尚未证明
+      note: 「P 是否等于 NP」本身仍是开放问题，这一点没有争议。认为「P ≠ NP 为真」是复杂性理论中的主流猜想，但不是定理：既没有被接受的证明，也没有被接受的反证。[1][2] William
+        Gasarch 三次专家民调显示，持 P ≠ NP 的受访者比例从 2002 年的 61%（100 人中的 61 人）升至 2012 年的 83%（152 人中的 126 人）和 2019
+        年的 88%（124 人中的 109 人）。[3][4][5]
+    summary: P 是可在多项式时间内用确定性算法判定的问题类；NP 是「是」答案带有多项式长度证据、且该证据可在多项式时间内核验的问题类。显然有 P ⊆ NP；P 对 NP 问题问的是这个包含是否是等式。Clay
+      千禧年奖的官方陈述把问题写作：“Does P = NP?”[1] 这是一个仍然开放的数学问题。多数复杂性理论家相信答案为否，即存在可快速核验却（在多项式时间内）不可快速求解的问题。[1][2]
+      这一信念有可核对的民调数据支撑，但民调记录的是主观意见，不能代替证明。[3][4][5] 与此同时，若干被证明的「障碍定理」表明：对角化/相对化、自然证明、代数化等已有技术族，并不足以分离 P
+      与 NP；即便猜想为真，证明也很可能需要本质上新的想法。[1][2][6][7][8]
+    definitions:
+    - term: P
+      text: 多项式时间（Polynomial time）：存在某台确定性图灵机，其最坏运行时间被输入长度的某个固定多项式上界所约束，从而判定的语言（判定问题）所组成的类。[1]
+    - term: NP
+      text: 非确定性多项式时间（Nondeterministic Polynomial time）：按今天的常用定义，一个语言属于 NP，当且仅当存在多项式时间可计算的核验关系 R，使得输入
+        w 属于该语言当且仅当存在一条长度不超过 |w| 的某个多项式的证据 y，满足 R(w, y)。[1] 直观上就是：「是」的答案好查，但不一定好找。
+    - term: NP-完全
+      text: 一个语言 L 是 NP-完全的，当且仅当 L 本身属于 NP，并且 NP 中的每一个语言都可以多项式时间多一归约到 L。[1] 因此，若任何一个 NP-完全问题属于 P，则 P =
+        NP。
+    milestones:
+    - year: 1971–1973
+      name: Cook–Levin 定理与 NP-完全性
+      explanation: Stephen Cook 在 1971 年证明：命题可满足性（SAT / 3-SAT）等自然问题是 NP-完全的（他当时使用的是多项式时间图灵归约）。[1][9] 次年
+        Richard Karp 用多一归约证明另外约 20 个自然问题也是 NP-完全的，并固定了沿用至今的 P、NP 与 NP-完全记号。[1][10] Leonid Levin 独立提出了相近的「通用搜索问题」概念，并给出包括可满足性在内的例子。[1][11]
+        一句话：只要你能多项式时间解决其中任何一个「完全」问题，你就能多项式时间解决整个 NP。
+    - year: '1975'
+      name: Baker–Gill–Solovay 相对化障碍
+      explanation: 他们构造了预言机（oracle）世界 A 和 B，使得相对化之后既有 P^A = NP^A，也有 P^B ≠ NP^B。[8] 因此，若一种证明技术「相对化」——对所有预言机同样成立——它就不可能分离
+        P 与 NP。对角化等从可计算性理论借来的方法通常属于这一类。[1][2][6] 一句话：只对「带任意黑盒子程序的机器」都成立的论证，分辨不了 P 和 NP。
+    - year: 1994/1997
+      name: Razborov–Rudich 自然证明障碍
+      explanation: 许多电路下界证明可被归为「自然证明」：它们给出一种在一定意义上可有效核验、且对随机布尔函数成立的组合性质。Razborov 与 Rudich 证明：若存在足够强的伪随机生成器（这与因数分解等难题的硬度假设相关），则自然证明无法给出一般电路的超多项式下界，因而也无法用这类方法证明
+        P ≠ NP。[1][7] 一句话：看上去「自然」的组合计数技巧，在标准密码学假设下到不了终点。
+    - year: 2008/2009
+      name: Aaronson–Wigderson 代数化障碍
+      explanation: 交互证明中 IP = PSPACE 等结果已经打破相对化，其关键技术是把布尔计算「算术化」到有限域上的低次多项式。Aaronson 与 Wigderson 表明，若预言机还提供这种低次扩张（代数预言机），则已有的算术化证明仍然成立，但
+        P 对 NP、NEXP 对 P/poly 等核心分离仍然不会被推出；因此证明 P ≠ NP 还需要非代数化的技术。[2][6] 一句话：连「会做低次插值的黑盒」都骗不倒的论证，仍然不够分离
+        P 与 NP。
     views:
     - position: P ≠ NP（主流猜想）
-      holders: 绝大多数复杂性理论学者的工作假设；Clay 官方命题陈述以此为开放问题
-      argument: 若 P = NP，则大量搜索、优化与定理证明问题将变得高效可解，现有的许多密码学假设也会动摇。经验上，人们找不到对 NP 完全问题的通用高效算法，这被当作支持不等的间接理由，但它不是证明。
-      sources:
-      - title: Clay Mathematics Institute：P vs NP
-        url: https://www.claymath.org/millennium/p-vs-np/
-    - position: 我们可能尚不具备解决问题所需的数学工具
-      holders: Scott Aaronson 在综述中系统讨论了已知障碍（如相对论化、自然证明等）
-      argument: 一系列「障碍」结果表明，许多一度看起来有希望的证明策略，在形式上无法区分 P 与 NP。因此，即便猜想为真，证明也可能要求全新的想法，而不是把现有技术再推进一步。
-      sources:
-      - title: Aaronson, P ≟ NP（综述文稿 PDF）
-        url: https://www.scottaaronson.com/papers/pnp.pdf
-    open_parts: 问题仍完全开放：既没有 P = NP 的构造性证明，也没有 P ≠ NP 的不可逆论证。即使将来证明了不等，具体哪些自然问题处于中间地带、近似与平均情况复杂度如何，也还会留下大量未解细节。
+      consensus_role: 主流猜想
+      evidence:
+        label: 专家共识与间接经验，不是证明
+        note: 证据来自长期找不到 NP-完全问题的多项式时间算法、密码学假设的经验成功，以及可核对的专家民调。这些都不构成数学证明。
+      holders:
+      - name: Stephen A. Cook
+        identity: 多伦多大学大学教授（University Professor）；1971 年 NP-完全性论文作者；Clay 千禧年问题官方陈述作者；1982 年 ACM 图灵奖得主。[1][9][12]
+      - name: Scott Aaronson
+        identity: 在其 2017 年长篇综述中把 P ≠ NP 列为中心猜想（Conjecture 1），并概括说「大多数计算机科学家猜想 P ≠ NP」。撰写该综述时对问题现状作了系统梳理。[2]
+      - name: Gasarch 民调中的多数受访者
+        identity: William I. Gasarch（马里兰大学帕克分校计算机系）于 2002、2012、2019 年三次向理论计算机科学工作者发起民意调查，并在 SIGACT News
+          复杂性专栏发表。[3][4][5]
+      argument: 若 P = NP，则一千多个已知的 NP-完全问题都将有多项式时间算法，并且当代许多依赖「求逆困难」的密码学假设也会失败。Cook 指出，工业界与算法研究者已花费数十年寻找这类算法而未获成功；他还举例：若
+        3-SAT 存在 n² 时间算法，则可用于在数分钟内分解 200 位整数。[1] 在经验上，这被当作支持 P ≠ NP 的间接理由。民调给出了可核对的意见分布：2002 年 100 名受访者中，61
+        人认为 P ≠ NP，9 人认为 P = NP，22 人未发表意见；[3] 2012 年 152 人中，126 人（83%）对 12 人（9%）；[4] 2019 年 124 人中，109
+        人（88%）对 15 人（12%），其余选项（独立于 ZFC、不知道、不关心等）为 0。[5] 2012 年，Gasarch 把图灵奖、菲尔兹奖、Nevanlinna 奖、Gödel 奖、Kanellakis
+        奖、Knuth 奖得主或美国国家科学院/工程院院士中的受访者单列，21 人里 17 人（81%）认为 P ≠ NP（其中 2 人声明持有较弱），2 人（9%）认为 P = NP，2 人（9%）表示不知道。[4]
+        2019 年他把「已知曾认真思考过该问题」的受访者称为专家，并报告专家中约 99% 答 NO、1% 答 YES，其余受访者（他称为 masses）约为 87% 对 13%；他同时写明文中百分比是近似的，且未给出这一专家分组的样本量。[5]
+      quotes:
+      - text: Most complexity theorists believe that P ≠ NP.
+        text_zh: 大多数复杂性理论家相信 P ≠ NP。
+        attribution: Stephen Cook，Clay 官方问题陈述
+        locator: 第 7 页
+        ref: 1
+      - text: 'Just as Hilbert’s question turned out to have a negative answer, so too in this case, most
+          computer scientists conjecture that P ≠ NP: that there exist rapidly checkable problems that
+          aren’t rapidly solvable, and for which brute-force search is close to the best we can do.'
+        text_zh: 正如希尔伯特的问题最终得到了否定答案，在这个问题上，大多数计算机科学家也猜想 P ≠ NP：存在可被迅速核验、却不能被迅速求解的问题，对它们而言穷举搜索已接近我们所能做到的最好程度。
+        attribution: Scott Aaronson，综述《P ≟ NP》
+        locator: 第 24 页
+        ref: 2
+    - position: P = NP，或认为「存在算法」不必等于「我们已掌握算法」
+      consensus_role: 少数意见
+      evidence:
+        label: 少数派陈述与概念澄清，缺乏被接受的构造
+        note: 民调中始终有约 9%–12% 的受访者选择 P = NP，但迄今没有被同行接受的多项式时间算法或非构造存在性证明。
+      holders:
+      - name: Gasarch 民调中的少数受访者
+        identity: 2002 年为 9/100（9%），2012 年为 12/152（9%），2019 年为 15/124（12%）。Gasarch 在 2002 年写道，这 9 人中大多数是界内受尊重的成员，且都承认自己属于少数；少数人甚至说选择这一答案带有故意唱反调的成分。[3][4][5]
+      - name: Donald E. Knuth
+        identity: 斯坦福大学《计算机程序设计艺术》作者；1974 年 ACM 图灵奖得主。[13] 此处仅依据其在 2019 年 Gasarch 民调中被全文刊出的评论，讨论「存在算法」与「知道算法」的区分；不把一本未能打开原文的
+          2014 年访谈书作为其立场来源。
+      argument: Cook 在官方陈述中单独讨论了 P = NP 如何可能被证明：最直接的途径是给出 3-SAT 或其他 NP-完全问题的多项式时间算法，但历史上已出现许多错误证明。他也指出一种理论上的可能性：某类非构造论证或许能在不给出可行算法的情况下证明
+        P = NP（他联想到 Robertson–Seymour 图子式理论中「属于 P、但常数巨大到不实用」的算法）。[1] 与此相关，Knuth 在 2019 年民调中强调：P 对 NP 问的是多项式时间算法是否存在，而不是我们是否已经知道如何写出它；他举的例子是，人们已经知道任一给定的子式封闭图族都存在多项式时间成员判定算法，但除少数具体族外，并不知道怎样真正去判定。[5]
+        此外，Lane A. Hemaspaandra 在 2012 年专栏导言中提醒：共同体的直觉曾经错过 NL = coNL、IP = PSPACE 等后来被证明的结果，因此「多数人这样想」并不能保证方向正确。[4]
+        这一提醒并不等于主张 P = NP，而是限制我们对民调的解读。
+      quotes:
+      - text: I can’t wait for people to realize that P=?NP is only a question about the existence of
+          a polynomial time algorithm, not about the knowledge of one. We already know, for example, that
+          there exists a polynomial time algorithm to decide membership in any given minor-closed graph
+          family; but we don’t know how to really decide it, except for a few actual families.
+        text_zh: 我迫不及待地希望人们意识到：P=?NP 只是在问多项式时间算法是否存在，而不是我们是否已经知道这样一个算法。例如，我们已知：对任何给定的子式封闭图族，都存在判定其成员资格的多项式时间算法；但除了少数具体的族以外，我们并不知道怎样真正去判定。
+        attribution: Donald Knuth，载于 Gasarch 2019 年民调
+        locator: 作者 PDF 第 22 页
+        ref: 5
+    - position: 即便 P ≠ NP 为真，现有技术族也被证明不够用
+      consensus_role: 已证明的元结果（障碍定理）
+      evidence:
+        label: 已发表的定理，条件明确
+        note: 相对化、自然证明、代数化都是定理，不是猜想。它们限制的是「哪一类证明技术不可能成功」，并不直接推出 P ≠ NP。自然证明的障碍依赖于伪随机生成器等硬度假设。[1][6][7]
+      holders:
+      - name: Theodore Baker、John Gill、Robert Solovay
+        identity: 1975 年论文《Relativizations of the P=?NP question》的作者，该文给出了相对化障碍的经典表述。[8]
+      - name: Alexander A. Razborov、Steven Rudich
+        identity: 1994/1997 年论文《Natural proofs》的作者，形式化了「自然证明」障碍。[7]
+      - name: Scott Aaronson、Avi Wigderson
+        identity: Aaronson 撰写该文时在 MIT；Wigderson 当时在普林斯顿高等研究院（IAS）。两人在 2008/2009 年提出代数化（algebrization）障碍。Wigderson
+          于 2021 年与 László Lovász 共同获得阿贝尔奖。[6][14]
+      argument: Cook 在官方陈述中已经总结了前两道障碍：Baker–Gill–Solovay 表明存在使 P = NP 成立的预言机，从而提示「对角化加归约」这类会相对化的方法不足以分离这两个类；Razborov–Rudich
+        则把当时失败的电路下界努力归为自然证明，并指出在存在强伪随机生成器的假设下，这类证明无法给出一般电路的超多项式下界。[1] Aaronson 与 Wigderson 进一步证明：IP =
+        PSPACE 等已打破相对化的算术化结果，在代数预言机下仍然成立，但 P 对 NP 等核心分离并不代数化，因此还需要非代数化技术。[6] Aaronson 在 2017 年综述中把这三道障碍作为理解「为什么仍然没有证明」的主线。[2]
+        这些结果共同说明：把「尚未证明」仅仅解释成「大家还不够努力」，是不准确的——对若干自然的技术族，不可能性已经被证明。
+      quotes:
+      - text: However, in [3] it was shown that there is an oracle set A relative to which P = NP, suggesting
+          that diagonalization with reduction cannot be used to separate these two classes.
+        text_zh: 然而，文献 [3]（即 Baker–Gill–Solovay, 1975）表明，存在一个预言机集合 A，相对它有 P = NP，这提示对角化加归约不能用来分离这两个类。
+        attribution: Stephen Cook，Clay 官方问题陈述
+        locator: 第 8 页
+        ref: 1
+      - text: 'Any proof of P ≠ NP will have to overcome two barriers: relativization and natural proofs.
+          Yet over the last decade, we have seen circuit lower bounds (for example, that PP does not have
+          linear-size circuits) that overcome both barriers simultaneously. So the question arises of
+          whether there is a third barrier to progress on the central questions in complexity theory.
+          In this paper we present such a barrier, which we call algebraic relativization or algebrization.'
+        text_zh: 任何 P ≠ NP 的证明都必须越过两道障碍：相对化与自然证明。然而在过去十年里，我们已经看到（例如「PP 没有线性规模电路」这类）同时越过这两道障碍的电路下界。于是问题变成：在复杂性理论的中心问题上，是否还存在第三道障碍。本文提出这样一道障碍，我们称之为代数相对化或代数化。
+        attribution: 'Scott Aaronson 与 Avi Wigderson，《Algebrization: A New Barrier in Complexity Theory》'
+        locator: 摘要，作者 PDF 第 1 页
+        ref: 6
+    open_parts: 第一，问题本身尚未解决：没有被接受的 P = NP 算法或证明，也没有被接受的 P ≠ NP 证明。[1][2] 第二，即使将来证明了 P ≠ NP，仍会留下大量细问题，例如哪些自然问题（如图同构、因数分解）处于
+      P 与 NP-完全之间、近似与平均情况复杂度如何、以及电路复杂度的具体下界。[1][2] 第三，障碍定理并不关闭所有道路，只是排除了某些技术族；是否存在同时绕过相对化、自然证明与代数化的可扩展方法，仍是开放的研究纲领。[2][6]
+      第四，民调不是随机抽样，2019 年还改用了问卷系统，与前两次的开放文本回收方式不同，跨年百分比不宜解释为严格的时间序列估计；专家分组的样本量也未给出。[5] 第五，即便 P ≠ NP，仍可能每个带「合理」输入分布的
+      NP 问题在平均情况下可多项式时间求解——Cook 把这列为与经典问题相关、但并不相同的平均情况版本。[1]
+    references:
+    - id: 1
+      citation: Cook, S. The P versus NP Problem. Official problem description, Clay Mathematics Institute,
+        2000（当前研究所公布的 12 页 PDF 文本中已包含对 Agrawal, Kayal & Saxena, 2004 的引用，应视为经过修订的官方陈述）。页码按该 PDF。
+      url: https://www.claymath.org/wp-content/uploads/2022/06/pvsnp.pdf
+    - id: 2
+      citation: Aaronson, S. (2017). P ≟ NP. 关于该问题在 2017 年状况的长篇综述，作者 PDF 共 122 页。页码按该 PDF。
+      url: https://www.scottaaronson.com/papers/pnp.pdf
+    - id: 3
+      citation: 'Gasarch, W. I. (2002). Guest Column: The P=?NP Poll. SIGACT News, 33(2), 34–47（Complexity
+        Theory Column 36）. 引文页码指作者 PDF。'
+      url: https://www.cs.umd.edu/~gasarch/papers/poll.pdf
+    - id: 4
+      citation: 'Gasarch, W. I. (2012). Guest Column: The Second P=?NP Poll. SIGACT News, 43(2), 53–77（Complexity
+        Theory Column 74）. 导言作者为 Lane A. Hemaspaandra。引文页码指作者 PDF。'
+      url: https://www.cs.umd.edu/~gasarch/papers/poll2012.pdf
+    - id: 5
+      citation: 'Gasarch, W. I. (2019). Guest Column: The Third P=?NP Poll. SIGACT News, Complexity Theory
+        Column 100。民调于 2018 年进行，文章刊于 2019 年。作者写明文中百分比为近似值。引文页码指作者 PDF。'
+      url: https://www.cs.umd.edu/~gasarch/papers/poll3.pdf
+    - id: 6
+      citation: 'Aaronson, S., & Wigderson, A. (2009). Algebrization: A new barrier in complexity theory.
+        ACM Transactions on Computation Theory, 1(1). 更早版本见 Proc. ACM STOC 2008。作者 PDF。'
+      url: https://www.scottaaronson.com/papers/alg.pdf
+    - id: 7
+      citation: Razborov, A. A., & Rudich, S. (1997). Natural proofs. Journal of Computer and System Sciences,
+        55(1), 24–35. 更早版本见 Proc. ACM STOC 1994, pp. 204–213。此处链接为 ECCC 技术报告 TR94-002（可开放获取的预印本）。
+      url: https://eccc.weizmann.ac.il/report/1994/002/download
+    - id: 8
+      citation: Baker, T., Gill, J., & Solovay, R. (1975). Relativizations of the P=?NP question. SIAM
+        Journal on Computing, 4, 431–442. 书目信息据 Cook 官方陈述参考文献 [3] 与 Aaronson 综述参考文献 [38]；本次未能打开可供核对原文引语的开放
+        PDF，故不从原文直接摘句。
+      url: null
+    - id: 9
+      citation: Cook, S. (1971). The complexity of theorem-proving procedures. In Proceedings of the Third
+        Annual ACM Symposium on Theory of Computing (pp. 151–158). ACM. 书目信息据 Cook 官方陈述参考文献 [9]；本次未能打开
+        STOC 原文 PDF，历史陈述以官方问题描述为准。
+      url: null
+    - id: 10
+      citation: Karp, R. M. (1972). Reducibility among combinatorial problems. In R. E. Miller & J. W.
+        Thatcher (Eds.), Complexity of Computer Computations (pp. 85–103). Plenum Press. 书目信息据 Cook 官方陈述参考文献
+        [21]。
+      url: null
+    - id: 11
+      citation: Levin, L. (1973). Universal search problems（俄文原文）. Problemy Peredachi Informatsii, 9,
+        265–266. 英译情况见 Cook 官方陈述对 Trakhtenbrot, Annals of the History of Computing, 6 (1984), 384–400
+        的引用（参考文献 [23]）。
+      url: null
+    - id: 12
+      citation: ACM. Stephen A. Cook — A.M. Turing Award Laureate. 用于核对所属机构与 1982 年图灵奖记载。因 amturing.acm.org
+        当前对自动抓取返回 403，此处使用 Internet Archive 快照。
+      url: https://web.archive.org/web/20240105004055/https://amturing.acm.org/award_winners/cook_n991950.cfm
+    - id: 13
+      citation: ACM. Donald E. Knuth — A.M. Turing Award Laureate. 用于核对斯坦福大学任职记载与 1974 年图灵奖。同样使用 Internet
+        Archive 快照。
+      url: https://web.archive.org/web/20240203001237/https://amturing.acm.org/award_winners/knuth_1013846.cfm
+    - id: 14
+      citation: 'The Abel Prize. 2021: László Lovász and Avi Wigderson.'
+      url: https://www.abelprize.no/abel-prize-laureates/2021
 - id: 2026-11-09-phil-math
   date: '2026-11-09'
   category: philosophy
@@ -156,31 +523,104 @@
   - 数学哲学
   - 本体论
   answer:
-    summary: 这是数学哲学的核心分歧之一。柏拉图主义（或实在论）认为数学对象独立于人类心灵而存在，数学家是在发现真理；经验论、形式主义与唯名论的不同变种则认为数学是人类发明的符号系统、约定或结构描述。双方都能解释数学的部分特征，但在「为何数学对自然科学如此有效」上持续交锋。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 严重分歧
+      note: 「数学对象是否独立于人类心灵而存在」是数学哲学的经典形而上学分歧，没有可由实验裁定的共识。斯坦福哲学百科将柏拉图主义概括为：存在独立于我们的抽象数学对象，因而数学真理是被发现而非被发明的；唯名论则否认此类抽象对象，或要求用具体替代物取而代之。[1][2][3]
+        与此并行、但不自动裁决上述分歧的，是数学在自然科学中何以如此有效这一仍待解释的现象。[4]
+    summary: 若数学对象（数、集合、结构等）像电子或行星那样独立存在，则数学家主要是在发现已经成立的真理；若它们只是人类的符号、约定或对具体世界的可删除的辅助，则数学更接近发明。[1][3]
+      这一对立在当代文献中通常表述为数学柏拉图主义（实在论）与数学唯名论（以及形式主义等反实在论变种）之争，斯坦福哲学百科有系统综述。[1][2][3] 无论站在哪一边，尤金·维格纳（Eugene
+      Wigner）在 1960 年提出的问题仍然尖锐：数学语言对物理定律的适宜，像是一份「我们既不理解也不配得到的奇妙馈赠」。[4] 结构主义等中间立场试图把焦点从「抽象对象是否存在」转到「结构」，但客观性与有效性从何而来，仍是开放问题。[2]
+    definitions:
+    - term: 数学柏拉图主义
+      text: 按斯坦福哲学百科的界定：认为存在抽象数学对象，其存在独立于我们以及我们的语言、思想与实践；关于这些对象的陈述由对象及其客观性质决定真假，因此数学真理是被发现的，不是被发明的。[1]
+    - term: 数学唯名论
+      text: 按斯坦福哲学百科的界定：或者数学对象、关系与结构根本不存在，或者它们并不作为抽象对象存在（既不在时空之中，也没有因果力）；在后一种情况下，需要为数学对象提供某种合适的具体替代物。[3]
     views:
-    - position: 数学是被发现的（柏拉图主义 / 实在论）
-      holders: 传统上与柏拉图、以及现代数学实在论者相关；斯坦福哲学百科对此有系统综述
-      argument: 数学命题似乎具有客观真假：即使没有人想过某条定理，它也真或假。不同文明独立得到相近的数论与几何结果，也被用作「不是任意约定」的直观证据。
-      sources:
-      - title: Stanford Encyclopedia of Philosophy：Platonism in the Philosophy of Mathematics
-        url: https://plato.stanford.edu/entries/platonism-mathematics/
-      - title: Stanford Encyclopedia of Philosophy：Philosophy of Mathematics
-        url: https://plato.stanford.edu/entries/philosophy-mathematics/
-    - position: 数学是被发明的（唯名论 / 形式主义等）
-      holders: 唯名论与各种反实在论立场，SEP《数学唯名论》条目有梳理
-      argument: 我们看不到抽象的「数」或「集合」，只能看到符号、规则与人类实践。数学对象若不存在于时空之中，其认识如何可能，是实在论必须回答的难题；发明论则把数学看作被构造出来的语言。
-      sources:
-      - title: Stanford Encyclopedia of Philosophy：Nominalism in the Philosophy of Mathematics
-        url: https://plato.stanford.edu/entries/nominalism-mathematics/
-    - position: 无论发明还是发现，其「不合理的有效性」仍需解释
-      holders: Eugene Wigner（1960）
-      argument: Wigner 指出，为纯数学理由发展出的结构，后来常在物理学中精确适用，这件事本身令人惊讶。它并不直接裁决发明/发现之争，但要求任何一方都必须说明：数学与世界为何贴合得如此好。
-      sources:
-      - title: Wigner, The Unreasonable Effectiveness of Mathematics in the Natural Sciences（PDF）
-        url: https://www.maths.ed.ac.uk/~v1ranick/papers/wigner.pdf
-      - title: Wikipedia 对该文的条目
-        url: https://en.wikipedia.org/wiki/The_Unreasonable_Effectiveness_of_Mathematics_in_the_Natural_Sciences
-    open_parts: 没有实验可以一锤定音。结构主义等中间立场试图回避「抽象对象是否存在」，但关于数学真理的客观性、以及有效性从何而来，仍是开放的哲学问题。
+    - position: 数学是被发现的（柏拉图主义 / 数学实在论）
+      consensus_role: 主要传统立场之一，持续有争议
+      evidence:
+        label: 哲学论证与权威综述，不是经验证明
+        note: 支持理由通常包括数学语言表面上对抽象对象的指称与量化、以及大量定理为真（弗雷格式论证，见 SEP 转述）。反对理由包括认识论如何通达无因果力的抽象对象等。本文只依据已打开的 SEP
+          条目，不把未打开的弗雷格原著当作已核对引语来源。[1][2]
+      holders:
+      - name: Øystein Linnebo（斯坦福哲学百科该条目作者）
+        identity: SEP《Platonism in the Philosophy of Mathematics》条目作者。本次打开的条目正文注明 first published 2009-07-18，substantive
+          revision 2023-03-28。[1]
+      argument: 柏拉图主义的核心不是「柏拉图本人在《理想国》里怎么说」，而是一种关于数学对象的形而上学：数与集合像电子、行星一样独立于我们而存在，数学陈述的真假由这些对象的客观性质决定，因而数学家是在发现真理。[1]
+        SEP 并将一种源自弗雷格的论证概括为：数学语言意在指称并量化抽象对象，且大量定理为真；句子若为真，其表达式必须成功完成它们声称在做的事情，因此这些抽象对象存在。[1] 这一论证本身就一直受到挑战，但它标明了「发现」一侧最有影响的推理形态。
+      quotes:
+      - text: Platonism about mathematics (or mathematical platonism) is the metaphysical view that there
+          are abstract mathematical objects whose existence is independent of us and our language, thought,
+          and practices. Just as electrons and planets exist independently of us, so do numbers and sets.
+          And just as statements about electrons and planets are made true or false by the objects with
+          which they are concerned and these objects’ perfectly objective properties, so are statements
+          about numbers and sets. Mathematical truths are therefore discovered, not invented.
+        text_zh: 关于数学的柏拉图主义（或数学柏拉图主义）是这样一种形而上学观点：存在抽象的数学对象，其存在独立于我们以及我们的语言、思想与实践。正如电子和行星独立于我们而存在，数与集合也是如此。正如关于电子和行星的陈述由其所关涉的对象及这些对象完全客观的性质决定真假，关于数与集合的陈述亦然。因此，数学真理是被发现的，而不是被发明的。
+        attribution: Øystein Linnebo，Stanford Encyclopedia of Philosophy, “Platonism in the Philosophy
+          of Mathematics”
+        locator: 条目开篇；正文注明 first published 2009-07-18，substantive revision 2023-03-28；查阅日期 2026-11-10
+        ref: 1
+    - position: 数学是被发明的，或至少不必承认抽象对象（唯名论等反实在论）
+      consensus_role: 主要对立立场，内部形态多样
+      evidence:
+        label: 哲学论证与权威综述
+        note: 唯名论包含要求改写数学/科学理论以避开抽象对象承诺的路线，以及不改写理论、但说明使用这些理论并不承诺抽象对象的路线。SEP 举出的代表文献（如 Field 1980、Hellman
+          1989）本次未能打开原文，故只转述条目对立场的界定，不从其原著摘句。[3]
+      holders:
+      - name: Otávio Bueno（斯坦福哲学百科该条目作者）
+        identity: SEP《Nominalism in the Philosophy of Mathematics》条目作者。本次打开的条目正文注明 first published 2013-09-16。[3]
+      argument: 若柏拉图主义的代价是承认一个与时空和因果绝缘的抽象对象域，反实在论者会问：我们如何认识它们，科学又为何必须承诺它们。唯名论的回答是：要么这些对象根本不存在，要么它们并非抽象对象，而应由某种具体替代来承担数学的作用。[3]
+        形式主义把数学更多地看作符号运算的约定系统，也常被放在「发明」一侧，但它与唯名论并不等同；SEP 数学哲学总论把这类选项放在更宽的地图上。[2] 关键是：「发明」在这里主要指本体论上的不承诺，而不是贬低数学的严格性。
+      quotes:
+      - text: Nominalism about mathematics (or mathematical nominalism) is the view according to which
+          either mathematical objects, relations, and structures do not exist at all, or they do not exist
+          as abstract objects (they are neither located in space-time nor do they have causal powers).
+        text_zh: 关于数学的唯名论（或数学唯名论）是这样一种观点：或者数学对象、关系与结构根本不存在，或者它们并不作为抽象对象而存在（它们既不位于时空之中，也不具有因果力）。
+        attribution: Otávio Bueno，Stanford Encyclopedia of Philosophy, “Nominalism in the Philosophy of
+          Mathematics”
+        locator: 条目开篇；正文注明 first published 2013-09-16；查阅日期 2026-11-10
+        ref: 3
+    - position: 无论发明还是发现，数学在自然科学中「不合理的有效性」仍需解释
+      consensus_role: 跨立场的开放问题，而非第三种本体论
+      evidence:
+        label: 经典科学—哲学议论，不是定理
+        note: 维格纳的文章是物理学家的反思，列举数学概念进入物理后的惊人成功，但并不证明柏拉图主义或唯名论为真。[4]
+      holders:
+      - name: Eugene P. Wigner
+        identity: 1960 年在 Communications in Pure and Applied Mathematics 发表演讲稿式文章《The Unreasonable Effectiveness
+          of Mathematics in the Natural Sciences》。本文身份只依据该已打开文本的作者署名与期刊信息，不另行添加未核对应的奖项。[4]
+      argument: 即使我们暂不决定数是「发现」还是「发明」，物理定律竟能用并非为那批现象量身设计的数学语言写得极为精确，这件事本身仍令人惊讶。维格纳把这种适宜称为一份「我们既不理解也不配得到的奇妙馈赠」，并希望它在未来研究中仍然有效，哪怕也会带来困惑。[4]
+        柏拉图主义者可用它作为「我们碰到了独立结构」的提示；唯名论者则需另寻说明，解释不承诺抽象对象的符号系统何以对经验世界如此好用。无论哪一边，都不能把维格纳的感叹直接当成已完成的证明。
+      quotes:
+      - text: The miracle of the appropriateness of the language of mathematics for the formulation of
+          the laws of physics is a wonderful gift which we neither understand nor deserve.
+        text_zh: 数学语言对于表述物理定律的适宜，是一个奇迹，是一份我们既不理解也不配得到的奇妙馈赠。
+        attribution: Eugene Wigner，The Unreasonable Effectiveness of Mathematics in the Natural Sciences
+        locator: 作者 PDF 第 9 页（Communications in Pure and Applied Mathematics, 13(1), 1960 的重印本）
+        ref: 4
+    open_parts: 没有实验可以判决抽象对象是否存在。结构主义等立场试图把问题从「对象」转到「结构」，但结构本身是否独立存在，仍会回到类似的形而上学选择。[2] 维格纳所标出的有效性问题，也没有被任何一方给出被广泛接受的最终解释。[4]
+      此外，不同数学分支（算术、集合论、范畴论）是否需要同一种本体论，本身也是开放的。
+    references:
+    - id: 1
+      citation: Linnebo, Ø. Platonism in the philosophy of mathematics. In E. N. Zalta & U. Nodelman (Eds.),
+        The Stanford Encyclopedia of Philosophy. 本次打开的条目正文注明 first published 2009-07-18，substantive revision
+        2023-03-28；查阅日期 2026-11-10（Asia/Shanghai）。
+      url: https://plato.stanford.edu/entries/platonism-mathematics/
+    - id: 2
+      citation: Horsten, L. Philosophy of mathematics. In E. N. Zalta & U. Nodelman (Eds.), The Stanford
+        Encyclopedia of Philosophy. 本次打开的条目正文注明 first published 2007-09-25，substantive revision 2022-01-25；查阅日期
+        2026-11-10（Asia/Shanghai）。
+      url: https://plato.stanford.edu/entries/philosophy-mathematics/
+    - id: 3
+      citation: Bueno, O. Nominalism in the philosophy of mathematics. In E. N. Zalta (Ed.), The Stanford
+        Encyclopedia of Philosophy. 本次打开的条目正文注明 first published 2013-09-16；查阅日期 2026-11-10（Asia/Shanghai）。
+      url: https://plato.stanford.edu/entries/nominalism-mathematics/
+    - id: 4
+      citation: Wigner, E. (1960). The unreasonable effectiveness of mathematics in the natural sciences.
+        Communications in Pure and Applied Mathematics, 13(1). 页码按本次打开的重印本 PDF。
+      url: https://www.maths.ed.ac.uk/~v1ranick/papers/wigner.pdf
 - id: 2026-11-09-psych-incubation
   date: '2026-11-09'
   category: psychology
@@ -196,23 +636,72 @@
   - 孵化效应
   - 认知
   answer:
-    summary: 心理学把「放下问题后突然想通」称为孵化效应。元分析显示，在适当条件下，中断并插入其他活动对问题解决有小到中等的帮助，尤其是发散性任务。解释主要有两类：一是休息降低了错误思路的固着，二是思维漫游或无意识加工继续工作。效应存在，但机制与可预期的大小仍有争议。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 主流承认有条件下的效应，机制仍有争议
+      note: 实验室研究把「暂时放下后再回来」称为孵化。Sio 与 Ormerod（2009）的元分析在其摘要中报告了正向的孵化效应，且发散思维任务的获益大于语言和视觉顿悟任务；但本次未能打开该文全文，故不转述正文中的研究数量或效应量点估计。[1]
+        随后的实验工作（如 Baird 等，2012）支持「低要求任务上的走神」可能有助于创造性孵化，但这是单一实验范式的证据，机制仍未分清。[2]
+    summary: 日常所谓「放下问题反而想通了」，在认知心理学中叫孵化效应：先尝试解题，插入一段与原题不同的间隔，再回来继续。[1] 已发表的元分析摘要支持这一效应在适当条件下为正向，尤其是需要广阔知识搜索的发散性任务；准备时间更长，效应往往更大，而在间隔里插入高认知负荷任务会削弱效应。[1]
+      关于机制，至少有「遗忘错误固着」「无意识继续加工」以及「走神带来的重新组合」等假说。Baird、Smallwood、Schooler 等报告：与高要求任务、休息或没有休息相比，低要求任务间隔能显著改善先前遇到过的非常规用途任务（UUT）表现，且该条件与更高的走神水平相关，却并不伴随更多对原题的有意思考。[2]
+      效应存在的证据强于对单一机制的证据。
+    definitions:
+    - term: 孵化（incubation）
+      text: 在问题解决研究中，指先对问题作一段时间准备性努力，再插入一段把问题搁置的间隔（其间可休息或做其他任务），然后再回来尝试。Sio 与 Ormerod 的摘要即按此界定孵化期。[1]
     views:
-    - position: 孵化是真实的、可测量的小组效应
-      holders: Sio 与 Ormerod（2009）的元分析
-      argument: 综合大量实验后，平均孵化效应为正（约小到中等），在发散思维任务上更明显；准备时间更长时效应更大，孵化阶段若插入高负荷任务则会削弱效果。因此「出去走走再想」并非纯传说。
-      sources:
-      - title: Sio & Ormerod, Does incubation enhance problem solving? A meta-analytic review（PubMed）
-        url: https://pubmed.ncbi.nlm.nih.gov/19210055/
-      - title: Wikipedia：Incubation (psychology)
-        url: https://en.wikipedia.org/wiki/Incubation_(psychology)
-    - position: 低要求的走神有助于创造性孵化
-      holders: Baird、Smallwood、Schooler 等（2012）
-      argument: 一项实验发现，在孵化阶段做低要求任务（比休息或高要求任务更有利于先前遇到的非常规用途问题），且受益与思维漫游增多有关。这意味着「轻度分心」可能比死死盯着问题或完全发呆更有用。
-      sources:
-      - title: Baird et al., Inspired by distraction（PubMed）
-        url: https://pubmed.ncbi.nlm.nih.gov/22941876/
-    open_parts: 孵化何时有效、对哪些题型有效，仍不稳定；实验室效应能否推广到真实工作中的「顿悟」，证据有限。无意识继续加工、遗忘固着、还是单纯的注意重置，机制尚未分清。
+    - position: 孵化效应是可测量的，且随任务类型和间隔活动而变化
+      consensus_role: 元分析支持的主流经验结论（依据摘要）
+      evidence:
+        label: 已发表元分析的摘要级结论；全文未能核对
+        note: 兰开斯特大学仓储页提供该文书目与摘要，并注明全文不可从该仓储下载。摘要中的方向性结论可以使用，但正文里的研究数、效应量中位数与置信区间等，因未能打开全文，一律不引。[1]
+      holders:
+      - name: Ut Na Sio、Thomas C. Ormerod
+        identity: 《Does incubation enhance problem solving? A meta-analytic review》作者，Psychological Bulletin,
+          2009, 135(1), 94–120。兰开斯特大学仓储记录作者为 Ut Na Sio 与 Thomas Ormerod。[1]
+      argument: 早期文献既有报告间隔提高解题率的，也有报告失败的，因而需要定量综合。据该元分析摘要：作者识别出正向的孵化效应；发散思维任务比语言和视觉顿悟任务获益更多；更长的准备期带来更大的孵化效应；用高认知需求任务填满孵化期会得到较小的效应；在语言顿悟问题上，低认知需求任务甚至比单纯休息产生更强的孵化效应。[1]
+        摘要并把这种「多种孵化效应」解读为：不同问题类别会差别性地调用基于知识的搜索或策略性过程，因此把孵化当作实用技巧时必须谨慎设计条件。[1] 这些是摘要中的结论，不是我们自行计算的统计量。
+      quotes:
+      - text: The authors identified a positive incubation effect, with divergent thinking tasks benefiting
+          more than linguistic and visual insight tasks from incubation. Longer preparation periods gave
+          a greater incubation effect, whereas filling an incubation period with high cognitive demand
+          tasks gave a smaller incubation effect.
+        text_zh: 作者识别出正向的孵化效应，发散思维任务比语言和视觉顿悟任务从孵化中获益更多。更长的准备期带来更大的孵化效应，而用高认知需求任务填满孵化期则会得到较小的效应。
+        attribution: Ut Na Sio 与 Thomas C. Ormerod，Psychological Bulletin 论文摘要（据兰开斯特大学仓储页核对）
+        locator: 摘要；期刊 135(1), 94–120，2009
+        ref: 1
+    - position: 低要求任务中的走神，可能特别有助于创造性孵化
+      consensus_role: 有影响的实验假说，尚待更广泛复制
+      evidence:
+        label: 单项同行评议实验
+        note: Baird 等（2012）在 Psychological Science 报告：非常规用途任务上，低要求间隔优于高要求任务、休息或无间隔，且只对先前遇到过的题目成立。这支持「孵化」而非单纯的一般唤醒；但它是单一研究，不能单独确定机制的普遍性。[2]
+      holders:
+      - name: Benjamin Baird、Jonathan Smallwood、Jonathan W. Schooler 等
+        identity: Baird、Michael D. Mrazek、Michael S. Franklin 与 Schooler 当时在加州大学圣芭芭拉分校心理与脑科学系；Smallwood
+          当时在莱比锡马克斯·普朗克人类认知与脑科学研究所社会神经科学部门；Julia W. Y. Kam 当时在不列颠哥伦比亚大学心理学系。[2]
+      argument: 若孵化只是「离开休息一下」，那么什么都不做应当至少同样有效。Baird 等在摘要中报告：与高要求任务、休息或没有休息相比，在孵化期从事低要求任务，对先前遇到过的创造性问题有大幅度改善；带来改善的条件与更高的走神水平相关，却并不伴随更多针对该创造性任务的有意思考。[2]
+        因此，作者建议：从事允许走神的简单外部任务，可能有助于创造性问题解决。[2] 这一结果与元分析摘要中「低负荷间隔有时优于休息」的方向相一致，但把机制明确归于走神，仍取决于该实验的操作与测量。
+      quotes:
+      - text: Compared with engaging in a demanding task, rest, or no break, engaging in an undemanding
+          task during an incubation period led to substantial improvements in performance on previously
+          encountered problems. Critically, the context that improved performance after the incubation
+          period was associated with higher levels of mind wandering but not with a greater number of
+          explicitly directed thoughts about the UUT.
+        text_zh: 与从事高要求任务、休息或没有休息相比，在孵化期从事低要求任务，使先前遇到过的问题上的表现有了大幅度改善。关键的是，孵化期后带来改善的那种情境，与更高的走神水平相关，却并不伴随更多针对非常规用途任务的有意思考。
+        attribution: Baird, Smallwood, Mrazek, Kam, Franklin & Schooler，Inspired by Distraction
+        locator: 摘要，Psychological Science, 23(10), 2012, 第 1117 页
+        ref: 2
+    open_parts: 孵化何时有效、对哪些题型有效，仍随实验设计而波动；实验室效应能在多大程度上推广到真实工作中的「顿悟」，证据有限。无意识继续加工、遗忘固着、注意重置与走神，哪一种是主机制，尚未分清。Sio
+      与 Ormerod（2009）全文本次未能打开，后继的预注册大规模复制情况也未在本条目中系统核对，这些都限制了我们把效应大小说得很精确。
+    references:
+    - id: 1
+      citation: Sio, U. N., & Ormerod, T. C. (2009). Does incubation enhance problem solving? A meta-analytic
+        review. Psychological Bulletin, 135(1), 94–120. https://doi.org/10.1037/a0014212 本次打开的是兰开斯特大学仓储页（含摘要，并注明全文不可从该仓储获取）；不转述未能核对的正文统计量。
+      url: https://eprints.lancs.ac.uk/id/eprint/56211/
+    - id: 2
+      citation: 'Baird, B., Smallwood, J., Mrazek, M. D., Kam, J. W. Y., Franklin, M. S., & Schooler,
+        J. W. (2012). Inspired by distraction: Mind wandering facilitates creative incubation. Psychological
+        Science, 23(10), 1117–1122. https://doi.org/10.1177/0956797612446024'
+      url: https://metalab.psych.ucsb.edu/sites/default/files/publications/2012/2012-Inspired-by-Distraction-Mind-Wandering-Facilitates-Creative-Incubation.pdf
 - id: 2026-11-09-ai-bubble
   date: '2026-11-09'
   category: ai
@@ -227,30 +716,43 @@
   - AI周期
   - 社会影响
   answer:
-    summary: 这是一道混合了价值判断与周期判断的问题：有人把估值回调看作对过度承诺的纠正而感到宽慰，有人认为把「能力进展」与「金融资产价格」混为一谈会误判趋势。较审慎的研究提醒：即便模型能力提升，宏观经济与就业的转变也可能慢于叙事。题本身没有唯一正确答案，关键是把金融泡沫、技术现实和社会影响分开讨论。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：价值判断与行情叙事，无稳定学术共识
+      note: 本题把「是否庆幸」、金融估值是否构成泡沫、以及模型能力是否仍在进展缠在一起，本身没有可由数据单独裁定的标准答案。2026 年前后的市场涨跌是尚未被充分事后研究的行情叙事，不能写成已证实的「泡沫已经破裂」或「技术已经停滞」。可复核的相关文献讨论的是另一层问题：即便模型能力提升，宏观生产率与分配效应也可能远小于流行预测。Acemoglu 2024 年的估算是一个这样的参照，不是对资产价格的判决。[1]
+    summary: 这是一道由 Ask HN 提出的态度题，而不是一个已有标准答案的经验命题。较审慎的做法是把三件事情分开：第一，金融资产的价格是否偏离可验证的回报，属于金融周期问题，往往要事后才能判断，不能把某一时刻的股价波动直接写成「泡沫正在破裂」的既成事实。第二，模型在基准任务上的能力进展，并不自动等于上市公司盈利或宏观经济的同步跃升。第三，即便存在可观的任务层效率改进，把它加总到 GDP 或全要素生产率时，效果仍可能只是温和的。Acemoglu 在《The Simple Macroeconomics of AI》（2024 年 5 月 12 日稿，为 Economic Policy 准备）中，从任务模型与 Hulten 定理出发，利用已有的 AI 暴露度与任务层成本节约估计，认为未来十年全要素生产率的增幅「看起来并非微不足道，但是温和的——不超过 0.66%」；若考虑到早期证据多来自易学习任务，预测还要更低，「不到 0.53%」。他还认为，缺少证据表明 AI 会缩小劳动收入不平等，反而可能拉大资本与劳动收入的差距。[1] 因此，即使有人对高估值回调感到宽慰，或对叙事降温感到遗憾，这些态度都不能代替对宏观效应的估算，也不能把未结算的市场故事写成技术史事实。
+    definitions:
+    - term: 任务层效应与加总（Acemoglu 的用法）
+      text: 若 AI 的微观效应来自任务层面的成本节约或生产率改进，则其宏观后果可由 Hulten 定理的一个版本给出：GDP 与加总生产率收益，可由受影响任务的份额与任务层平均成本节约来估计。[1]
+    milestones:
+    - 2024 年 5 月 12 日，Daron Acemoglu 完成供 Economic Policy 使用的文稿 The Simple Macroeconomics of AI，给出上述十年尺度的 TFP 估计。[1]
     views:
-    - position: 若价格远超可验证的回报，回调未必是坏事
-      holders: 该 Ask HN 帖中持「泡沫该破」立场的讨论者；经济史上对投机过热的一般分析
-      argument: 当投资、招聘与宣传以尚未实现的利润为前提时，资源会被错误配置。价格回落可以让资本与注意力回到有真实需求的地方。是否「庆幸」，取决于你是否把纠正浪费视为好事，而不是取决于模型是否突然变得无用。
-      sources:
-      - title: Ask HN 原帖及讨论：As a human, are you glad the AI bubble is bursting?
-        url: https://news.ycombinator.com/item?id=50421778
-      - title: Wikipedia：Technological unemployment（技术变革与就业的长期争论）
-        url: https://en.wikipedia.org/wiki/Technological_unemployment
-    - position: 不要把估值波动等同于技术停滞
-      holders: 区分「能力曲线」与「资本市场叙事」的研究者与工程师（常见于该帖另一侧的回复）
-      argument: 公司估值可以在数月内大幅起落，而模型能力、基础设施和配套工具的变化是另一条曲线。即便出现投资寒冬，已训练的方法、开源生态与下游应用仍可能继续扩散。因此「泡沫破裂」描述的是金融现象，不必自动等于「AI
-        没用了」。
-      sources:
-      - title: Ask HN 原帖讨论
-        url: https://news.ycombinator.com/item?id=50421778
-    - position: 宏观生产率与劳动市场的变化可能远慢于炒作
-      holders: Daron Acemoglu（2024 年 NBER 工作论文对 AI 宏观效应的估计偏审慎）
-      argument: 即便部分任务被自动化，总生产率、工资和就业结构的改变仍取决于任务覆盖面、互补性投资与制度。把短期市值当作社会变革已经完成或已经失败的证据，都会过度推断。
-      sources:
-      - title: Acemoglu, The Simple Macroeconomics of AI（NBER w32487）
-        url: https://www.nber.org/papers/w32487
-    open_parts: 「泡沫」是否成立取决于用哪一套价格与利润标准，事后才能看得更清。AI 对就业与分配的中期影响，以及开源与封闭模型格局会如何演化，都还没有定论。这道题的态度部分也无法由数据单独裁定。
+    - position: 把估值波动、模型能力与宏观生产率混为一谈，会夸大短期叙事
+      consensus_role: 一项可核对的宏观估算，用来约束流行预测，而不是为本题提供「应否庆幸」的答案
+      evidence:
+        label: 理论加总加已有暴露度估计，不是对 2026 年资产价格的实证
+        note: 作者写明估计使用既有的 AI 暴露度与任务层生产率改进数字，并警告早期证据可能来自易学习任务，因而连 0.66% 也可能偏高。这是对未来十年 TFP 的预测性核算，不是对股市是否存在泡沫的检验，更不是价值判断。[1]
+      holders:
+      - name: Daron Acemoglu
+        identity: 文稿标明当时任职于麻省理工学院（Massachusetts Institute of Technology）；文稿日期为 2024 年 5 月 12 日，供 Economic Policy 使用。[1]
+      argument: Acemoglu 要评估的，是关于新一代 AI 具有巨大宏观含义的那些主张。他的中心结果是：只要微观效应通过任务层成本节约起作用，宏观后果就受加总约束，因而即使用上现有偏乐观的微观数字，十年尺度的 TFP 增益仍是温和的（不超过 0.66%，在更谨慎的假设下不到 0.53%）。他还讨论工资与不平等：即便 AI 在某些任务上提高低技能工人的生产率（且不为他们创造新任务），理论上仍可能加剧而不是缩小不平等；经验上，他发现 AI 的冲击在人口群体之间的分布比此前的自动化更均匀，因而「不太可能像此前的自动化技术那样大幅增加不平等」，但「也没有证据表明 AI 会缩小劳动收入不平等」，反而「预测将拉大资本与劳动收入的差距」。[1] 这些结论的用处是给「能力爆发会立即改写宏观基本面」的叙事降温，而不是证明或否定某一轮股价调整。
+      quotes:
+      - text: Using existing estimates on exposure to AI and productivity improvements at the task level, these macroeconomic effects appear nontrivial but modest—no more than a 0.66% increase in total factor productivity (TFP) over 10 years. […] Consequently, predicted TFP gains over the next 10 years are even more modest and are predicted to be less than 0.53%.
+        text_zh: 利用已有的 AI 暴露度估计与任务层生产率改进，这些宏观经济效应看起来并非微不足道，但是温和的——在十年内全要素生产率（TFP）的提高不超过 0.66%。[…] 因此，对未来十年 TFP 增益的预测还要更温和，预计不到 0.53%。
+        attribution: Daron Acemoglu, 2024，摘要
+        locator: The Simple Macroeconomics of AI，2024-05-12 稿，摘要
+        ref: 1
+      - text: Empirically, I find that AI advances are unlikely to increase inequality as much as previous automation technologies because their impact is more equally distributed across demographic groups, but there is also no evidence that AI will reduce labor income inequality. Instead, AI is predicted to widen the gap between capital and labor income.
+        text_zh: 在经验上，我发现 AI 的进展不太可能像此前的自动化技术那样大幅增加不平等，因为其冲击在各人口群体之间的分布更为均匀，但同时也没有证据表明 AI 会缩小劳动收入不平等。相反，预测 AI 将拉大资本与劳动收入之间的差距。
+        attribution: Daron Acemoglu, 2024，摘要
+        locator: 同上，摘要
+        ref: 1
+    open_parts: 第一，「泡沫是否存在、是否正在破裂」取决于所用的价格与利润标准，通常只能事后判断，2026 年的市场评论不应被写成既成事实。第二，任务层基准上的能力进展、企业资本开支与宏观经济加总，三者可以长期分道。第三，Acemoglu 的数字依赖于暴露度与成本节约的既有估计，本身也可能被后来的证据修正。[1] 第四，本题的态度部分（「作为人类是否庆幸」）无法由生产率核算裁定。
+    references:
+    - id: 1
+      citation: Acemoglu, D. The Simple Macroeconomics of AI. Manuscript, Massachusetts Institute of Technology, 12 May 2024. Prepared for Economic Policy. 引语核自 MIT 经济系公开的作者 PDF。同题工作论文亦见于 NBER w32487。
+      url: https://economics.mit.edu/sites/default/files/2024-05/The%20Simple%20Macroeconomics%20of%20AI.pdf
 - id: 2026-11-09-biz-robots-jobs
   date: '2026-11-09'
   category: business
@@ -266,31 +768,106 @@
   - 就业
   - 分配
   answer:
-    summary: 长期来看，自动化会消灭一些岗位、创造另一些岗位，并改变中间任务的内容。David Autor 等强调：技术既替代也互补劳动，所以「工作会全部消失」的预测多次落空。但具体群体可能因技能与地区而受损。政策讨论因此分裂为：依靠再培训与新行业吸收，或用税收与普遍基本收入等机制重建收入。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 「自动化会消灭一切工作」缺乏支持；局部冲击与分配后果则有实质争论
+      note: Autor 强调：评论者往往高估机器对人力的替代，而忽视自动化与劳动之间提高生产率、工资并增加劳动需求的互补。[1] Keynes 早在 1930 年就把「技术性失业」说成找到新用途之前的暂时失调，并想象更短的工作周。[2]
+        另一方面，Acemoglu 与 Restrepo 估计，美国通勤区中机器人暴露度的上升伴随就业率和工资下降；Frey 与 Osborne 则估计约 47% 的美国就业处于可被计算机化的风险中——后者是对职业任务的前瞻分类，不是已经实现的失业预测。[3][4]
+    summary: 「工作不断被机器人取代并外包后，不富裕的公民如何谋生」把长期增长史里反复出现的自动化焦虑，与当前的机器人与算法能力放在一起。历史经验并不支持「工作将全部消失」：美国农业就业份额从
+      1900 年的 41% 降到 2000 年的 2%，但整体就业被其他部门吸收。[1] Autor 认为，自动化会改变工作种类与报酬，近几十年出现过中间岗位的极化，但机器替代常被高估、与劳动的互补常被忽视。[1]
+      这并不排除局部伤害：Acemoglu 与 Restrepo 估计，每千名工人多一台机器人，会使就业—人口比大约下降 0.18–0.34 个百分点，工资下降约 0.25–0.5%。[3] Frey
+      与 Osborne 对 702 个职业的计算机化概率估计，得出约 47% 的美国就业「处于风险中」，并发现工资与教育程度与该概率呈负相关。[4] 政策含义因此分裂为：依靠新任务与再培训吸收冲击，或用税收与收入支持（包括基本收入讨论）重建分配——后一项在本条目中没有打开足够的一手政策评估，故只作为开放问题列出。
+    definitions:
+    - term: 技术性失业（technological unemployment）
+      text: Keynes 的用法：由于我们发现节约劳动的方法，其速度超过了为劳动找到新用途的速度而产生的失业。他紧接着说，这只是失调的暂时阶段。[2]
     views:
-    - position: 自动化会重构工作，但不必然消灭工作本身
-      holders: David Autor（2015）；Keynes 早在 1930 年就讨论过技术性失业与闲暇的前景
-      argument: 历史经验是：节省劳动力的技术会降低某些任务的需求，同时降低价格、提高实际收入并催生新需求。Autor 指出，问题往往不是「完全没有工作」，而是极化——常规中间岗位被压缩，两端任务相对更重要。
-      sources:
-      - title: Autor, Why Are There Still So Many Jobs?（Journal of Economic Perspectives）
-        url: https://www.aeaweb.org/articles?id=10.1257/jep.29.3.3
-      - title: Keynes, Economic Possibilities for our Grandchildren（1930）
-        url: https://www.marxists.org/reference/subject/economics/keynes/1930/our-grandchildren.htm
-    - position: 机器人与 AI 可能对局部劳动市场造成实质冲击
-      holders: Acemoglu 与 Restrepo；Frey 与 Osborne 对职业可自动化比例的估计常被引用但也有争议
-      argument: 美国通勤区数据显示，工业机器人暴露度较高的地区，就业与工资受到负面冲击。另有研究按职业任务估计未来可被自动化的比例，数字很大，但「技术上可自动化」不等于「经济上会立即替代」。
-      sources:
-      - title: Acemoglu & Restrepo, Robots and Jobs（NBER w23285）
-        url: https://www.nber.org/papers/w23285
-      - title: Frey & Osborne, The Future of Employment（Oxford Martin）
-        url: https://www.oxfordmartin.ox.ac.uk/publications/the-future-of-employment
-    - position: 若工资工作不再覆盖大多数人，需另建收入机制
-      holders: 普遍基本收入（UBI）的倡导者与政策实验者；词条对其论证与批评有综述
-      argument: 若大量任务被机器承担，仅靠「再找一份类似的工作」可能不够。UBI、负所得税或工资补贴被提出来保障基本生活并保留选择，但资金来源、劳动供给与政治可行性都有激烈争论。
-      sources:
-      - title: Wikipedia：Universal basic income
-        url: https://en.wikipedia.org/wiki/Universal_basic_income
-    open_parts: 没有人能可靠预言未来二三十年被替代的净岗位数。再培训是否跟得上、UBI 的财政与激励效应如何、新任务会不会主要流向高技能者，都仍是开放的经验问题。
+    - position: 自动化会重构工作，但不必然消灭工作本身；互补与新需求会被低估
+      consensus_role: 经济史与劳动经济学中的主流提醒
+      evidence:
+        label: 综述性论文与历史就业结构事实
+        note: Autor（2015）是 Journal of Economic Perspectives 的长文，不是对某一项新技术的因果识别。Keynes（1930）是前瞻性随笔，其中的工作周预言并未按原时间表实现，但其「暂时失调」框架仍被后来文献引用。[1][2]
+      holders:
+      - name: David H. Autor
+        identity: 麻省理工学院（Massachusetts Institute of Technology, Cambridge, Massachusetts）；文中注明 2009 至
+          2014 年任 Journal of Economic Perspectives 编辑。《Why Are There Still So Many Jobs?》刊于该刊 2015 年夏季号，29(3),
+          3–30。[1]
+      - name: John Maynard Keynes
+        identity: 1930 年随笔《Economic Possibilities for our Grandchildren》作者。本次打开的是 Essays in Persuasion
+          的一个公开重排文本。[2]
+      argument: Autor 开篇回顾了两个世纪以来关于自动化将摧毁大量中产工作的周期性警告，并以美国农业就业份额的巨变为例说明：技术可以极深地改变一个部门，而不使整体就业消失。[1] 他的一个关键观察是：新闻记者甚至专家评论者，往往高估机器对人类劳动的替代程度，而忽视自动化与劳动之间提高生产率、提高收入并增加劳动需求的强互补。[1]
+        技术确实改变可用工作的类型及其报酬，近几十年工资增益不成比例地流向收入分配的顶端与底端，中间出现极化；但他认为这种极化不大可能以同样方式无限延伸。[1] Keynes 则在大萧条期间把「技术性失业」定义为节约劳动的速度超过为劳动找到新用途的速度，并称这只是暂时的失调；他甚至设想，三小时一班或每周十五小时，也许能把「如何消磨闲暇」这一问题推迟很久。[2]
+        两者都反对把短期错配写成文明将无工作可做。
+      quotes:
+      - text: journalists and even expert commentators tend to overstate the extent of machine substitution
+          for human labor and ignore the strong complementarities between automation and labor that increase
+          productivity, raise earnings, and augment demand for labor.
+        text_zh: 新闻记者甚至专家评论者，往往高估机器对人类劳动的替代程度，而忽视自动化与劳动之间提高生产率、提高收入并增加劳动需求的强互补。
+        attribution: David H. Autor，Why Are There Still So Many Jobs?
+        locator: 第 5 页，Journal of Economic Perspectives, 29(3), 2015
+        ref: 1
+      - text: This means unemployment due to our discovery of means of economising the use of labour outrunning
+          the pace at which we can find new uses for labour. But this is only a temporary phase of maladjustment.
+        text_zh: 这指的是这样一种失业：我们发现节约劳动使用的方法，其速度超过了我们能为劳动找到新用途的速度。但这只是失调的一个暂时阶段。
+        attribution: John Maynard Keynes，Economic Possibilities for our Grandchildren（1930）
+        locator: 本次打开的 Essays in Persuasion 重排文本中「technological unemployment」一段；该公开页未提供可核的原书页码，故不标注页码。
+        ref: 2
+    - position: 工业机器人已对部分地方劳动市场造成可估计的负面冲击
+      consensus_role: 有影响的因果经验研究，估计值有区间
+      evidence:
+        label: 地方劳动市场的计量估计（工作论文文本）
+        note: 本次打开的是 NBER Working Paper 23285。后继或有期刊修订本（常见引用为 Journal of Political Economy），本文未打开期刊 PDF，故数字与表述均按工作论文摘要。[3]
+          估计针对美国通勤区与工业机器人，不能直接等同于所有形式的人工智能。
+      holders:
+      - name: Daron Acemoglu、Pascual Restrepo
+        identity: 'Acemoglu 当时在 MIT 经济系并注明 CIFAR 与 NBER；Restrepo 当时在波士顿大学经济系，并注明 Yale Cowles Foundation。《Robots
+          and Jobs: Evidence from US Labor Markets》，NBER Working Paper 23285。[3]'
+      argument: 作者利用各行业机器人在全国的渗透率与地方就业的行业结构，构造通勤区对机器人的暴露度，并以此回归就业和工资变化。他们估计，机器人对就业和工资有大且稳健的负面效应；1990 年之后暴露度最高的通勤区在
+        1990 年之前并没有不同的趋势；这一影响也有别于来自中国和墨西哥的进口、常规岗位下降、离岸外包以及其他信息技术资本。[3] 摘要给出的数量是：每千名工人多一台机器人，约使就业—人口比下降
+        0.18–0.34 个百分点，工资下降 0.25–0.5%。[3] 这对「不富裕公民如何谋生」的含义是：即便全国总就业不消失，特定地区和工种上的冲击可以是实质性的，补偿并不会自动发生。
+      quotes:
+      - text: one more robot per thousand workers reduces the employment to population ratio by about
+          0.18-0.34 percentage points and wages by 0.25-0.5 percent.
+        text_zh: 每千名工人多一台机器人，约使就业—人口比下降 0.18–0.34 个百分点，并使工资下降 0.25–0.5%。
+        attribution: 'Daron Acemoglu 与 Pascual Restrepo，Robots and Jobs: Evidence from US Labor Markets'
+        locator: 摘要，NBER Working Paper 23285，作者 PDF 第 2 页附近（摘要末）
+        ref: 3
+    - position: 按职业任务估算，相当大份额的现有就业「处于可被计算机化的风险中」——但这不是已经实现的失业预言
+      consensus_role: 被广泛引用但方法上有争议的前瞻估计
+      evidence:
+        label: 基于专家判断与高斯过程分类器的职业级概率估计
+        note: Frey 与 Osborne（2013 年 9 月 17 日工作论文，牛津马丁学院网站提供 PDF）对 702 个详细职业估计计算机化概率，并称约 47% 的美国就业处于风险中。这是对「易感性」的模型估计，不是对未来就业净变化的预测，也未在本文中与后继批评文献逐条核对。[4]
+      holders:
+      - name: Carl Benedikt Frey、Michael A. Osborne
+        identity: '《The Future of Employment: How Susceptible are Jobs to Computerisation?》作者；PDF 由牛津马丁学院「技术与就业」项目发布，日期为
+          2013 年 9 月 17 日。脚注感谢牛津大学工程科学系等单位的支持。[4]'
+      argument: 与 Autor「工作仍然很多」的历史观察不同，Frey 与 Osborne 试图向前看：用高斯过程分类器，为 702 个详细职业估计被计算机化的概率，并据此讨论对美国劳动市场的预期影响。据其摘要，按他们的估计，约
+        47% 的美国总就业处于风险之中；工资与教育程度与职业被计算机化的概率呈强负相关。[4] 必须把「at risk」读作易感性，而不是「这些岗位即将全部消失」。若该估计的方向成立，风险会不成比例地落在低工资、低教育职业上，从而把「不富裕公民如何谋生」从总量问题变成分配问题；但其具体百分比高度依赖任务能否被工程化的判断，后续研究给出过更低的估计，本条目未能逐一打开那些批评文本。
+      quotes:
+      - text: According to our estimates, about 47 percent of total US employment is at risk.
+        text_zh: 按我们的估计，大约 47% 的美国总就业处于风险之中。
+        attribution: Carl Benedikt Frey 与 Michael A. Osborne，The Future of Employment
+        locator: 摘要，牛津马丁学院 2013 年 9 月 17 日工作论文 PDF 第 1 页。原文排印中 US 或呈小型大写，此处按常规专名转写为 US。
+        ref: 4
+    open_parts: 没有人能可靠预言未来二三十年被替代的净岗位数。再培训是否跟得上、新任务会不会主要流向高技能者、地方冲击能否被人口流动或财政转移消化，都仍是开放的经验问题。[1][3] 普遍基本收入等另建收入机制的财政、激励与政治可行性，需要专门的政策评估；本条目未打开足够的一手实验或政府报告，故不把
+      UBI 写成已有定论的解决方案。Frey 与 Osborne 的 47% 被广泛引用，但其「风险」口径与后来更保守的任务分解估计如何调和，也仍待对照阅读。
+    references:
+    - id: 1
+      citation: Autor, D. H. (2015). Why are there still so many jobs? The history and future of workplace
+        automation. Journal of Economic Perspectives, 29(3), 3–30. https://doi.org/10.1257/jep.29.3.3
+      url: https://economics.mit.edu/sites/default/files/publications/why%20are%20there%20still%20jobs%202014.pdf
+    - id: 2
+      citation: Keynes, J. M. (1930). Economic possibilities for our grandchildren. 本次打开的是 Essays in Persuasion
+        的公开重排文本，用来核对引语；不把它当作官方学术批校本。
+      url: https://www.marxists.org/reference/subject/economics/keynes/1930/our-grandchildren.htm
+    - id: 3
+      citation: 'Acemoglu, D., & Restrepo, P. (2017). Robots and jobs: Evidence from US labor markets
+        (NBER Working Paper No. 23285). National Bureau of Economic Research. 引文与数字按已打开的工作论文 PDF。'
+      url: https://www.nber.org/system/files/working_papers/w23285/w23285.pdf
+    - id: 4
+      citation: 'Frey, C. B., & Osborne, M. A. (2013, September 17). The future of employment: How susceptible
+        are jobs to computerisation? Oxford Martin Programme on Technology and Employment.'
+      url: https://www.oxfordmartin.ox.ac.uk/downloads/academic/future-of-employment.pdf
 - id: 2026-11-08-ai-blackbox
   date: '2026-11-08'
   category: ai
@@ -305,28 +882,78 @@
   - 机械可解释性
   - 黑箱
   answer:
-    summary: 简短的回答是：我们能测量输入输出、可视化部分神经元或特征，但对大型网络「为什么给出这个判断」通常仍缺乏完整、可检验的机制性理解。近年的机械可解释性试图把内部计算分解为特征与回路，并在小模型或有限模块上取得进展，但距离「科学家已经知道网络里在发生什么」还很远。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 行为层面成绩清楚，机制性理解不完整
+      note: 没有严肃文献主张科学家已经完整知道大型神经网络内部在发生什么。Lipton 指出，「可解释」这一任务本身就被规定得不清楚，论文给予的动机与定义常常互不重叠，却仍把可解释性当成公理来宣称。[1] 特征可视化、回路分析与稀疏自编码器等工作，表明在选定的模型与尺度上可以找到有意义的内部结构，但这是「开始看见」，不是「已经看懂」。Olah、Mordvintsev 与 Schubert 用特征可视化展示 GoogLeNet 如何逐层建立对图像的理解；Cammarata 等人把神经元之间的连接读成「回路」；Bricken 等人用稀疏自编码器从单层 transformer 中提取大量可解释特征，同时指出神经元常常是多义的，使得直接谈论单个神经元的行为变得困难。[2][3][4]
+    summary: 简短的回答是：科学家非常清楚许多网络在输入—输出意义上表现如何，也能对部分神经元、特征或连接提出可检验的假设，但对「这个大型网络为何给出这个判断」通常仍缺乏完整、可系统验证的机制性说明。Lipton 把「模型可解释性的神话」说成一个被规定不足的问题：我们既希望模型好，也希望它可解释，可是「解释」到底指算法是否透明、参数是否可理解、模型是否简单到能被一次看完，还是事后说明，文献并未取得一致；他并质疑「线性模型可解释、深度网络不可解释」这类常被作出的断言。[1] 与此同时，解释性研究并不是空的。2017 年，Olah 等人展示特征可视化如何让人看见 GoogLeNet 在 ImageNet 上逐层建立起对图像的理解，并写道，神经网络需要可被人类解释的意识正在增长。[2] 2020 年，Cammarata、Olah 等人在 Circuits 线索中提出：通过研究神经元之间的连接，可以在网络权重里找到有意义的算法，例如看到圆检测器由曲线组装、狗头由眼睛、口鼻、毛发与舌头组成。[3] 2023 年，Bricken 等人报告，使用稀疏自编码器，他们从单层 transformer 中提取了大量可解释特征；他们同时说明，许多神经元是多义的（对看似无关的输入混合物都有反应），多义性使得直接推理网络行为变得困难。[4] 这些进展改变的是「完全无法窥见内部」的说法，而不是「科学家已经知道内部在发生什么」的结论——尤其是把单层或经典视觉模型上的发现外推到当今最大的模型时，证据仍然有限。
+    definitions:
+    - term: 可解释性 / 解释（Lipton 的问题化用法）
+      text: Lipton 认为解释任务本身就被规定得不清楚：不同论文给出多样、有时互不重叠的动机，以及对何种属性使模型可解释的种种说法；他把面向人类的透明与事后解释视为相互竞争的概念。[1]
+    - term: 特征可视化
+      text: 通过生成样例来回答「网络或其部分在寻找什么」。Olah 等人用它展示 GoogLeNet 如何逐层建立对图像的理解。[2]
+    - term: 多义性（polysemanticity）
+      text: Bricken 等人的用语：有些神经元对看似无关的输入混合物都产生反应（他们举的例子包括 Inception v1 中一个既对猫脸又对车头有反应的神经元，以及一个小语言模型中对学术引用、英语对话、HTTP 请求与韩文都有反应的神经元），从而使直接谈论该神经元的行为变得困难。[4]
+    milestones:
+    - 2016 年，Lipton 在 ICML WHI 车间提出、并于 2017 年 3 月修订 arXiv 文本 The Mythos of Model Interpretability。[1]
+    - 2017 年 11 月 7 日，Olah、Mordvintsev 与 Schubert 在 Distill 发表 Feature Visualization（doi:10.23915/distill.00007）。[2]
+    - '2020 年 3 月 10 日，Cammarata、Olah 等人在 Distill 的 Circuits 线索发表 Zoom In: An Introduction to Circuits（doi:10.23915/distill.00024.001）。[3]'
+    - '2023 年 10 月 4 日，Bricken、Templeton、Batson 等人在 Transformer Circuits 发表 Towards Monosemanticity: Decomposing Language Models With Dictionary Learning。[4]'
     views:
-    - position: 目前主要是行为层面的成功，机制层面仍是黑箱
-      holders: Lipton 对「可解释」宣传的批评；该问题在人工智能 Stack Exchange 上的讨论亦持审慎态度
-      argument: 高准确率并不等于理解。许多所谓解释是事后拟合的热力图或特征重要性，未必对应网络真正使用的计算。若不能预测模型在分布外或受干预时的行为，就不能说「已经知道内部发生了什么」。
-      sources:
-      - title: Lipton, The Mythos of Model Interpretability (arXiv:1606.03490)
-        url: https://arxiv.org/abs/1606.03490
-      - title: 原问题：Do scientists know what is happening inside artificial neural networks?（Internet Archive
-          存档）
-        url: https://web.archive.org/web/20260401130815/https://ai.stackexchange.com/questions/1479/do-scientists-know-what-is-happening-inside-artificial-neural-networks
-    - position: 机械可解释性正在把「内部」变成可研究的对象
-      holders: Chris Olah 及 Distill / Circuits 传统；Anthropic 的单语义特征等工作
-      argument: 特征可视化表明某些神经元或方向对应可辨认的概念；进一步的「回路」分析试图追踪特征如何组合。对稀疏自编码器等工具的研究表明，有可能把叠加在一起的特征分解成更可解释的单元，尽管仍不完整。
-      sources:
-      - title: Olah et al., Feature Visualization（Distill, 2017）
-        url: https://distill.pub/2017/feature-visualization/
-      - title: 'Cammarata et al., Zoom In: An Introduction to Circuits（Distill, 2020）'
-        url: https://distill.pub/2020/circuits/zoom-in/
-      - title: Bricken et al., Towards Monosemanticity（Transformer Circuits, 2023）
-        url: https://transformer-circuits.pub/2023/monosemantic-features/index.html
-    open_parts: 可解释性结果大多来自较小或经过挑选的模型，能否扩展到最强的前沿系统尚不清楚。即便找到可解释的特征，它们是否覆盖模型的主要能力、能否支持可靠的安全保证，仍然没有答案。
+    - position: 「知道内部在发生什么」首先受制于「可解释」一词本身的含混
+      consensus_role: 对问题的概念澄清，被后续文献广泛引用
+      evidence:
+        label: 概念与文献评论，不是对某一网络的机制解析
+        note: Lipton 梳理动机与相互竞争的可解释性概念，并质疑若干流行断言。它说明「我们知道内部发生了什么」这个句子本身需要先定义，但不能代替对具体模型的实证解析。[1]
+      holders:
+      - name: Zachary C. Lipton
+        identity: 该文标注时任职于加州大学圣地亚哥分校（University of California, San Diego）；文本出自 2016 年 ICML Workshop on Human Interpretability in Machine Learning，arXiv:1606.03490v3（2017-03-06）。[1]
+      argument: Lipton 开篇提出：有监督模型有出色的预测能力，但你能否信任它、它在部署中是否还有效、它还能告诉你关于世界的什么？我们希望模型不仅好，而且可解释；然而解释这一任务看起来被规定得不足。论文给出多样、有时互不重叠的动机，以及关于何种属性使模型可解释的种种说法；尽管存在这种含混，许多论文仍把可解释性当作公理来宣称，而不再解释。他把面向人类的透明与事后解释视为相互竞争的概念，并贯穿全文追问不同概念的可行性与可欲性，同时质疑「线性模型可解释、深度神经网络不可解释」这类常被作出的断言。[1] 对「科学家是否知道内部在发生什么」而言，这意味着：即使有可视化或事后理由，若不说明所满足的是哪一种可解释性，这句话仍然是不清楚的。
+      quotes:
+      - text: We want models to be not only good, but interpretable. And yet the task of interpretation appears underspecified. Papers provide diverse and sometimes non-overlapping motivations for interpretability, and offer myriad notions of what attributes render models interpretable. Despite this ambiguity, many papers proclaim interpretability axiomatically, absent further explanation.
+        text_zh: 我们希望模型不仅好，而且可解释。然而解释这一任务看起来被规定得不足。论文为可解释性提供了多样、有时互不重叠的动机，并对何种属性使模型可解释给出了种种说法。尽管存在这种含混，许多论文仍把可解释性当作公理来宣称，而不再作进一步说明。
+        attribution: Zachary C. Lipton, 2016/2017
+        locator: arXiv:1606.03490v3，摘要
+        ref: 1
+    - position: 在选定的模型上，特征、回路与稀疏特征分解已经给出可检验的内部结构，但这不是对一般网络的完整理解
+      consensus_role: 机制可解释性的实质进展，范围仍有限
+      evidence:
+        label: 对特定视觉模型与一个单层语言模型的案例研究，不是对当今最大模型的全面测绘
+        note: Olah 等人的对象是在 ImageNet 上训练的 GoogLeNet；Circuits 文章以 InceptionV1 早期视觉等为例；Bricken 等人明确写的是从一个单层 transformer 中提取特征。这些是存在性与方法进展，外推需要另外的证据。[2][3][4]
+      holders:
+      - name: Chris Olah、Alexander Mordvintsev、Ludwig Schubert
+        identity: 2017 年 Feature Visualization 一文标注的任职分别为 Google Brain Team、Google Research、Google Brain Team。[2]
+      - name: Nick Cammarata、Chris Olah 等
+        identity: '2020 年 Zoom In: An Introduction to Circuits 一文作者标注的任职为 OpenAI。[3]'
+      - name: Trenton Bricken、Adly Templeton、Joshua Batson 等
+        identity: 2023 年 Towards Monosemanticity 一文作者，任职标注为 Anthropic；文首标明核心贡献者，通讯邮箱为 colah@anthropic.com。[4]
+      argument: 特征可视化表明，至少在经典视觉网络里，内部单元并非完全不可描述：Olah 等人展示 GoogLeNet 如何在多层之上建立起对图像的理解，并指出神经网络需要可被人类解释的意识正在增长，可解释性领域随之形成，特征可视化与归因成为两条正在汇合的研究线索。[2] Circuits 文章更进一步，主张通过研究神经元之间的连接，可以在权重中找到有意义的算法；例如可以「观看」一个圆检测器如何由曲线组装，一个狗头如何由眼睛、口鼻、毛发与舌头组成，甚至找到实现简单逻辑（AND、OR）的回路。[3] 在语言模型方面，Bricken 等人用稀疏自编码器从一个单层 transformer 中提取了大量可解释特征。他们同时把多义性当作核心障碍：单个神经元可能对看似无关的输入混合物都有反应，这使直接推理网络行为变得困难——稀疏特征分解的动机之一，正是把内部表征分解得更接近单义。[4] 综合来看，科学家并不是对内部一无所知，但也远没有达到「已经知道人工神经网络内部在发生什么」这种全称判断，尤其是对规模远大于这些案例的模型而言。
+      quotes:
+      - text: Feature visualization allows us to see how GoogLeNet, trained on the ImageNet dataset, builds up its understanding of images over many layers. […] There is a growing sense that neural networks need to be interpretable to humans.
+        text_zh: 特征可视化让我们看到，在 ImageNet 数据集上训练的 GoogLeNet 如何在许多层之上逐步建立起对图像的理解。[…] 一种正在增长的意识是：神经网络需要可被人类解释。
+        attribution: Olah, Mordvintsev & Schubert, 2017
+        locator: Distill, 2017-11-07，导语与开篇
+        ref: 2
+      - text: Using a sparse autoencoder, we extract a large number of interpretable features from a one-layer transformer.
+        text_zh: 使用稀疏自编码器，我们从一个单层 transformer 中提取了大量可解释特征。
+        attribution: Bricken 等, 2023
+        locator: Towards Monosemanticity 文首导语
+        ref: 4
+    open_parts: 第一，可解释性的标准仍不统一，Lipton 所指出的含混并未消失。[1] 第二，在小模型或经典视觉模型上发现的特征与回路，能在多大程度上迁移到当今最大的语言模型与多模态模型，仍是开放的经验问题。[2][3][4] 第三，即使提取出可解释特征，它们是否构成对模型行为的充分、因果说明，以及能否用于可靠地预测反事实或故障模式，仍需更严格的检验。第四，本问题与「为何需要可解释人工智能」相邻，但不重复该题已完成的综述；此处的焦点是「内部机制是否已被知道」，而不是可解释性的规范动机。
+    references:
+    - id: 1
+      citation: Lipton, Z. C. The Mythos of Model Interpretability. 2016 ICML Workshop on Human Interpretability in Machine Learning (WHI 2016)；arXiv:1606.03490v3, 2017-03-06。作者当时任职于加州大学圣地亚哥分校。
+      url: https://arxiv.org/pdf/1606.03490
+    - id: 2
+      citation: Olah, C., Mordvintsev, A., & Schubert, L. Feature Visualization. Distill, 2017-11-07. doi:10.23915/distill.00007。
+      url: https://distill.pub/2017/feature-visualization/
+    - id: 3
+      citation: 'Cammarata, N., Olah, C., 等. Zoom In: An Introduction to Circuits. Distill, 2020-03-10. doi:10.23915/distill.00024.001。作者当时任职于 OpenAI。'
+      url: https://distill.pub/2020/circuits/zoom-in/
+    - id: 4
+      citation: 'Bricken, T., Templeton, A., Batson, J., 等. Towards Monosemanticity: Decomposing Language Models With Dictionary Learning. Transformer Circuits, 2023-10-04。作者任职标注为 Anthropic。'
+      url: https://transformer-circuits.pub/2023/monosemantic-features/index.html
 - id: 2026-11-08-ai-trolley
   date: '2026-11-08'
   category: ai
@@ -341,27 +968,104 @@
   - 自动驾驶
   - 算法伦理
   answer:
-    summary: 自动驾驶的「该撞谁」把电车难题变成了工程规格问题。实验表明，公众的道德偏好并不一致，而且人们常希望别人的车利人、自己的车利己。许多伦理学与政策讨论因此认为：把罕见的两难当成核心设计问题可能用错了焦点，更应处理风险分配、责任归属与降低事故总量。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 描述性结果较清楚，规范编码无共识
+      note: 就「公众在假设性碰撞中表达何种偏好」而言，已有可复核的实验证据：Bonnefon、Shariff 与 Rahwan 发现人们赞成功利主义算法、希望别人购买，但自己更愿乘坐保护乘客的车；强制推行可能推迟采用、反而增加伤亡。[1] Awad 等人的 Moral Machine 进一步描述了全球偏好与跨国差异。[2] 但把这些偏好写进法律或产品规则，并没有相应共识。德国伦理委员会明确认为真正的两难不能被无可争议地标准化或编程；SEP 也指出电车式思想实验未必是实际驾驶中必须求解的问题。[3][4]
+    summary: 自动驾驶并不能消除全部碰撞，因此不可避免地要面对伤害如何分配。实验文献把这个问题表述成一个社会两难：人们往往赞成功利主义（牺牲乘客以减少总伤亡）的车辆，并希望别人购买，但自己更愿意乘坐优先保护乘客的车；对强制安装功利主义算法的监管，支持度也更低。[1] 随后的大规模在线实验（Moral Machine）描述了全球范围内的若干稳定倾向（例如更倾向拯救更多人、更倾向保护行人与年轻人），并识别出国家层面的偏好聚类；作者同时提醒，公众偏好不必成为伦理政策的首要仲裁者，但人们是否愿意购买并容忍这些车辆，会受所采纳规则是否可接受的影响。[2] 规范层面，2017 年德国伦理委员会主张：技术应尽量避免两难出现；在不可避免的事故中，严禁按年龄、性别或身体/精神状况等人身特征作区分，也禁止把受害者相互抵消；一般性地编程以减少人身伤害或可成立，但真正「一条人命对另一条人命」的决定无法被清楚地标准化。[3] 哲学综述则强调，经典电车难题是选项被人为收窄、行动者拥有完美信息的思想实验，用来探测直觉与理论，并不等于实际驾驶必须求解的工程题。[4]
+    definitions:
+    - term: 功利主义算法（文中用法）
+      text: Bonnefon 等人把「牺牲乘客以减少总伤亡」称作符合功利主义道德原则的做法：道德上的正确行动是使伤亡最小化。[1]
+    - term: 自动驾驶中的社会两难
+      text: 指公众在评价「应当如何编程」与「自己愿意乘坐哪一种车」时出现的分裂：赞成功利主义规则并希望他人采用，却不愿自己成为被牺牲的乘客。[1]
+    - term: Moral Machine 实验
+      text: Awad 等人部署的在线实验平台，用以探查自动驾驶可能面对的道德两难；论文报告在十种语言中收集了来自 233 个国家与地区、数百万人的约 4,000 万次决策。[2]
+    milestones:
+    - 2016 年 6 月 24 日，Bonnefon、Shariff 与 Rahwan 在《Science》发表《The social dilemma of autonomous vehicles》，以六项美国 MTurk 实验提出上述社会两难及监管可能推迟采用的推论。[1]
+    - 2017 年 6 月，德国联邦交通与数字基础设施部任命的伦理委员会发布《Automated and Connected Driving》报告，列出 15 条伦理规则，包括避免两难、禁止按人身特征区分等。[3]
+    - 2018 年 11 月，《Nature》刊出 Awad 等人的 Moral Machine 实验（第 563 卷，第 59–64 页），提供迄今最大规模的描述性偏好数据之一。[2]
     views:
-    - position: 必须预先编码社会可接受的碰撞伦理
-      holders: Bonnefon、Shariff 与 Rahwan（2016）；后续 Moral Machine 大规模实验
-      argument: 若算法在不可避免的伤害之间做选择，制造商和监管者无法回避规则。调研显示，人们在抽象层面常支持最小化伤害或保护更多生命，但若规则要求牺牲乘客，购买意愿会下降。这是一个社会困境，而不只是编程题。
-      sources:
-      - title: Bonnefon, Shariff & Rahwan, The social dilemma of autonomous vehicles（PubMed）
-        url: https://pubmed.ncbi.nlm.nih.gov/27339987/
-      - title: Awad et al., The Moral Machine experiment（Nature）
-        url: https://www.nature.com/articles/s41586-018-0637-6
-      - title: Moral Machine 项目网站
-        url: https://www.moralmachine.net/
-    - position: 电车框架可能误导真正该监管的问题
-      holders: 人工智能伦理综述中的审慎立场（如斯坦福哲学百科《Ethics of Artificial Intelligence》所梳理的风险与责任议题）
-      argument: 真实事故很少呈现教科书式的「只能打方向盘二选一」，更常见的是感知错误、设计权衡和谁来承担责任。过度聚焦虚构两难，可能忽略减速设计、强制标准、保险与刑事责任等更能减少伤害的制度安排。
-      sources:
-      - title: Stanford Encyclopedia of Philosophy：Ethics of Artificial Intelligence
-        url: https://plato.stanford.edu/entries/ethics-ai/
-      - title: Internet Encyclopedia of Philosophy：Ethics of Artificial Intelligence
-        url: https://iep.utm.edu/ethics-of-artificial-intelligence/
-    open_parts: 不同文化在 Moral Machine 中表现出不同偏好，是否以及如何把它们写入法规，没有共识。责任应落在厂商、软件提供者还是使用者，各国立法仍在演化。如何在保护乘客与减少对外部人的伤害之间取得可执行的平衡，仍未解决。
+    - position: 公众赞成功利主义编程，但自己更愿乘坐保护乘客的车；强制推行可能推迟采用
+      consensus_role: 实验上被多次重复的描述性发现（限于所述样本）
+      evidence:
+        label: 六项 MTurk 实验，样本为美国居民，不代表全体人口
+        note: 作者在原文中写明：被试为美国居民，来自 Mechanical Turk，报酬 25 美分；并指出 Turk 样本不必代表美国总体。结果是陈述偏好，不是真实碰撞中的行为，也不能单独决定应当如何立法。[1]
+      holders:
+      - name: Jean-François Bonnefon
+        identity: 图卢兹经济学院（Toulouse School of Economics）、图卢兹高等研究院、管理研究中心、图卢兹大学。[1]
+      - name: Azim Shariff
+        identity: 该文标注时任职于俄勒冈大学心理学系（Department of Psychology, University of Oregon）。[1]
+      - name: Iyad Rahwan
+        identity: 该文通讯作者；标注时任职于麻省理工学院媒体实验室（The Media Lab, MIT）。[1]
+      argument: 作者指出，自动驾驶有望大幅减少交通事故，但仍会有无法完全避免的碰撞，从而使车辆必须在「两种恶」之间做选择，例如碾压行人，或牺牲自身与乘客以拯救行人。他们在六项 MTurk 研究中发现：参与者赞成功利主义的自动驾驶（为更大利益牺牲乘客），也希望别人购买这样的车，但自己更愿乘坐不惜一切代价保护乘客的车；他们不赞成强制推行功利主义算法，在受到监管时购买意愿也更低。因此，「为功利主义算法立法或许会悖论性地增加伤亡，因为它推迟了一种更安全技术的采用」。[1]
+      quotes:
+      - text: We found that participants to six MTurk studies approved of utilitarian AVs (that sacrifice their passengers for the greater good), and would like others to buy them; but they would themselves prefer to ride in AVs that protect their passengers at all costs. They would disapprove of enforcing utilitarian AVs, and would be less willing to buy such a regulated AV. Accordingly, regulating for utilitarian algorithms may paradoxically increase casualties by postponing the adoption of a safer technology.
+        text_zh: 我们在六项 MTurk 研究中发现：参与者赞成功利主义的自动驾驶汽车（为更大利益牺牲乘客），并希望别人购买它们；但他们自己更愿意乘坐不惜一切代价保护乘客的车。他们不赞成强制推行功利主义自动驾驶，在此种监管下购买意愿也更低。因此，为功利主义算法立法或许会悖论性地增加伤亡，因为它推迟了一种更安全技术的采用。
+        attribution: Bonnefon, Shariff & Rahwan，作者版本首页（与《Science》2016 年 6 月 24 日发表文本相应的作者稿）
+        locator: 作者稿首页（期刊版本为 Science, 352, 1573–1576）
+        ref: 1
+    - position: 大规模在线实验可以描述全球偏好与文化差异，但公众偏好不必是政策的首要仲裁者
+      consensus_role: 最大规模的描述性证据之一，不是规范性证明
+      evidence:
+        label: 自我选择的在线实验，决策量极大，但不是随机的全球概率样本
+        note: 论文报告约 4,000 万次决策、十种语言、233 个国家与地区。这是对平台参与者偏好的描述，不能直接等同于「世界各国已经同意的道德法则」，作者也明确说公众偏好不必成为伦理政策的首要仲裁者。[2]
+      holders:
+      - name: Edmond Awad、Sohan Dsouza、Richard Kim、Iyad Rahwan 等
+        identity: Awad、Dsouza、Kim 当时任职于 MIT 媒体实验室；Shariff 当时任职于不列颠哥伦比亚大学心理学系；Bonnefon 当时任职于图卢兹经济学院（TSM-R），CNRS，Université Toulouse Capitole；Rahwan 兼 MIT 媒体实验室与 Institute for Data, Systems & Society。[2]
+      argument: 为了量化社会对机器伦理原则的期待，作者部署了 Moral Machine 平台。他们首先概括全球道德偏好，继而记录基于人口学的个体差异，再报告跨国伦理变异并识别出三个主要国家聚类，最后表明这些差异与现代制度及深层文化特征相关。在结果讨论中他们写道：制造商与政策制定者即使不必响应，至少应了解其设计与政策所在国家的道德偏好；尽管公众的伦理偏好不必是伦理政策的首要仲裁者，人们购买并容忍自动驾驶的意愿，仍将取决于所采纳伦理规则是否可接受。[2] 该文还指出，德国伦理规则第 9 条禁止基于年龄等个人特征的区分，这与实验中强烈的「拯救年轻人」偏好明显冲突。[2][3]
+      quotes:
+      - text: This platform gathered 40 million decisions in ten languages from millions of people in 233 countries and territories.
+        text_zh: 该平台以十种语言，从 233 个国家与地区的数百万人那里收集了 4,000 万次决策。
+        attribution: Awad 等，《The Moral Machine experiment》
+        locator: 'Nature 563 (2018): 59，摘要/开篇'
+        ref: 2
+      - text: Whereas the ethical preferences of the public should not necessarily be the primary arbiter of ethical policy, the people’s willingness to buy autonomous vehicles and tolerate them on the roads will depend on the palatability of the ethical rules that are adopted.
+        text_zh: 尽管公众的伦理偏好不必成为伦理政策的首要仲裁者，但人们购买自动驾驶汽车并容忍它们上路的意愿，将取决于所采纳的伦理规则是否可接受。
+        attribution: Awad 等
+        locator: 讨论部分（作者 PDF 与期刊文本相应段落）
+        ref: 2
+    - position: 真正的两难不宜被预先写成无可争议的程序；电车式思想实验也不等于实际驾驶必须求解的工程题
+      consensus_role: 重要的规范与概念立场，不是实验发现
+      evidence:
+        label: 官方伦理规则与哲学综述，不是随机对照实验
+        note: 德国报告是受交通部任命的委员会所制定的规则与论证；SEP 词条是对文献的哲学梳理。二者都不提供「哪种撞法在经验上最优」的数据，但直接约束「该不该把电车难题写成代码」。[3][4]
+      holders:
+      - name: 德国「自动驾驶与网联驾驶」伦理委员会
+        identity: 由联邦交通与数字基础设施部部长任命，2017 年 6 月发布报告；主席为宪法学教授 Udo Di Fabio（报告列出的委员会组成）。[3]
+      - name: Vincent C. Müller
+        identity: 《斯坦福哲学百科》词条「Ethics of Artificial Intelligence and Robotics」作者。该词条首次发表于 2020 年 4 月 30 日；所打开的现行页面标明实质性修订日期为 2026 年 3 月 27 日。[4]
+      argument: 德国委员会第 5 条要求技术在实践可能的范围内预防事故，并使两难尽量不出现。第 8 条认为，真正的两难取决于具体情境与当事人「不可预测」的行为，既不能被清楚地标准化，也不能被编程得在伦理上无可指摘；技术系统必须被设计来避免事故，但不能被标准化成可以取代有道德判断力的驾驶员的复杂评估。第 9 条进而规定：在不可避免的事故中，严禁基于年龄、性别或身体/精神状况等人身特征作区分，也禁止把受害者相互抵消；一般性地编程以减少人身伤害或可成立；制造流动性风险的当事方不得牺牲未卷入的当事方。[3] Müller 则回顾经典电车难题的思想实验性质，并写到：这类问题「本不打算描述实际的伦理问题，也不打算用一个“正确选择”来求解」；选择被人为限制在少量一次性选项上，且行动者拥有完美信息。他接着说，虽然这类问题让许多人联想到实际驾驶与自动驾驶，但「一个实际的驾驶员或自动驾驶汽车是否永远必须求解电车难题，是可疑的」，其与自动驾驶伦理的相关性也存在争论。[4]
+      quotes:
+      - text: Genuine dilemmatic decisions, such as a decision between one human life and another, depend on the actual specific situation, incorporating “unpredictable” behaviour by parties affected. They can thus not be clearly standardized, nor can they be programmed such that they are ethically unquestionable.
+        text_zh: 真正的两难决定，例如在一条人命与另一条人命之间作出决定，取决于具体情境，并包含受影响当事方的「不可预测」行为。因此它们既不能被清楚地标准化，也不能被编程得在伦理上无可指摘。
+        attribution: 德国伦理委员会报告第 8 条
+        locator: 报告第 11 页，第 8 条
+        ref: 3
+      - text: In the event of unavoidable accident situations, any distinction based on personal features (age, gender, physical or mental constitution) is strictly prohibited. It is also prohibited to offset victims against one another. General programming to reduce the number of personal injuries may be justifiable.
+        text_zh: 在不可避免的事故情形中，任何基于人身特征（年龄、性别或身体/精神状况）的区分都被严格禁止。把受害者相互抵消同样被禁止。一般性地编程以减少人身伤害的数量，或可成立。
+        attribution: 德国伦理委员会报告第 9 条
+        locator: 报告第 11 页，第 9 条
+        ref: 3
+      - text: “Trolley problems” are not supposed to describe actual ethical problems or to be solved with a “right” choice. Rather, they are thought-experiments where choice is artificially constrained to a small finite number of distinct one-off options and where the agent has perfect knowledge. […] It is doubtful, however, that an actual driver or autonomous car will ever have to solve trolley problems and it is debated whether this issues has relevance to the ethics of autonomous vehicles.
+        text_zh: 「电车难题」本不打算描述实际的伦理问题，也不打算用一个「正确选择」来求解。它们是思想实验：选择被人为限制在少量、彼此分明的一次性选项上，且行动者拥有完美信息。[…] 然而，一个实际的驾驶员或自动驾驶汽车是否永远必须求解电车难题，是可疑的；这一问题与自动驾驶伦理是否相关，也存在争论。
+        attribution: Vincent C. Müller，SEP「Ethics of Artificial Intelligence and Robotics」
+        locator: 词条中关于电车难题与自动驾驶的讨论（2026-11-10 查阅的现行页面）
+        ref: 4
+    open_parts: 第一，陈述偏好（尤其是自我选择的在线实验）在多大程度上预测真实购买与真实碰撞中的行为，仍开放。[1][2] 第二，即使描述性偏好清楚，应否以及如何把它们写入强制标准，没有规范共识；德国规则与 Moral Machine 中「拯救年轻人」等偏好还存在直接冲突。[2][3] 第三，电车式两难在真实交通中的发生率与工程相关性仍有争论；更优先的设计目标是否应是避免进入两难，而非先为两难写出「正确答案」，是持续的政策问题。[3][4] 第四，责任如何在驾驶员、制造商、运营商与公共机构之间转移（德国报告第 10–11 条），需要法律与保险制度的后续落实，本文不展开未核对的判例。
+    references:
+    - id: 1
+      citation: Bonnefon, J.-F., Shariff, A., & Rahwan, I. The social dilemma of autonomous vehicles. Science, 2016, 352(6293), 1573–1576. doi:10.1126/science.aaf2654。此处引语核自作者版本（arXiv:1510.03346），文首标明获 AAAS 许可张贴，确定版本发表于 2016 年 6 月 24 日的 Science。
+      url: https://arxiv.org/pdf/1510.03346
+    - id: 2
+      citation: Awad, E., Dsouza, S., Kim, R., Schulz, J., Henrich, J., Shariff, A., Bonnefon, J.-F., & Rahwan, I. The Moral Machine experiment. Nature, 2018, 563, 59–64. doi:10.1038/s41586-018-0637-6。引语核自作者 PDF（MIT / Vanderbilt 镜像）；期刊页码据该 PDF 页眉「November 2018 | Vol 563 | Nature | 59」。
+      url: https://politics.media.mit.edu/papers/Rahwan.pdf
+    - id: 3
+      citation: Ethics Commission on Automated and Connected Driving. Report. Appointed by the Federal Minister of Transport and Digital Infrastructure, June 2017. 引语核自联邦交通部公布的英文全本 PDF，页码为该 PDF 页脚（第 8、9 条在第 11 页）。
+      url: https://www.bmv.de/SharedDocs/EN/publications/report-ethics-commission.pdf?__blob=publicationFile
+    - id: 4
+      citation: Müller, V. C. Ethics of Artificial Intelligence and Robotics. The Stanford Encyclopedia of Philosophy. 首次发表 2020-04-30；所打开的现行页面标明实质性修订 2026-03-27。查阅日期 2026-11-10。按本站体例引用已打开的现行词条 URL，不改引未打开的季节存档地址。
+      url: https://plato.stanford.edu/entries/ethics-ai/
 - id: 2026-11-08-biz-fast-projects
   date: '2026-11-08'
   category: business
@@ -378,29 +1082,64 @@
   - 执行力
   - 进步研究
   answer:
-    summary: 帝国大厦等案例显示，历史上某些重大工程确实能在极短时间内完工；当代公共工程则常以延期和超支闻名。一种解释是：今天的项目在安全、环保、民主参与和工时制度上更严格，速度换来了其他价值。另一种解释强调激励与管理失败——巨项目系统性过于乐观。也有人指出比较存在生存者偏差：我们记住了过去的成功，却忽略了同时代的失败。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 对照案例与巨项目超支有文献，「过去更快」的因果分解仍弱
+      note: Patrick Collison 用帝国大厦 410 天建成等例子，提出「过去似乎有更多快速完工的重大工程」这一观感，并问这种感觉是否成立、若成立原因是什么。[1][2] 这是一个有明确案例清单的研究问题，但清单本身不是控制了安全标准、项目复杂度与选择偏差之后的因果分解。另一方面，Flyvbjerg 对当代巨项目的概括更硬：他提出并论证所谓「巨项目铁律」——「超支、超时，一次又一次」。[3] 可以把「许多当代大型公共工程反复延期超支」当作有文献支持的规律，但不能把「过去总体上更快」写成已被证明的事实。
+    summary: 这个问题首先是一种历史对照：人们记得帝国大厦在 410 天内完工，也记得若干战时与战后工程推进极快，再拿它们与今天动辄数年、预算膨胀的公共交通或公共建筑相比，便产生「过去更快」的印象。[1][2] Collison 自己把这一点写成问题而非结论，并汇编了一份「人们迅速共同完成雄心勃勃之事」的例子清单，同时问：当代快速进展的例子是否真的变少了；如果是，原因是什么。[1][2] 工程管理文献提供的，是另一条更窄、但证据更成系统的线索。Flyvbjerg 在对巨项目管理的综述中把「铁律」表述为：超支、超时，一次又一次；最佳实践是离群值，平均实践则是灾难。他还讨论政治、技术、经济与美学四种「崇高」如何推高项目规模与频率，并认为巨项目系统性出现「最不适者得以生存」——往往是最差的项目反而被建成。[3] 把两条线索合在一起：当代巨项目的平均表现确实很差，这有文献；但「过去总体上有更多快速重大工程」仍可能被幸存者偏差、不可比的安全与参与标准、以及项目性质变化所夸大。在控制这些因素之前，不应把对照当成已经完成的因果解释。
+    definitions:
+    - term: 巨项目铁律（iron law of megaprojects）
+      text: Flyvbjerg 的概括：「超支、超时，一次又一次。」他并称，在这一成本高昂的管理领域，最佳实践是离群值，平均实践则是灾难。[3]
+    milestones:
+    - '2014 年 4–5 月，Bent Flyvbjerg 在 Project Management Journal 第 45 卷第 2 期第 6–19 页发表 What You Should Know About Megaprojects and Why: An Overview。[3]'
     views:
-    - position: 历史上确有极快完工的样本，值得当成对照
-      holders: Patrick Collison（问题提出者，并整理了「Fast」案例清单）
-      argument: 若过去能在数百天内建成摩天楼或战时机场，而今天一条地铁延长线耗时数年，就不能把缓慢当成自然定律。至少应追问：是技术更难了，还是许可、协调和目标函数变了。
-      sources:
-      - title: Patrick Collison, Questions
-        url: https://patrickcollison.com/questions
-      - title: Patrick Collison, Fast（快速完工案例清单）
-        url: https://patrickcollison.com/fast
-    - position: 当代巨项目普遍存在乐观偏差与成本低估
-      holders: Bent Flyvbjerg
-      argument: 对全球巨项目的综述表明，超支和延期是常规而非例外，原因包括利益方的策略性低估、参照类预测缺失以及项目独特而难以管理的复杂性。速度下降不一定只是「我们变得更谨慎」，也可能是治理失败。
-      sources:
-      - title: Flyvbjerg, What You Should Know About Megaprojects and Why（arXiv:1409.0003）
-        url: https://arxiv.org/pdf/1409.0003
-    - position: 比较基准本身需要非常小心
-      holders: José Luis Ricón 对 Collison 问题的长文回应
-      argument: 把巅峰案例与今天的平均公共项目直接对比，可能不公平：战时动员、不同的劳工与安全标准、以及「被记住的快速项目」都会扭曲印象。要证明「当代系统性变慢」，需要匹配项目类型与约束后再看数据。
-      sources:
-      - title: José Luis Ricón, Building skyscrapers, and spending on major projects（Nintil）
-        url: https://nintil.com/building-skyscrapers-and-spending-on-major-projects
-    open_parts: 在控制了安全标准与项目复杂度之后，当代公共工程是否「异常缓慢」，还缺少被广泛接受的因果分解。哪些许可改革能提速而不显著增加风险，也缺乏足够的对比实验。
+    - position: 历史上确有极短周期完工的重大工程，但这是对照样本，不是已经完成的因果结论
+      consensus_role: 问题的提出方式与案例清单
+      evidence:
+        label: 策划者汇编的案例，不是系统的随机或匹配样本
+        note: Collison 的问题页与 Fast 清单给出帝国大厦 410 天、P-80 战斗机 143 天、Apollo 8 在决定奔月后 134 天发射等例子，并附来源说明。它们证明「极快完工曾经发生过」，不能证明当代已经系统性变慢，因为成功案例可能被优先记住，失败与不可比项目未被同样展示。[1][2]
+      holders:
+      - name: Patrick Collison
+        identity: 在其个人站点 Questions 与 Fast 页面提出该问题并汇编快速完工案例。页面将帝国大厦完工周期写作 410 天，并链向更长的例子清单。[1][2]
+      argument: Collison 的问题原文是：「为什么过去似乎比现在有更多迅速完工的重大工程？」他随即列举：帝国大厦用 410 天建成；作为空军部署的第一型喷气机，Lockheed P-80 从立项到首次部署用了 143 天；Marinship 从「提案」到「第一艘船完工」用了六个月；阿波罗计划从发起到登月为 9 年。他接着问：认为当代快速进展的例子更少，这种感觉是否成立？如果成立，又是怎么回事？[1] Fast 页把帝国大厦等条目再次列出，并注明「Construction was started and finished in 410 days」。[2] 这些文字的认识地位是：提出一个值得追究的对照，而不是已经度量过的历史规律。
+      quotes:
+      - text: Why do there seem to be more examples of rapidly-completed major projects in the past than the present? The Empire State Building was built in 410 days. […] Is the sense that there are fewer contemporary examples of rapid progress justified? If so, what’s going on?
+        text_zh: 为什么过去似乎比现在有更多迅速完工的重大工程的例子？帝国大厦用 410 天建成。[…] 认为当代快速进展的例子更少，这种感觉是否成立？如果成立，又是怎么回事？
+        attribution: Patrick Collison, Questions
+        locator: patrickcollison.com/questions，关于快速重大工程的条目（2026-11-10 查阅）
+        ref: 1
+    - position: 当代巨项目反复超支、超时，是有文献支持的规律；这仍不能单独证明「过去更快」
+      consensus_role: 对当代巨项目平均表现的经验概括
+      evidence:
+        label: 综述性论文，概括作者此前的巨项目研究，不是一项新的、覆盖古今对照的因果识别
+        note: Flyvbjerg 2014 年的文章是对巨项目管理的总览，铁律的表述与论证写在文中。它说明当代（及作者所研究样本中的）巨项目平均表现糟糕，但并未在同一框架里系统比较 1930 年代的摩天楼与今天的地铁延期，因此不能直接等于 Collison 那个历史问题的答案。[3]
+      holders:
+      - name: Bent Flyvbjerg
+        identity: 作者稿标明：牛津大学赛德商学院重大项目管理讲席教授及创始主任（Professor and Founding Chair of Major Programme Management, Saïd Business School, Oxford University）。[3]
+      argument: Flyvbjerg 把巨项目支出评估为每年数万亿美元量级，并列出政治、技术、经济与美学四种「崇高」来解释项目规模与频率的上升。核心经验概括是铁律：超支、超时，一次又一次。他写道，在这一有趣且极其昂贵的管理领域，最佳实践是离群值，平均实践则是灾难。文章还引入「拆补模型」（break-fix model）作为铁律的一种解释，并批评把 Hirschman 的「隐藏的手」当作可以宽恕初期低估的理论；此外，巨项目被认为系统性出现「最不适者得以生存」，从而解释何以最差的项目反而被建成。[3] 这一文献支持的是「不要把当代巨项目的平均工期与造价当成正常」，而不是「黄金时代已经结束」的怀旧结论。
+      quotes:
+      - text: 'Fourth, the “iron law of megaprojects” is laid out and documented: Over budget, over time, over and over again.'
+        text_zh: 第四，文章陈述并记录了「巨项目铁律」：超支、超时，一次又一次。
+        attribution: Bent Flyvbjerg, 2014，摘要
+        locator: 作者稿摘要（对应 Project Management Journal, 45(2), 6–19）
+        ref: 3
+      - text: Best practice is an outlier, average practice a disaster in this interesting and very costly area of management.
+        text_zh: 在这一有趣且极其昂贵的管理领域，最佳实践是离群值，平均实践则是灾难。
+        attribution: Bent Flyvbjerg, 2014
+        locator: 作者稿中关于铁律的段落
+        ref: 3
+    open_parts: 第一，在控制安全、环保、劳工与民主参与标准以及项目复杂度之后，当代公共工程是否「异常缓慢」，还缺少被广泛接受的因果分解。[1][3] 第二，成功案例的幸存者偏差有多大，本身需要系统搜集失败与中止的历史项目，而不仅仅展示 Fast 清单。第三，哪些许可或治理改革能提速而不显著增加风险，缺乏足够的对比实验。Nintil 等评论性文章若未在本轮打开全文，不转述其具体数字。
+    references:
+    - id: 1
+      citation: Collison, P. Questions. 个人站点页面，含「Why do there seem to be more examples of rapidly-completed major projects…」一条。查阅日期 2026-11-10。
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: Collison, P. Fast. 快速完工案例清单，帝国大厦条目写作「Construction was started and finished in 410 days」。查阅日期 2026-11-10。
+      url: https://patrickcollison.com/fast
+    - id: 3
+      citation: 'Flyvbjerg, B. What You Should Know About Megaprojects and Why: An Overview. Project Management Journal, 2014, 45(2), 6–19. doi:10.1002/pmj.21409。引语核自作者公开的 arXiv 稿（arXiv:1409.0003，Draft 9.2）。'
+      url: https://arxiv.org/pdf/1409.0003
 - id: 2026-11-08-sci-science-progress
   date: '2026-11-08'
   category: science
@@ -415,27 +1154,67 @@
   - 元科学
   - 科研体制
   answer:
-    summary: 对科学进步动力学的一个有影响力的判断是：科研人员和经费大幅增加，但按科学家自己的评价或按全要素生产率来看，重大突破的「单位投入产出」似乎在下降。Bloom、Jones、Van Reenen
-      与 Webb 用多个领域的数据论证「想法越来越难找」；Collison 与 Nielsen 据此呼吁把科学本身当作需要研究与改进的系统。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 「单位研究投入的思想产出在下降」有系统证据，如何改进科学体制仍开放
+      note: Bloom、Jones、Van Reenen 与 Webb 在《美国经济评论》提出并用多行业证据论证：研究努力大幅上升，研究生产率急剧下降；摩尔定律是突出例子——为实现芯片密度大约每两年翻一番，今天所需的研究者人数是 1970 年代初的 18 倍以上。「无论我们看向何处，都发现想法，以及它们所隐含的指数增长，正变得越来越难找到。」[1] 这是可核对的经验研究，不是随笔。Collison 在问题清单中提出「如何更好地理解科学进步的动力学」，并指出对 NIH 等资助体制本身的研究相对稀少；他提到随后与 Michael Nielsen 为《大西洋月刊》写过一文，但该文全文本轮未能打开，故不引用其句子。[2] 测量「重要发现」仍然困难，制度实验的因果证据也仍然很少。
+    summary: 要理解科学进步的动力学，一个已经形成文献的入口是把长期增长分解为「有效研究者人数 × 研究生产率」。Bloom 等人把 Solow 增长核算应用到新思想的生产函数上，并展示：在许多行业、产品与企业层面，研究努力大幅上升，而研究生产率急剧下降。最清楚的例子是摩尔定律：芯片密度大约每两年翻一番的指数增长，是靠投入越来越多的研究者来维持的；今天实现这一翻番所需的研究者，是 1970 年代初的 18 倍以上。他们在半导体之外还考察了农作物单产与医学创新等，并概括说，想法以及它们所隐含的指数增长，正变得越来越难找到；若总体增长仍能维持，往往是因为研究投入的增加抵消了生产率的下降。[1] 与这篇论文相衔接，Collison 把「如何更好地理解科学进步的动力学」列为值得追问的问题：社会在科学上投入巨大时间与金钱，累积的科学进展可能比任何其他因素都更能决定集体未来的形状；为了判断是否花得足够、是否花在正确的事情与正确的方式上，应该如何测量结果。他并以 NIH 每年约 370 亿美元的支出为例，指出对这一配置本身的调查却很少。[2] 把两者合在一起：投入越来越多、单位投入越来越难产生同等「指数式」进展，这已有系统证据；但如何改革资助、团队规模与评价制度，则仍是开放的政策与元科学问题。
+    definitions:
+    - term: 研究生产率（文中用法）
+      text: Bloom 等人把长期增长写成研究生产率与研究者人数的乘积。研究生产率下降，是指为维持既定的指数进展（例如芯片密度翻番、作物单产增长），所需的有效研究投入不断增加。[1]
+    milestones:
+    - 2020 年 4 月，Bloom、Jones、Van Reenen 与 Webb 在 American Economic Review 第 110 卷第 4 期第 1104–1144 页发表 Are Ideas Getting Harder to Find?。[1]
     views:
-    - position: 想法正变得更难找到，研究生产率在下降
-      holders: Nicholas Bloom、Charles Jones、John Van Reenen、Michael Webb
-      argument: 他们考察半导体、农业、医学和整体经济后发现：维持同样增速所需的研究投入在上升。换言之，不是完全停步，而是必须跑得更用力才能留在原地。这对长期经济增长意味着，仅靠扩大科研规模可能不够。
-      sources:
-      - title: Bloom, Jones, Van Reenen & Webb, Are Ideas Getting Harder to Find?（AER）
-        url: https://www.aeaweb.org/articles?id=10.1257/aer.20180338
-      - title: 作者提供的 PDF 版本
-        url: https://www-leland.stanford.edu/~chadj/IdeaPF.pdf
-    - position: 需要一门「进步的科学」来改进科学体制本身
-      holders: Patrick Collison 与 Michael Nielsen；以及 Collison 与 Tyler Cowen 对进步研究的倡导
-      argument: 如果效率下降部分来自资助方式、职业激励、发表文化和风险管理，那么改变制度就可能改变曲线。他们主张像研究自然现象一样研究「怎样组织研究更有效」，而不是假定现行大学与资助体系已经最优。
-      sources:
-      - title: Collison & Nielsen, Science Is Getting Less Bang for Its Buck（The Atlantic，Internet Archive
-          存档）
-        url: https://web.archive.org/web/20201109000000/https://www.theatlantic.com/science/archive/2018/11/diminishing-returns-science/575665/
-      - title: Patrick Collison, Questions
-        url: https://patrickcollison.com/questions
-    open_parts: 「重要发现」很难客观计量，用论文、专利或专家评选都会有偏差；表面的产出下降也可能来自测量问题或低垂果实已经摘完。制度实验（不同资助模式、团队规模、失败容忍度）的因果证据仍然很少。
+    - position: 在多个领域，维持既定指数进展所需的研究投入正在大幅上升，想法变得更难找
+      consensus_role: 该问题上目前最直接的系统经验研究之一
+      evidence:
+        label: 跨行业、产品与企业的核算与案例研究，不是对「科学重要性」的唯一客观尺度
+        note: 作者把思想生产函数上的 Solow 式分解应用到摩尔定律、农作物与医学等。数字（如「18 倍以上」「半导体研究生产率约每年下降 7%」）来自他们的核算，依赖于如何计算「有效研究者」与「进展」。这是有透明度的经验主张，但仍受测量选择影响；它也不直接等于「科学家变懒了」或「科学已经结束」。[1]
+      holders:
+      - name: Nicholas Bloom
+        identity: 斯坦福大学经济系与 NBER。[1]
+      - name: Charles I. Jones
+        identity: 斯坦福大学商学院与 NBER。[1]
+      - name: John Van Reenen
+        identity: MIT 经济系、LSE 与 NBER。[1]
+      - name: Michael Webb
+        identity: 斯坦福大学经济系。[1]
+      argument: 文章开篇就把观点说清楚：许多增长模型中，长期增长是有效研究者人数与其研究生产率的乘积；作者展示，研究努力大幅上升，研究生产率急剧下降。摩尔定律是「最好的例子」之一：著名的芯片密度翻番，今天所需研究者人数是 1970 年代初的 18 倍以上。正文进一步写到，至少就半导体而言，想法正变得更难找，这一情形下的研究生产率约以每年 7% 的速度急剧下降；农作物种子产量的研究生产率约以每年 5% 下降，医学创新中也有类似情况。他们的概括是：无论看向何处，想法以及它们所隐含的指数增长都正变得更难找。[1]
+      quotes:
+      - text: A good example is Moore’s Law. The number of researchers required today to achieve the famous doubling of computer chip density is more than 18 times larger than the number required in the early 1970s. More generally, everywhere we look we find that ideas, and the exponential growth they imply, are getting harder to find.
+        text_zh: 一个好例子是摩尔定律。为实现计算机芯片密度那一著名的翻番，今天所需的研究者人数，是 1970 年代初所需人数的 18 倍以上。更一般地说，无论我们看向何处，都发现想法，以及它们所隐含的指数增长，正变得越来越难找到。
+        attribution: Bloom, Jones, Van Reenen & Webb, 2020，摘要
+        locator: American Economic Review, 110(4), 第 1104 页
+        ref: 1
+      - text: At least as far as semiconductors are concerned, ideas are getting harder to find. Research productivity in this case is declining sharply, at a rate of 7 percent per year.
+        text_zh: 至少就半导体而言，想法正变得越来越难找到。在这一情形中，研究生产率正在急剧下降，速度为每年 7%。
+        attribution: Bloom, Jones, Van Reenen & Webb, 2020
+        locator: American Economic Review, 110(4), 第 1105 页附近（引言后续段落）
+        ref: 1
+    - position: 科学投入巨大，但对「如何测量与改进科学本身」的研究仍然不够
+      consensus_role: 提出议程的问题，不是一篇新的计量论文
+      evidence:
+        label: 公开的问题陈述；所提到的《大西洋月刊》文章本轮未打开全文
+        note: Collison 的问题页可以核对提问本身，以及「NIH 每年约 370 亿美元」这一他给出的例子。他写「Michael Nielsen and I subsequently wrote an article on this topic for the Atlantic」，这只能证明他们写过该文，不能代替对该文论证的核对。scientificreturns.org 书单本轮亦未作为引语来源打开。[2]
+      holders:
+      - name: Patrick Collison
+        identity: 在 Questions 页面提出「How can we better understand the dynamics of progress in science?」，并说明随后与 Michael Nielsen 为《大西洋月刊》撰写过相关文章。[2]
+      argument: Collison 的提问是：我们在科学上投入了巨大的时间与金钱；科学的累积进展，大概比任何其他事情都更能决定集体未来的形状。为了确保花得足够——并且花在正确的事情、以正确的方式（也许应该有更多独立研究所，或更多对有潜力的早期职业科学家的资助，等等）——应该如何思考对结果的测量？他注意到这个问题似乎没有被更深入地分析，并以 NIH 每年约 370 亿美元为例：几乎没有关于 NIH 的书，对配置有效性的调查也很少，尽管存在着一些表面上令人惊讶的趋势。[2] 这一议程与 Bloom 等人的发现是咬合的：如果单位研究投入的产出正在下降，那么「如何组织与评价科学」就不再只是内部管理问题，而成为理解增长本身的一部分。但它仍然是问题，而不是已经完成的制度改革方案。
+      quotes:
+      - text: How can we better understand the dynamics of progress in science? We invest an enormous amount of time and money in science. Cumulative progress in science will probably do more than anything else to determine the shape of our collective future.
+        text_zh: 我们如何才能更好地理解科学进步的动力学？我们在科学上投入了巨大的时间与金钱。科学的累积进展，大概比任何其他事情都更能决定我们集体未来的形状。
+        attribution: Patrick Collison, Questions
+        locator: patrickcollison.com/questions，关于科学进步动力学的条目（2026-11-10 查阅）
+        ref: 2
+    open_parts: 第一，「重要发现」很难客观计量，用论文、专利、芯片密度或专家评选都会有偏差；表面的单位产出下降也可能部分来自测量或低垂果实已经摘完。[1] 第二，不同资助模式、团队规模与失败容忍度的因果证据仍然很少。[2] 第三，Collison 与 Nielsen 的《大西洋月刊》文章本轮未能打开，不引用其未核对的句子或图表。
+    references:
+    - id: 1
+      citation: Bloom, N., Jones, C. I., Van Reenen, J., & Webb, M. Are Ideas Getting Harder to Find? American Economic Review, 2020, 110(4), 1104–1144. doi:10.1257/aer.20180338。引语核自已打开的期刊版 PDF。
+      url: https://jenni.uchicago.edu/econ341/readings/Bloom_Jones_VanReenen_etal_2020_AER_v110_n4.pdf
+    - id: 2
+      citation: Collison, P. Questions. 条目「How can we better understand the dynamics of progress in science?」。查阅日期 2026-11-10。
+      url: https://patrickcollison.com/questions
 - id: 2026-11-08-phil-dreaming
   date: '2026-11-08'
   category: philosophy
@@ -450,23 +1229,74 @@
   - 认识论
   - 怀疑论
   answer:
-    summary: 笛卡尔在《第一哲学沉思》中用梦论证挑战感觉信念：既然梦中的经验可以与清醒时一样生动，我如何保证此刻不是在做梦？一种回应是寻找梦与清醒的内在标记（连贯性、可检验性）；另一种是承认彻底怀疑无法被「从内部」完全驳倒，但认为它不威胁日常知识。此问题在东亚思想中也有庄子梦蝶的表述。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 无逻辑上的彻底保证，问题仍开放
+      note: 笛卡尔在第一沉思中提出：清醒与睡眠之间没有任何决定性的判别标记；这一表述仍是当代讨论梦怀疑论的标准出发点。[1][2] 他在第六沉思中改称二者有「巨大差异」，并诉诸记忆是否与生活其余行动相衔接，以及「上帝不是欺骗者」。[1] 这一后期方案是否真正驳倒梦怀疑，在哲学上没有共识。睡眠科学（包括清醒梦）表明「在梦中知道自己在做梦」在经验上可能发生，但并不能从第一人称内部提供笛卡尔所要求的那种确定性。[2]
+    summary: 「我如何知道自己不是在做梦」是认识论中最著名的怀疑论证之一。笛卡尔在《第一哲学沉思》第一沉思里写道：夜间睡眠常常使他确信自己正穿着长袍坐在炉火边，而实际上他赤身躺在被窝里；当他更仔细地思考时，他「如此清楚地看到，清醒永远无法凭任何决定性的标记与睡眠区分开来」，以至于几乎要相信自己此刻仍在睡着。[1] 因此，仅靠当前经验的生动性或「我现在可以活动手脚」，并不能逻辑上保证此刻不是梦。笛卡尔后来在第六沉思提出一种区分：梦从不像清醒经验那样，由记忆与生活中其余行动结合在一起；再辅以「上帝不是欺骗者」，他宣称不应再丝毫怀疑在充分检查后感官、记忆与理智并不互相冲突的那些知觉。[1] 当代百科讨论把这一表述视为梦怀疑论最著名的版本，并指出更早的传统中已有梦论证；至于第六沉思的答复是否成功，仍是持续争论的对象。[2] 清醒梦等经验现象说明「知道自己在做梦」可以在睡眠中出现，但它们回答的是心理学问题，而不是「是否存在从内部彻底排除怀疑的标记」这一哲学问题。[2]
+    definitions:
+    - term: 梦怀疑 / 梦论证
+      text: 以「梦中经验可以与清醒时同样逼真」为前提，质疑仅凭当前感官经验能否保证自己此刻清醒。笛卡尔将其作为《沉思》中两个主要怀疑步骤的第一个（第二个是恶灵怀疑）。[1][2]
+    - term: 决定性标记（conclusive indications）
+      text: 笛卡尔在第一沉思中的用语：他要找的是能把清醒与睡眠区分开来的决定性标记，并断言找不到。[1]
+    milestones:
+    - 1641 年，《第一哲学沉思》（Meditationes de prima philosophia）出版；梦论证出现在第一沉思，初步答复在第六沉思。[1]
+    - 当代标准讨论见于《斯坦福哲学百科》「Dreams and Dreaming」（Jennifer M. Windt 撰；词条首次发表于 2015 年 4 月 9 日）。[2]
     views:
-    - position: 梦论证表明纯感觉经验不足以奠定确定性
-      holders: 勒内·笛卡尔（沉思录第一、六沉思）
-      argument: 笛卡尔指出，过去他曾在梦中确信自己坐在炉火旁，因此单凭当下经验的生动性，不能排除自己在做梦。数学等似乎更稳固的真理，他在后文用其他怀疑（如邪恶精灵）继续逼问；就「是不是在做梦」而言，关键是：没有一个仅依赖当前感觉的判决程序。
-      sources:
-      - title: Stanford Encyclopedia of Philosophy：Descartes’ Epistemology
-        url: https://plato.stanford.edu/entries/descartes-epistemology/
-      - title: Stanford Encyclopedia of Philosophy：Dreams and Dreaming
-        url: https://plato.stanford.edu/entries/dreams-dreaming/
-    - position: 可用连贯性与可公共检验来区分，尽管不是逻辑保证
-      holders: 笛卡尔本人在第六沉思提出以记忆连贯等作为标记；当代讨论在 SEP《Dreams and Dreaming》中有综述
-      argument: 清醒生活的经验可以彼此衔接、接受他人核对和反复实验，而梦往往断裂、难以稳定复验。这类标准在实践中很强，但怀疑论者会说：你也可能只是梦见了「连贯和复验」。因此它更像合理的区分，而不是一劳永逸的证明。
-      sources:
-      - title: SEP：Dreams and Dreaming（含笛卡尔的连贯性标准及批评）
-        url: https://plato.stanford.edu/entries/dreams-dreaming/
-    open_parts: 彻底的怀疑（「也许一切证据都还在梦中」）无法用再多的经验完全关闭。当代睡眠科学可以描述清醒与 REM 睡眠的差异，但无法从第一人称内部给出逻辑保证。我们究竟需要何种「知道」，仍取决于所采用的知识论标准。
+    - position: 仅凭当前经验的生动性，找不到把清醒与睡眠区分开来的决定性标记
+      consensus_role: 笛卡尔第一沉思的经典表述，仍是问题的标准出发点
+      evidence:
+        label: 一手哲学文本中的思想论证，不是经验检验
+        note: 引语核自 Michael Moriarty 的牛津世界经典英译本（2008）。页码为该译本页码，并对照页边 AT 编号（第一沉思此处对应 AT 7:19）。思想论证可以被反驳或限制，但不能用一次实验「判决」。[1]
+      holders:
+      - name: René Descartes
+        identity: 1596–1650。此处依据其 1641 年《第一哲学沉思》第一沉思的英译文本。[1]
+      argument: 笛卡尔先排除「我把手和身体当成自己的」这类信念可以轻易地与疯癫类比而被打发；他转而指出，人夜间睡眠时也会有与疯人清醒时相同、甚至更奇怪的经验。他回忆自己多么频繁地在梦中确信那些熟悉的事情——自己在这里，裹着长袍，坐在炉火边——而实际上正赤身躺在被窝里。他尝试用「我现在眼睛醒着看这张纸、头没有打瞌睡、手是有意识地伸出去的」来自我保证，随即又问：难道忘了在别的梦里也曾被类似想法欺骗吗？仔细想来，清醒与睡眠之间没有任何决定性的标记。[1] Windt 把这段表述称为梦怀疑论最著名的表述，并强调笛卡尔认为，即使在看似最好的感官知觉情形中，我们仍可能被骗。[2]
+      quotes:
+      - text: How often my sleep at night has convinced me of all these familiar things—that I was here, wrapped in my gown, sitting by the fire—when in fact I was lying naked under the bedclothes.—All the same, I am now perceiving this paper with eyes that are certainly awake; the head I am nodding is not drowsy; I stretch out my hand and feel it knowingly and deliberately; a sleeper would not have these experiences so distinctly.—But have I then forgotten those other occasions on which I have been deceived by similar thoughts in my dreams? When I think this over more carefully I see so clearly that waking can never be distinguished from sleep by any conclusive indications that I am stupefied; and this very stupor comes close to persuading me that I am asleep after all.
+        text_zh: 我夜间的睡眠多么频繁地使我确信所有这些熟悉的事情——我在这里，裹着长袍，坐在炉火边——而实际上我正赤身躺在被窝里。——尽管如此，我现在当然是用醒着的眼睛看这张纸；我点着的头并不昏沉；我有意识、有意地伸出手并感觉到它；一个睡着的人不会如此清晰地有这些经验。——可我难道忘了，在别的场合，我也曾在梦中被类似的想法欺骗吗？当我更仔细地思考这一点，我如此清楚地看到，清醒永远无法凭任何决定性的标记与睡眠区分开来，以至于我感到惊愕；而这惊愕本身几乎要说服我：我终究还是在睡着。
+        attribution: Descartes，《第一哲学沉思》第一沉思，Moriarty 英译
+        locator: 牛津世界经典译本第 14 页；页边 AT 7:19
+        ref: 1
+    - position: 笛卡尔后来诉诸记忆连贯与「上帝不是欺骗者」，但这一答复是否成功仍有争论
+      consensus_role: 笛卡尔自己的后期方案，其充分性没有共识
+      evidence:
+        label: 同一著作第六沉思中的论证，接受度存在哲学争论
+        note: 引语仍核自 Moriarty 译本第六沉思结尾。方案依赖于记忆标准，并明确引入「上帝不是欺骗者」。未打开的二手专著（如 Frankfurt 等）中的反驳此处只作为「存在长期争论」的背景，不转述其未核对的具体句子。[1][2]
+      holders:
+      - name: René Descartes
+        identity: 在第六沉思结尾提出对梦怀疑的区分标准。[1]
+      argument: 到第六沉思，笛卡尔宣称，先前把睡眠与清醒区分不开的怀疑，现在看来是可笑的：他意识到二者有「巨大差异」，因为梦从不像清醒经验那样，由记忆与生活中其余行动结合在一起。若醒着时有人突然出现又立即消失——像在梦里那样——他就能发觉这是梦而不是真实。他接着说，在动员感官、记忆与理智共同检查且彼此并不冲突之后，他甚至不应丝毫怀疑这些事物的真实性；因为上帝不是欺骗者，由此必然推出他在这类情形中不受骗。但他也承认，行动的急迫并不总允许如此彻底的检查，所以人类生活在个别事物上仍常有错误。[1] 这一步是否真正提供了第一沉思所要求的「决定性标记」，本身就是后续认识论争论的核心，本文不把第六沉思写成已经「结案」。
+      quotes:
+      - text: Especially the ultimate doubts concerning sleeping, which I could not distinguish from waking; for now I realize that there is a massive difference between them, inasmuch as dreams are never combined by my memory with the rest of the actions of my life, as happens with my waking experiences.
+        text_zh: 尤其是那些关于睡眠的终极怀疑，我曾无法把睡眠与清醒区分开来；因为现在我意识到二者有巨大差异，乃在于梦从不会像我的清醒经验那样，由我的记忆与生活中其余行动结合在一起。
+        attribution: Descartes，《第一哲学沉思》第六沉思，Moriarty 英译
+        locator: 牛津世界经典译本第 63 页
+        ref: 1
+    - position: 当代讨论把笛卡尔的表述视为标准出发点；经验上的清醒梦并不能从内部彻底关闭怀疑
+      consensus_role: 权威哲学综述对问题现状的判断
+      evidence:
+        label: 百科综述，引用一手文献与睡眠研究，但不是对怀疑论的实验判决
+        note: Windt 的 SEP 词条系统梳理了笛卡尔表述、更早的梦怀疑传统以及清醒梦等经验研究。睡眠实验室证据可以支持「清醒梦是真实的睡眠现象」，却不能提供笛卡尔所要的那种无可怀疑的标记。[2]
+      holders:
+      - name: Jennifer M. Windt
+        identity: 《斯坦福哲学百科》词条「Dreams and Dreaming」作者；词条页面公布的联系邮箱使用 Monash 大学域名。词条首次发表于 2015 年 4 月 9 日；archinfo 记录最近修改于 2026 年 1 月 26 日。查阅日期 2026-11-10。[2]
+      argument: Windt 写道，梦怀疑传统上是由做梦提出的、讨论最广泛的哲学问题，其最著名的表述是笛卡尔在《沉思》中给出的那个版本；笛卡尔使用怀疑，是为了「彻底拆除一切，再从根基处重新开始」。与可以再看一眼就能纠正的日常错觉不同，梦暗示即使在看似最好的感官知觉情形中，我们仍可能受骗。[2] 词条同时讨论清醒梦：即人在梦中知道自己在做梦、并常常对梦有某种控制；Aristotle 已注意到有时可以在梦中意识到自己在做梦，实验室研究则被用来支持清醒梦是真实的睡眠现象。[2] 这些发现丰富了我们对梦的经验描述，但它们预设了实验室与报告的外部框架，并不能单靠自身从第一人称内部给出「此刻不是梦」的逻辑保证。因此，比较稳妥的结论不是「科学已经证明我不是在做梦」，而是：日常生活依赖连贯性、记忆与主体间核验等实践标准，而这些标准并不等同于笛卡尔在第一沉思里所要求的那种无可怀疑的标记。[1][2]
+      quotes:
+      - text: Dream skepticism has traditionally been the most widely discussed philosophical problem raised by dreaming […]. Its most famous formulation is the one presented by Descartes in the Meditations. There, skeptical doubts are employed “to demolish everything completely and start again right from the foundations” (AT 7:17, CSM 2:12) of certain, indubitable belief.
+        text_zh: 梦怀疑传统上一直是由做梦提出的、讨论最广泛的哲学问题[…]。其最著名的表述，是笛卡尔在《沉思》中给出的那个版本。在那里，怀疑被用来「彻底拆除一切，再从根基处重新开始」，以寻求确定、无可怀疑的信念。
+        attribution: Jennifer M. Windt，SEP「Dreams and Dreaming」§1.1
+        locator: 第 1.1 节「Cartesian dream skepticism」（2026-11-10 查阅的现行页面）
+        ref: 2
+    open_parts: 第一，第六沉思以记忆连贯和上帝非欺骗者为梦怀疑给出的答复，是否循环、是否过强或过弱，仍是笛卡尔研究中的开放争论，本文未打开该争论中的主要专书，故不转述其未核对的句子。[1][2] 第二，睡眠科学可以描述梦、清醒梦与醒的差异，但不能单独关闭第一人称怀疑。第三，其他文化中亦有相近的梦与醒之辨（例如中国思想史上的相关论述），但因本次未能打开可核对的可靠译文，本文不引用其原文。
+    references:
+    - id: 1
+      citation: 'Descartes, R. Meditations on First Philosophy, with Selections from the Objections and Replies. Translated with an Introduction and Notes by Michael Moriarty. Oxford: Oxford University Press, Oxford World’s Classics, 2008. 引语核自该英译本第一沉思第 14 页（页边 AT 7:19）与第六沉思第 63 页。因所打开的教学用 PDF 并非出版社官方开放文本，此处仅作书目引用，不提供该 PDF 链接。'
+      url: null
+    - id: 2
+      citation: Windt, J. M. Dreams and Dreaming. The Stanford Encyclopedia of Philosophy. 首次发表 2015-04-09。查阅日期 2026-11-10。按本站体例引用已打开的现行词条 URL。
+      url: https://plato.stanford.edu/entries/dreams-dreaming/
 - id: 2026-11-08-phil-edge-believe
   date: '2026-11-08'
   category: philosophy
@@ -482,29 +1312,57 @@
   - 证据
   - Edge
   answer:
-    summary: Edge.org 2005 年的年度问题并不是要一个统一答案，而是邀请科学家与思想家公开自己「相信为真却无法证明」的命题。回应大致落在几类：对他人心灵的信念、对尚未证实的宇宙或数学命题的赌注，以及对死后意识是否存在等原则性立场。它揭示的是科学实践也依赖尚未被证明的判断，而不是某条具体定理。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：这是受邀征文，不是学界对「应当相信什么」的共识
+      note: Edge.org 2005 年的年度问题是：「有什么是你相信为真、却无法证明的？」官方说明借用 Diderot 的「预感真理的精神」，并报告共有 120 篇回应。主持者把这批文字概括为关于确定性、证明与「搜索文化」的评论，而不是一份应当相信的清单。[1] 个别回应（例如 Daniel Gilbert 关于他人意识）可以说明科学家也公开承认某些信念超出证明，但不能代表「科学界共同相信」。认识论文献可以把「信念与知识/证明并不等同」作为概念背景，却不能把征文答案写成定理。[2]
+    summary: 本题的来源不是一篇研究论文，而是 Edge 2005 年向科学家与「第三文化」写作者发出的邀请：伟大的头脑有时能在尚无证据或论证之前猜到真相，那么，你相信什么是真的，即使你无法证明它？官方页面写明，当年问题产生了 120 篇、约 6 万词的回应，关注点集中在意识、认识、真理与证明的观念上；若必须概括，主持者认为这是一份关于「我们如何对待确定性」的评论。[1] 在已打开的回应汇编中，哈佛大学心理学教授 Daniel Gilbert 提供了一个典型样本：他相信与他相识的每个人都有与他相似的内在生活，却承认经过两千年的讨论，没有人设计出意识存在的决定性检验——「我对人人都有内在生活没有丝毫怀疑。我相信为真却无法证明的是什么？答案是：你！」[3] 这能说明该问题击中了科学实践里真实存在的张力，但不能推出一份共同的未证清单。哲学上，信念本来就不必等同于可证明的知识；把征文里的命题当成「已被专业共同体接受的结论」，会混淆两种完全不同的认识地位。[1][2][3]
+    definitions:
+    - term: Edge 年度问题（本题）
+      text: 2005 年的问题原文是 “What do you believe is true even though you cannot prove it?” 官方说明提到 Diderot 所谓 esprit de divination，并强调伟大的头脑有时能在尚无证据或论证前猜到真相。[1]
     views:
-    - position: 我们无法证明他人有内在体验，但几乎不得不相信
-      holders: 心理学家 Daniel Gilbert 在 2005 年 Edge 回应中的立场
-      argument: Gilbert 写道，即便将来能造出举止完全像人的人工系统，我们也没有判定其是否有主观体验的最终测试；对身边的人，我们同样是在「无法证明」的情况下相信他们有内心生活。他的答案是：我所相信却无法证明的，就是「你」。
-      sources:
-      - title: Edge 2005 回应汇编（含 Gilbert 原文）
-        url: https://www.edge.org/responses/what-do-you-believe-is-true-even-though-you-cannot-prove-it
-      - title: Edge 2005 年度问题页
-        url: https://www.edge.org/annual-question/what-do-you-believe-is-true-even-though-you-cannot-prove-it
-    - position: 有些信念原则上可检验，只是今天还没有证据
-      holders: BBC 对 Edge 2005 的报道中提到：多位回应者把「地球之外存在生命」当作此类信念；Richard Dawkins 在同一节目中提醒，直觉之后仍应寻求证据
-      argument: 这类命题与「原则上不可证」不同：它们可能在未来被观测裁决。把它们说成信念，是承认证据不足，而不是主张永远不必论证。
-      sources:
-      - title: Edge 转载的 BBC Radio 4 讨论（含地外生命与 Dawkins 的评论）
-        url: https://www.edge.org/news/fantastically-stimulatingonce-you-start-you-cant-stop-thinking-about-that-question-%E2%80%94-0
-    - position: 也有人把「死后意识不复存在」当作无法向自己证明、却划分世界观的判断
-      holders: 小说家 Ian McEwan 提交给 Edge 的回应（经 BBC 引用）
-      argument: McEwan 说，他相信自己的意识不会在死亡后继续存在（除了在他人记忆与文字中淡淡残留），并认为这一划分对思想与社会后果重大。这不是实验室命题，而是对人格与死亡的哲学判断。
-      sources:
-      - title: BBC 节目中引用的 Ian McEwan 回应（Edge 存档）
-        url: https://www.edge.org/news/fantastically-stimulatingonce-you-start-you-cant-stop-thinking-about-that-question-%E2%80%94-0
-    open_parts: 这道年度问题没有标准答案，也没有一份「应当相信什么」的清单。哪些未证命题属于科学启发式，哪些属于个人形而上学，界线本身就有争议。120 篇回应只能当作样本，不能代表全部科学家。
+    - position: 这是对「信念可以先于证明」的公开采样，不是一份科学共识清单
+      consensus_role: 征文的自我定位
+      evidence:
+        label: 受邀、自我选择的书面回应，没有抽样框架或证明程序
+        note: 120 篇稿件是被邀请的「第三文化」作者的答案，不能外推为全体科学家或哲学家的分布。主持者的导言是策展说明，不是元分析。[1]
+      holders:
+      - name: Edge.org / John Brockman
+        identity: Edge 年度问题的组织者。2005 年问题页含官方提问、导言，并写明 120 篇回应。[1]
+      argument: 官方文本先给出问题，再说明这 120 篇回应构成一份约 6 万词的文献，关注意识、认识、真理与证明。导言写道，我们处在「搜索文化」的时代，搜索引擎带来大量正确答案，也带来一种天真的确定感；将来我们也许能回答问题，却未必足够聪明去提出问题。它把这批征文视为另一条路径：也许不必处处确定，而可以有预感，并据此感知。这些话刻画的是提问的精神，而不是任何一条具体的未证命题已经被证实或被专业共同体接受。[1]
+      quotes:
+      - text: Great minds can sometimes guess the truth before they have either the evidence or arguments for it (Diderot called it having the “esprit de divination”). What do you believe is true even though you cannot prove it?
+        text_zh: 伟大的头脑有时能在尚无证据或论证之前就猜到真相（狄德罗称之为具有「预感真理的精神」）。有什么是你相信为真、却无法证明的？
+        attribution: Edge 2005 年度问题官方说明
+        locator: edge.org 2005 年度问题页（2026-11-10 查阅）
+        ref: 1
+    - position: 一个被清楚写出的样本：我们几乎不得不相信他人有内在经验，却没有决定性检验
+      consensus_role: 征文中的一例，不是心理学界的正式结论
+      evidence:
+        label: 一篇具名随笔，作者身份可在页面上核对
+        note: Gilbert 在汇编页上的身份为哈佛大学心理学教授。这是对他人心灵问题的个人陈述，不是新的实验报告。[3]
+      holders:
+      - name: Daniel Gilbert
+        identity: 回应页标明：哈佛大学心理学教授（Professor of Psychology at Harvard University / Psychologist, Harvard University）。[3]
+      argument: Gilbert 设想未来可以造出在行为上完全像人的人工系统，它们会宣称自己有意识并要求公民权利，但我们仍无法知道这是否只是巧妙的把戏。我们出于必须而相信彼此有意识，可是「经过两千年对这个问题的担忧，从来没有人设计出其存在的决定性检验」。即使有一天理解了神经元复杂相互作用的性质，也仍可能无法证明它产生了所讨论的现象。尽管如此，他「对所认识的每个人都有内在生活、主观经验和与我十分相似的自我感，没有丝毫怀疑」。他的答案是：你。[3] 这正说明本题所询问的那种信念：它在实践中几乎不可缺少，却并不因此获得证明。
+      quotes:
+      - text: 'We take each other’s consciousness on faith because we must, but after two thousand years of worrying about this issue, no one has ever devised a definitive test of its existence. […] And yet, I haven’t the slightest doubt that everyone I know has an inner life, a subjective experience, a sense of self, that is very much like mine. What do I believe is true but cannot prove? The answer is: You!'
+        text_zh: 我们出于必须而凭信心接受彼此的意识，但在两千年对这个问题的担忧之后，从来没有人设计出其存在的决定性检验。[…] 尽管如此，我对所认识的每个人都有内在生活、主观经验、以及与我十分相似的自我感，没有丝毫怀疑。我相信为真却无法证明的是什么？答案是：你！
+        attribution: Daniel Gilbert，Edge 2005 回应
+        locator: Edge 2005 回应汇编中 Gilbert 条目（2026-11-10 查阅）
+        ref: 3
+    open_parts: 哪些未证命题属于科学启发式，哪些属于个人形而上学，界线本身就有争议。120 篇回应不能代表全部科学界。认识论文献中「知识」与「信念」的分析（如 SEP 相关词条）只能提供概念背景，不能把任何一篇征文提升为定理。[1][2][3]
+    references:
+    - id: 1
+      citation: 'Edge.org. The Edge Annual Question — 2005: What do you believe is true even though you cannot prove it? 官方问题页。查阅日期 2026-11-10。'
+      url: https://www.edge.org/annual-question/what-do-you-believe-is-true-even-though-you-cannot-prove-it
+    - id: 2
+      citation: Schwitzgebel, E. Belief. The Stanford Encyclopedia of Philosophy. 首次发表 2006-08-14；查阅的现行页面据 archinfo 最近修改于 2024-01-09。查阅日期 2026-11-10。此处仅作概念背景，不把词条写成对本征文的经验结论。
+      url: https://plato.stanford.edu/entries/belief/
+    - id: 3
+      citation: Gilbert, D. 对 Edge 2005 年度问题的回应。见 Edge 回应汇编页。查阅日期 2026-11-10。
+      url: https://www.edge.org/responses/what-do-you-believe-is-true-even-though-you-cannot-prove-it
 - id: 2026-11-08-psych-critical
   date: '2026-11-08'
   category: psychology
@@ -519,23 +1377,60 @@
   - 教育
   - 批判性思维
   answer:
-    summary: 批判性思维可以被教学改善，但很难当成一种脱离知识、可随意迁移到任何领域的「通用技能」。Daniel Willingham 的影响广泛的综述指出：评估证据、考虑替代解释等思维过程，严重依赖该领域的背景知识；只教抽象策略，往往在新情境中失效。更可行的做法，是在具体学科里反复示范并练习这些策略。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 可在学科语境中改善，但不是随时可迁移的通用技能包
+      note: Willingham 的综述给出目前教育认知科学中较清楚的判断：批判性思维不是一套可在任何时刻、任何语境下部署的技能；它高度依赖领域知识与练习，甚至学龄前儿童有时能做，受过训练的科学家有时也会失败。[1] 专门的、脱离学科内容的思维训练项目，在新颖情境中奏效的证据非常有限。[1] 因此「能不能教」的诚实答案是：能教，但应嵌在具体学科里示范并练习，而不是当作可单独灌输的通用模块。需要说明的是，教育领域常被引用的 Abrami 等人元分析（2008、2015）本次未能打开原文，故不采用其效应量数字。
+    summary: 若把批判性思维理解成「看到问题的两面、对反证开放、要求主张有证据、从事实推出结论」等，几乎没有人会反对把它当作学校教育的目标。[1] 困难在于：这些过程与所思考的内容缠绕在一起。Willingham 指出，思维过程与思维内容（即领域知识）交织；只反复提醒学生「要从多角度看问题」，若他对该问题所知甚少，仍然无法真正实施。[1] 他的核心判断是：「批判性思维不是一套可在任何时刻、任何语境下部署的技能。」它甚至是三岁儿童有时也能参与、受过训练的科学家有时也会失败的一种思考，并且非常依赖于领域知识与练习。[1] 迁移并非不可能，但当人对一类问题的深层结构足够熟悉时才比较可靠；反过来，脱离事实内容去教批判性思维，与只教事实却不给学生练习机会同样说不通。[1] 在教学建议上，他认为特别的思维训练项目通常不值得把课时让出去；批判性思维应在学科内容的语境中被示范和练习，并且要对策略加以明确教学与反复实践。[1]
+    definitions:
+    - term: 批判性思维（Willingham 的通识用法）
+      text: 他写到，按通俗说法，批判性思维包括：看到问题的两面、对否定自己想法的新证据保持开放、冷静推理、要求主张有证据、从已有事实演绎或推断结论、解决问题等；不同学科还有各自特有的批判性思维，也就是「像科学家那样思考」或「像历史学家那样思考」。[1]
+    - term: 领域知识（domain knowledge）
+      text: 与思维过程交织在一起的内容知识。缺少它，元认知口诀往往无法被执行。[1]
+    milestones:
+    - '2007 年夏季，Daniel T. Willingham 在 American Educator 发表《Critical Thinking: Why Is It So Hard to Teach?》，成为此后常见的认知科学转述文本。[1]'
     views:
-    - position: 批判性思维很难作为通用技能被直接教会并自动迁移
-      holders: Daniel T. Willingham（2007）
-      argument: 要判断一则论证好不好，必须先知道相关事实与该领域中什么算证据。学生在一种课堂上学会的「批判」步骤，并不会自动迁移到另一门课。因此，把批判性思维理解成可以单独训练的肌肉，会低估知识的作用。
-      sources:
-      - title: 'Willingham, Critical Thinking: Why Is It So Hard to Teach?（American Educator, 2007）'
-        url: https://www.aft.org/ae/summer2007/willingham
-      - title: 同一文章的 PDF 版本
-        url: https://www.aft.org/sites/default/files/media/2014/Crit_Thinking.pdf
-    - position: 可以教，但必须嵌在学科内容与大量练习里
-      holders: Willingham 本人给出的建设性结论；教育心理学中强调「在领域内练习」的传统
-      argument: 这并不意味着放弃教学。教师可以在历史、科学或数学中明确示范如何权衡证据、如何考虑反例，并提供多次练习。目标应是让学生在特定领域变得更善于思考，而不是指望一次「思维课」改变所有判断。
-      sources:
-      - title: Willingham, 2007（见上，文中同时给出教学建议）
-        url: https://www.aft.org/ae/summer2007/willingham
-    open_parts: 何种课程能产生可测量、可迁移的长期效果，实验结果并不稳定。标准化测验是否测到了真正的批判性思维，也有争议。动机、认知风格与课堂之外的信息环境，如何调节教学效果，仍待研究。
+    - position: 批判性思维不是可随时、随境部署的技能清单，它依赖领域知识与练习
+      consensus_role: 教育认知科学中影响广泛的判断
+      evidence:
+        label: 面向教师的认知科学综述，不是一篇新的随机试验
+        note: 文章系统转述实验与课堂例证，用来解释迁移为何困难。它本身不是对「某种课程是否有效」的新的大规模试验，也不提供可代替元分析的总效应量。[1]
+      holders:
+      - name: Daniel T. Willingham
+        identity: '文中作者简介：弗吉尼亚大学认知心理学教授，著有 Cognition: The Thinking Animal，并为 American Educator 定期撰写「Ask the Cognitive Scientist」专栏。[1]'
+      argument: Willingham 观察到，严格思维往往黏着于特定例子或问题类型：学生可能在数学课上学会先估计再计算，到了化学实验室却算成分时算到总和超过 100% 仍不察觉；学会从英、美两边讨论美国革命的学生，却想不起去追问德国人如何看待第二次世界大战。简短的答案是：思维过程与所思考的内容缠绕在一起。因此，批判性思维「非常依赖于领域知识与练习」。只让学生记住关于「应当如何思考」的格言，若没有背景知识与练习，他们多半无法执行这些忠告。[1]
+      quotes:
+      - text: Critical thinking is not a set of skills that can be deployed at any time, in any context. It is a type of thought that even 3-year-olds can engage in—and even trained scientists can fail in.
+        text_zh: 批判性思维不是一套可在任何时刻、任何语境下部署的技能。它是一种甚至三岁儿童也能参与——而受过训练的科学家也会失败——的思考。
+        attribution: Daniel T. Willingham
+        locator: American Educator, Summer 2007, 第 10 页（文中强调语）
+        ref: 1
+    - position: 应当在学科内容中示范并练习，而不是依靠脱离内容的专项思维课程
+      consensus_role: 由上述判断推出的教学含义
+      evidence:
+        label: 同一篇综述中的实践建议，对专项课程的判断被作者称为证据非常有限
+        note: Willingham 明确写道：尽管这类项目广泛可得，它们在教会学生批判性思维——尤其是在新颖情境中——上取得成功的证据非常有限。本文采纳的是他本人的这一限定，而不是另行统计项目效果。[1]
+      holders:
+      - name: Daniel T. Willingham
+        identity: 同上，见该文末「Teaching Critical Thinking」一节。[1]
+      argument: 在「如何教」一节，Willingham 给出若干与研究相符的策略。第一，专项思维课程通常不值得：它们或许只有温和的提升，还须计入机会成本——学生在项目上花的每个小时，都不能用来学习别的东西。第二，批判性思维不只属于「优等生」。几乎人人都有能力并经常在使用它，困难在于识别何时使用、以及是否知道得足够多从而能成功使用。第三，这并不意味着教师不该教学生批判性思考，而是意味着「批判性思维不应当被单独地教」：人们不会自发检查自己思维背后的假设、尝试考虑问题的所有方面、质疑自己所知；这些必须被示范，学生必须有练习机会——最好是在正常课堂活动的语境中。例如，像历史学家那样思考的重要部分是追问文献出处，但若脱离学科知识只教「要问是谁写的」，收益有限：知道一封信是邦联列兵在维克斯堡战役后写给新奥尔良的妻子，若学生不了解内战史，仍然无法解释这封信。[1]
+      quotes:
+      - text: The foregoing does not mean that teachers shouldn’t teach students to think critically—it means that critical thinking shouldn’t be taught on its own. People do not spontaneously examine assumptions that underlie their thinking, try to consider all sides of an issue, question what they know, etc. These things must be modeled for students, and students must be given opportunities to practice—preferably in the context of normal classroom activity.
+        text_zh: 以上所述并不意味着教师不应当教学生批判性思考——它意味着批判性思维不应当被单独地教。人们不会自发地检查自己思维背后的假设、尝试考虑问题的所有方面、质疑自己所知，等等。这些必须向学生示范，并且必须给学生练习的机会——最好是在正常课堂活动的语境中。
+        attribution: Daniel T. Willingham
+        locator: American Educator, Summer 2007, 第 18 页
+        ref: 1
+      - text: Despite their widespread availability, the evidence that these programs succeed in teaching students to think critically, especially in novel situations, is very limited.
+        text_zh: 尽管这些项目可以广泛获得，它们在教会学生批判性思维——尤其是在新颖情境中——上取得成功的证据非常有限。
+        attribution: Daniel T. Willingham，谈专项思维训练项目
+        locator: American Educator, Summer 2007, 第 18 页
+        ref: 1
+    open_parts: 第一，在具体学科中，哪些教学安排能稳定提高可迁移的批判性思维，仍需要高质量试验来回答；常被引用的 Abrami 等人元分析（Review of Educational Research, 2008 与 2015）本次未能打开原文，其平均效应量与调节变量此处一概不采用。第二，标准化测验能否衡量这里所说的批判性思维，本身仍有争论。第三，「像科学家那样思考」是否只是普通推理在科学语境中的运用（Willingham 转述多数研究者的看法），还是一种实质上不同的能力，也还可以继续讨论。[1]
+    references:
+    - id: 1
+      citation: 'Willingham, D. T. Critical Thinking: Why Is It So Hard to Teach? American Educator, Summer 2007, pp. 8–19（页码据该 PDF 页脚；美国教师联合会后来提供的文本见下）。'
+      url: https://www.aft.org/sites/default/files/media/2014/Crit_Thinking.pdf
 - id: 2026-11-08-psych-maslow
   date: '2026-11-08'
   category: psychology
@@ -550,23 +1445,71 @@
   - 动机
   - 理论检验
   answer:
-    summary: 马斯洛需求层次是极流行的隐喻，但作为严格科学理论，证据并不支持「必须先完全满足低层、再出现高层」的固定阶梯。跨文化研究显示，基本需要的满足与幸福感相关，可这些需要不必按单一顺序出现。它更适合当作启发性分类，而不是已被证实的心理定律。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 严格阶梯论未获支持；需要满足与幸福感的关联得到部分支持
+      note: 1943 年原文提出人类需要按「优势层次」排列，同时已警告这不是「必须 100% 满足下层才会出现上层」的全或无阶梯。[1] Tay 与 Diener 2011 年对 123 个国家的分析发现：需要满足与主观幸福感普遍相关；人们往往先达到基本与安全需要，但各需要对幸福感的贡献相对独立——即使基本需要尚未完全满足，满足心理社会需要仍可提高幸福感。[2] 因此，证据支持「存在与幸福感相关的普遍需要」，不支持流行读法中那个僵硬的金字塔定律。须指出：1943 年论文本身并没有金字塔图。
+    summary: 马斯洛 1943 年在《心理学评论》提出：人类需要按优势层次排列，「一种需要的出现，通常建立在另一种更占优势的需要事先得到满足之上」。生理需要相对满足后出现安全需要；在此之后还有爱、尊重，以及他称为自我实现的需要——「一个人能够成为什么，他就必须成为什么」。[1] 但就在同一篇论文里，他提醒读者不要把「一种需要满足后另一种才会出现」理解成必须 100% 满足前一层：实际上，正常社会成员往往在所有基本需要上都部分满足、又部分不满足。[1] 近七十年后，Tay 与 Diener 利用盖洛普世界调查、覆盖 123 个国家，考察需要满足与生活评价、正向情感、负向情感的关系。他们发现需要满足在各世界区域都与主观幸福感相关；生活评价最与基本需要相关，正向情感最与社会与尊重需要相关。关键的是，特定需要的满足与幸福感的关联，在很大程度上独立于其他需要是否已被满足。[2] 讨论中他们写得更直白：正如马斯洛所假设的，人们往往先达到基本与安全需要；然而「满足各种需要对主观幸福感具有相对独立的效应。例如，一个人即使基本需要尚未完全满足，也可以通过满足心理社会需要而获得幸福感」。[2] 因此，把马斯洛理论当成「必须沿固定阶梯逐级解锁」的科学定律，并不被这些证据支持；把它当成关于多种人类需要的启发性分类，则与数据更为相容。
+    definitions:
+    - term: 优势层次（hierarchy of pre-potency）
+      text: 马斯洛的原初用语：需要按相对优势排列，一种需要的出现通常依赖于另一种更占优势的需要事先得到满足。原文没有使用后来教科书里常见的金字塔图。[1]
+    - term: 自我实现（self-actualization）
+      text: 即使上述需要都已满足，若个体没有做他适合做的事，往往仍会有新的不满足与不安。「一个音乐家必须做音乐，艺术家必须绘画，诗人必须写作，如果他要最终幸福的话。一个人能够成为什么，他就必须成为什么。」马斯洛说明此词由 Kurt Goldstein 首创，他在文中用法更具体、更窄。[1]
+    milestones:
+    - 1943 年，A. H. Maslow 在 Psychological Review 第 50 卷发表 A Theory of Human Motivation（第 370–396 页）。[1]
+    - 2011 年 6 月 20 日（在线首发），Louis Tay 与 Ed Diener 在 Journal of Personality and Social Psychology 发表 Needs and Subjective Well-Being Around the World（2011, 101(2), 354–365）。[2]
     views:
-    - position: 需要本身与幸福感有关，但严格层级缺乏支持
-      holders: Louis Tay 与 Ed Diener（2011）对全球样本的研究；通识综述见马斯洛层次的百科条目
-      argument: Tay 与 Diener 发现，食物、安全、社会关系、尊重与自主等需要的满足，普遍与主观幸福感相关；但人们可以在基本需要未充分满足时仍体验到意义与社会连接。这支持「人类有若干普遍需要」，而不支持「必须逐级解锁」。
-      sources:
-      - title: Tay & Diener, Needs and subjective well-being around the world（PubMed）
-        url: https://pubmed.ncbi.nlm.nih.gov/21688922/
-      - title: Wikipedia：Maslow's hierarchy of needs（含实证研究综述）
-        url: https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs
-    - position: 作为教学隐喻仍有用，但不应当成已证实的阶梯定律
-      holders: 心理学教材与批评者的常见折中立场（见上述词条对批评史的整理）
-      argument: 把动机分成若干类型，有助于初学者记住人不全是为了物质刺激而行动。可一旦把它写成不可颠倒的金字塔，并用于管理或教育决策，就越过了证据所能支持的范围。
-      sources:
-      - title: Wikipedia：Maslow's hierarchy of needs
-        url: https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs
-    open_parts: 需要应如何分类、是否存在跨文化稳定的结构、自我实现在测量上指什么，都没有统一方案。马斯洛原初文本与后来被简化的「五层金字塔」图也不完全相同，引用时需要区分。
+    - position: 原理论提出需要的优势层次，但作者自己已排除「全或无、必须 100% 满足」的读法
+      consensus_role: 理论的一手表述
+      evidence:
+        label: 1943 年理论论文，不是检验层次是否成立的系统实证
+        note: 原文包含观察与例证，但作者并未提供后来意义上的跨文化测量或对「严格顺序」的统计检验。后来的金字塔图也不出自这篇论文。[1]
+      holders:
+      - name: A. H. Maslow
+        identity: 1943 年 Psychological Review 论文《A Theory of Human Motivation》的作者。此处身份以该发表文本为准，不补充原文未写明的头衔。[1]
+      argument: 在导言的第 7 点，马斯洛把「人类需要按优势层次排列」列为任何完备动机理论都应包含的命题，并立刻补充：人是永远有所欲求的动物，而且没有任何需要可以当作孤立、离散的驱力来处理。[1] 随后他依次讨论生理、安全、爱、尊重与自我实现。在「相对满足的程度」一节，他担心此前的讨论会造成一种印象，仿佛五类需要彼此是逐步的、全或无的关系。他写到：我们曾使用「如果一种需要得到满足，另一种就会出现」这样的说法，但这可能造成错误印象，以为一种需要必须 100% 满足，下一种才会出现。更现实的描述是，随着优势层次上升，满足的百分比递减。[1] 任何后来把该理论画成必须逐级解锁的金字塔的读法，都已经比 1943 年文本更硬。
+      quotes:
+      - text: Human needs arrange themselves in hierarchies of pre-potency. That is to say, the appearance of one need usually rests on the prior satisfaction of another, more pre-potent need. Man is a perpetually wanting animal.
+        text_zh: 人类需要按优势层次排列。也就是说，一种需要的出现，通常建立在另一种更占优势的需要事先得到满足之上。人是永远有所欲求的动物。
+        attribution: A. H. Maslow, 1943
+        locator: Psychological Review, 50, 第 370 页（York 大学心理学经典文本转写）
+        ref: 1
+      - text: This statement might give the false impression that a need must be satisfied 100 per cent before the next need emerges. In actual fact, most members of our society who are normal, are partially satisfied in all their basic needs and partially unsatisfied in all their basic needs at the same time.
+        text_zh: 这一表述可能造成错误印象，以为一种需要必须 100% 满足，下一种需要才会出现。实际上，我们社会中大多数正常成员，在其所有基本需要上都是部分满足、同时又部分不满足的。
+        attribution: A. H. Maslow, 1943，论「相对满足的程度」
+        locator: Psychological Review, 50, 第 388–389 页
+        ref: 1
+    - position: 跨文化证据支持需要满足与幸福感相关，但不支持必须先完全满足低层需要
+      consensus_role: 目前最直接、样本最大的检验之一
+      evidence:
+        label: 123 个国家的截面调查，关联性强，因果方向不能单靠这些数据确定
+        note: 作者使用盖洛普世界调查。他们在局限一节写明：数据是截面的，不能确定因果方向，并怀疑许多关联是双向的；测量因跨国调查必须简短而可靠度有限。因此本文把结论表述为对关联模式的检验，而不是对「需要导致幸福」的最终因果证明。[2]
+      holders:
+      - name: Louis Tay
+        identity: 伊利诺伊大学厄巴纳—香槟分校心理学系（University of Illinois at Urbana-Champaign）。[2]
+      - name: Ed Diener
+        identity: 伊利诺伊大学厄巴纳—香槟分校心理学系，并任职于盖洛普组织（The Gallup Organization, Omaha, Nebraska）。[2]
+      argument: 在 123 个国家的样本中，需要满足与主观幸福感的关联在各世界区域中都稳定出现。生活评价最与基本需要的满足相关，正向情感最与社会与尊重需要相关，负向情感最与基本、尊重与自主需要相关。社会层面的需要满足，尤其对生活评价而言，还能在个体自身需要满足之外预测幸福感。[2] 对层次最关键的结果有两点。第一，特定需要的满足与幸福感的关联，在很大程度上独立于其他需要是否已被满足，在纳入家庭收入后这一趋势仍然存在。[2] 第二，作者在讨论中说：正如马斯洛所假设的，人们往往先达到基本与安全需要；但是满足各种需要对幸福感具有相对独立的效应——例如，一个人即使基本需要尚未完全满足，也可以通过满足心理社会需要而获得幸福感。[2] 这直接削弱了「必须沿固定阶梯、先完全满足低层」的流行读法，同时保留了「存在普遍需要、且基本需要的达成常更早出现」这一较温和的命题。
+      quotes:
+      - text: In addition, the associations of SWB with the fulfillment of specific needs were largely independent of whether other needs were fulfilled. These trends persisted when household income was taken into account.
+        text_zh: 此外，主观幸福感与特定需要之满足的关联，在很大程度上独立于其他需要是否已被满足。在把家庭收入考虑在内时，这些趋势仍然存在。
+        attribution: Tay & Diener, 2011，摘要
+        locator: Journal of Personality and Social Psychology, 101(2), 第 354 页
+        ref: 2
+      - text: Second, our analyses reveal that as hypothesized by Maslow (1954), people tend to achieve basic and safety needs before other needs. However, fulfilling the various needs has relatively independent effects on SWB. For example, a person can gain well-being by meeting psychosocial needs regardless of whether his or her basic needs are fully met.
+        text_zh: 第二，我们的分析表明，正如马斯洛（1954）所假设的，人们往往在其他需要之前先达到基本需要与安全需要。然而，满足各种需要对主观幸福感具有相对独立的效应。例如，一个人即使基本需要尚未完全满足，也可以通过满足心理社会需要而获得幸福感。
+        attribution: Tay & Diener, 2011，讨论部分
+        locator: Journal of Personality and Social Psychology, 101(2), 第 363 页
+        ref: 2
+    open_parts: 第一，Tay 与 Diener 的数据是截面调查，作者自己强调因果方向不能由此确定。[2] 第二，他们检验的是需要满足与主观幸福感的关系，以及需要达成的大致次序，而不是马斯洛关于自我实现者人格的全部主张。第三，早期组织心理学中对层次理论的综述（如常被提及的 Wahba 与 Bridwell, 1976）本次未能打开稳定全文，故不转述其具体统计结论。第四，教科书里的金字塔图并非 1943 年论文的组成部分，其后来如何定型，需要另外的文献史考证。
+    references:
+    - id: 1
+      citation: Maslow, A. H. A Theory of Human Motivation. Psychological Review, 1943, 50, 370–396. 引语与页码核自 York 大学 Christopher D. Green 主编的 Classics in the History of Psychology 转写（文内标有原刊页码，2000 年 8 月发布）。
+      url: https://psychclassics.yorku.ca/Maslow/motivation.htm
+    - id: 2
+      citation: Tay, L., & Diener, E. Needs and Subjective Well-Being Around the World. Journal of Personality and Social Psychology, 2011, 101(2), 354–365. doi:10.1037/a0023779。引语核自美国心理学会一度公开的出版社 PDF 的 Internet Archive 存档（2011-11-25 快照）。
+      url: https://web.archive.org/web/20111125004959/http://www.apa.org/pubs/journals/releases/psp-101-2-354.pdf
 - id: 2026-11-07-ai-paradox
   date: '2026-11-07'
   category: ai
@@ -582,25 +1525,69 @@
   - 鲁棒性
   - 自指
   answer:
-    summary: 在科幻里，一句自相矛盾的话就能让计算机起火；在真实的计算理论里，悖论和自指对应的是停机问题、不完备性这类「某些问题不能被一般性地判定」，而不是运行时被「逻辑杀死」。经典逻辑中，从矛盾可以推出任意结论（爆炸原理），因此一个允许任意爆炸的推理引擎会变得无用——但这是设计选择。当代机器学习系统尤其不会因为听到说谎者悖论而停机或损毁。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 计算理论部分清楚：悖论不会「物理地杀死」机器；科幻说法没有依据
+      note: 在可核对的形式理论中，自指与悖论对应的是不可判定性与不完备性，而不是运行中的物理损毁。Turing 1936 年证明：不存在一个一般过程，可判定任意给定编号是否为「令人满意的」（与其后来所称停机问题同类的限度）。[1] Gödel 第一不完备性定理说：在能开展一定算术的一致形式系统中，存在既不能被证明也不能被反证的语句。[2] 经典逻辑的爆炸原理则说，任意矛盾可推出任意结论；次协调逻辑正是为拒绝这种爆炸而设计的。[3] 这些结果约束的是「一般算法能保证完成什么」，并不支持「对一台运行中的计算机输入说谎者悖论就会使其停机或起火」。把对齐失败比喻成「被悖论伤害」，仍然是比喻。
+    summary: 科幻里常有一句自相矛盾的话让计算机冒烟；真实的计算理论给出的是完全不同的结论。Turing 在《论可计算数及其在判定问题上的应用》中构造了通用计算机器，并证明不存在一个一般过程，能在有限步内判定任意给定编号是否对应一台「无环」的、可完成计算的机器。[1] 这标出的是一般性判定的限度：有些关于程序行为的问题，没有任何算法能对所有输入都给出正确答案。Gödel 的不完备性定理则在形式公理系统内部标出类似的限度：只要系统足够强且一致，其中就有既不能证明也不能反证的语句；这样的系统也不能（在同样假设下）证明自身的一致性。[2] 若一个推理引擎把经典逻辑的爆炸原理用到底，一旦接受矛盾，就可以推出任意结论，从而在推理上变得无用——但这是逻辑设计的选择，次协调逻辑就是明确拒绝爆炸的一族系统。[3] 当代统计学习系统尤其不是靠对输入句子做经典演绎来「生存」的；没有已打开的文献表明，对它们朗读说谎者悖论会导致停机或硬件损坏。因此，悖论能「杀死」AI 的说法，作为物理或工程命题不成立；作为对不可判定性、不完备性或不一致输入的比喻，才需要另说。
+    definitions:
+    - term: 爆炸原理 / ex contradictione quodlibet
+      text: SEP 的界定：一种逻辑后承关系是爆炸的，若任意矛盾 A 与 ¬A 可推出任意结论 B。经典逻辑以及直觉主义逻辑等多数标准非经典逻辑都是爆炸的。[3]
+    - term: 不完备性（第一定理的标准表述）
+      text: 在任何能够开展一定算术的一致形式系统 F 中，存在 F 的语言中的语句，既不能在 F 中被证明，也不能被反证。[2]
+    milestones:
+    - 1931 年附近的 Gödel 不完备性结果，其标准表述见 SEP 词条。[2]
+    - 1936 年 5 月 28 日收稿、11 月 12 日宣读，Turing 发表 On Computable Numbers, with an Application to the Entscheidungsproblem（London Mathematical Society）。[1]
     views:
-    - position: 自指与悖论标出的是不可判定性，不是物理上的「致死」
-      holders: 图灵关于停机问题的结果；哥德尔不完备定理所划出的形式系统限度
-      argument: 不存在一个通用算法，能正确判断任意程序是否停机。这限制了「完美自我检查」的能力，也与悖论性自指有关。它说明的是某些问题没有一般算法，而不是给系统输入一句矛盾就会使其崩溃。
-      sources:
-      - title: Wikipedia：Halting problem
-        url: https://en.wikipedia.org/wiki/Halting_problem
-      - title: Stanford Encyclopedia of Philosophy：Gödel’s Incompleteness Theorems
-        url: https://plato.stanford.edu/entries/goedel-incompleteness/
-      - title: Stanford Encyclopedia of Philosophy：Turing Machines
-        url: https://plato.stanford.edu/entries/turing-machine/
-    - position: 若系统把爆炸原理用到底，矛盾会让推理变得无用
-      holders: 经典逻辑中的爆炸原理（ex contradictione quodlibet）
-      argument: 在标准演绎逻辑里，从 A 且非 A 可以推出任意 B。若一个证明助手或规则引擎在遇到矛盾后仍按此推进，它会「证明」一切，从而丧失鉴别力。工程上通常会隔离矛盾、使用次协调逻辑或拒绝该输入，而不是让机器「死去」。
-      sources:
-      - title: Wikipedia：Principle of explosion
-        url: https://en.wikipedia.org/wiki/Principle_of_explosion
-    open_parts: 在什么意义上可以把对齐失败或目标冲突称为「被悖论伤害」，更多是比喻。形式系统和统计模型遭遇不一致输入时的安全表现，仍是开放的工程与理论研究问题，但不能从科幻情节直接推论。
+    - position: 自指标出的是一般过程的不存在，不是机器被语句「杀死」
+      consensus_role: 可核对的经典结果
+      evidence:
+        label: 一手数学论文与权威哲学综述
+        note: Turing 的结果是关于是否存在对所有输入都有效的一般判定程序；Gödel 的结果是关于形式系统内部的可证性限度。二者都不描述物理故障。OCR 扫描件中个别字母有缺损，本文只采用文意清楚、可以在上下文中复核的句子。[1][2]
+      holders:
+      - name: A. M. Turing
+        identity: 1936 年论文作者。期刊页码自第 230 页起；文首署 Received 28 May, 1936.—Read 12 November, 1936。[1]
+      - name: Panu Raatikainen
+        identity: SEP 词条「Gödel’s Incompleteness Theorems」作者。词条首次发表于 2013 年 11 月 11 日。查阅日期 2026-11-10。[2]
+      argument: Turing 在论文前部即预告：在第 8 节将证明，不存在一个一般过程，可判定任意给定编号是否是「令人满意的」。后文用对角论证表明，不可能有这样的一般过程。[1] 这一限度常被表述为停机问题不可判定：没有一台机器能够对任意另一台机器的描述，判定其是否会打印某一符号或是否会停机。Gödel 第一不完备性定理则指出，在足够强的一致形式系统里，总有既不能证明也不能反证的语句；第二定理指出，这样的系统不能证明自身的一致性（若它的确一致）。[2] 这些结果可以挡住一种幻想——「只要推理能力足够强，一切关于程序或算术的问题都能被一般地判定」——但它们并不蕴含「输入一个悖论句，运行中的物理过程就会终止或损坏」。
+      quotes:
+      - text: In § 8 it is shown that there can be no general process for determining whether a given number is satisfactory or not.
+        text_zh: 在第 8 节将表明，不存在一个一般过程，可判定任意给定的数是否是令人满意的。
+        attribution: A. M. Turing, 1936
+        locator: Proc. London Math. Soc. 文中预告（约第 241 页）
+        ref: 1
+      - text: The first incompleteness theorem states that in any consistent formal system F within which a certain amount of arithmetic can be carried out, there are statements of the language of F which can neither be proved nor disproved in F.
+        text_zh: 第一不完备性定理指出：在任何能够开展一定算术的一致形式系统 F 中，存在 F 的语言中的语句，既不能在 F 中被证明，也不能被反证。
+        attribution: Panu Raatikainen，SEP「Gödel’s Incompleteness Theorems」
+        locator: 词条对第一定理的标准表述（2026-11-10 查阅的现行页面）
+        ref: 2
+    - position: 若把爆炸原理用到底，矛盾会使经典推理变得无用；这是设计选择，并且可以被其他逻辑避免
+      consensus_role: 逻辑学中的标准区分
+      evidence:
+        label: 哲学百科对爆炸原理与次协调逻辑的界定
+        note: SEP 给出了爆炸性后承的定义，并说明次协调逻辑被定义为非爆炸的。这是概念澄清，不是对某个人工智能产品的测试报告。[3]
+      holders:
+      - name: Graham Priest、Koji Tanaka、Zach Weber
+        identity: SEP 词条「Paraconsistent Logic」作者。词条首次发表于 1996 年 9 月 24 日；所打开页面标明实质性修订于 2026 年 4 月 17 日。[3]
+      argument: 按 SEP 的说法，一种逻辑后承是爆炸的，若任意矛盾可推出任意结论（ex contradictione quodlibet）。经典逻辑与直觉主义逻辑等都是爆炸的；按照一种标准看法，不一致无法被融贯地加以推理。次协调逻辑挑战这一看法：只要后承关系不是爆炸的，即使信息不一致，也不会「爆炸」成平凡性，从而可以在受控方式下把不一致信息仍视为可能有信息量。[3] 对「悖论能否杀死 AI」的含义是：一个把经典爆炸用到底的符号推理引擎，在接受矛盾后会变得什么都能推，因而在实践上无用——这是逻辑事故，不是电路被「杀死」。设计者也可以选择非爆炸的后承关系。无论哪一种，都与科幻里的起火场景不是同一类事件。
+      quotes:
+      - text: A logical consequence relation is explosive if according to it any arbitrary contradiction A, ¬A entails any arbitrary conclusion B (ex contradictione quodlibet (ECQ)). Classical logic, and most standard non-classical logics too such as intuitionist logic, are explosive. […] A logical consequence relation is said to be paraconsistent if it is not explosive. Thus, if a consequence relation is paraconsistent, then even in circumstances where the available information is inconsistent, the consequence relation does not explode into triviality.
+        text_zh: 一种逻辑后承关系是爆炸的，若按它，任意矛盾 A 与 ¬A 可推出任意结论 B（ex contradictione quodlibet，ECQ）。经典逻辑，以及直觉主义逻辑等多数标准非经典逻辑，都是爆炸的。[…] 一种逻辑后承关系若不是爆炸的，就被称为次协调的。因此，若后承关系是次协调的，则即使在可获得信息不一致的情形下，它也不会爆炸成为平凡性。
+        attribution: Priest, Tanaka & Weber，SEP「Paraconsistent Logic」开篇
+        locator: 词条导论（2026-11-10 查阅的现行页面）
+        ref: 3
+    open_parts: 在什么意义上可以把目标冲突、不一致监督信号或对齐失败称为「被悖论伤害」，更多是比喻。形式系统与统计模型在不一致输入下的安全行为，仍是开放的工程与理论研究问题，但不能从科幻情节直接推论。关于「统计模型是否会因自然语言悖论而进入有害循环」的专门实验，本轮未打开，故不编造其结果。
+    references:
+    - id: 1
+      citation: Turing, A. M. On Computable Numbers, with an Application to the Entscheidungsproblem. Proceedings of the London Mathematical Society, ser. 2, 42 (1936/37), 230–265. 引语核自大学教学用扫描 PDF（文中页码自 230 起）。
+      url: https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf
+    - id: 2
+      citation: Raatikainen, P. Gödel’s Incompleteness Theorems. The Stanford Encyclopedia of Philosophy. 首次发表 2013-11-11。查阅日期 2026-11-10。
+      url: https://plato.stanford.edu/entries/goedel-incompleteness/
+    - id: 3
+      citation: Priest, G., Tanaka, K., & Weber, Z. Paraconsistent Logic. The Stanford Encyclopedia of Philosophy. 首次发表 1996-09-24；所打开页面标明实质性修订 2026-04-17。查阅日期 2026-11-10。
+      url: https://plato.stanford.edu/entries/logic-paraconsistent/
 - id: 2026-11-07-biz-bloom
   date: '2026-11-07'
   category: business
@@ -616,23 +1603,67 @@
   - 掌握学习
   - 生产力
   answer:
-    summary: 本杰明·布鲁姆 1984 年提出「两标准差问题」：在他所综述的掌握学习与一对一辅导研究中，个别辅导相对常规班级教学可达到约两个标准差的成绩提升。效应是否「普遍为两个标准差」后来常被简化甚至夸大；更稳妥的结论是：高质量的个别化辅导与掌握学习确实能带来可观增益，但如何在不依赖大量人类导师的前提下规模化，仍是开放问题——这也正是布鲁姆原文的出发点。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 原报告的 2σ 不宜当作辅导的普遍定律；个别化教学可以有大效应，规模化仍开放
+      note: Bloom 根据 Anania 与 Burke 的学位论文报告：以常规班级为对照，个别辅导组平均学生大约高出两个标准差（平均受辅导学生超过对照班 98% 的学生），掌握学习组大约高出一个标准差。他把如何在小组教学中达到这一水平称作「2 sigma 问题」，因为一对一辅导对大多数社会来说过于昂贵。[1] 这些数字来自少数、为期约三周的实验，科目为概率与制图等。VanLehn 2011 年的综述发现，人类辅导相对「无辅导」的平均效应约为 d = 0.79，智能辅导系统约为 0.76；他认为人类辅导通常并非比课堂教学高两个标准差，Bloom 文中接近 2.0 的研究现在看来更像离群值，该文「现在看来更像是对掌握学习之力量的演示，而非对人类辅导的演示」。[2] 因此，「2σ 是普遍事实」这一简化并不成立；但「高质量的个别化、掌握导向教学可以带来可观增益，以及如何低成本地规模化」仍然是真问题。
+    summary: 1984 年，Benjamin S. Bloom 在 Educational Researcher 提出后来被称为「两标准差问题」的议题。芝加哥大学两名博士生 Anania 与 Burke 比较了三种条件：常规班级（约 30 名学生对一名教师）、掌握学习（同样的班级规模，但加上形成性测验与纠正），以及辅导（每名学生或两三名学生配一名好导师，并使用与掌握学习相同的形成性测验）。在四年级、五年级、八年级及两种教材上的重复中，以对照班成绩的标准差衡量，辅导组平均学生大约高出两个标准差，掌握学习组大约高出一个标准差；约 90% 的受辅导学生、70% 的掌握学习学生，达到了常规条件下只有最高 20% 学生达到的总结性成绩。[1] Bloom 认为，辅导表明大多数学生有潜力达到这一高水平；研究与教学的重要任务，是在比一对一辅导更实际、更可行的条件下做到这一点，因为一对一辅导对大多数社会来说规模过大、过于昂贵。这就是「2 sigma 问题」。[1] 二十五年后，VanLehn 回顾人类辅导、智能辅导系统与其他辅导形式的相对效果，并写到：人们曾相信人类辅导的效应约为 2.0，但他的综述并未证实这些信念——人类辅导约为 d = 0.79，智能辅导系统约为 0.76，二者接近。[2] 在讨论为何有些研究效应特别大时，他指出 Bloom 所概括的六项研究里，只有一项被纳入他的一对一辅导样本，且他认为「人类辅导通常并非比课堂教学高两个标准差」。[2] 对「若是，我们该怎么办」的回答，因此不应是「复制一个普遍的 2σ」，而是回到 Bloom 自己的问题：如何设计可规模化的小组教学，使之尽可能接近高质量个别化教学的效果。[1][2]
+    definitions:
+    - term: 2 sigma 问题
+      text: Bloom 的用语：在他所报告的实验中，最好的学习条件（辅导）使平均学生比常规小组教学的对照平均高出两个标准差；问题是，研究者与教师能否设计出教学—学习条件，使小组教学中的大多数学生也达到这一水平，而不依赖对大多数社会过于昂贵的一对一辅导。[1]
+    milestones:
+    - 1984 年 6–7 月，Bloom 在 Educational Researcher 第 13 卷第 6 期第 4–16 页发表 The 2 Sigma Problem。[1]
+    - 2011 年，Kurt VanLehn 在 Educational Psychologist 第 46 卷第 4 期第 197–221 页发表对人类辅导与智能辅导系统相对效果的综述。[2]
     views:
-    - position: 一对一辅导与掌握学习可以产生很大的学习增益
-      holders: Benjamin Bloom（1984）及其所依据的一系列实验
-      argument: 布鲁姆把「找到与一对一辅导同样有效、又能用于群体教学的方法」称作 2 Sigma Problem。原文的核心观察是：辅导和掌握学习显著优于当时的常规课堂。这意味着学习潜力可能远未被常规教学用尽。
-      sources:
-      - title: Bloom, The 2 Sigma Problem（Educational Researcher, 1984；MIT 转载 PDF）
-        url: https://web.mit.edu/5.95/readings/bloom-two-sigma.pdf
-      - title: Patrick Collison 对该问题的转述与提问
-        url: https://patrickcollison.com/questions
-    - position: 关键困难是规模化，而不是再证明「个别化有帮助」
-      holders: 布鲁姆本人将此表述为待解的教学法问题；后继者讨论智能辅导、掌握学习课程等路径
-      argument: 若增益主要来自即时反馈、让学生在前进前真正掌握，以及适应个别进度，那么问题就变成：如何用更好的教材、同伴辅导或软件逼近这些条件。是否能在真实学校系统中稳定达到「两个标准差」，不能从早期实验室或小样本研究直接外推。
-      sources:
-      - title: Bloom, The 2 Sigma Problem（见上）
-        url: https://web.mit.edu/5.95/readings/bloom-two-sigma.pdf
-    open_parts: 原始效应量对今天多样化的课堂、学科和测评是否仍成立，需要新的大规模复制。AI 辅导能否接近人类导师的效果，以及在何种群组中有效，还没有定论。即便有效，公平获取与教师角色如何调整也未解决。
+    - position: 在 Bloom 所报告的实验中，个别辅导相对常规教学约高出两个标准差；问题是如何在小组教学中接近这一水平
+      consensus_role: 原初发现与问题提法
+      evidence:
+        label: 少数学位论文实验（约三周、特定年级与科目），不是对一切辅导的元分析
+        note: Bloom 依据 Anania（1982, 1983）与 Burke（1984）的研究，随机分派三种条件，并在四个学生样本、两种教材上重复；每次教学处理限于 3 周内 11 个课时。这些是重要的存在性结果，但外推到所有年级、学科与长期教学时必须非常谨慎。[1]
+      holders:
+      - name: Benjamin S. Bloom
+        identity: 文中作者介绍：芝加哥大学与西北大学教育学教授（Professor of Education, University of Chicago and Northwestern University）；通讯地址为芝加哥 Kimbark Avenue。[1]
+      argument: Bloom 首先描述三种条件，并报告「最惊人的」是总结性成绩的差异：以对照（常规）班的标准差衡量，辅导条件下的平均学生通常大约高出两个标准差（平均受辅导学生超过对照班 98% 的学生）；掌握学习条件下的平均学生大约高出一个标准差（超过对照班 84% 的学生）。约 90% 的受辅导学生与 70% 的掌握学习学生，达到了常规条件下只有最高 20% 学生达到的成绩。课堂投入时间与态度兴趣也相应变化。他强调，最惊人的发现是：在我们能设计的最好学习条件（辅导）下，平均学生比常规小组教学的对照学生高出 2 个标准差。辅导过程表明大多数学生有潜力达到这一高水平；他认为研究与教学的一项重要任务，就是在比一对一辅导更实际、更可行的条件下实现这一点，因为一对一辅导对大多数社会来说规模过大、过于昂贵。这就是「2 sigma 问题」。[1]
+      quotes:
+      - text: Using the standard deviation (sigma) of the control (conventional) class, it was typically found that the average student under tutoring was about two standard deviations above the average of the control class (the average tutored student was above 98% of the students in the control class). The average student under mastery learning was about one standard deviation above the average of the control class (the average mastery learning student was above 84% of the students in the control class).
+        text_zh: 以对照（常规）班的标准差（sigma）衡量，通常发现：辅导条件下的平均学生大约高出对照班平均两个标准差（平均受辅导学生超过对照班 98% 的学生）。掌握学习条件下的平均学生大约高出对照班平均一个标准差（平均掌握学习学生超过对照班 84% 的学生）。
+        attribution: Benjamin S. Bloom, 1984
+        locator: Educational Researcher, 13(6), 第 4 页
+        ref: 1
+      - text: I believe an important task of research and instruction is to seek ways of accomplishing this under more practical and realistic conditions than the one-to-one tutoring, which is too costly for most societies to bear on a large scale. This is the “2 sigma” problem.
+        text_zh: 我相信，研究与教学的一项重要任务，是寻求在比一对一辅导更实际、更可行的条件下实现这一点的途径，因为一对一辅导对大多数社会来说规模过大、过于昂贵。这就是「2 sigma」问题。
+        attribution: Benjamin S. Bloom, 1984
+        locator: Educational Researcher, 13(6), 第 4 页
+        ref: 1
+    - position: 后来的综述显示，人类辅导的典型效应远低于 2σ，且与智能辅导系统接近
+      consensus_role: 对原初数字之普遍性的重要修正
+      evidence:
+        label: 对受控比较研究的综述，不是对 Bloom 原实验的再分析
+        note: VanLehn 限制在尽量控制内容与时长等变量的比较实验上。他明确说，人们曾相信答案本位系统、智能辅导与成人人类导师的效应分别约为 0.3、1.0 与 2.0，但综述并未证实这些信念。对 Bloom 六项研究，他只把其中一项一对一实验纳入，并称其余五项是一名导师每天辅导三名学生。[2]
+      holders:
+      - name: Kurt VanLehn
+        identity: 亚利桑那州立大学，Computing, Informatics and Decision Systems Engineering。[2]
+      argument: VanLehn 把文章定位为对「计算机导师能否与人类导师一样有效」这一长期目标的进展报告。综述的核心结果写在开篇：人类辅导的效应量低得多，为 d = 0.79；智能辅导系统为 0.76，因此几乎与人类辅导一样有效。[2] 在讨论为何有些研究效应特别大时，他写到：25 年来研究者一直在寻找 Bloom「2 sigma 问题」的解；人们会预期许多人类辅导研究显示 2.0 的效应，但只有两项如此，现在看起来像离群值。在综合比较后他总结：「简而言之，人类辅导似乎通常并非如 Bloom（1984）所展示的六项研究邀请我们相信的那样，比课堂教学有效两个标准差。相反，它更接近此处发现的平均效应量 0.79。这当然仍是大的效应。」他接着说，Bloom 的 2 sigma 文章现在看来更像是对掌握学习之力量的演示，而非对人类辅导的演示，尽管它激励了整整一代关于人类与计算机辅导的研究。[2]
+      quotes:
+      - text: 'This review did not confirm these beliefs. Instead, it found that the effect size of human tutoring was much lower: d = 0.79. Moreover, the effect size of intelligent tutoring systems was 0.76, so they are nearly as effective as human tutoring.'
+        text_zh: 本综述并未证实这些信念。相反，它发现人类辅导的效应量要低得多：d = 0.79。此外，智能辅导系统的效应量为 0.76，因此它们几乎与人类辅导同样有效。
+        attribution: Kurt VanLehn, 2011
+        locator: Educational Psychologist, 46(4), 第 197 页
+        ref: 2
+      - text: In short, it seems that human tutoring is not usually 2 sigmas more effective than classroom instruction, as the six studies presented by Bloom (1984) invited us to believe. Instead, it is closer to the mean effect size found here, 0.79. This is still a large effect size, of course.
+        text_zh: 简而言之，人类辅导似乎通常并非如 Bloom（1984）所展示的六项研究邀请我们相信的那样，比课堂教学有效两个标准差。相反，它更接近此处发现的平均效应量 0.79。这当然仍是大的效应。
+        attribution: Kurt VanLehn, 2011
+        locator: Educational Psychologist, 46(4), 第 211 页
+        ref: 2
+    open_parts: 第一，Bloom 原实验的科目、时长与样本都有限，2σ 不能当作「所有一对一辅导」的普遍常数。[1][2] 第二，掌握学习、形成性评价、智能辅导与人类辅导各自贡献了多少，仍可分析；VanLehn 已提示 Bloom 文或许更应读作掌握学习的演示。[2] 第三，如何在不依赖大量人类导师的前提下规模化高质量个别化教学，仍是 Bloom 自己提出、至今未关闭的问题；当代大规模在线课程或生成式 AI 家教的效果，需要专门的新证据，不能从 1984 或 2011 年的数字直接外推。
+    references:
+    - id: 1
+      citation: 'Bloom, B. S. The 2 Sigma Problem: The Search for Methods of Group Instruction as Effective as One-to-One Tutoring. Educational Researcher, 1984, 13(6), 4–16. JSTOR 1175554. 引语核自 Syracuse University iSchool Faculty Center 所存 PDF 的 Internet Archive 存档（2017-12-15 快照）。'
+      url: https://web.archive.org/web/20171215122858/http://facultycenter.ischool.syr.edu/wp-content/uploads/2012/02/2-sigma.pdf
+    - id: 2
+      citation: VanLehn, K. The Relative Effectiveness of Human Tutoring, Intelligent Tutoring Systems, and Other Tutoring Systems. Educational Psychologist, 2011, 46(4), 197–221. doi:10.1080/00461520.2011.611369。引语核自已打开的出版社版本 PDF（文首标明 2011 年 10 月 17 日在线发表；作者当时任职亚利桑那州立大学）。
+      url: https://www.emergingedtech.com/-kvanlehn/Stringent/PDF/EffectivenessOfTutoring_Vanlehn.pdf
 - id: 2026-11-07-biz-wage-gap
   date: '2026-11-07'
   category: business
@@ -648,29 +1679,74 @@
   - 歧视
   - 实证
   answer:
-    summary: 若「完全相同的工作、完全相同的生产率却系统性更低薪」，竞争性企业理应争相雇用被低估的一方以降低成本——这正是该问题的逻辑。经验研究显示，总体性别工资差距中的很大一部分，与职业、行业、工时和职业中断有关；在控制这些因素后仍有残差。残差可以被解释为歧视，也可以被解释为未观测到的差异。两者可以同时存在。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 总体差距及其部分可被职业、行业与工时结构解释，有较强经验共识；残差是否等于歧视，仍有争议
+      note: 若「完全相同的工作与生产率却系统性更低薪」普遍成立，竞争性企业理应争相雇用被低估的一方——这正是本问题的逻辑。Blau 与 Kahn 对 1980–2010 年微观数据的综述与新估计表明：到
+        2010 年，传统人力资本变量合计已很少能解释性别工资差距，职业与行业差异仍然重要；歧视不能被排除。[1] Goldin 则把「最后一章」放在工作如何被结构化与按工时非线性付酬上。[2]
+        二者都不等于证明「同工完全不同酬」是差距的全部来源。
+    summary: 美国等国长期存在女性平均工资低于男性的现象。Blau 与 Kahn 写到：到 2014 年，全职女性工作者按年计约挣得男性的 79%，按周计约 83%。[1] 关键不在于否认总体差距，而在于分解它：有多少来自教育与经验，有多少来自职业、行业与工时，又有多少仍是「未被观测因素解释的残差」。他们的结论是：传统人力资本因素现在相对不重要，职业与行业仍然重要，而且在承认这些因素之后，歧视仍不能被一笔勾销。[1]
+      Claudia Goldin 进一步主张，若要在劳动市场上接近平等，关键往往不是（或不仅仅是）政府强制或家务重新分工，而是减少对「长工时、特定时刻到岗」的不成比例奖赏，增强时间灵活性。[2]
+      因此，雇主没有「只雇更低薪一方」的大规模套利，既可能因为许多表面差距并不是「同一工作、同一生产率上的价差」，也可能因为剩余的价差与歧视、规范或不完全竞争有关。
+    definitions:
+    - term: 未解释差距（unexplained gap）
+      text: 在工资方程分解中，把可观测解释变量（如教育、经验、职业、行业等）的性别差异计为「已解释」部分后，剩余的系数差异或平均残差。它可能包含歧视，也可能包含未被观测到的偏好、生产率或测量误差，不能自动等同于歧视。[1]
     views:
-    - position: 市场竞争会惩罚纯歧视，因此「同工完全不同酬」难以无限持续
-      holders: 这一逻辑可追溯到 Gary Becker 对歧视的经济学分析；问题本身把该推论问得很尖锐
-      argument: 若雇主仅仅因为偏见而放弃同样能干、要价更低的劳动者，竞争对手就能用更低成本生产并占领市场。所以，长期持续的差距更可能来自：工作其实并不完全相同、工时与灵活性被不同地奖励，或市场并非充分竞争。
-      sources:
-      - title: 'Blau & Kahn, The Gender Wage Gap: Extent, Trends, and Explanations（JEL 2017）'
-        url: https://www.aeaweb.org/articles?id=10.1257/jel.20160995
-      - title: 同一研究的 NBER 工作论文版本（w21913）
-        url: https://www.nber.org/papers/w21913
-    - position: 剩余差距很大程度上与工时结构、职业选择和照料负担有关
-      holders: Claudia Goldin（2014）；Blau 与 Kahn 的综述
-      argument: Goldin 指出，在许多高薪职业中，长时间、连续且不可预测的工作被超级线性地奖励，这会对需要时间灵活性的人（往往更多是承担照料的女性）产生惩罚。缩小差距的关键，可能是改变工作如何被组织与计酬，而不只是「要求雇主只雇更便宜的一方」。
-      sources:
-      - title: 'Goldin, A Grand Gender Convergence: Its Last Chapter（AER 2014）'
-        url: https://www.aeaweb.org/articles?id=10.1257/aer.104.4.1091
-    - position: 控制可观测因素后仍可能剩下歧视或摩擦
-      holders: Blau 与 Kahn 等强调：歧视、规范与不完全竞争仍可能解释部分残差
-      argument: 即使竞争会削弱公开的偏见，刻板印象、谈判差异、客户或同事的偏好，以及雇主的市场势力，仍可让差距持续。残差不是歧视的精确度量，也不能被自动当作「已经解释完毕」。
-      sources:
-      - title: Blau & Kahn, 2017（见上）
-        url: https://www.aeaweb.org/articles?id=10.1257/jel.20160995
-    open_parts: 残差里有多少是歧视、多少是未观测偏好或生产率，无法被单一回归裁定。不同国家和职业的机制也不同。政策应侧重同工同酬执法、育儿支持还是改变超长工时的报酬结构，仍有争论。
+    - position: 总体差距大部分可被可观测结构因素说明，但残差仍在，歧视不能被排除
+      consensus_role: 经验劳动经济学中的主流综述结论
+      evidence:
+        label: 基于大样本微观数据的综述与新估计（工作论文文本）
+        note: 本次打开并据以摘句的是 NBER Working Paper 21913（Blau & Kahn）。同题文章后来刊于 Journal of Economic Literature；工作论文与期刊终稿可能有修订，引文页码按已打开的
+          NBER PDF。[1]
+      holders:
+      - name: Francine D. Blau、Lawrence M. Kahn
+        identity: '康奈尔大学 ILR School（Cornell University）；Blau 同时注明 NBER。工作论文标题为 The Gender Wage Gap: Extent,
+          Trends, and Explanations，NBER Working Paper 21913。[1]'
+      argument: 他们首先给出总体图景：在大约 60% 的女/男收入比之后，女性相对工资在 1980 年代急剧上升，此后继续但更慢且更不均衡地增加；到 2014 年，全职女性按年约挣得男性的
+        79%，按周约 83%。[1] 利用 PSID 等微观数据，他们报告：到 2010 年，传统人力资本变量合计已很少能解释性别工资差距，职业与行业的性别差异仍然重要；差距在工资分布顶端的下降慢于中部和底部，到
+        2010 年顶端的差距明显更大。[1] 在综述既有解释后，他们的判断是：许多传统解释仍然有分量；尽管人力资本因素现在相对不重要，歧视不能被打折扣。[1] 这对原问题的含义是：雇主未必能通过「只雇女性」来进行无风险套利，因为许多差距对应着不同的职位、行业或工作史；但在控制这些因素之后仍可能剩下与歧视或摩擦有关的残差，市场竞争并不自动把它清零。
+      quotes:
+      - text: By 2014, women full-time workers earned about 79% of what men did on an annual basis and
+          about 83% on a weekly basis.
+        text_zh: 到 2014 年，全职女性工作者按年计约挣得男性所挣的 79%，按周计约 83%。
+        attribution: 'Francine D. Blau 与 Lawrence M. Kahn，The Gender Wage Gap: Extent, Trends, and Explanations'
+        locator: NBER Working Paper 21913 PDF 正文第 2 页
+        ref: 1
+    - position: 剩余差距在很大程度上与工时结构、时间灵活性及「特定时刻到岗」的奖赏有关
+      consensus_role: 对残差来源的有影响力结构性解释
+      evidence:
+        label: 美国经济学会会长演讲式论文，有系统的职业比较，但不是对歧视的一次直接测量
+        note: Goldin（2014）刊于 American Economic Review, 104(4), 1091–1119。本次打开的是哈佛 DASH 仓储中的已刊文本。它解释的是为何差距随年龄扩大、有子女与无子女女性不同，以及为何某些行业更接近线性付酬。[2]
+      holders:
+      - name: Claudia Goldin
+        identity: '哈佛大学经济系（Department of Economics, Harvard University, 229 Littauer, Cambridge, MA）。2014
+          年文章《A Grand Gender Convergence: Its Last Chapter》作者。[2]'
+      argument: Goldin 把二十世纪两性在劳动参与、家务时间、终身经验和教育上的接近，称作「宏大的性别趋同」，并问：劳动市场要平等，最后一章必须包含什么。她的答案可能出人意料：解决方案并不（必然）需要政府干预，也不必让男性在家中承担更多责任（尽管那不会有坏处），但必须包含劳动市场的变化，尤其是如何构造岗位并付酬，以增强时间灵活性。[2]
+        若企业不再有激励去不成比例地奖赏那些劳动长时段、并在特定时刻工作的人，性别薪酬差距将显著缩小，甚至可能完全消失。[2] 这类变化在技术、科学和健康等部门已经展开，在公司、金融和法律世界则不那么明显。[2]
+        由此，原问题中的「同工」往往并不成立：许多高薪职业把「随时到岗」定价进去，平均差异看起来像价格歧视，部分其实是对时间灵活性的补偿差异。
+      quotes:
+      - text: The solution does not (necessarily) have to involve government intervention and it need
+          not make men more responsible in the home (although that wouldn’t hurt). But it must involve
+          changes in the labor market, especially how jobs are structured and remunerated to enhance temporal
+          flexibility. The gender gap in pay would be considerably reduced and might vanish altogether
+          if firms did not have an incentive to disproportionately reward individuals who labored long
+          hours and worked particular hours.
+        text_zh: 解决方案并不（必然）需要涉及政府干预，也不必让男性在家中承担更多责任（尽管那不会有坏处）。但它必须涉及劳动市场的变化，尤其是岗位如何被结构化与付酬，以增强时间灵活性。如果企业不再有激励去不成比例地奖赏那些劳动长时段、并在特定时刻工作的人，薪酬上的性别差距将显著缩小，甚至可能完全消失。
+        attribution: 'Claudia Goldin，A Grand Gender Convergence: Its Last Chapter'
+        locator: 摘要，American Economic Review, 104(4), 2014, 第 1091 页
+        ref: 2
+    open_parts: 残差里有多少是歧视、多少是未观测偏好或生产率，无法被单一回归裁定。不同国家和职业的机制也不同。Blau 与 Kahn 所用的是美国 PSID/CPS 等数据，不能直接外推到所有经济体。政策应侧重同工同酬执法、育儿支持，还是改变超长工时的报酬结构，仍然取决于人们把残差主要读成歧视还是读成补偿性差异——而这正是证据尚未单独裁定的部分。[1][2]
+    references:
+    - id: 1
+      citation: 'Blau, F. D., & Kahn, L. M. (2016). The gender wage gap: Extent, trends, and explanations
+        (NBER Working Paper No. 21913). National Bureau of Economic Research. 同题综述后刊于 Journal of Economic
+        Literature；本次摘句与页码按已打开的 NBER 工作论文 PDF。'
+      url: https://www.nber.org/system/files/working_papers/w21913/w21913.pdf
+    - id: 2
+      citation: 'Goldin, C. (2014). A grand gender convergence: Its last chapter. American Economic Review,
+        104(4), 1091–1119. https://doi.org/10.1257/aer.104.4.1091 本次打开的是哈佛 DASH 提供的已刊 PDF。'
+      url: https://dash.harvard.edu/server/api/core/bitstreams/a3c2676f-0699-4c0d-bb03-1485bb705670/content
 - id: 2026-11-07-sci-edge-toolkit
   date: '2026-11-07'
   category: science
@@ -686,21 +1762,36 @@
   - 认知工具
   - Edge
   answer:
-    summary: Edge.org 2011 年的问题邀请人们提出一个应进入大众认知工具箱的科学概念。问题本身借用了 James Flynn 的「简写抽象」（SHA）：像「市场」「安慰剂」「随机样本」这样的概念，能作为一块认知积木被反复使用。回应中反复出现的主题包括：对照实验、双盲，以及其他帮助人抵消直觉偏差的方法。它没有唯一正确答案。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：受邀征文，没有「哪一个概念最重要」的客观排序
+      note: Edge 2011 年的问题是：「哪一个科学概念若被更多人掌握，将改善每个人的认知工具箱？」官方说明借用 James Flynn 的「简写抽象」（SHA），并以「市场」「安慰剂」「随机样本」「自然主义谬误」为例；「科学」在此取广义，概念也可以来自哲学、逻辑、经济学或法学，只要是可被简短概括、又有广泛应用的严格工具。页面写明感谢 Steven Pinker 建议该题、Daniel Kahneman 对表述提供建议，并列出 165 位撰稿人、166 篇回应。[1] 这是一份概念推荐的采样，不是对「改善认知工具箱」的测量或竞赛结果。
+    summary: 本题没有标准答案，因为它询问的是推荐，而不是已经完成的实验。Edge 2011 把「科学概念」界定得很宽：只要是可靠地获取关于任何事物之知识的方式所产生的、可被一句话概括却有广泛应用的严格概念工具即可。其直接思想来源是 James Flynn 的 SHA：从科学进入日常语言、作为单一认知组块被反复使用的抽象，能够作为思维与辩论的元件使人更聪明。[1] 一百六十余篇回应因此是一份菜单，而不是一份排行榜。知道某个概念的名称，与在有动机、有身份压力的情境中真正使用它，更是两件不同的事；后者几乎无法从征文本身测量。把其中任何一条推荐写成「已被证明最能改善每个人的认知工具箱」，都会超过材料所允许的强度。
+    definitions:
+    - term: 简写抽象（SHA）
+      text: 官方说明转述 James Flynn 的用法：从科学中抽出、已成为语言一部分的概念，提供可广泛应用的模板；其想法是，这种抽象作为单一认知组块，可被用作思维与辩论中的元件。所举例子包括「市场」「安慰剂」「随机样本」「自然主义谬误」。[1]
     views:
-    - position: 应普及的是「简写抽象」这类可迁移概念
-      holders: James Flynn（Edge 在问题陈述中引用其 SHA 概念）
-      argument: 一个好的科学概念应当可以压缩成短语，却能在许多领域里帮助人提问：样本是否随机？有没有对照？这是不是自然主义谬误？工具箱的价值在于迁移，而不在于记住更多名词。
-      sources:
-      - title: Edge 2011 年度问题页（含 Flynn 的 SHA 说明）
-        url: https://www.edge.org/annual-question/what-scientific-concept-would-improve-everybodys-cognitive-toolkit
-    - position: 对照实验是最值得被非科学家使用的工具
-      holders: Timo Hannay 在 2011 年的 Edge 回应
-      argument: Hannay 认为，面对决策时，本能是内省或开会；科学方法则要求在可能的情况下做对照实验。从日心说到量子力学，许多真相似乎违反常识，正说明实验能把我们从直觉限制中释放出来。商业与政策若更经常设计可比较的试验，可能做出更好的决定。
-      sources:
-      - title: Edge 2011 回应汇编（含 Hannay, The Controlled Experiment）
-        url: https://www.edge.org/responses/what-scientific-concept-would-improve-everybodys-cognitive-toolkit
-    open_parts: 「哪一个概念最重要」没有客观排序，取决于要纠正的是哪一类错误。知道概念名称，与在有动机、有身份认同的情境中真正使用它，是两回事。如何测量「工具箱改善」，也几乎没有标准。
+    - position: 应被普及的是可迁移的概念工具，但「哪一个最重要」没有客观排序
+      consensus_role: 征文的提问框架
+      evidence:
+        label: 策展说明与受邀回应，不是教学实验
+        note: 页面给出提问、SHA 的界定、撰稿人规模。个别回应即使精彩，也只是推荐。本轮不以未单独核对作者身份以外的篇幅去挑选「代表性最强」的一篇当成共识。[1]
+      holders:
+      - name: Edge.org
+        identity: 2011 年年度问题的组织者。官方页写明该题由 Steven Pinker 建议，Daniel Kahneman 为表述提供建议，并转述 James Flynn 的 SHA。[1]
+      argument: 官方文本把问题放在 Flynn 的 SHA 之后，并扩展「科学」一词：它应被广义理解为获取关于任何事物之知识的最可靠方式，无论对象是人类精神、历史中伟大人物的作用，还是 DNA 结构。一个「科学概念」可以来自哲学、逻辑、经济学、法学或其他分析事业，只要它是可被简短（或「用一个短语」）概括、又对理解世界有广泛应用的严格概念工具。[1] 这一框架解释了回应为何会分散在对照实验、概率、演化、激励等许多方向：题目要的本来就不是单一正确答案。
+      quotes:
+      - text: James Flynn has defined “shorthand abstractions” (or “SHA’s”) as concepts drawn from science that have become part of the language and make people smarter by providing widely applicable templates (“market”, “placebo”, “random sample,” “naturalistic fallacy,” are a few of his examples). His idea is that the abstraction is available as a single cognitive chunk which can be used as an element in thinking and debate.
+        text_zh: James Flynn 把「简写抽象」（SHA）界定为：从科学中抽出、已成为语言一部分、并通过提供可广泛应用的模板而使人更聪明的概念（「市场」「安慰剂」「随机样本」「自然主义谬误」是他的几个例子）。他的想法是，这种抽象作为单一认知组块可供使用，成为思维与辩论中的一个元件。
+        attribution: Edge 2011 年度问题官方说明，转述 James Flynn
+        locator: edge.org 2011 年度问题页（2026-11-10 查阅）
+        ref: 1
+    open_parts: 「哪一个概念最重要」取决于要纠正的是哪一类错误。如何测量「工具箱改善」，几乎没有标准。知道名称与在真实决策中使用该概念，是两回事。166 篇回应不能代表全体公众或全体科学家。[1]
+    references:
+    - id: 1
+      citation: 'Edge.org. The Edge Question 2011: What scientific concept would improve everybody’s cognitive toolkit? 官方问题页。查阅日期 2026-11-10。'
+      url: https://www.edge.org/annual-question/what-scientific-concept-would-improve-everybodys-cognitive-toolkit
 - id: 2026-11-07-sci-edge-last
   date: '2026-11-07'
   category: science
@@ -715,26 +1806,33 @@
   - 元问题
   - Edge
   answer:
-    summary: 2018 年，John Brockman 把 Edge 年度问题的二十年项目收官为：请你提出「最后一个问题」。这不是在寻找某个将被最终解答的科学难题，而是让回答者交出自己愿意被记住的那一问。已发表的两百多则回应分散在宇宙学、意识、真理、文明风险与人机关系等方向，本身就说明「最后一问」取决于提问者的视野。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：收官征文，不存在可被全体共同认可的「最后一个问题」
+      note: 2018 年，John Brockman 把 Edge 年度问题的二十年项目收官为：请你提出「最后一个问题」。官方页写明：「二十年后，我已经把问题问完了。因此，作为这一值得注意的 Edge 项目的终曲，你能否提出『最后一个问题』？」页面列出 283 位撰稿人与 283 篇回应。[1] 回应分布在许多方向，本身就表明「最后一问」取决于提问者的视野与价值排序，而不是一个等待发现的唯一科学难题。
+    summary: 「最后一个问题是什么」在这里不是宇宙学或数学中那个将被最终解答的题，而是一份邀请：在 Edge 年度问题项目结束时，交出你愿意当作收官的那一问。Brockman 的说明很短，也因此很清楚：他已经把问题问完了，请别人来问最后一问。[1] 已发表的二百余则回应不能被压缩成一个共同答案；把其中任何一则（无论是关于宇宙、意识、真理还是文明风险）提升为「人类的最后一个问题」，都会把个人视野误写成集体结论。项目本身已经结束，这些提问仍然开放。
     views:
-    - position: 最后一问指向宇宙与超智能生命尺度
-      holders: 物理学家 Max Tegmark
-      argument: Tegmark 的问题是：在物理定律允许的限度内，未来的超智能宇宙生命会把哪一个问题当作真正最后的、会一直盘桓的问题？它把「最后」理解成时间与智能的极限，而不是人类此刻的议程。
-      sources:
-      - title: Tegmark 的 Edge 2018 回应
-        url: https://www.edge.org/response-detail/27667
-      - title: Edge 2018 回应汇编
-        url: https://www.edge.org/responses/what-is-the-last-question
-    - position: 最后一问指向心灵、真理与人类理解的限度
-      holders: 英国心理学会综述所引的多位心理学家，如 Jonathan Haidt（「为什么如此难找到真理？」）、Gerd Gigerenzer（「人类直觉能否被还原为算法？」）、Alison
-        Gopnik 等
-      argument: 相当一部分回应并不问宇宙的终结，而问：大脑如何产生真正的发现、直觉与算法的差别、以及为何求真如此困难。收官之问因此也是一项关于「我们还觉得什么最棘手」的抽样。
-      sources:
-      - title: Ella Rhodes, The last question（The Psychologist / BPS）
-        url: https://www.bps.org.uk/psychologist/last-question
-      - title: Edge 2018 年度问题页
-        url: https://www.edge.org/annual-question/what-is-the-last-question
-    open_parts: 不存在一个可被全体理性人共同认可的「最后一个问题」。把哪一类问题视为最终问题，取决于价值排序：是宇宙的命运、意识的本质，还是文明能否存续。项目本身已经结束，这些提问仍开放。
+    - position: 「最后一问」是收官邀请，不是可判决的科学问题
+      consensus_role: 项目自我定位
+      evidence:
+        label: 官方收官说明与大规模受邀回应
+        note: 283 篇回应是被邀请作者的提问，没有评选程序，也没有「正确的最后一问」。本轮不从中挑选一两则当作代表全体的答案，以免造成假共识。[1]
+      holders:
+      - name: John Brockman / Edge.org
+        identity: Edge 年度问题项目的组织者。2018 年官方页以第一人称写下收官说明，并列出 283 篇回应。[1]
+      argument: 官方页面把 2018 年的题目标为 “What is the last question?”，并给出收官语：二十年后，我已经把问题问完了；因此，作为这一值得注意的 Edge 项目的终曲，你能否提出「最后一个问题」？[1] 这一定位已经排除了「寻找那个将被最终解答的科学难题」的读法。回应数量之多、方向之分散，只是进一步说明：把哪一类问题视为最终问题，取决于价值排序。
+      quotes:
+      - text: After twenty years, I’ve run out of questions. So, for the finale to a noteworthy Edge project, can you ask “The Last Question”?
+        text_zh: 二十年后，我已经把问题问完了。因此，作为这一值得注意的 Edge 项目的终曲，你能否提出「最后一个问题」？
+        attribution: John Brockman，Edge 2018 年度问题官方说明
+        locator: edge.org 2018 年度问题页（2026-11-10 查阅）
+        ref: 1
+    open_parts: 不存在一个可被全体理性人共同认可的「最后一个问题」。把哪一类问题视为最终问题，取决于价值排序。项目已经结束，这些提问仍开放。[1]
+    references:
+    - id: 1
+      citation: 'Edge.org. 2018: What is the last question? 官方问题页，含 John Brockman 的收官说明。查阅日期 2026-11-10。'
+      url: https://www.edge.org/annual-question/what-is-the-last-question
 - id: 2026-11-07-phil-dangerous
   date: '2026-11-07'
   category: philosophy
@@ -750,25 +1848,33 @@
   - 异议
   - Edge
   answer:
-    summary: Edge 2006 年的问题由 Steven Pinker 建议，定义很明确：危险不在于想法被假定为假，而在于它可能为真，并因此冲击道德、政治或自我理解。回应覆盖人性、基因与行为、科学治理、以及「科学正在失控」这类可能自我应验的观念。它同样不是一道有标准答案的题，而是一份关于「哪些真可能令人不安」的思想采样。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：受邀征文，「危险」相对于特定价值，没有中立清单
+      note: Edge 2006 年的问题由 Steven Pinker 建议，定义很明确：危险不在于想法被假定为假，而在于它可能为真。官方说明回顾哥白尼与达尔文革命曾在其时代被视为社会、道德或情感上危险的发现，并请作者给出自己思考着的、未必由自己首创的危险想法。页面写明 118 位撰稿人、118 篇回应；导言日期为 2006 年 1 月 1 日。[1] 这些文本是关于「哪些真可能令人不安」的思想采样，不是一份已被验证的风险目录，也不能代表全部知识界。
+    summary: 本题的关键不在「说出一个惊人的假说」，而在官方给出的限定：一个想法之所以危险，不是因为它被假定为假，而是因为它可能为真，并因此冲击道德、政治或自我理解。[1] 科学史上不乏此类例子，哥白尼与达尔文是最明显的。把 2006 年这一百余篇回应当成「当前最危险的想法排行」，会看错材料的性质：它们没有统一主题，也没有检验程序。「危险」相对于特定价值与政治环境，公开讨论与限制讨论各有代价，本身就是未决的伦理问题。一百多篇受邀随笔不能写成中立的风险科学。
     views:
-    - position: 「科学正在失控」这一想法本身可能带来危险
-      holders: Martin Rees
-      argument: Rees 指出，若公众相信科学进步已无法被引导，这种信念可能自我应验：人们会放弃争取更安全、更公平的应用路径。21 世纪的风险更多来自人类行动，需要积极的政策，而不是宿命论。
-      sources:
-      - title: Edge 2006 回应汇编（含 Rees, Science may be 'running out of control'）
-        url: https://www.edge.org/responses/what-is-your-dangerous-idea
-      - title: Edge 2006 年度问题页（注明问题由 Pinker 建议）
-        url: https://www.edge.org/annual-question/2006
-    - position: 危险的想法可能是关于人性本身的事实
-      holders: David M. Buss（其回应讨论「恶」的演化心理）
-      argument: Buss 提出，令人不安之处在于：与其把残暴当作少数疯子的属性，不如认真考虑人类头脑中是否包含曾在演化中起作用、可能导致伤害他人的心理机制。若为真，道德教育与制度设计就不能建立在「正常人天然无害」的假设上。
-      sources:
-      - title: Edge 2006 回应汇编（含 Buss 的条目）
-        url: https://www.edge.org/responses/what-is-your-dangerous-idea
-      - title: Wikipedia 对同名文集的介绍
-        url: https://en.wikipedia.org/wiki/What_Is_Your_Dangerous_Idea%3F
-    open_parts: 「危险」是相对于特定价值与政治环境而言的，没有中立清单。哪些科学主张真的具有社会风险、公开讨论与限制讨论各有何种代价，本身就是未决的伦理问题。一百多篇回应也不能代表全部知识界。
+    - position: 「危险的想法」在此被定义为可能为真、因而令人不安的观念，而不是已被判定为假的观念
+      consensus_role: 征文的定义，不是经验结论
+      evidence:
+        label: 官方问题说明与受邀回应
+        note: 定义本身清楚，但「可能为真」在征文中通常未经证明。本轮不把未单独复核全文的单篇回应写成「科学正在失控已被证实」之类的命题。[1]
+      holders:
+      - name: Edge.org；问题由 Steven Pinker 建议
+        identity: 官方页写明：“Thanks to Steven Pinker for suggesting the Edge Annual Question — 2006.” 导言日期为 2006 年 1 月 1 日，并报告 118 篇回应。[1]
+      argument: 官方文本先指出，科学史上充满在其时代被视为社会、道德或情感上危险的发现，并以哥白尼与达尔文革命为最明显的例子。然后给出问题：你危险的想法是什么？一个你思考着的想法（不一定是你首创的），它之所以危险，不是因为它被假定为假，而是因为它可能为真。[1] 这一定义把讨论从「驳斥错误观念」转到「面对可能令人不安的真相」，但也因此无法产生一份中立清单：对谁危险、在何种制度下危险，取决于价值与环境。
+      quotes:
+      - text: The history of science is replete with discoveries that were considered socially, morally, or emotionally dangerous in their time; the Copernican and Darwinian revolutions are the most obvious. What is your dangerous idea? An idea you think about (not necessarily one you originated) that is dangerous not because it is assumed to be false, but because it might be true?
+        text_zh: 科学史上充满在其时代被视为社会、道德或情感上危险的发现；哥白尼革命与达尔文革命是最明显的。你危险的想法是什么？一个你思考着的想法（不一定是你首创的），它之所以危险，不是因为它被假定为假，而是因为它可能为真？
+        attribution: Edge 2006 年度问题官方说明
+        locator: edge.org 2006 年度问题页（2026-11-10 查阅）
+        ref: 1
+    open_parts: 「危险」是相对于特定价值与政治环境而言的。哪些科学主张真的具有社会风险、公开讨论与限制讨论各有何种代价，本身是未决的伦理问题。118 篇回应不能代表全部知识界。[1]
+    references:
+    - id: 1
+      citation: 'Edge.org. The Edge Annual Question — 2006: What is your dangerous idea? 官方问题页，注明由 Steven Pinker 建议。查阅日期 2026-11-10。'
+      url: https://www.edge.org/annual-question/what-is-your-dangerous-idea
 - id: 2026-11-07-phil-consciousness
   date: '2026-11-07'
   category: philosophy
@@ -784,33 +1890,135 @@
   - 感受质
   - 心灵哲学
   answer:
-    summary: 大卫·查尔莫斯所谓「困难问题」问的是：为什么物理过程会伴随主观体验（感受质），而不只是功能与行为。容易的问题包括注意、报告、信息整合等可功能化的机制；困难问题则是体验本身为何存在。物理主义、错觉论与泛心论等给出了截然不同的回应，目前没有实验能单独结案。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 严重分歧
+      note: 「物理过程为何伴随主观体验」被广泛承认为当代心灵哲学的中心问题，但对是否存在一个不能被功能解释消化的「困难问题」，物理主义、取消式或错觉论策略与各种非还原立场之间没有共识。这不是可以用单一实验结案的经验争论，而是对「什么才算解释」的哲学分歧。[1][2][4][5]
+    summary: 这个问题在当代文献中通常以大卫·查尔莫斯（David J. Chalmers）所谓「意识的困难问题」来表述：即使我们说明了分辨、报告、注意、信息整合等认知功能，仍可追问这些功能的执行何以伴随主观体验。[1]
+      其经典前驱是托马斯·内格尔（Thomas Nagel）的追问：一个有意识的有机体，总有「作为它是什么样」的主观面向，而这似乎不能被还原分析穷尽。[2] 反对者（如丹尼尔·丹尼特）认为，把「体验」从全部功能中单独剔出来，本身就是在制造一个虚假残余；一旦功能被分解说明，所谓困难问题就会消散。[3]
+      查尔莫斯本人则探索非还原方案，把体验当作需用额外原理衔接的根本特征。[1] 科学上的全局工作空间、整合信息等理论主要说明的是功能和报告，是否触及感受质，仍依人们对「困难问题」本身的立场而定。[4][5]
+    definitions:
+    - term: 容易问题
+      text: 查尔莫斯用来指那些可用认知科学标准方法、即用计算或神经机制来说明的意识相关现象，例如刺激辨别与反应、信息整合、状态的可报告性、内在状态的通达、注意、有意行为控制，以及醒与睡的差别。[1]
+    - term: 困难问题
+      text: 查尔莫斯用来指体验本身的问题：思维与知觉过程中，除信息加工的运作外，还有「作为该有机体/处于该状态是什么样」的主观面向；关键是这些功能的执行何以伴随体验。[1][2]
+    - term: 感受质 / 现象意识
+      text: 指经验的主观特征。内格尔称为「经验的主观特性」（the subjective character of experience）；查尔莫斯说他更自然地使用「有意识的体验」或「体验」，有时文献也用
+        qualia 或 phenomenal consciousness。[1][2]
+    milestones:
+    - year: '1974'
+      name: Nagel：「作为一只蝙蝠是什么样？」
+      explanation: 内格尔论证，有意识的心智状态之本质在于：作为一个有机体，总有某种「作为它是什么样」的东西，并且这是「对那个有机体而言」的。他认为这一主观特性不能被当时常见的还原分析所捕捉，因为那些分析在逻辑上都可以与其缺席相容。[2]
+        一句话：意识难，难在主观视角本身，而不只是行为或功能角色。
+    - year: 1995–1996
+      name: Chalmers 提出困难问题，Dennett 随即反驳
+      explanation: 查尔莫斯把问题明确分成「容易」与「困难」，并主张对功能的说明会留下「这些功能何以伴随体验」这一进一步问题。[1] 丹尼特在次年回应中认为这一划分会误导研究注意力，并把它比作
+        Vitalism 把「生命本身」从生殖、代谢等功能中单独抽离。[3] 一句话：此后争论的焦点，不只是脑如何工作，而是「解释功能是否已经解释了体验」。
     views:
-    - position: 存在一个不能被功能解释消化的困难问题
-      holders: David Chalmers（1995）；其前驱包括 Thomas Nagel 对「作为一只蝙蝠是什么样」的追问
-      argument: 即便完整说明了大脑如何分辨刺激、控制行为并口头报告，仍可以想象这些功能在「没有内在感受」的情况下实现。因此，主观体验需要额外的解释，而不是再多一些神经机制图就能自动消失。
-      sources:
-      - title: Chalmers, Facing Up to the Problem of Consciousness（作者 PDF）
-        url: https://www.consc.net/papers/facing.pdf
-      - title: Nagel, What Is It Like to Be a Bat?（JSTOR）
-        url: https://www.jstor.org/stable/2183914
-      - title: Stanford Encyclopedia of Philosophy：Consciousness
-        url: https://plato.stanford.edu/entries/consciousness/
-    - position: 所谓困难问题是对直觉的误用，意识就是功能/认知过程
-      holders: 物理主义与若干「错觉论」或消解策略的主张者（SEP 意识条目有综述）；Daniel Dennett 是广为人知的批评者之一
-      argument: 一旦注意、报告和分辨都被解释，并不剩下一个额外的「体验实体」需要安置。觉得还缺点什么，可能来自想象的限制或概念混淆。按此路线，困难问题应被消解，而不是被「解决」。
-      sources:
-      - title: SEP：Consciousness（含物理主义与反对意见）
-        url: https://plato.stanford.edu/entries/consciousness/
-      - title: Internet Encyclopedia of Philosophy：Consciousness
-        url: https://iep.utm.edu/consciou/
-    - position: 体验是根本的，甚至可能是物质的普遍方面
-      holders: 泛心论传统；SEP《Panpsychism》条目系统梳理当代复兴
-      argument: 若从无体验的物理实体中「产生」体验显得不可思议，一种选择是：某种极简的体验属性在基本层面上就存在，复杂意识是其组合。这一路线试图认真对待困难问题，但立刻面对「微观体验如何组合成统一心灵」的组合问题。
-      sources:
-      - title: Stanford Encyclopedia of Philosophy：Panpsychism
-        url: https://plato.stanford.edu/entries/panpsychism/
-    open_parts: 没有公认的实验可以区分「体验是额外的事实」与「体验可被功能完全捕捉」。整合信息、全局工作空间等科学理论解释的是功能和报告，是否触及感受质仍有争议。AI 是否会有主观体验，目前更多是哲学外推。
+    - position: 存在一个不能被功能说明消化的困难问题
+      consensus_role: 有影响力的问题框架，并非定论
+      evidence:
+        label: 概念论证，不是实验结果
+        note: 核心是思想实验与概念分析（如内格尔的蝙蝠、查尔莫斯对「进一步问题」的划分）。它们改变了问题的提法，但不能像实验那样被一次观测证实或证伪。[1][2][4]
+      holders:
+      - name: David J. Chalmers
+        identity: 1995 年撰写该文时在澳大利亚国立大学社会科学研究院哲学项目（Philosophy Program, Research School of Social Sciences,
+          ANU）；《Facing Up to the Problem of Consciousness》作者，该文发表于 Journal of Consciousness Studies, 2(3),
+          200–219。[1]
+      - name: Thomas Nagel
+        identity: 1974 年论文《What Is It Like to Be a Bat?》作者，发表于 The Philosophical Review, 83(4), 435–450。该文为「主观特性」表述的经典来源；本文不在未能核对其当时任职机构的情况下补充头衔。[2]
+      argument: 查尔莫斯区分两类问题：容易问题指向可被计算或神经机制说明的功能；困难问题指向体验。他强调，当我们思考与知觉时，除了一阵信息加工，还有主观面向——用内格尔的话说，作为一个有意识的有机体，总有某种「作为它是什么样」的东西。[1]
+        他进一步提出：即便功能得到说明，仍可合理追问这些功能的执行何以伴随体验；与「基因」或「生命」不同，这里似乎并没有概念错误。[1] 内格尔则更早主张，经验的主观特性不能被功能状态或意向状态的说明系统所分析，因为那些分析与其缺席在逻辑上相容。[2]
+        这一立场并不否认体验有物理基础，而是认为「何以产生丰富的内在生活」尚未被现有物理说明给出。[1]
+      quotes:
+      - text: The really hard problem of consciousness is the problem of experience. When we think and
+          perceive, there is a whir of information-processing, but there is also a subjective aspect.
+          As Nagel (1974) has put it, there is something it is like to be a conscious organism.
+        text_zh: 意识真正困难的问题是体验的问题。当我们思考与知觉时，除了一阵信息加工，还有一个主观面向。如内格尔（1974）所说，作为一个有意识的有机体，总有某种「作为它是什么样」的东西。
+        attribution: David J. Chalmers，Facing Up to the Problem of Consciousness
+        locator: 作者 PDF 第 3 页（期刊 Journal of Consciousness Studies, 2(3), 1995）
+        ref: 1
+      - text: an organism has conscious mental states if and only if there is something that it is like
+          to be that organism—something it is like for the organism.
+        text_zh: 一个有机体具有有意识的心智状态，当且仅当存在着某种「作为那个有机体是什么样」的东西——并且那是对这个有机体而言的「是什么样」。
+        attribution: Thomas Nagel，What Is It Like to Be a Bat?
+        locator: 第 436 页
+        ref: 2
+    - position: 所谓困难问题是对注意力的误导；说明了功能，就没有剩下的「体验残余」
+      consensus_role: 有影响力的消解策略
+      evidence:
+        label: 哲学反论证，同样不是实验证明
+        note: 丹尼特的策略是指出划分本身在制造假问题，并与 Vitalism 类比。这是对解释标准的竞争，不能单靠新的脑成像来裁决。[3]
+      holders:
+      - name: Daniel C. Dennett
+        identity: 塔夫茨大学认知研究中心（Center for Cognitive Studies, Tufts University, Medford, MA）。1996 年在 Journal
+          of Consciousness Studies, 3(1), 4–6 发表对查尔莫斯的直接回应《Facing Backwards on the Problem of Consciousness》。[3]
+      argument: 丹尼特认为，把意识问题分成「容易」与「真正困难」并不是对研究有用的分工，而是「注意力的重大误导」和「幻觉生成器」。[3] 他把查尔莫斯的姿态比作一位 Vitalist：在说明了生殖、发育、生长、代谢、自我修复和免疫防御之后，仍坚称「生命本身」还没被说明。在丹尼特看来，一旦人们把与意识相关的那些可识别功能——愉悦与沮丧、分心与专注、记忆与行动倾向等——全部减去，并没有剩下一种仍能打动、取悦或提醒我们的「质的残余」，只剩下某些人持有的古怪确信。[3]
+        因此，正确的研究顺序不是先把感受质放到一边再回头处理，而是从一开始就把它们分解为功能成分并分布到模型之中。[3]
+      quotes:
+      - text: Chalmer's (1995) attempt to sort the 'easy' problems of consciousness from the 'really hard'
+          problem is not, I think, a useful contribution to research, but a major misdirector of attention,
+          an illusion-generator.
+        text_zh: 查尔莫斯（1995）把意识的「容易」问题与「真正困难」问题分开的做法，在我看来并不是对研究的有益贡献，而是对注意力的重大误导，是一个幻觉生成器。
+        attribution: Daniel C. Dennett，Facing Backwards on the Problem of Consciousness
+        locator: 第 4 页。原文将 Chalmers 写作 Chalmer's，此处按原文逐字转录。
+        ref: 3
+      - text: Subtract them away, and nothing is left beyond a weird conviction (in some people) that
+          there is some ineffable residue of 'qualitative content' bereft of all powers to move us, delight
+          us, annoy us, remind us of anything.
+        text_zh: 把它们统统减去之后，除了（在某些人那里的）一种古怪确信——即还存在某种说不出的「质的内容」残余，却已失去一切打动我们、使我们愉快、惹恼我们或提醒我们任何事情的力量——便什么也没有剩下。
+        attribution: Daniel C. Dennett，Facing Backwards on the Problem of Consciousness
+        locator: 第 6 页
+        ref: 3
+    - position: 体验也许是根本的：非还原说明，乃至泛心论式的选项
+      consensus_role: 少数但被认真讨论的形上方案
+      evidence:
+        label: 哲学方案与综述，缺少决定性经验判决
+        note: 查尔莫斯在同一篇文章后半提出非还原的自然主义候选；斯坦福哲学百科《Panpsychism》把「心智在自然界中根本且普遍」作为一条有历史的形上路线加以梳理。这些是概念方案，不是已被证实的科学理论。[1][6]
+      holders:
+      - name: David J. Chalmers
+        identity: 在 1995 年论文后半，他提出以结构融贯、组织不变以及信息的「双面」观点为基础的非还原说明，作为自己的候选理论。[1]
+      - name: 泛心论传统（斯坦福哲学百科综述）
+        identity: SEP《Panpsychism》条目把泛心论定义为：心智是根本的，并且在自然界中普遍存在。该条目初版 2001 年，本次打开的文本注明 substantive revision
+          日期为 2022-05-13。此处只依据该综述，不额外点名未能打开其代表作原文的当代作者。[6]
+      argument: 若接受「对功能的说明不足以说明体验」，一种回应是扩展本体论，而不是把体验还原为已知的物理机制。查尔莫斯在 1995 年文中明确把自己的建设性建议说成：一种基于结构融贯原则、组织不变原则以及信息双面观点的非还原理论。[1]
+        与此相关，泛心论把心智或某种原体验看作自然界的根本而普遍的方面；SEP 以此定义该立场，并回顾其历史与当代复兴。[6] 需要强调：这与「已用实验证明万物有体验」完全不是一回事，组合问题（微观体验如何构成我们的统一体验）仍是该路线内部的公开难题。[6]
+      quotes:
+      - text: 'I put forward my own candidate for such an account: a nonreductive theory based on principles
+          of structural coherence and organizational invariance and a double-aspect view of information.'
+        text_zh: 我提出自己的一种候选说明：一种基于结构融贯原则、组织不变原则以及信息之双面观点的非还原理论。
+        attribution: David J. Chalmers，Facing Up to the Problem of Consciousness
+        locator: 作者 PDF 第 1 页（引言）
+        ref: 1
+    open_parts: 第一，困难问题是否是一个真正的、不可消解的解释缺口，本身就没有共识。[1][3][4] 第二，即使同意有缺口，缺口应通过新的基本定律、泛心论、还是某种尚不清楚的物理主义来填补，仍是开放的。[1][6]
+      第三，全局工作空间、整合信息等科学理论已经在功能和报告层面取得进展，但它们是否回答了感受质问题，取决于人们是否接受「功能说明已经足够」。第四，人工智能系统是否会有主观体验，目前主要是把上述哲学立场外推，缺少可公开检验的判决程序。
+    references:
+    - id: 1
+      citation: Chalmers, D. J. (1995). Facing up to the problem of consciousness. Journal of Consciousness
+        Studies, 2(3), 200–219. 页码凡称「作者 PDF」者，均按作者提供的 PDF 分页。
+      url: https://www.consc.net/papers/facing.pdf
+    - id: 2
+      citation: Nagel, T. (1974). What is it like to be a bat? The Philosophical Review, 83(4), 435–450.
+        引文页码为期刊页码，据大学站点提供的 JSTOR 扫描件核对。
+      url: https://philosophy.uconn.edu/wp-content/uploads/sites/365/2020/03/Nagel-What-is-it-like-to-be-a-bat.pdf
+    - id: 3
+      citation: Dennett, D. C. (1996). Facing backwards on the problem of consciousness. Journal of Consciousness
+        Studies, 3(1), 4–6.
+      url: https://dl.tufts.edu/downloads/47429n33b?filename=6q182z18f.pdf
+    - id: 4
+      citation: Van Gulick, R. (2014/2026). Consciousness. In E. N. Zalta & U. Nodelman (Eds.), The Stanford
+        Encyclopedia of Philosophy. 本次打开的条目正文注明 first published 2004-06-18，substantive revision 2014-01-14；查阅日期
+        2026-11-10（Asia/Shanghai）。用作对物理主义及其反对意见的权威综述，不从中摘取未再核对原文的二手引语。
+      url: https://plato.stanford.edu/entries/consciousness/
+    - id: 5
+      citation: Consciousness. Internet Encyclopedia of Philosophy. 作为开放获取的综述对照，不替代一手论文。
+      url: https://iep.utm.edu/consciousness/
+    - id: 6
+      citation: Goff, P., Seager, W., & Allen-Hermanson, S. (2022/2026). Panpsychism. In E. N. Zalta &
+        U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy. 本次打开的条目正文注明 first published 2001-05-23，substantive
+        revision 2022-05-13；查阅日期 2026-11-10（Asia/Shanghai）。
+      url: https://plato.stanford.edu/entries/panpsychism/
 - id: 2026-11-07-psych-pseudoscience
   date: '2026-11-07'
   category: psychology
@@ -825,24 +2033,59 @@
   - 伪科学
   - 认知偏误
   answer:
-    summary: 人们接受伪科学，很少只是因为「缺少一张科学知识清单」。哲学与心理学研究强调：人类本就依赖启发式，又会保护身份与既有信念；加上现代信息环境让似是而非的解释更容易传播。科学素养有时甚至会强化极化——人们更会为自己阵营的结论辩护。因此，纠正伪科学既要提高方法意识，也要处理动机与信任。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 「缺乏科学知识」不足以解释；普遍划界标准也没有定论
+      note: 哲学上，区分科学与伪科学属于更广泛的问题：哪些信念在认识上得到担保。Hansson 指出，人们对具体个案的判断共识，高于对这些判断应依据何种普遍标准的共识。[1] 心理学上，一个常被引用的结果是：把公众在气候变化等问题上的分裂主要归因于「不懂科学、技术推理能力不足」，并没有得到支持——科学素养与技术推理能力最高的人，并不是最担忧气候变化的人，反而是文化极化最大的人。[2] 该心理学结论在本文中仅依据已打开的期刊摘要陈述，因为未能获得全文。相信伪科学还有许多其他通路（身份、信任、信息环境），不能单靠这一项研究概括。
+    summary: 人们「轻易相信伪科学」，很少能用一张缺失的科学知识清单来穷尽。首先需要把对象说清楚：伪科学问题，是在更宽的「哪些信念有认识上的担保」任务之中，把伪科学与其他非科学主张（包括否认科学与抗拒事实）区分开来。哲学上已有许多划界标准（从逻辑实证到 Popper 的可证伪性，再到多标准清单），但 Hansson 的判断是：具体个案上的共识，明显多于普遍标准上的共识，这说明科学与伪科学的关系仍有重要的哲学工作要做。[1] 其次，即便一个人「更懂科学」，也不自动更接近科学共识。Kahan 等人在《Nature Climate Change》报告：他们检验了「公众冷漠来自理解不足与技术推理受限」这一说法，并「未发现对它的支持」。科学素养与技术推理能力最高的公众成员，并不是最担忧气候变化的人；相反，他们是文化极化最大的那些人。作者据此认为，分歧并非主要来自公众不懂科学，而暂时来自一种利益冲突：个人有动机形成与其亲密群体一致的信念，同时所有人又共同需要利用最佳科学以促进共同福利。[2] 把这两条线索合在一起：伪科学的吸引力，既来自「看起来像科学」的认识伪装，也来自动机、身份与群体保护；提高科学素养是必要的，但不是充分的纠正手段。
+    definitions:
+    - term: 划界问题（demarcation）
+      text: 如何把科学与伪科学（以及更一般的非科学）区分开来。Hansson 将该问题置于「哪些信念在认识上得到担保」这一更大任务之中，并回顾从逻辑实证、Popper 可证伪性到多标准方案等主要提议及其弱点。[1]
+    milestones:
+    - 2008 年 9 月 3 日，Sven Ove Hansson 的 SEP 词条「Science and Pseudo-Science」首次发表，成为当代哲学讨论的标准入口。[1]
+    - 2012 年，Kahan 等人在 Nature Climate Change 第 2 卷发表 The polarizing impact of science literacy and numeracy on perceived climate change risks（第 732–735 页）。[2]
     views:
-    - position: 伪科学利用了普遍的认知策略与划界困难
-      holders: 科学哲学中关于「科学与伪科学划界」的讨论（SEP 条目综述）
-      argument: 伪科学常常模仿科学的外表（术语、图表、个案），却回避真正的检验、证伪或可靠的对照。公众若主要靠「看起来像不像科学」来判断，就很容易被这种外表说服。划界标准本身在哲学上就有争议，更增加了识别难度。
-      sources:
-      - title: Stanford Encyclopedia of Philosophy：Science and Pseudo-Science
-        url: https://plato.stanford.edu/entries/pseudo-science/
-    - position: 动机与文化认同会塑造「愿意相信什么」
-      holders: 文化认知研究传统，例如 Kahan 等人关于科学素养与气候风险知觉极化的工作
-      argument: 当某个主张标志群体身份时，人会更有动力寻找支持自己的理由。Kahan 等发现，在气候变化风险上，科学素养与计算能力更高的人，并不自动更接近科学共识，反而可能更极化。这提示：只「灌输更多科学事实」不一定能减少伪科学认同。
-      sources:
-      - title: Kahan et al., The polarizing impact of science literacy and numeracy on perceived climate
-          change risks
-        url: https://www.nature.com/articles/nclimate1547
-      - title: Wikipedia：Cultural cognition
-        url: https://en.wikipedia.org/wiki/Cultural_cognition
-    open_parts: 教育、事实核查、身份认同干预各自在何种主题上有效，证据并不整齐。平台推荐算法的作用常被讨论，但因果估计困难。如何在不压制正当异议的前提下减少有害伪科学，仍是开放的规范问题。
+    - position: 伪科学首先是一个认识上的划界问题；个案判断的共识高于普遍标准的共识
+      consensus_role: 哲学综述中的标准判断
+      evidence:
+        label: 权威百科综述，不是对新数据集的统计分析
+        note: Hansson 系统整理了主要划界标准及其弱点。本文只采用词条中可直接核对的判断，不把未打开的 Popper 原著或具体伪科学案例研究写成已引用的一手文本。[1]
+      holders:
+      - name: Sven Ove Hansson
+        identity: 《斯坦福哲学百科》词条「Science and Pseudo-Science」作者。词条首次发表于 2008 年 9 月 3 日；所打开页面及 archinfo 记录最近实质性修订涉及 2025 年。查阅日期 2026-11-10。[1]
+      argument: Hansson 开篇就把科学与伪科学的区分，放在「判定哪些信念在认识上得到担保」这项更大的任务里。词条澄清伪科学相对于其他非科学学说与实践（包括否认科学、抗拒事实）的特定性质，讨论主要的定义与识别标准，并指出它们的一些弱点。他的概括是：人们对具体个案的同意，多于对这些判断应依据何种普遍标准的同意；这本身表明，科学与伪科学的关系上还有大量重要的哲学工作要做。[1] 对「人们为何相信伪科学」而言，这一判断的含义是：不能指望找到一条简单的逻辑公式，把所有伪科学一次划分出去；更不能把问题简化成「对方缺少一张科学事实清单」。
+      quotes:
+      - text: The problem of distinguishing between science and pseudoscience is part of the larger task of determining which beliefs are epistemically warranted. […] There is much more agreement on particular cases than on the general criteria that such judgments should be based upon. This is an indication that there is still much important philosophical work to be done on the relation between science and pseudoscience.
+        text_zh: 区分科学与伪科学的问题，属于判定哪些信念在认识上得到担保这项更大任务的一部分。[…] 人们对具体个案的同意，多于对这些判断应依据何种普遍标准的同意。这表明，关于科学与伪科学的关系，仍有许多重要的哲学工作要做。
+        attribution: Sven Ove Hansson，SEP「Science and Pseudo-Science」开篇
+        locator: 词条导论（2026-11-10 查阅的现行页面）
+        ref: 1
+    - position: 科学素养与技术推理能力并不会自动减少极化，有时还会使之加大
+      consensus_role: 一项常被引用的实证结果，但本文只核对了摘要
+      evidence:
+        label: 已发表期刊论文的官方摘要；全文未能打开，不引用正文系数
+        note: Nature Climate Change 官方页面提供了完整摘要（约 1,300 字级，含研究结论）。作者身份与页码来自该页面的文献元数据：Kahan 当时任职耶鲁法学院等。因未能打开正文，本文不引用回归系数、样本量细节或图表，只陈述摘要中明确写出的发现与解释。[2]
+      holders:
+      - name: Dan M. Kahan
+        identity: 期刊页面给出的当时任职：Yale University, Yale Law School, New Haven, Connecticut。[2]
+      - name: Ellen Peters、Maggie Wittlin、Paul Slovic、Lisa Larrimore Ouellette、Donald Braman、Gregory Mandel
+        identity: 合作者当时任职分别包括俄亥俄州立大学、耶鲁法学院 Cultural Cognition Project Lab、Decision Research、乔治华盛顿大学、坦普尔大学等（据该文页面作者机构元数据）。[2]
+      argument: 一种流行解释是：公众对气候变化之所以冷漠，是因为懂得太少，无法理解证据或避免被误导，再加上技术推理普遍受限，迫使公民使用不可靠的启发式来评估风险。Kahan 等人报告，他们做了一项研究来检验这种说法，并且「未发现对它的支持」。科学素养与技术推理能力最高的公众成员，并不是最担忧气候变化的人；相反，他们是文化极化最大的那些人。摘要给出的解释是：分歧并非源于公众对科学的不理解，而源于一种独特的利益冲突——个人有动机形成与其有紧密联系的他人相一致的信念，而他们作为集体又共同需要利用最佳科学以促进共同福利。[2] 对伪科学信念而言，这一点的推论是谨慎的：至少在气候风险知觉这个被研究的领域，更多的科学与计算能力并不保证更接近科学共识，它也可以被用来更好地捍卫与身份相符的结论。至于这一机制在多大程度上推广到占星术、否定疫苗等其他伪科学主题，摘要本身没有回答。
+      quotes:
+      - text: 'We conducted a study to test this account and found no support for it. Members of the public with the highest degrees of science literacy and technical reasoning capacity were not the most concerned about climate change. Rather, they were the ones among whom cultural polarization was greatest. This result suggests that public divisions over climate change stem not from the public’s incomprehension of science but from a distinctive conflict of interest: between the personal interest individuals have in forming beliefs in line with those held by others with whom they share close ties and the collective one they all share in making use of the best available science to promote common welfare.'
+        text_zh: 我们进行了一项研究来检验这一说法，并未发现对它的支持。科学素养与技术推理能力最高的公众成员，并不是最担忧气候变化的人；相反，他们是文化极化最大的那些人。这一结果暗示，公众在气候变化上的分裂并非源于公众对科学的不理解，而源于一种独特的利益冲突：个人有动机形成与其有紧密联系的他人相一致的信念，而他们作为集体又共同需要利用现有最佳科学以促进共同福利。
+        attribution: Kahan 等，2012，论文摘要
+        locator: Nature Climate Change, 2, 732–735，官方页面所载完整摘要
+        ref: 2
+    open_parts: 第一，伪科学的普遍定义仍无定论；Hansson 已说明个案共识高于标准共识。[1] 第二，Kahan 等人的发现针对的是气候变化风险知觉，本文只核对其摘要，不能把正文中的方法细节或效应大小写进论证，也不能自动推广到所有伪科学主题。[2] 第三，信息环境、信任、教育与动机性推理的其他经典研究，若未在本轮打开全文，均不作为引语来源。因此，本问题的心理学机制部分应视为证据不完整，而不是已经有统一因果理论。
+    references:
+    - id: 1
+      citation: Hansson, S. O. Science and Pseudo-Science. The Stanford Encyclopedia of Philosophy. 首次发表 2008-09-03。查阅日期 2026-11-10。按本站体例引用已打开的现行词条 URL。
+      url: https://plato.stanford.edu/entries/pseudo-science/
+    - id: 2
+      citation: Kahan, D. M., Peters, E., Wittlin, M., Slovic, P., Ouellette, L. L., Braman, D., & Mandel, G. The polarizing impact of science literacy and numeracy on perceived climate change risks. Nature Climate Change, 2012, 2, 732–735. doi:10.1038/nclimate1547。因全文处于期刊墙之后，引语仅核自该文官方页面提供的完整摘要；作者机构据同一页面的文献元数据。
+      url: https://www.nature.com/articles/nclimate1547
 - id: 2026-11-07-psych-writing
   date: '2026-11-07'
   category: psychology
@@ -857,33 +2100,83 @@
   - 记忆
   - 学习方法
   answer:
-    summary: 「写下来有助于记住」大体成立，但其机制更接近生成、组织与提取练习，而不是纸本身有魔力。Mueller 与 Oppenheimer（2014）曾报告：手写笔记比笔记本记录更有利于概念理解，可能因为手写迫使人转述而非逐字抄录。后续复制并未稳定得到同样优势。更坚实的是测试效应：主动回忆通常优于只是重读或抄写。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 「写下来并加以提取练习有助于记忆」较有共识；手写是否稳定优于打字仍有争议
+      note: 更坚实的是测试效应：主动回忆通常优于只是再学习。[3] 手写笔记是否比键盘逐字记录更有利于概念理解，Mueller 与 Oppenheimer（2014）给出了肯定证据，但这一优势是否稳定，后续文献有争论。Kayla
+        Morehead、John Dunlosky 与 Katherine A. Rawson 的复制与扩展研究已于 2019 年发表在 Educational Psychology Review,
+        31, 753–780，但本次未能打开其全文或出版社摘要，因此不转述该文的具体统计结果，只记录其作为已发表复制研究的存在。[2]
+    summary: 「把东西写下来有助于记住」大体成立，但其机制更接近生成、组织与提取练习，而不是纸张本身有魔力。Mueller 与 Oppenheimer（2014）在三项研究中报告：即便电脑只用于记笔记，笔记本记录者在概念性问题上的表现差于手写者，并认为这与笔记本更倾向于逐字转录、加工较浅有关。[1]
+      另一方面，学习科学中更稳定的发现是测试效应：Roediger 与 Karpicke（2006）表明，参加记忆测试不仅评估已有知识，还增强后继保持；在延迟测验上，先前测试带来的保持显著好于把同样时间用于再学习。[3]
+      手写对打字的优势是否可复制，仍不应被写成定论。
+    definitions:
+    - term: 测试效应（testing effect）
+      text: 指参加记忆测试不仅测量一个人已经知道什么，还增强其随后的保持。Roediger 与 Karpicke 在摘要中即如此界定，并指出这一现象在认知心理学之外仍不够广为人知。[3]
+    milestones:
+    - year: '2006'
+      name: Roediger 与 Karpicke 用教育相关材料展示测试效应
+      explanation: 学生在学习散文后，或接受一次/三次无反馈自由回忆测试，或把同等次数用于再学习。在延迟测验上，先前测试带来的保持明显更好。[3] 一句话：考试不只是测量学习，它本身就是一种学习。
+    - year: 2014–2019
+      name: 手写笔记与键盘笔记的比较及其复制争议
+      explanation: Mueller 与 Oppenheimer（2014）报告手写在概念性问题上更有利。[1] 2019 年 Educational Psychology Review
+        发表了 Morehead、Dunlosky 与 Rawson 的复制与扩展，但本次未能打开全文，故不对其结果作细节转述。[2]
     views:
     - position: 手写笔记可能比键盘逐字记录更利于概念理解
-      holders: Pam Mueller 与 Daniel Oppenheimer（2014）
-      argument: 他们的实验发现，用笔记本电脑记笔记的人往往记得多、更近乎逐字，但在概念性问题上表现较差；手写者记得更少，却可能进行了更多加工。作者把原因归于编码深度，而不是「不能多任务」这么简单。
-      sources:
-      - title: Mueller & Oppenheimer, The Pen Is Mightier Than the Keyboard（PubMed）
-        url: https://pubmed.ncbi.nlm.nih.gov/24760141/
-      - title: APS 对该研究的新闻说明
-        url: https://www.psychologicalscience.org/news/releases/take-notes-by-hand-for-better-long-term-comprehension.html
-    - position: 手写对打字的优势并不稳定，记忆更取决于如何加工
-      holders: Morehead、Dunlosky 与 Rawson（2019）等复制与扩展研究
-      argument: 复制实验没有一致地复制出手写在概念题或延迟测验上的优势；在某些条件下，记笔记甚至不优于不记笔记。更稳妥的建议是：无论用笔还是键盘，都要避免无思考的逐字抄录，并加入回忆、自测与整理。
-      sources:
-      - title: Morehead, Dunlosky & Rawson, How Much Mightier Is the Pen than the Keyboard…（2019）
-        url: https://link.springer.com/article/10.1007/s10648-019-09468-2
-      - title: The Learning Scientists 对该复制研究的介绍
-        url: https://www.learningscientists.org/blog/2019/2/21-1
+      consensus_role: 有影响的单项（系列）发现，推广仍有争议
+      evidence:
+        label: 三项实验的同行评议报告；后续可重复性未在本条目中核到全文
+        note: 结论来自 Mueller 与 Oppenheimer（2014）。该文控制了笔记本电脑的分心用途，焦点是笔记方式本身。一份 2019 年的已发表复制研究存在，但全文未能打开，故不能用来在数值上支持或推翻原文。[1][2]
+      holders:
+      - name: Pam A. Mueller、Daniel M. Oppenheimer
+        identity: 撰写该文时，Mueller 在普林斯顿大学，Oppenheimer 在加州大学洛杉矶分校。Psychological Science, 2014, 25(6), 1159–1168。[1]
+      argument: 先前关于课堂笔记本的研究多集中在多任务与分心。该文提出：即便笔记本只用来记笔记，仍可能因加工更浅而损害学习。摘要报告：在三项研究中，用笔记本记笔记的学生在概念性问题上的表现差于手写者；记更多笔记可以有益，但笔记本记录者倾向于逐字转录讲座、而不是用自己的话重新组织，这一点对学习有害。[1]
+        因此，若「写下来」只是高速抄录，它并不自动等于深度编码。
+      quotes:
+      - text: In three studies, we found that students who took notes on laptops performed worse on conceptual
+          questions than students who took notes longhand. We show that whereas taking more notes can
+          be beneficial, laptop note takers’ tendency to transcribe lectures verbatim rather than processing
+          information and reframing it in their own words is detrimental to learning.
+        text_zh: 在三项研究中，我们发现用笔记本记笔记的学生在概念性问题上的表现差于手写笔记的学生。我们表明：尽管记更多笔记可以有益，但笔记本记录者倾向于逐字转录讲座，而不是对信息加以加工并用自己的话重新组织，这一点对学习有害。
+        attribution: Pam A. Mueller 与 Daniel M. Oppenheimer，The Pen Is Mightier Than the Keyboard
+        locator: 摘要，Psychological Science, 25(6), 2014, 第 1159 页
+        ref: 1
     - position: 提取练习（测试效应）是更坚实的记忆原则
-      holders: 学习科学中的测试效应与生成效应传统
-      argument: 大量研究表明，尝试把内容从记忆中提取出来，通常比再次阅读更能长期保留。写下要点之所以有用，往往是因为它迫使你生成和提取，而不只是「墨水痕迹」本身。
-      sources:
-      - title: Wikipedia：Testing effect
-        url: https://en.wikipedia.org/wiki/Testing_effect
-      - title: Wikipedia：Generation effect
-        url: https://en.wikipedia.org/wiki/Generation_effect
-    open_parts: 手写与打字的差异在多大程度上取决于设备、是否可复制粘贴、主题类型和延迟间隔，仍未完全澄清。对屏幕阅读障碍、笔记后期复习方式的研究也还在进行。
+      consensus_role: 学习科学中的主流实验结论
+      evidence:
+        label: 经典同行评议实验，并有长期文献传统
+        note: Roediger 与 Karpicke（2006）用教育相关的短文材料，比较测试与再学习在即时与延迟测验上的效果。摘要与正文均表明：短期再学习可能更好，延迟后测试更有利。[3]
+          本文不把「测试效应」说成毫无边界条件，但就「写下来是否有助于记忆」而言，主动回忆通常比被动抄写或重读更关键。
+      holders:
+      - name: Henry L. Roediger, III、Jeffrey D. Karpicke
+        identity: 华盛顿大学圣路易斯分校（Washington University in St. Louis）。通讯作者地址为该校心理系。Psychological Science,
+          2006, 17(3), 249–255。[3]
+      argument: 若记忆的关键是编码时「动手」，那么再读、再抄也应当同样有效。Roediger 与 Karpicke 的摘要开宗明义：参加记忆测试不仅评估已知内容，还增强随后的保持，这一现象称为测试效应。[3]
+        在两项实验中，学生学习散文段落，接受一次或三次无反馈的即时自由回忆测试，或把同样次数用于再学习；在延迟测验上，先前测试产生的保持显著大于再学习，即使再学习在即时测验上曾经更好。[3] 这对「写下来」的启示是：写下的价值，很大程度上取决于你是否在用写作进行提取与重构，而不是只做一份可再读的抄本。
+      quotes:
+      - text: Taking a memory test not only assesses what one knows, but also enhances later retention,
+          a phenomenon known as the testing effect.
+        text_zh: 参加一次记忆测试，不仅评估一个人已经知道什么，还增强随后的保持——这一现象被称为测试效应。
+        attribution: Henry L. Roediger, III 与 Jeffrey D. Karpicke，Test-Enhanced Learning
+        locator: 摘要，Psychological Science, 17(3), 2006, 第 249 页
+        ref: 3
+    open_parts: 手写与打字的差异在多大程度上取决于设备、是否可复制粘贴、学科类型、是否允许复习笔记以及延迟间隔，仍未完全澄清。Morehead、Dunlosky 与 Rawson（2019）的复制与扩展是评估
+      2014 年结论稳定性的关键文献之一，但本次未能打开全文，因此不能在本条目中报告其效应方向或显著性。对屏幕阅读、键盘输入与手写在神经和编码层面是否有独特贡献，也还需要更多预注册研究。
+    references:
+    - id: 1
+      citation: 'Mueller, P. A., & Oppenheimer, D. M. (2014). The pen is mightier than the keyboard: Advantages
+        of longhand over laptop note taking. Psychological Science, 25(6), 1159–1168. https://doi.org/10.1177/0956797614524581'
+      url: https://www.benjaminjameswaddell.com/wp-content/uploads/2014/09/mueller-the-pen-is-mightier-than-the-keyboard.pdf
+    - id: 2
+      citation: Morehead, K., Dunlosky, J., & Rawson, K. A. (2019). How much mightier is the pen than
+        the keyboard for note-taking? A replication and extension of Mueller and Oppenheimer (2014). Educational
+        Psychology Review, 31, 753–780. https://doi.org/10.1007/s10648-019-09468-2 本次未能打开出版社全文或可供核对的开放
+        PDF，故不从该文摘句或转述具体统计结果；书目信息据 Crossref 元数据。
+      url: null
+    - id: 3
+      citation: 'Roediger, H. L., III, & Karpicke, J. D. (2006). Test-enhanced learning: Taking memory
+        tests improves long-term retention. Psychological Science, 17(3), 249–255. https://doi.org/10.1111/j.1467-9280.2006.01693.x'
+      url: https://learninglab.psych.purdue.edu/downloads/2006/2006_Roediger_Karpicke_PsychSci.pdf
 - id: 2026-11-07-hn-books
   date: '2026-11-07'
   category: philosophy
@@ -898,22 +2191,28 @@
   - 阅读
   - 心智模型
   answer:
-    summary: 这道 Ask HN 没有标准书单，而是一份极长的个人见证合集。线程里反复出现的，是改变读者「看待决策、设计与人际」方式的书，而不是某一本被全体同意的经典。常见被点名的包括丹尼尔·卡尼曼的《思考，快与慢》、唐纳德·诺曼的《设计心理学》（The
-      Design of Everyday Things）等；也有人举出传记、文学与专业著作。真正的「答案」是：能改写一个人心智模型的书，高度依赖于他当时缺的是哪一块框架。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：个人书单征集，不是一份已被验证的必读书令
+      note: 本题来自 Ask HN：「哪些书几乎改变了你看待几乎一切事物的方式？」它征集的是个人见证，而不是一项有抽样框架、对照或事前注册的阅读效应研究。高票评论不等于对所有人「最有价值」，回忆有选择偏差，书的效应也无法从帖文中做因果识别。本轮不根据未系统清点的印象列出「最常被提到的书」，以免把论坛热度写成共识。
+    summary: 这道题看起来像在征求一份书单，实际上没有标准答案。能够改写一个人心智模型的书，高度依赖于他当时缺少的是哪一块框架：对甲是决策心理学，对乙可能是一部小说、一部技术史或一本专业手册。Hacker News 线程提供的是大量第一人称推荐，适合当作地图去逛，不适合当作已经证明「这些书改变了一切」的证据。把任何一本在该帖中出现的著作提升为普遍有效的世界观教材，都会超过材料所允许的强度。
     views:
-    - position: 改变判断与决策方式的认知科学著作被多次提到
-      holders: 该帖多位评论者（如用户 erd0s、MediumD 等提到 Thinking, Fast and Slow）
-      argument: 卡尼曼等人把直觉与偏差变成可讨论的词汇，使读者开始检查自己的判断过程。对许多技术从业者来说，这相当于获得了一套新的自我解释语言，因此常被形容为「改变了看待几乎一切的方式」。
-      sources:
-      - title: Ask HN 原帖：What books changed the way you think about almost everything?
-        url: https://news.ycombinator.com/item?id=19087418
-    - position: 改变「看人造物与制度」方式的设计与社会著作同样突出
-      holders: 评论者 borski、Saturdays 等提到 The Design of Everyday Things；另有人提到 The Power Broker 等
-      argument: 诺曼的书把「这门为什么这么难用」从自我责备改写成设计失败；这类框架会迁移到门、软件和公共服务。另一些读者则通过城市史或政治传记，改变对权力与制度如何成型的看法。共同点是：书提供了可反复使用的观察镜头。
-      sources:
-      - title: Ask HN 原帖讨论
-        url: https://news.ycombinator.com/item?id=19087418
-    open_parts: 高票评论不等于对所有人「最有价值」。回忆有选择偏差，书的效应也无法从评论中因果识别。这份线程适合当作地图，不适合当作必读书令。
+    - position: 能改写「看待一切的方式」的书是相对于读者缺口而言的，论坛推荐不能当成普遍效应
+      consensus_role: 对本征集性质的判断
+      evidence:
+        label: 在线论坛的自我选择推荐，不是阅读实验
+        note: 原帖是公开讨论，既无随机样本，也无对「改变看待一切之方式」的操作化测量。本轮因此不引用具体书名作为「线程共识」，也不转述未逐条核对的高票评论内容。
+      holders:
+      - name: Ask HN 原帖提出者及随后的评论者
+        identity: Hacker News 帖文 What books changed the way you think about almost everything?（item 19087418）。他们是推荐的作者，不是一项研究的受试者样本。
+      argument: 该问题问的是个人经历：哪些书几乎改变了你看待几乎一切事物的方式。答之所指，是读者自己的前后对比，而不是一本书对任意读者的平均处理效应。即便许多人都提到同一本书，也只能说明在这个自我选择的技术社区里，这本书常被当作转折点来回忆；它不能排除选择性记忆、社会赞许，或「先有转变、后找到一本书来命名它」。因此，真正可坚持的结论很窄：不存在一份由该线程确定的、对所有人有效的必读书单；把线程当地图使用时，需要自己判断与自身缺口是否匹配。
+      quotes: []
+    open_parts: 高票不等于普遍价值。若要对「哪些书改变思维方式」做认真研究，需要事先规定测量、对照与样本，而不是事后从论坛推荐倒推。本线程仍可作为发现书目的入口。
+    references:
+    - id: 1
+      citation: 'apitman. Ask HN: What books changed the way you think about almost everything? Hacker News, item 19087418. 此为问题来源；本条不把未系统清点的评论写成「共识书单」。'
+      url: https://news.ycombinator.com/item?id=19087418
 - id: 2026-11-09-biz-econ-consensus
   date: '2026-11-09'
   category: business
@@ -928,23 +2227,73 @@
   - 经济学
   - 反直觉
   answer:
-    summary: 经济学家内部常有争论，但在若干议题上其实相当一致，而这些结论往往与常识相反。最经典的是比较优势：即便一方在所有生产上都更强，专业化与贸易仍可让双方获益。芝加哥大学 IGM 专家面板等调查还显示，多数受访经济学家对租金管制改善住房供给、关税增进国民福利持否定态度。公众与专业共识之间的落差，本身就是值得解释的现象。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 若干核心命题上，顶尖学者调查显示高度一致，且常与常识相反；「共识」仍取决于如何提问
+      note: 芝加哥大学（现 Clark Center）经济专家面板的公开投票，使「经济学家是否真的总是意见分裂」可以被核对，而不是靠印象。以已打开的完整投票表计算：2012 年 3 月 13 日关于「更自由的贸易改善生产效率并给消费者更好选择，长期来看这些收益远大于对就业的任何影响」的陈述，37 名作答者中 35 人同意或非常同意（按信心加权合计约 95.8%）；2012 年 2 月 7 日关于租金管制在过去三十年提升了广泛可负担租赁住房的数量与质量的陈述，37 名作答者中 33 人不同意或非常不同意（按信心加权，不同意一侧合计约 94.5%）；2016 年 10 月 4 日关于以提高进口关税来鼓励在美国生产「会是个好主意」的陈述，39 名作答者全部不同意或非常不同意。[2][3][4] 这些是特定陈述、特定专家组上的共识，不能外推到最低工资或产业政策等分歧更大的议题。比较优势的经典表述则更早出现在李嘉图《政治经济学及赋税原理》中：即使一国在两种商品上都用更少劳动，贸易仍可有利。[1]
+    summary: 经济学家内部常有争论，但在若干被反复讲授的命题上，顶尖学者的公开投票其实相当一致，而这些命题往往与日常直觉相反。李嘉图用英国与葡萄牙的布和酒说明：即便葡萄牙用 90 人就能生产英国 100 人所产的布，仍应进口英国的布、专门产酒，因为这样能换到比自己把资本从葡萄园转到织布上更多的布；「英国会用 100 人的劳动产品去交换 80 人的劳动产品」。[1] 近两百年后，IGM / Clark Center 专家面板把类似直觉放到具体政策陈述上。已打开的投票表显示：对于「更自由的贸易在长期改善效率与选择，且这些收益远大于对就业的影响」，作答者几乎一致同意；对于「与中国的贸易使大多数美国人过得更好」，作答者在已投票的人中全部同意，同时绝大多数也同意「一些生产竞争性商品的美国人因对华贸易而变得更糟」——也就是：总体获益与部分受损可以同时成立。[3][5] 对于「限制租金上涨的地方条例在过去三十年改善了广泛可负担租赁住房的数量与质量」，绝大多数不同意；对于「以提高进口关税来鼓励把空调、汽车和饼干等产品改在美国生产会是个好主意」，作答者全部不同意。[2][4] 公众与专业共识之间的落差，本身就是值得解释的现象。不过，「共识」仍然取决于问哪一群经济学家、如何措辞；即便方向性共识存在，效应大小、分配后果与短期过渡成本仍需个案估计。
+    definitions:
+    - term: 比较优势（李嘉图的例子）
+      text: 即使一国在两种商品上都可用更少劳动生产，仍可能通过出口相对更占优势的商品、进口另一种而获益。李嘉图的数字例子是：英国产布 100 人、产酒 120 人；葡萄牙产酒 80 人、产布 90 人；葡萄牙仍应出口酒、进口布。[1]
+    - term: IGM / Clark Center 经济专家面板
+      text: 由芝加哥大学商学院全球市场倡议发起、现于 Clark Center for Global Markets 发布的专家调查：请一组主要来自顶尖院系的经济学家对政策陈述表示同意、不同意或不确定，并给出信心分数。页面提供按信心加权的展示，并公开逐人投票。下文百分比若未另说明，是根据所打开页面的完整投票表计算的（先给出作答人数，再给出按信心加权的份额）。
+    milestones:
+    - 1817 年起刊行的李嘉图《原理》中「论对外贸易」一章给出上述数字例子（本古腾堡版列为第 VI 章，第 159–160 页；不少通行版本将同一章编号为第 VII 章）。[1]
+    - 2012 年起，IGM 经济专家面板开始就贸易、租金管制等陈述做公开调查；本文所用各次调查的日期见参考文献。[2][3][4][5]
     views:
-    - position: 比较优势等贸易命题是反直觉但广泛接受的核心结果
-      holders: 自李嘉图以来的标准国际贸易理论；通识表述见比较优势词条
-      argument: 常识是「只有比别人更强才该出口」。比较优势指出：关键是机会成本。即使一国样样都更高效，专注于相对更优的产品并进口其余，仍可提高总产量。这与「进口就是吃亏」的直觉直接冲突。
-      sources:
-      - title: Wikipedia：Comparative advantage
-        url: https://en.wikipedia.org/wiki/Comparative_advantage
-      - title: Economics Stack Exchange 原问题及讨论（Internet Archive 存档）
-        url: https://web.archive.org/web/20240808002849/https://economics.stackexchange.com/questions/20992/what-are-some-results-in-economics-that-are-both-a-consensus-and-far-from-common
-    - position: 专家调查显示，租金管制、关税等议题上存在可记录的共识
-      holders: 芝加哥大学布斯商学院 IGM Economic Experts Panel（租金管制调查有公开存档）
-      argument: 在 IGM 关于租金管制的调查中，绝大多数受访专家不同意「租金管制在过去数十年显著提升了美国中等收入公民的可负担住房数量和质量」这类说法。类似地，专业意见通常认为，关税作为提高整体国民福利的手段效果很差。这些判断常与政治讨论中的直觉相反。
-      sources:
-      - title: IGM Forum：Rent Control（Internet Archive 存档）
-        url: https://web.archive.org/web/20161211101602/http://www.igmchicago.org/surveys/rent-control
-    open_parts: 「共识」取决于问哪一群经济学家、如何措辞。对最低工资、产业政策等议题，专业内部分歧更大。即便方向性共识存在，效应大小、分配后果与短期过渡成本，仍需个案估计，不能当成口号直接套用。
+    - position: 即便一方在所有生产上都更有效率，专业化与贸易仍可让双方获益
+      consensus_role: 国际贸易理论的经典核心结果
+      evidence:
+        label: 经典理论例子，后由专家调查在相关政策陈述上得到高度同意
+        note: 李嘉图给出的是数字例子与原理，不是现代计量估计。专家调查测量的是当代顶尖学者对特定政策句子的态度，不是对李嘉图原文的投票。[1][3][5]
+      holders:
+      - name: David Ricardo
+        identity: 《政治经济学及赋税原理》（On the Principles of Political Economy, and Taxation）作者。此处依据 Project Gutenberg 提供的该书英文电子文本。[1]
+      argument: 李嘉图先设定：英国产布可能需要 100 人一年的劳动，若改产酒则可能需要 120 人，因此英国发现进口酒、用出口布来购买符合其利益。葡萄牙产酒也许只需 80 人，产布需 90 人，因此出口酒交换布是有利的。「即便葡萄牙进口的那种商品可以在本国用比英国更少的劳动生产出来，这一交换仍可能发生。虽然她用 90 人就能制造布，她还是会从一个需要 100 人才能生产它的国家进口，因为把资本用在产酒上、再用酒从英国换来更多的布，对她更有利。于是，英国会用 100 人的劳动产品去交换 80 人的劳动产品。」他并强调，这样的交换不会发生在同一国家的个人之间：100 个英国人的劳动不能直接去换 80 个英国人的劳动，但 100 个英国人的劳动产品可以去换 80 个葡萄牙人的劳动产品。[1] 这一结果之所以「远离常识」，正是因为它否定了「只有各方都在某件事上绝对更差时才该贸易」。
+      quotes:
+      - text: This exchange might even take place, notwithstanding that the commodity imported by Portugal could be produced there with less labour than in England. Though she could make the cloth with the labour of ninety men, she would import it from a country where it required the labour of 100 men to produce it, because it would be advantageous to her rather to employ her capital in the production of wine, for which she would obtain more cloth from England, than she could produce by diverting a portion of her capital from the cultivation of vines to the manufacture of cloth. Thus, England would give the produce of the labour of 100 men for the produce of the labour of 80.
+        text_zh: 即便葡萄牙进口的那种商品可以在本国用比英国更少的劳动生产出来，这一交换仍可能发生。虽然她用 90 人就能制造布，她还是会从一个需要 100 人才能生产它的国家进口，因为把资本用在产酒上、再从英国换来比她把一部分资本从葡萄园转到织布上所能生产的更多的布，对她更有利。于是，英国会用 100 人的劳动产品去交换 80 人的劳动产品。
+        attribution: David Ricardo，《政治经济学及赋税原理》，「论对外贸易」
+        locator: Project Gutenberg 本第 159–160 页（该版第 VI 章）
+        ref: 1
+    - position: 在租金管制与关税等政策陈述上，公开的专家投票同样显示高度一致，且常与流行直觉相反
+      consensus_role: 可复核的专家调查结果（限于所述陈述与面板）
+      evidence:
+        label: 官方页面上的完整逐人投票表；加权份额由该表计算
+        note: 现行页面的汇总饼图由脚本绘制，本文不以无法从 HTML 直接读出的图面数字为准，而根据同一页列出的全部「Vote / Confidence」行计算作答人数与按信心加权份额，并排除「Did Not Answer」。面板成员主要来自顶尖美国经济院系，不是对全体「经济学家」的随机样本；措辞变化也会改变结果。[2][3][4][5]
+      holders:
+      - name: IGM / Clark Center 美国经济专家面板
+        identity: Clark Center for Global Markets（其前身为芝加哥大学 Booth 商学院的 IGM Forum）定期向一组经济学家就政策陈述做公开调查，并公布逐人投票与信心分数。[2]
+      argument: 2012 年 3 月 13 日的「自由贸易」调查中，问题 A 为：更自由的贸易改善生产效率并给消费者更好选择，并且长期来看这些收益远大于对就业的任何影响。在 37 名作答者中，12 人非常同意、23 人同意、2 人不确定，无人不同意；按信心加权，同意一侧合计约 95.8%。问题 B 关于「平均而言，美国公民因 NAFTA 比在 NAFTA 之前的贸易规则下过得更好」，37 名作答者中同样只有 2 人不确定，其余同意或非常同意。[3] 2012 年 6 月 19 日关于中美贸易的问题 A：「与中国的贸易使大多数美国人过得更好，因为他们能够购买在中国更便宜地制造或组装的商品」——34 名作答者全部同意或非常同意。同一天的问题 B：「一些在服装、家具等竞争性商品生产中工作的美国人，因与中国的贸易而变得更糟」——34 名作答者中 33 人同意或非常同意，1 人不确定。也就是说，专家共识并不是「没有人受损」，而是总体获益与部分受损可以同时成立。[5] 反过来，2012 年 2 月 7 日关于租金管制的陈述是：限制部分租赁住房租金上涨的地方条例（如纽约与旧金山），在过去三十年对使用它们的城市里「广泛可负担租赁住房的数量与质量」产生了积极影响。37 名作答者中，20 人不同意、13 人非常不同意、3 人不确定、仅 1 人同意；按信心加权，不同意一侧合计约 94.5%。[2] 2016 年 10 月 4 日的陈述是：对空调、汽车和饼干等产品加征或提高进口关税以鼓励在美国生产，「会是个好主意」。39 名作答者中，26 人非常不同意、13 人不同意，无人同意或不确定。[4] 这些结果具体、可复核，也正因此不应被口号化：它们针对的是写在问卷上的句子，不是对一切「管制」或「贸易」的空白支票。
+      quotes:
+      - text: Local ordinances that limit rent increases for some rental housing units, such as in New York and San Francisco, have had a positive impact over the past three decades on the amount and quality of broadly affordable rental housing in cities that have used them.
+        text_zh: 限制部分租赁住房租金上涨的地方条例，例如在纽约与旧金山，在过去三十年中，对使用它们的城市里广泛可负担租赁住房的数量与质量产生了积极影响。
+        attribution: IGM / Clark Center 租金管制调查（2012-02-07）所使用的陈述；面板绝大多数不同意该陈述
+        locator: kentclarkcenter.org/surveys/rent-control/（2026-11-10 查阅）
+        ref: 2
+      - text: Adding new or higher import duties on products such as air conditioners, cars, and cookies — to encourage producers to make them in the US — would be a good idea.
+        text_zh: 对空调、汽车和饼干等产品加征或提高进口关税——以鼓励生产者在美国制造它们——会是个好主意。
+        attribution: IGM / Clark Center 进口关税调查（2016-10-04）所使用的陈述；39 名作答者全部不同意或非常不同意
+        locator: kentclarkcenter.org/surveys/import-duties/（2026-11-10 查阅）
+        ref: 4
+    open_parts: 「共识」取决于问哪一群经济学家、如何措辞。对最低工资、产业政策等议题，专业内部分歧通常更大；即便方向相近的较新调查（例如 2024 年关于关税的问卷），在个别子问题上也不像上述 2012–2016 年陈述那样一边倒，因此未纳入主结论，以免把较混合的结果与高度一致的陈述并列。即便方向性共识存在，效应大小、分配后果与短期过渡成本仍需个案估计，不能当成口号直接套用。专家面板也不是对全体经济学家的随机样本。[2][3][4][5]
+    references:
+    - id: 1
+      citation: Ricardo, D. On the Principles of Political Economy, and Taxation. Project Gutenberg 电子文本（eBook of The Principles of Political Economy, and Taxation）。「论对外贸易」在该版目录中为第 VI 章，引语在第 159–160 页；不少通行纸本将同一章编号为第 VII 章。
+      url: https://www.gutenberg.org/files/33310/33310-h/33310-h.htm
+    - id: 2
+      citation: Clark Center for Global Markets (IGM Economic Experts Panel). Rent Control. Survey dated 7 February 2012. 投票计数据该页完整逐人表计算。查阅日期 2026-11-10。
+      url: https://kentclarkcenter.org/surveys/rent-control/
+    - id: 3
+      citation: Clark Center for Global Markets. Free Trade. Survey dated 13 March 2012（含关于更自由的贸易与 NAFTA 的问题 A、B）。查阅日期 2026-11-10。
+      url: https://kentclarkcenter.org/surveys/free-trade/
+    - id: 4
+      citation: Clark Center for Global Markets. Import Duties. Survey dated 4 October 2016. 查阅日期 2026-11-10。
+      url: https://kentclarkcenter.org/surveys/import-duties/
+    - id: 5
+      citation: Clark Center for Global Markets. China-US Trade. Survey dated 19 June 2012（问题 A：对华贸易使大多数美国人更好；问题 B：部分竞争性行业工人变得更糟）。查阅日期 2026-11-10。
+      url: https://kentclarkcenter.org/surveys/china-us-trade/
 - id: 2026-11-08-hn-obscure-ds
   date: '2026-11-08'
   category: science
@@ -959,25 +2308,35 @@
   - 计算机科学
   - 数据结构
   answer:
-    summary: 这道 Ask HN 的「解答」是一份社区清单：许多并不冷门于论文、却较少出现在入门课上的结构，反复被提起。概率型结构（布隆过滤器、Skip List、HyperLogLog）、压缩与检索结构（Trie、Rope）、以及分布式中的
-      CRDT、向量检索中的 HNSW 等，是评论里的高频例子。它们的共同点是：用一点可控制的误差或巧妙布局，换空间或时间上的巨大收益。
+    format: scholarly
+    reviewed_at: '2026-11-10'
+    consensus:
+      label: 证据较弱：实践者清单，不是「哪些结构最酷」的学术共识
+      note: 本题来自 Ask HN：「你知道哪些酷但冷门的数据结构？」它鼓励分享「不在入门课目录里」的结构，但「冷门」取决于社区：在数据库或图形学里常见的东西，对另一组开发者可能完全陌生。清单没有完结之日，也很少有单一「最酷」的答案。相关算法论文（例如 HNSW）可以说明某一种结构为何被设计出来，但不能把论坛推荐写成学术界的排序。[1][2]
+    summary: 这道题的「解答」只能是一份开放清单，而不是一个定理。论坛上被反复提起的，往往是用可控误差或巧妙布局换取空间或时间的结构，以及为近似最近邻、并发或特殊遍历而设计的索引；但本轮不根据未系统清点的评论去宣布「最高频的三种结构」。作为背景，一篇可打开的论文是 Malkov 与 Yashunin 的 Hierarchical Navigable Small World（HNSW）：它用多层可导航小世界图做近似 k 近邻搜索，从上层开始搜索，并称其一般度量空间索引在评测中能够明显超过此前的开源向量检索方法；作者还指出该算法与跳表的相似性便于分布式实现。[2] 选择结构仍然要看工作负载与误差容忍度，而不是看它在某次讨论里是否显得「酷」。
     views:
-    - position: 概率与近似结构用可控误差换效率
-      holders: 该帖评论者（如 didip、harporoeder、untererdisch、groby_b 等提到 Bloom Filter、Skip List、HyperLogLog）
-      argument: 布隆过滤器可以快速判断「一定不在集合中」并允许少量假阳性；跳跃表用随机分层接近平衡树的期望性能；HyperLogLog 能在极小空间里估计基数。当精确集合昂贵时，这类结构非常有用。
-      sources:
-      - title: Ask HN 原帖：What are some cool but obscure data structures you know about?
-        url: https://news.ycombinator.com/item?id=32186203
-      - title: Wikipedia：Bloom filter
-        url: https://en.wikipedia.org/wiki/Bloom_filter
-      - title: Wikipedia：Skip list
-        url: https://en.wikipedia.org/wiki/Skip_list
-    - position: 还有一批服务于搜索、并发与特殊遍历的结构
-      holders: 评论中提到 Trie、Rope、CRDT、并查集、HNSW 等的用户
-      argument: 前缀树适合共享前缀的字符串压缩与检索；Rope 适合对长文本做高效拼接；CRDT 让副本在无中心协调时也能合并；HNSW 等图结构则用于高维近似近邻搜索。它们在数据库、编辑器和向量检索中广泛存在，只是不一定叫「基础课数据结构」。
-      sources:
-      - title: Ask HN 原帖讨论
-        url: https://news.ycombinator.com/item?id=32186203
-      - title: Malkov & Yashunin, HNSW（arXiv:1603.09320）
-        url: https://arxiv.org/abs/1603.09320
-    open_parts: 「冷门」取决于社区：在数据库或图形学里常见的结构，对网页开发者可能完全陌生。清单没有完结之日，也很少有单一「最酷」的答案。选择结构仍然要看工作负载与误差容忍度。
+    - position: 「酷但冷门」是相对于特定社区的推荐，不是已完成的学术分类
+      consensus_role: 对本征集性质的判断
+      evidence:
+        label: 在线论坛推荐，辅以一篇可核对的算法论文作背景
+        note: HNSW 论文回答的是近似最近邻搜索的效率与稳健性，不是「该结构是否冷门」或「是否最酷」。本轮不把未逐条核对的 HN 评论写成清单共识。[1][2]
+      holders:
+      - name: Ask HN 原帖的提出者与评论者
+        identity: Hacker News 帖文 What are some cool but obscure data structures you know about?（item 32186203）。[1]
+      - name: Yu. A. Malkov、D. A. Yashunin
+        identity: 论文 Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs 的作者（arXiv:1603.09320）。[2]
+      argument: 该问题邀请分享个人认为酷且不够出名的数据结构。它的认识地位与教科书目录、与经过评测的索引论文都不同：前者是品味与暴露度的问题，后者才是「在何种数据与召回率下更快更稳」的问题。HNSW 一文给出的是后一类主张：方法完全基于图，无需在粗搜索阶段使用额外结构；它增量地构建由多层近邻图组成的层次，元素出现的最高层按指数衰减的概率随机选择，从而把链接按特征距离尺度分开；从上向下搜索并利用尺度分离，使复杂度可按对数缩放。评测表明，这一通用度量空间索引能够明显超过此前的开源、仅针对向量的先进方法。[2] 可以把这类论文当作理解「评论里为何会出现某种结构」的背景，但不能倒过来说：HN 清单已经给出了数据结构领域的共识排名。
+      quotes:
+      - text: We present a new approach for the approximate K-nearest neighbor search based on navigable small world graphs with controllable hierarchy (Hierarchical NSW, HNSW). […] Performance evaluation has demonstrated that the proposed general metric space search index is able to strongly outperform previous opensource state-of-the-art vector-only approaches.
+        text_zh: 我们提出一种基于可控层次的可导航小世界图（Hierarchical NSW，HNSW）的近似 K 近邻搜索新方法。[…] 性能评估表明，所提出的通用度量空间搜索索引能够明显超过此前的开源、仅针对向量的先进方法。
+        attribution: Malkov & Yashunin
+        locator: arXiv:1603.09320，摘要
+        ref: 2
+    open_parts: 「冷门」随社区而变。清单没有完结之日。选择结构要看工作负载、误差容忍度与实现约束，而不是讨论热度。其他常被提及的结构（若未打开其原始论文）不在此当作已引用的一手结果。[1][2]
+    references:
+    - id: 1
+      citation: 'Uptrenda. Ask HN: What are some cool but obscure data structures you know about? Hacker News, item 32186203. 此为问题来源，不把未系统清点的评论写成学术共识。'
+      url: https://news.ycombinator.com/item?id=32186203
+    - id: 2
+      citation: Malkov, Yu. A., & Yashunin, D. A. Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs. arXiv:1603.09320. 引语核自已打开的 arXiv PDF 摘要。
+      url: https://arxiv.org/pdf/1603.09320

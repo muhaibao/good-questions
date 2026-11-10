@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% set root = '../' %}
+{% set scholarly = question.answer and question.answer.format == 'scholarly' %}
 {% block title %}{{ question.title_zh }} · {{ site.name }}{% endblock %}
 {% block description %}{{ question.commentary }}{% endblock %}
 {% block content %}
-<article class="q-detail">
+<article class="q-detail{% if scholarly %} scholarly{% endif %}">
   <nav class="breadcrumb">
     <a href="{{ root }}index.html">首页</a> /
     <a href="{{ root }}category/{{ question.category }}.html">{{ question.category_meta.name }}</a> /
@@ -28,29 +29,106 @@
 
   {% if question.answer %}
   <section class="answer" id="answer">
-    <h2>详细解答</h2>
+    <header class="answer-head">
+      <h2>详细解答</h2>
+      {% if scholarly %}
+      <p class="review-meta">
+        {% if question.answer.consensus %}
+        <span class="consensus-badge">共识程度：{{ question.answer.consensus.label }}</span>
+        {% endif %}
+        {% if question.answer.reviewed_at %}
+        <time datetime="{{ question.answer.reviewed_at }}">最后核对日期：{{ question.answer.reviewed_at }}（Asia/Shanghai）</time>
+        {% endif %}
+      </p>
+      {% if question.answer.consensus and question.answer.consensus.note %}
+      <p class="consensus-note">{{ question.answer.consensus.note | cites }}</p>
+      {% endif %}
+      {% endif %}
+    </header>
 
     <div class="panel summary">
       <h3>综述</h3>
+      {% if scholarly %}
+      <p>{{ question.answer.summary | cites }}</p>
+      {% else %}
       <p>{{ question.answer.summary }}</p>
+      {% endif %}
     </div>
+
+    {% if scholarly and question.answer.milestones %}
+    <section class="milestones" id="milestones">
+      <h3>关键概念与里程碑</h3>
+      {% if question.answer.definitions %}
+      <dl class="defn-list">
+        {% for d in question.answer.definitions %}
+        <dt>{{ d.term }}</dt>
+        <dd>{{ d.text | cites }}</dd>
+        {% endfor %}
+      </dl>
+      {% endif %}
+      <ol class="milestone-list">
+        {% for m in question.answer.milestones %}
+        <li>
+          <strong>{% if m.year %}{{ m.year }} · {% endif %}{{ m.name }}</strong>
+          <p>{{ m.explanation | cites }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+    {% endif %}
 
     {% if question.answer.views %}
     <h3 class="views-heading">主要观点</h3>
     <div class="views">
       {% for v in question.answer.views %}
-      <article class="view-card">
+      <article class="view-card{% if scholarly %} view-card-sch{% endif %}">
         <h4>{{ v.position }}</h4>
-        {% if v.holders %}
-        <p class="holders">谁持此观点：{{ v.holders }}</p>
-        {% endif %}
-        <p class="view-arg">{{ v.argument }}</p>
-        {% if v.sources %}
-        <ul class="source-list">
-          {% for s in v.sources %}
-          <li><a href="{{ s.url }}" rel="noopener noreferrer" target="_blank">{{ s.title }}</a></li>
+        {% if scholarly %}
+          {% if v.evidence %}
+          <p class="ev-line">
+            <span class="ev-badge">证据强度：{{ v.evidence.label }}</span>
+            {% if v.consensus_role %}<span class="role-badge">{{ v.consensus_role }}</span>{% endif %}
+          </p>
+          {% if v.evidence.note %}<p class="ev-note">{{ v.evidence.note | cites }}</p>{% endif %}
+          {% endif %}
+          {% if v.holders %}
+            {% if v.holders is string %}
+            <p class="holders">谁持此观点：{{ v.holders }}</p>
+            {% else %}
+            <div class="holders-block">
+              <h5>代表人物</h5>
+              <ul class="holder-list">
+                {% for h in v.holders %}
+                <li><strong>{{ h.name }}</strong>{% if h.identity %} — {{ h.identity | cites }}{% endif %}</li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          {% endif %}
+          <p class="view-arg">{{ v.argument | cites }}</p>
+          {% if v.quotes %}
+          {% for q in v.quotes %}
+          <blockquote class="quote">
+            <p class="quote-en" lang="en">“{{ q.text }}”</p>
+            {% if q.text_zh %}<p class="quote-zh">「{{ q.text_zh }}」</p>{% endif %}
+            <footer>
+              —— {{ q.attribution }}{% if q.locator %}，{{ q.locator }}{% endif %}{% if q.ref %} <a class="cite" href="#ref-{{ q.ref }}">[{{ q.ref }}]</a>{% endif %}
+            </footer>
+          </blockquote>
           {% endfor %}
-        </ul>
+          {% endif %}
+        {% else %}
+          {% if v.holders %}
+          <p class="holders">谁持此观点：{% if v.holders is string %}{{ v.holders }}{% else %}{% for h in v.holders %}{{ h.name }}{% if not loop.last %}；{% endif %}{% endfor %}{% endif %}</p>
+          {% endif %}
+          <p class="view-arg">{{ v.argument }}</p>
+          {% if v.sources %}
+          <ul class="source-list">
+            {% for s in v.sources %}
+            <li><a href="{{ s.url }}" rel="noopener noreferrer" target="_blank">{{ s.title }}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
         {% endif %}
       </article>
       {% endfor %}
@@ -60,8 +138,28 @@
     {% if question.answer.open_parts %}
     <div class="panel open">
       <h3>仍然没有定论的部分</h3>
+      {% if scholarly %}
+      <p>{{ question.answer.open_parts | cites }}</p>
+      {% else %}
       <p>{{ question.answer.open_parts }}</p>
+      {% endif %}
     </div>
+    {% endif %}
+
+    {% if scholarly and question.answer.references %}
+    <section class="refs" id="references">
+      <h3>参考文献</h3>
+      <ol class="ref-list">
+        {% for r in question.answer.references %}
+        <li id="ref-{{ r.id }}">
+          {{ r.citation }}
+          {% if r.url %}
+          <br /><a class="ref-url" href="{{ r.url }}" rel="noopener noreferrer" target="_blank">{{ r.url }}</a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
     {% endif %}
   </section>
   {% endif %}

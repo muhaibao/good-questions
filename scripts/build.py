@@ -93,6 +93,25 @@ def build_rss(questions, title, description, link_self, out_path: Path):
     out_path.write_text(xml, encoding="utf-8")
 
 
+def link_cites(text):
+    """将正文中的 [1] 转为指向参考文献的页内链接。"""
+    import re
+    from markupsafe import Markup, escape
+
+    if not text:
+        return Markup("")
+    parts = re.split(r"(\[\d+\])", str(text))
+    out = []
+    for part in parts:
+        m = re.fullmatch(r"\[(\d+)\]", part)
+        if m:
+            n = m.group(1)
+            out.append(f'<a class="cite" href="#ref-{n}">[{n}]</a>')
+        else:
+            out.append(str(escape(part)))
+    return Markup("".join(out))
+
+
 def main():
     cats, questions = load_data()
     if OUT.exists():
@@ -113,6 +132,7 @@ def main():
         loader=FileSystemLoader(str(TPL)),
         autoescape=select_autoescape(["html", "xml"]),
     )
+    env.filters["cites"] = link_cites
 
     by_date = defaultdict(list)
     by_cat = defaultdict(list)
