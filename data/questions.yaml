@@ -2340,3 +2340,1448 @@
     - id: 2
       citation: Malkov, Yu. A., & Yashunin, D. A. Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs. arXiv:1603.09320. 引语核自已打开的 arXiv PDF 摘要。
       url: https://arxiv.org/pdf/1603.09320
+- id: 2026-11-11-ai-forgetting
+  date: '2026-11-11'
+  category: ai
+  title_zh: 神经网络容易发生「灾难性遗忘」吗？
+  title_en: Are neural networks prone to catastrophic forgetting?
+  commentary: 人能一边学新东西一边记住旧本事，标准神经网络却常常学了新任务就把旧任务「冲掉」——这个问题直指今天大模型持续学习、微调与个性化的核心瓶颈。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/13289/are-neural-networks-prone-to-catastrophic-forgetting
+  author: zooby
+  source_type: stackexchange
+  tags:
+  - 持续学习
+  - 灾难性遗忘
+  - 神经网络
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 现象本身是高度共识；「能否以及如何彻底解决」仍未解决
+      note: 自 McCloskey 与 Cohen（1989）以来，按顺序训练的反向传播网络会严重干扰先前所学，这一现象被反复复现，并被持续学习领域的综述当作出发点。[1][2][7] 争议不在于「是否存在」，而在于缓解方法在何种场景下有效：Kemker
+        等人的统一基准认为该问题「尚未解决」，van de Ven 与 Tolias 则显示结论强烈依赖评测场景。[5][6]
+    summary: 是的：用梯度下降按顺序训练的标准人工神经网络，在学习新任务时往往会大幅覆盖先前任务所依赖的权重，这被称为灾难性遗忘（catastrophic forgetting）或灾难性干扰（catastrophic
+      interference）。[1][2] McClelland 等人复现 McCloskey–Cohen 的 AB–AC 联想学习实验时发现，人类对旧表的遗忘是渐进的，而网络在新表学会之前就几乎把旧表完全丢掉了。[1]
+      他们给出的经典解释是：分布式表征共享权重，只有「交错」学习新旧样本才能既提取结构又不破坏旧知识；大脑可能用海马快速存储、再回放到新皮层的「互补学习系统」来实现这种交错。[1] 2017 年以来，弹性权重巩固（EWC）等正则化方法、回放/重演方法和结构扩张方法都能明显缓解遗忘，[3][4][7]
+      但统一基准显示没有一种方法在所有场景下都奏效，尤其在测试时不告知任务身份的「类增量」场景中，正则化方法会失败，回放似乎是必需的。[5][6] 对大语言模型的持续指令微调研究也观察到了遗忘。[8]
+      因此答案是：网络确实「容易」遗忘；这不是不可克服的定律，但也远未被通用地解决。
+    definitions:
+    - term: 灾难性遗忘 / 灾难性干扰
+      text: 模型在学习新信息时，先前学到的信息被大幅、突然地破坏，而不是像人类那样渐进衰减。McClelland 等人沿用 McCloskey 与 Cohen（1989）的「灾难性干扰」一词描述这一现象。[1][2]
+    - term: 持续学习（continual / lifelong learning）
+      text: 从非平稳数据流中逐步获取、微调并迁移知识的能力。Parisi 等人的综述把灾难性遗忘列为神经网络实现持续学习的主要障碍。[7]
+    - term: 任务增量、域增量与类增量
+      text: van de Ven 与 Tolias 按「测试时是否给出任务身份、若不给是否需要推断」划分的三种持续学习场景；最后一种（类增量）最难。[6]
+    milestones:
+    - year: '1989'
+      name: McCloskey 与 Cohen 提出「灾难性干扰」
+      explanation: 他们用反向传播网络模拟 AB–AC 配对联想学习，发现学习第二张表会几乎抹掉第一张表。此处的实验描述依据 McClelland 等人（1995）的复述，原章节未能打开。[1][2]
+        一句话：网络不是「慢慢忘」，而是「一下子忘」。
+    - year: '1995'
+      name: 互补学习系统理论
+      explanation: McClelland、McNaughton 与 O’Reilly 论证：新皮层式的慢速、交错学习能提取结构，海马系统负责快速记住新事物并在之后将其与旧记忆交错「回放」进新皮层。[1]
+        一句话：大脑或许是用两套学习速率不同的系统来躲开灾难性遗忘。
+    - year: '2017'
+      name: 弹性权重巩固（EWC）
+      explanation: DeepMind 的 Kirkpatrick 等人提出：对旧任务重要的权重，学习新任务时放慢其变化（以 Fisher 信息近似重要性），并在 MNIST 变体与多款
+        Atari 游戏的顺序学习上验证。[3][4] PNAS 随后刊登了 Huszár 对其二次惩罚项的商榷信与作者回复。[3]
+    - year: 2018–2019
+      name: 统一基准与场景划分
+      explanation: Kemker 等人比较正则化、集成、重演、双记忆与稀疏编码五类机制，结论是问题仍未解决；[5] van de Ven 与 Tolias 表明不同场景下方法排名差异巨大。[6]
+    views:
+    - position: 灾难性遗忘是分布式表征与顺序梯度学习的内在后果
+      consensus_role: 主流解释
+      evidence:
+        label: 经典实验与模拟、大量复现
+        note: 证据来自 1989 年以来的联想学习模拟与之后大量深度学习实验；机制解释（共享权重被覆盖）在综述中被广泛采用。[1][7]
+      holders:
+      - name: James L. McClelland、Bruce L. McNaughton、Randall C. O’Reilly
+        identity: 1995 年《Psychological Review》论文作者；文中所署单位分别为卡内基梅隆大学（McClelland、O’Reilly）与亚利桑那大学（McNaughton）。[1]
+      - name: Michael McCloskey、Neal J. Cohen
+        identity: 1989 年章节《Catastrophic interference in connectionist networks》作者，「灾难性干扰」一词的来源。[2]
+      argument: 在分布式网络中，同一组权重被许多记忆共享。只用新任务的数据做梯度下降时，权重会朝最适合新任务的方向移动，而没有任何项去保护旧任务所需的配置，于是旧任务表现骤降。[1] McClelland
+        等人指出，如果学习是渐进且与其他样本交错进行的，网络能发现样本集合中的结构；集中地只学新项目，则会造成灾难性干扰。[1] 这也解释了为什么在静态、打乱的数据上「一次性」训练的深度网络表现很好，而一旦数据按时间顺序到来就出问题。[7]
+      quotes:
+      - text: Whereas humans show a gradual loss of ability to retrieve the AB list and are still capable
+          of operating more than 50% correct recall after the AC list performance has reached asymptote,
+          the network shows virtually complete abolition of AB list performance before AC performance
+          rises above 0% correct.
+        text_zh: 人类提取 AB 表的能力是逐渐丧失的，在 AC 表成绩达到渐近线之后，回忆正确率仍能超过 50%；而网络在 AC 表成绩升到 0% 以上之前，AB 表的成绩就几乎被完全抹除了。
+        attribution: McClelland、McNaughton 与 O’Reilly，Psychological Review（1995）
+        locator: 作者 PDF 第 15 页
+        ref: 1
+    - position: 遗忘可以被显著缓解：正则化、回放与结构方法
+      consensus_role: 活跃的研究纲领（有效但不通用）
+      evidence:
+        label: 同行评审实验结果，场景依赖强
+        note: EWC 在其论文所用任务上有效，但后续统一比较发现方法优劣随增量范式与数据类型变化；在类增量场景中正则化方法失败。[3][5][6]
+      holders:
+      - name: James Kirkpatrick、Raia Hadsell、Demis Hassabis 等
+        identity: EWC 论文作者；arXiv 版本所署单位为 DeepMind（伦敦），另有作者来自帝国理工学院。[3][4]
+      - name: Gido M. van de Ven、Andreas S. Tolias
+        identity: 《Three scenarios for continual learning》作者，提出三种场景的划分与系统比较。[6]
+      argument: EWC 的作者明确把自己的工作定位为挑战「灾难性遗忘是连接主义模型必然特征」这一流行看法：通过有选择地减慢对旧任务重要的权重的学习，网络可以在长期未见的任务上保持能力。[3][4]
+        但后续工作指出，比较这些方法的评测协议差异很大；van de Ven 与 Tolias 发现，当任务身份必须由模型自己推断时，EWC 等正则化方法失败，回放先前经验的表征似乎是必需的。[6]
+        Kemker 等人在真实图像和声音上的比较也得出「问题尚未解决」的结论。[5]
+      quotes:
+      - text: Neural networks are not, in general, capable of this and it has been widely thought that
+          catastrophic forgetting is an inevitable feature of connectionist models.
+        text_zh: 神经网络总体上不具备这种能力，而且人们普遍认为灾难性遗忘是连接主义模型不可避免的特征。
+        attribution: Kirkpatrick 等，Overcoming catastrophic forgetting in neural networks
+        locator: 摘要，arXiv:1612.00796v2 第 1 页
+        ref: 4
+      - text: In particular, when task identity must be inferred (i.e., class incremental learning), we
+          find that regularization-based approaches (e.g., elastic weight consolidation) fail and that
+          replaying representations of previous experiences seems required for solving this scenario.
+        text_zh: 特别是，当任务身份必须被推断时（即类增量学习），我们发现基于正则化的方法（例如弹性权重巩固）会失败，而回放先前经验的表征似乎是解决这一场景所必需的。
+        attribution: van de Ven 与 Tolias，Three scenarios for continual learning
+        locator: arXiv:1904.07734 摘要
+        ref: 6
+    - position: 大模型时代：遗忘依然存在，且与规模和预训练的关系尚无定论
+      consensus_role: 新兴证据（初步）
+      evidence:
+        label: 少量预印本实证，模型与设置有限
+        note: Luo 等人的研究限于 1B–7B 参数模型的持续指令微调，且为 arXiv 预印本；不同研究对规模效应的结论并不一致，本文未能打开其他相关研究原文，故不作推广。[8]
+      holders:
+      - name: Yun Luo、Yue Zhang 等
+        identity: 《An Empirical Study of Catastrophic Forgetting in Large Language Models During Continual
+          Fine-tuning》作者。[8]
+      argument: Luo 等人从领域知识、推理与阅读理解三个角度评估持续指令微调，报告在 1B 到 7B 参数的模型中普遍观察到灾难性遗忘；在该规模区间内，模型越大遗忘反而越严重（作者推测与更高的初始性能有关）；并发现先做一般性指令微调有助于减轻后续微调中的遗忘。[8]
+        这说明大模型并没有天然免疫，但这些结果的外推范围有限。
+      quotes:
+      - text: The experiments reveal that catastrophic forgetting is generally observed in LLMs ranging
+          from 1b to 7b parameters.
+        text_zh: 实验表明，在 10 亿到 70 亿参数的大语言模型中普遍观察到灾难性遗忘。
+        attribution: Luo 等（2023）
+        locator: arXiv:2308.08747 摘要
+        ref: 8
+    open_parts: 第一，是否存在一种在任务增量、域增量与类增量场景中都稳定有效、且不需要存储大量旧数据的通用方法，目前没有共识。[5][6] 第二，生物大脑如何避免灾难性遗忘（互补学习系统、突触巩固、睡眠回放等）与人工方法的对应关系仍是假说层面的。[1][3][7]
+      第三，在超大规模预训练模型上，遗忘的程度如何随规模、数据混合与微调方式变化，现有证据零散且部分相互矛盾。[8] 第四，「遗忘」本身是否总是坏事（例如需要主动遗忘错误或过时信息）也是持续学习的开放问题。[7]
+    references:
+    - id: 1
+      citation: 'McClelland, J. L., McNaughton, B. L., & O’Reilly, R. C. (1995). Why there are complementary
+        learning systems in the hippocampus and neocortex: Insights from the successes and failures of
+        connectionist models of learning and memory. Psychological Review, 102(3), 419–457. 作者主页 PDF。'
+      url: https://stanford.edu/~jlmcc/papers/McCMcNaughtonOReilly95.pdf
+    - id: 2
+      citation: 'McCloskey, M., & Cohen, N. J. (1989). Catastrophic interference in connectionist networks:
+        The sequential learning problem. In G. H. Bower (Ed.), The Psychology of Learning and Motivation
+        (Vol. 24, pp. 109–165). Academic Press. 书目信息据 [1] 与 [3] 的参考文献；出版商页面对自动抓取返回拦截，本次未能打开原文。'
+      url: null
+    - id: 3
+      citation: Kirkpatrick, J., Pascanu, R., Rabinowitz, N., et al. (2017). Overcoming catastrophic forgetting
+        in neural networks. Proceedings of the National Academy of Sciences, 114(13), 3521–3526. PMC 开放全文；PNAS
+        同时刊有 Huszár 的商榷信（115, E2496）与作者回复（115, E2498）。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5380101/
+    - id: 4
+      citation: Kirkpatrick, J., et al. (2016/2017). Overcoming catastrophic forgetting in neural networks.
+        arXiv:1612.00796v2（用于核对摘要原文与作者单位）。
+      url: https://arxiv.org/abs/1612.00796
+    - id: 5
+      citation: Kemker, R., McClure, M., Abitino, A., Hayes, T., & Kanan, C. (2017). Measuring catastrophic
+        forgetting in neural networks. arXiv:1708.02072.
+      url: https://arxiv.org/abs/1708.02072
+    - id: 6
+      citation: van de Ven, G. M., & Tolias, A. S. (2019). Three scenarios for continual learning. arXiv:1904.07734.
+      url: https://arxiv.org/abs/1904.07734
+    - id: 7
+      citation: 'Parisi, G. I., Kemker, R., Part, J. L., Kanan, C., & Wermter, S. (2019). Continual lifelong
+        learning with neural networks: A review. Neural Networks（期刊版）；此处链接为 arXiv:1802.07569 开放版本。'
+      url: https://arxiv.org/abs/1802.07569
+    - id: 8
+      citation: Luo, Y., Yang, Z., Meng, F., Li, Y., Zhou, J., & Zhang, Y. (2023). An empirical study
+        of catastrophic forgetting in large language models during continual fine-tuning. arXiv:2308.08747（预印本）。
+      url: https://arxiv.org/abs/2308.08747
+- id: 2026-11-11-ai-transformer-long
+  date: '2026-11-11'
+  category: ai
+  title_zh: 为什么 Transformer 在长距离依赖上比 RNN 和 LSTM 做得更好？
+  title_en: Why does the transformer do better than RNN and LSTM in long-range context dependencies?
+  commentary: 这是理解当代大模型为何「赢了」的钥匙问题：答案不只是「注意力」三个字，而牵涉梯度传播路径、并行训练、以及 Transformer 自身在超长上下文上的新短板。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/20075/why-does-the-transformer-do-better-than-rnn-and-lstm-in-long-range-context-depen
+  author: DRV
+  source_type: stackexchange
+  tags:
+  - Transformer
+  - 注意力机制
+  - 长距离依赖
+  - 循环神经网络
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 「路径长度更短 + 训练可并行」是主流解释；但「Transformer 天然擅长长上下文」并非共识
+      note: Transformer 原论文把最大路径长度 O(1)（对比 RNN 的 O(n)）作为偏好自注意力的理由之一，这一点被广泛接受。[1] 但长序列基准显示原始 Transformer
+        并不擅长极长序列，状态空间模型等非注意力架构在部分长程任务上更强；即使是专门的长上下文语言模型，也会对位于中间位置的信息利用不佳。[6][7][8][9]
+    summary: 经典回答有两层。第一，梯度路径：RNN 要把第 1 个词的信息传到第 n 个词，信号必须穿过 n 步循环，反向传播时误差会逐步衰减或爆炸（梯度消失/爆炸问题），这使远距离依赖难学；[2][3][4]
+      LSTM 用门控与「恒定误差传送带」缓解了这一点，但信息仍须逐步传递。[2] 自注意力层让任意两个位置之间只隔常数步操作，Vaswani 等人明确以「最大路径长度」短作为选择自注意力的动机。[1]
+      第二，并行性：RNN 每层需要 O(n) 次顺序操作，自注意力只需 O(1) 次，这使 Transformer 能在大规模数据上高效训练——这一工程优势与规模化本身可能同样重要。[1] 实证上，LSTM
+      语言模型平均只有效利用约 200 个词元的上下文，且对 50 个词元以外的词序基本不敏感。[5] 但需要警惕把结论说过头：自注意力的计算量随序列长度平方增长；在 1K–16K 词元的 Long
+      Range Arena 上，原始与高效 Transformer 都表现吃力，S4 等状态空间模型反而在该基准全部任务上取得最好成绩；[6][7] 长上下文模型对中间位置信息的利用也明显变差；[9]
+      理论上，单层数固定的自注意力也有形式语言意义上的表达力限制。[10]
+    definitions:
+    - term: 长距离依赖（long-range dependency）
+      text: 序列中相距很远的两个位置之间的统计或语义关联，例如段落开头的主语与结尾的动词一致。
+    - term: 梯度消失/爆炸
+      text: 在通过时间反向传播时，误差信号要连乘许多步雅可比矩阵，范数可能指数衰减或指数增长，导致远距离依赖难以学习或训练不稳定。Pascanu 等人从解析、几何与动力系统角度分析了该问题，问题本身最早由
+        Bengio 等人（1994）系统阐述。[3][4]
+    - term: 最大路径长度
+      text: Vaswani 等人用来比较网络层类型的指标：任意输入与输出位置之间，前向与反向信号必须经过的最长步数。自注意力为 O(1)，循环层为 O(n)，卷积层为 O(log_k n)。[1]
+    milestones:
+    - year: '1994'
+      name: 梯度消失问题的系统阐述
+      explanation: Bengio、Simard 与 Frasconi 论证用梯度下降学习长期依赖是困难的；Pascanu 等人（2013）称这是「广为人知」的 RNN 训练难题，并提出梯度裁剪等对策。[3][4]
+    - year: '1997'
+      name: LSTM
+      explanation: Hochreiter 与 Schmidhuber 用门控单元与「恒定误差传送带」强制误差恒定流动，报告可桥接超过 1000 个离散时间步的最小时间间隔。[2] 一句话：给信息修了一条不衰减的「传送带」。
+    - year: '2017'
+      name: Transformer：「Attention Is All You Need」
+      explanation: 完全用自注意力替代循环与卷积；论文第 4 节以每层计算复杂度、可并行性与长距离依赖的路径长度三项指标论证其优势。[1]
+    - year: 2020–2023
+      name: 长程基准与非注意力挑战者
+      explanation: Long Range Arena 系统评测高效 Transformer；[6] S4 在该基准全部任务上达到最好成绩并解决此前所有方法都失败的 16K 长度 Path-X；[7]
+        Mamba 以选择性状态空间实现线性复杂度，在语言建模上与同规模 Transformer 竞争。[8]
+    views:
+    - position: 核心原因是更短的信息路径：任意两位置一步可达
+      consensus_role: 主流解释（原论文的设计动机）
+      evidence:
+        label: 原始论文的复杂度分析，加上对 RNN 的经验分析
+        note: 路径长度论证是结构分析而非受控实验；Khandelwal 等人对 LSTM 语言模型的消融提供了「RNN 有效上下文有限」的直接证据。[1][5]
+      holders:
+      - name: Ashish Vaswani、Noam Shazeer 等
+        identity: 《Attention Is All You Need》作者；arXiv 版本所署单位为 Google Brain、Google Research 与多伦多大学。[1]
+      - name: Urvashi Khandelwal、Dan Jurafsky 等
+        identity: 《Sharp Nearby, Fuzzy Far Away》作者，用消融实验测量 LSTM 语言模型实际利用的上下文范围。[5]
+      argument: Vaswani 等人写道：学习长距离依赖是许多序列转导任务的关键挑战，影响这种能力的一个关键因素是前向与反向信号在网络中必须穿越的路径长度；路径越短，越容易学习长距离依赖。[1]
+        他们的表 1 给出：自注意力层的最大路径长度为 O(1)，循环层为 O(n)。[1] 与之呼应，Khandelwal 等人发现 LSTM 语言模型平均能利用约 200 个词元的上下文，但会把最近约
+        50 个词元与更远的历史截然区分，远处只被当作粗略的「语义场」或话题。[5] LSTM 虽显著缓解了梯度衰减，[2] 信息仍需逐步压缩进固定大小的隐状态，这是注意力机制可以绕开的瓶颈。
+      quotes:
+      - text: The shorter these paths between any combination of positions in the input and output sequences,
+          the easier it is to learn long-range dependencies [12].
+        text_zh: 输入与输出序列中任意位置组合之间的这些路径越短，就越容易学习长距离依赖。
+        attribution: Vaswani 等，Attention Is All You Need
+        locator: 第 4 节，arXiv PDF 第 6 页
+        ref: 1
+      - text: On two standard datasets, Penn Treebank and WikiText-2, we find that the model is capable
+          of using about 200 tokens of context on average, but sharply distinguishes nearby context (recent
+          50 tokens) from the distant history.
+        text_zh: 在 Penn Treebank 与 WikiText-2 两个标准数据集上，我们发现该模型平均能够利用约 200 个词元的上下文，但会把近处上下文（最近 50 个词元）与遥远的历史截然区分开来。
+        attribution: Khandelwal 等，Sharp Nearby, Fuzzy Far Away
+        locator: arXiv:1805.04623 摘要
+        ref: 5
+    - position: 同样重要的是并行训练与规模化，而非注意力「理解」长程
+      consensus_role: 有力的补充解释
+      evidence:
+        label: 复杂度分析与后续架构的对照证据
+        note: 原论文把可并行性列为三项指标之一；后续非注意力架构在可并行训练后也能在语言建模上接近 Transformer，提示并行性与规模是关键变量之一。这一推论属于对已发表结果的综合解读，并非单一研究的直接结论。[1][8]
+      holders:
+      - name: Albert Gu、Tri Dao
+        identity: Mamba 论文作者，提出带硬件感知并行算法的选择性状态空间模型。[8]
+      argument: 循环层每层需要 O(n) 次顺序操作，自注意力只需 O(1) 次，因此 Transformer 能更好地利用 GPU/TPU 并行，在相同时间内处理多得多的数据。[1] Gu
+        与 Dao 指出，许多次二次复杂度架构（线性注意力、门控卷积、循环模型与结构化状态空间模型）此前在语言上不如注意力，关键弱点是不能做基于内容的推理；在让状态空间参数依赖输入并设计并行算法后，Mamba-3B
+        在预训练与下游评测中超过同规模 Transformer、并与两倍规模的 Transformer 相当。[8] 这说明「循环」本身不是死刑，Transformer 的胜出部分来自可规模化训练与基于内容的选择能力。
+      quotes:
+      - text: We identify that a key weakness of such models is their inability to perform content-based
+          reasoning, and make several improvements.
+        text_zh: 我们认为这类模型的一个关键弱点是无法进行基于内容的推理，并为此做了若干改进。
+        attribution: Gu 与 Dao，Mamba
+        locator: arXiv:2312.00752 摘要
+        ref: 8
+    - position: Transformer 在真正的长上下文上并不完美
+      consensus_role: 对主流说法的重要限定
+      evidence:
+        label: 基准评测与理论结果
+        note: LRA、S4、Lost in the Middle 均为公开基准或受控实验；Hahn 的结论是关于形式语言的数学定理，不能直接等同于自然语言任务中的表现。[6][7][9][10]
+      holders:
+      - name: Yi Tay、Mostafa Dehghani 等
+        identity: Long Range Arena 基准作者。[6]
+      - name: Nelson F. Liu、Percy Liang 等
+        identity: 《Lost in the Middle》作者。[9]
+      - name: Michael Hahn
+        identity: 《Theoretical Limitations of Self-Attention in Neural Sequence Models》作者。[10]
+      argument: LRA 作者指出，Transformer 由于自注意力的二次复杂度，不能很好地扩展到长序列；他们用 1K–16K 词元的任务系统评测了十种高效 Transformer。[6]
+        S4 随后在该基准所有任务上取得最好结果，包括此前所有方法都失败的 16K 长度 Path-X。[7] 在语言模型中，Liu 等人发现当相关信息位于长输入的中间时，性能显著下降，即使是明确的长上下文模型也如此。[9]
+        Hahn 证明，若层数或头数不随输入长度增长，软/硬注意力都不能建模周期性有限状态语言与层级结构。[10] 因此更准确的说法是：Transformer 在「中等长度、需要灵活检索」的依赖上比
+        RNN/LSTM 好得多，但长上下文问题并没有被注意力一劳永逸地解决。
+      quotes:
+      - text: In particular, we observe that performance is often highest when relevant information occurs
+          at the beginning or end of the input context, and significantly degrades when models must access
+          relevant information in the middle of long contexts, even for explicitly long-context models.
+        text_zh: 特别是，我们观察到：当相关信息出现在输入上下文的开头或结尾时，表现往往最好；而当模型必须获取位于长上下文中间的相关信息时，表现显著下降，即便是明确面向长上下文的模型也是如此。
+        attribution: Liu 等，Lost in the Middle
+        locator: arXiv:2307.03172 摘要
+        ref: 9
+    open_parts: 第一，Transformer 的优势中有多少来自架构的归纳偏置、多少来自可并行训练带来的规模，尚无干净的因果拆分。[1][8] 第二，超长上下文（数十万到百万词元）中，注意力、状态空间模型与混合架构孰优孰劣仍在快速变化，现有基准覆盖有限。[6][7][8]
+      第三，「能放进上下文」不等于「能用好上下文」，位置偏差的成因与修正方法尚未定论。[9] 第四，理论表达力限制与实际自然语言表现之间的关系仍不清楚。[10]
+    references:
+    - id: 1
+      citation: Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser,
+        Ł., & Polosukhin, I. (2017). Attention is all you need. Advances in Neural Information Processing
+        Systems 30（NeurIPS 2017）. 页码按 arXiv:1706.03762 PDF。
+      url: https://arxiv.org/pdf/1706.03762
+    - id: 2
+      citation: Hochreiter, S., & Schmidhuber, J. (1997). Long short-term memory. Neural Computation,
+        9(8), 1735–1780. 链接为卡内基梅隆大学深度学习课程提供的阅读材料 PDF（作者机构原链接本次无法连接）。
+      url: https://deeplearning.cs.cmu.edu/F23/document/readings/LSTM.pdf
+    - id: 3
+      citation: Bengio, Y., Simard, P., & Frasconi, P. (1994). Learning long-term dependencies with gradient
+        descent is difficult. IEEE Transactions on Neural Networks, 5(2), 157–166. IEEE Xplore 对自动抓取未返回正文，本次未能打开原文；其论点据
+        [4] 的转述。
+      url: null
+    - id: 4
+      citation: Pascanu, R., Mikolov, T., & Bengio, Y. (2013). On the difficulty of training recurrent
+        neural networks. Proceedings of ICML 2013. arXiv:1211.5063.
+      url: https://arxiv.org/abs/1211.5063
+    - id: 5
+      citation: 'Khandelwal, U., He, H., Qi, P., & Jurafsky, D. (2018). Sharp nearby, fuzzy far away:
+        How neural language models use context. Proceedings of ACL 2018. arXiv:1805.04623.'
+      url: https://arxiv.org/abs/1805.04623
+    - id: 6
+      citation: 'Tay, Y., Dehghani, M., Abnar, S., et al. (2021). Long Range Arena: A benchmark for efficient
+        transformers. ICLR 2021. arXiv:2011.04006.'
+      url: https://arxiv.org/abs/2011.04006
+    - id: 7
+      citation: Gu, A., Goel, K., & Ré, C. (2022). Efficiently modeling long sequences with structured
+        state spaces. ICLR 2022. arXiv:2111.00396.
+      url: https://arxiv.org/abs/2111.00396
+    - id: 8
+      citation: 'Gu, A., & Dao, T. (2023). Mamba: Linear-time sequence modeling with selective state spaces.
+        arXiv:2312.00752.'
+      url: https://arxiv.org/abs/2312.00752
+    - id: 9
+      citation: 'Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang,
+        P. (2024). Lost in the middle: How language models use long contexts. Transactions of the ACL,
+        12. arXiv:2307.03172.'
+      url: https://arxiv.org/abs/2307.03172
+    - id: 10
+      citation: Hahn, M. (2020). Theoretical limitations of self-attention in neural sequence models.
+        Transactions of the ACL, 8. arXiv:1906.06755.
+      url: https://arxiv.org/abs/1906.06755
+- id: 2026-11-11-biz-gdp-constant
+  date: '2026-11-11'
+  category: business
+  title_zh: 为什么美国人均 GDP 的长期增长率如此「诡异地」恒定？
+  title_en: Why is GDP growth so weirdly constant?
+  commentary: 大萧条、两次世界大战、计算机革命都没能让美国人均 GDP 的长期趋势线拐弯——这一事实是所有现代增长理论的「地基」，却也让人追问：到底是什么在决定那条斜率？
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 经济增长
+  - 平衡增长路径
+  - 创意生产函数
+  - 宏观经济
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 「美国前沿增长约 2%、长期稳定」是公认的典型事实；「为何稳定」有主流解释但存在争议
+      note: Jones 在《宏观经济学手册》中把「近 150 年美国人均 GDP 以约每年 2% 的速度非常稳定地增长」列为前沿增长的关键典型事实，并指出所有现代增长理论都是以此为前提设计的。[2]
+        但对稳定性的解释——是真正的稳态，还是若干力量恰好相互抵消——学界并不一致；Jones 本人的研究倾向后者。[4][5][6]
+    summary: Patrick Collison 注意到：把过去约 150 年美国 GDP 取对数画出来，几乎是一条直线；他追问斜率由什么决定、是否意味着「几乎没有什么能在长期影响经济」，以及为何国家之间的增长又差异很大。[1]
+      事实层面，Jones 的整理显示：1870–2007 年美国人均 GDP 年均增长 2.03%，1900–1950 年为 2.06%，1950–2007 年为 2.16%；大萧条虽使人均 GDP
+      四年内下降近 20%，但只是暂时的。[2] 解释层面主要有三类：（1）新古典与内生增长模型以「平衡增长路径」为核心，把恒定增长当作稳态的特征，其中长期增长来自技术/创意进步；[2] （2）Jones
+      等人认为美国其实并不在稳态：受教育程度和研发强度几十年来持续上升，这类「转移动态」解释了近期增长的大部分，而它们恰好抵消了「创意越来越难找」带来的研究生产率下降；[5][6][7] （3）国家层面的增长率在十年尺度上几乎不相关（相关系数仅
+      0.1–0.3），说明「稳定」主要是前沿经济体在长期平均后的现象，而非普遍规律。[8] 从更长的历史看，持续指数增长本身只是近两个世纪的现象。[2]
+    definitions:
+    - term: 平衡增长路径（balanced growth path）
+      text: 所有经济变量都以恒定指数速率增长的状态。Jones 指出，美国长期增长的稳定性比任何其他事实都更能为增长模型聚焦平衡增长路径提供理由。[2]
+    - term: Kaldor 典型事实
+      text: Nicholas Kaldor（1961）概括的若干长期规律，例如人均产出持续增长、资本—产出比和实际利率没有明显趋势等；Jones（2002）把它们作为「美国接近稳态」这一传统观点的依据加以引用。[3][5]
+    - term: 创意生产函数与研究生产率
+      text: 在创意驱动的增长模型中，增长率可以分解为「研究生产率 × 有效研究人数」。Bloom 等人发现研究投入大幅上升而研究生产率急剧下降。[7]
+    milestones:
+    - year: '1956'
+      name: Solow 新古典增长模型
+      explanation: 长期人均增长由外生技术进步决定，资本积累只影响水平。Jones 把 Solow（1956）列为以「稳定指数增长」为设计前提的现代增长理论之首。[2]
+    - year: '1995'
+      name: Jones 的「规模效应」时间序列检验
+      explanation: Jones 指出：若增长率与研发人员数量成正比（早期内生增长模型的「规模效应」），那么二战后研发人员的大幅增长应使增长率显著上升，而数据中没有出现这种上升。[4][5]
+        一句话：研究的人多了好几倍，增长率却没变。
+    - year: '2002'
+      name: 「远离稳态」的解释
+      explanation: Jones 构建模型调和「教育与研发强度持续上升」与「增长率稳定」两者，增长核算显示这些因素解释了近期美国增长的约 80%，来自世界人口增长的不足 20%。[5]
+    - year: '2020'
+      name: 「创意越来越难找」
+      explanation: Bloom、Jones、Van Reenen 与 Webb 以摩尔定律为例：如今维持芯片密度翻倍所需的研究人员是 1970 年代初的 18 倍以上。[7]
+    views:
+    - position: 稳定增长反映前沿经济体处在（或近似处在）平衡增长路径上
+      consensus_role: 传统主流框架
+      evidence:
+        label: 长期时间序列与典型事实
+        note: 证据主要是描述性的长期序列与 Kaldor 事实；它与理论高度契合，但并不能独立证明「稳态」是正确解释。[2][3]
+      holders:
+      - name: Charles I. Jones（作为事实的整理者）
+        identity: 斯坦福大学商学院教授、NBER 研究员（据《The Facts of Economic Growth》所署单位）。[2]
+      argument: Jones 在《宏观经济学手册》第 2A 卷中总结：「150 年稳定、持续的指数增长」是前沿的关键特征，Solow（1956）、Lucas（1988）、Romer（1990）与
+        Aghion–Howitt（1992）等所有现代增长理论都以此为前提。[2] 在这种框架里，技术进步的速度决定斜率，而大多数冲击（包括大萧条）只影响水平或造成暂时偏离，这正是 Collison
+        观察到「几乎什么都不改变长期趋势」的理论版本。[1][2] Jones 同时提醒，平衡增长路径的逻辑暗示增长可以无限持续，但其他事实与理论让人质疑这一逻辑。[2]
+      quotes:
+      - text: For nearly 150 years, GDP per person in the US economy has grown at a remarkably steady
+          average rate of around 2% per year.
+        text_zh: 近 150 年来，美国经济的人均 GDP 以每年约 2% 的、非常稳定的平均速度增长。
+        attribution: Charles I. Jones，The Facts of Economic Growth
+        locator: Handbook of Macroeconomics 第 2A 卷第 5 页（作者 PDF 第 3 页）
+        ref: 2
+    - position: 稳定是「多种力量恰好抵消」的结果，美国并不在稳态
+      consensus_role: 有影响力的修正观点
+      evidence:
+        label: 模型 + 增长核算，依赖创意生产函数设定
+        note: 结论依赖于半内生增长模型的假设（如增长最终由研究人员增长驱动），核算结果会随参数而变；但「研究投入上升、研究生产率下降」的证据在多个行业中被记录。[5][6][7]
+      holders:
+      - name: Charles I. Jones
+        identity: 《Sources of U.S. Economic Growth in a World of Ideas》（AER 2002）作者，撰写时所署单位为加州大学伯克利分校。[5]
+      - name: John G. Fernald
+        identity: 与 Jones 合著 NBER 工作论文 19830，所署单位为旧金山联邦储备银行研究部。[6]
+      - name: Nicholas Bloom、John Van Reenen、Michael Webb
+        identity: 与 Jones 合著《Are Ideas Getting Harder to Find?》（AER 2020）；文中所署单位分别为斯坦福大学、MIT/LSE、斯坦福大学。[7]
+      argument: Jones（2002）指出，受教育时间与研发强度在至少 50 年里大幅上升：1940 年美国成年人中高中毕业者不足 25%，1993 年超过 80%；美国劳动力中科学家与工程师的比例从
+        1950 年约 0.25% 升到 1993 年超过 0.75%。在几乎任何增长模型里，这都应提高增长率，但美国人均 GDP 增长率在 125 年间出奇地稳定。[5] 他的调和办法是：长期增长取决于全世界的创意发现（最终取决于人口增长），但只要研发强度和教育水平持续上升，增长可以在一段时间内以更快的恒定速率进行。[5]
+        Fernald 与 Jones 据此估计，1950 年以来超过 3/4 的增长反映了教育与研发强度的上升，随着这些转移动态消退，美国增长可能在某个时点放缓。[6] Bloom 等人则从另一侧给出证据：研究生产率在急剧下降，靠研究人员数量的增加才维持了增长。[7]
+        也就是说，那条直线可能是「越来越难找的创意」与「越来越多的研究者」的巧合平衡。
+      quotes:
+      - text: Nevertheless, constant growth can temporarily proceed at a faster rate, provided research
+          intensity and educational attainment rise steadily over time.
+        text_zh: 尽管如此，只要研发强度和受教育程度随时间稳步上升，恒定增长就可以暂时以更快的速度进行。
+        attribution: Charles I. Jones，AER（2002）
+        locator: 摘要，第 220 页
+        ref: 5
+      - text: Modern growth theory suggests that more than 3/4 of growth since 1950 reflects rising educational
+          attainment and research intensity.
+        text_zh: 现代增长理论表明，1950 年以来超过 3/4 的增长反映的是受教育程度和研发强度的上升。
+        attribution: John G. Fernald 与 Charles I. Jones，NBER Working Paper 19830
+        locator: 摘要
+        ref: 6
+    - position: 「恒定」主要是前沿经济体的长期平均现象，单个国家的增长率高度不稳定
+      consensus_role: 重要限定
+      evidence:
+        label: 跨国面板数据
+        note: Easterly 等人的结果基于 1993 年前后的跨国数据；它说明国别增长受冲击影响很大，但不直接否定美国序列的稳定性。[8]
+      holders:
+      - name: William Easterly、Michael Kremer、Lant Pritchett、Lawrence H. Summers
+        identity: NBER 工作论文 4474《Good Policy or Good Luck?》作者；Easterly 所署单位为世界银行，Kremer 为 MIT。[8]
+      argument: Easterly 等人发现，各国增长率跨十年的相关系数只有 0.1–0.3，而教育水平、政治稳定性等国家特征的跨十年相关系数为 0.6–0.9；冲击（尤其贸易条件冲击）在解释增长方差中作用很大。[8]
+        他们提出两种可能：要么冲击相对于国家特征对长期增长很重要，要么全球技术进步决定长期增长、国家特征决定相对收入水平。[8] 后一种解读与「前沿增长稳定」相容：美国的直线可能反映的是全球前沿技术进步的速度。Collison
+        原问题也指出，国家之间的增长无论短期还是长期都差异很大。[1] 再往前看，Jones 整理的 Maddison 数据显示，公元 1 年到 1820 年「西方」人均生活水平只是大约翻倍，持续指数增长是极为晚近的现象。[2][9]
+      quotes:
+      - text: However, growth rates are highly unstable over time, with a correlation across decades of
+          .1 to .3, while country characteristics are stable, with cross-decade correlations of .6 to
+          .9.
+        text_zh: 然而，增长率随时间高度不稳定，跨十年的相关系数仅为 0.1 至 0.3；而国家特征是稳定的，其跨十年相关系数为 0.6 至 0.9。
+        attribution: Easterly、Kremer、Pritchett 与 Summers，NBER Working Paper 4474
+        locator: 摘要
+        ref: 8
+    open_parts: 第一，美国增长的稳定性究竟是深层稳态，还是若干趋势的暂时抵消，仍无定论；若是后者，教育与研发强度上升放缓后增长可能减速。[5][6] 第二，创意生产函数的形状决定了增长的未来，Fernald
+      与 Jones 特别指出人工智能若能在一定程度上替代研究劳动，可能带来更高增长，这是根本不确定性。[6] 第三，为什么冲击（大萧条、战争）对美国长期趋势影响如此之小、而对许多其他国家却有持久影响，尚缺统一解释。[2][8]
+      第四，长期 GDP 序列本身依赖历史国民账户重建，其早期数据的精度也是讨论的一部分。[9]
+    references:
+    - id: 1
+      citation: Collison, P. Questions（个人网站问题列表）中的条目「Why is GDP growth so weirdly constant?」。
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: Jones, C. I. (2016). The facts of economic growth. In J. B. Taylor & H. Uhlig (Eds.),
+        Handbook of Macroeconomics (Vol. 2A, pp. 3–69). Elsevier. 作者主页 PDF；页码注明手册页与 PDF 页。
+      url: https://web.stanford.edu/~chadj/facts.pdf
+    - id: 3
+      citation: Kaldor, N. (1961). Capital accumulation and economic growth. In F. A. Lutz & D. C. Hague
+        (Eds.), The Theory of Capital. Macmillan. 书目据 [5] 的引用；出版商页面本次无法打开。
+      url: null
+    - id: 4
+      citation: Jones, C. I. (1995). Time series tests of endogenous growth models. Quarterly Journal
+        of Economics, 110(2), 495–525. 作者主页扫描版 PDF（本次仅核对可访问性，未从中摘句）。
+      url: https://web.stanford.edu/~chadj/JonesQJE1995.pdf
+    - id: 5
+      citation: Jones, C. I. (2002). Sources of U.S. economic growth in a world of ideas. American Economic
+        Review, 92(1), 220–239. 作者主页 PDF。
+      url: https://web.stanford.edu/~chadj/SourcesAER2002.pdf
+    - id: 6
+      citation: Fernald, J. G., & Jones, C. I. (2014). The future of U.S. economic growth. NBER Working
+        Paper No. 19830（同年刊于 AER Papers & Proceedings）。
+      url: https://www.nber.org/system/files/working_papers/w19830/w19830.pdf
+    - id: 7
+      citation: Bloom, N., Jones, C. I., Van Reenen, J., & Webb, M. (2020). Are ideas getting harder to
+        find? American Economic Review, 110(4), 1104–1144. 作者主页 PDF。
+      url: https://web.stanford.edu/~chadj/IdeaPF.pdf
+    - id: 8
+      citation: Easterly, W., Kremer, M., Pritchett, L., & Summers, L. H. (1993). Good policy or good
+        luck? Country growth performance and temporary shocks. NBER Working Paper No. 4474（后刊于 Journal
+        of Monetary Economics, 32(3)）。
+      url: https://www.nber.org/system/files/working_papers/w4474/w4474.pdf
+    - id: 9
+      citation: Maddison Project Database 2023. Groningen Growth and Development Centre, University of
+        Groningen.（长期 GDP 与人口历史数据库；[2] 使用其早期版本。）
+      url: https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023
+- id: 2026-11-11-biz-zero-inflation
+  date: '2026-11-11'
+  category: business
+  title_zh: 零通胀是理想目标吗？
+  title_en: Is zero inflation desirable?
+  commentary: 「物价稳定」听上去就该是 0%，可几乎所有主要央行都把目标定在 2%——这道题把名义工资刚性、零利率下限、税制扭曲与统计偏差一次性摆上桌面。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/5861/is-zero-inflation-desirable
+  author: Giskard
+  source_type: stackexchange
+  tags:
+  - 通货膨胀目标
+  - 货币政策
+  - 零利率下限
+  - 名义工资刚性
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 政策实践高度一致地选择约 2% 而非 0%；「最优」水平在学界仍有争论
+      note: 美联储 FOMC 在其长期目标声明（2026 年 1 月 27 日再次确认）中判断 2%（以 PCE 价格指数年变化衡量）最符合其法定使命；欧洲央行 2021 年策略评估采用对称的
+        2% 中期目标。[1][3] 学界一端有 Feldstein 主张从 2% 降至零通胀收益显著，另一端有 Akerlof 等人与 Kiley–Roberts 的研究认为零通胀或过低目标会带来实际成本。[4][5][6]
+    summary: 多数经济学家和央行不认为零通胀是理想目标，而是选择一个低而为正的目标（通常为 2%）。理由主要有三条：（1）名义工资向下刚性——当名义工资难以下调时，一点正通胀能让需要下降的实际工资得以调整；Akerlof、Dickens
+      与 Perry 的模型据此认为维持零通胀会永久提高可持续失业率；[4] （2）名义利率有效下限——通胀目标越低，平均名义利率越低，央行在衰退中可用的降息空间越小，Kiley 与 Roberts
+      的模拟显示低利率世界中触及下限的频率与代价可能被低估；[6][7] （3）对称性与预期锚定——欧洲央行强调目标两侧的偏离同样不受欢迎，在接近下限时需要更有力的政策避免负偏离固化。[3] 反方最有力的论证来自
+      Feldstein：通胀与资本所得税制交互造成扭曲，2% 通胀的年度无谓损失约占 GDP 的 1%，降到物价稳定的永久收益远超过渡成本。[5] 因此，「零通胀是否可取」更像一个权衡问题：答案取决于税制、工资刚性的程度、下限约束的严重性，以及价格指数是否高估了真实通胀。
+    definitions:
+    - term: 名义工资向下刚性
+      text: 雇主很少削减员工的名义工资。Akerlof 等人把这一点嵌入存在企业层面随机需求冲击的模型，得出不存在唯一自然失业率、可持续失业率取决于通胀率的结论。[4]
+    - term: 有效下限（effective lower bound, ELB）
+      text: 名义利率难以显著降到零以下的约束。Kiley 与 Roberts 研究了持续低利率如何使触及该下限的事件更频繁、代价更高。[6]
+    - term: 对称通胀目标
+      text: 欧洲央行 2021 年策略中的表述：低于与高于目标的偏离同样不受欢迎。[3]
+    milestones:
+    - year: '1996'
+      name: Akerlof–Dickens–Perry《低通胀的宏观经济学》
+      explanation: 在布鲁金斯经济活动论文中论证：在名义工资向下刚性下，适度的稳定通胀能实现最高就业与产出，零通胀会造成永久实际成本。[4]
+    - year: 1996/1997
+      name: Feldstein 的零通胀收益估算
+      explanation: 强调通胀与资本所得税的交互扭曲，估计 2% 通胀年度无谓损失约为 GDP 的 1%，转向物价稳定的现值收益超过初始 GDP 的 35%，而过渡成本约为 GDP 的 5%。[5]
+    - year: '2012'
+      name: FOMC 首次发布长期目标声明
+      explanation: 声明自 2012 年 1 月 24 日起生效，现行文本写明于 2026 年 1 月 27 日再次确认，以 PCE 年变化 2% 为长期通胀目标。[1]
+    - year: '2021'
+      name: 欧洲央行新策略
+      explanation: 采用对称的 2% 中期目标，并指出在接近利率下限时需要特别有力或持久的政策行动。[3]
+    views:
+    - position: 低而为正（约 2%）的通胀优于零通胀
+      consensus_role: 主要央行的政策共识
+      evidence:
+        label: 官方政策声明 + 模型模拟
+        note: 官方声明表达的是政策判断，不是实证证明；支撑它的学术论证主要来自工资刚性与利率下限的模型研究。[1][3][4][6]
+      holders:
+      - name: 美联储联邦公开市场委员会（FOMC）
+        identity: 美国货币政策决策机构；其《长期目标与货币政策策略声明》为官方文本。[1][2]
+      - name: 欧洲央行管理委员会
+        identity: 2021 年 7 月批准新货币政策策略。[3]
+      argument: FOMC 认为通胀长期主要由货币政策决定，因此可以设定数值目标；它判断 2% 最符合最大就业与物价稳定两项法定使命，并认为把长期通胀预期稳固锚定在 2%，有助于在面对显著冲击时促进最大就业。[1]
+        美联储的常见问题页解释，当家庭和企业能合理预期通胀保持低而稳定时，就能在储蓄、借贷与投资上做出合理决策。[2] 欧洲央行同样选择 2%，并强调目标是对称的。[3] 值得注意的是，这些官方文本本身没有逐项列出「为何不是
+        0%」的理由，那部分论证来自学术文献。
+      quotes:
+      - text: The Committee reaffirms its judgment that inflation at the rate of 2 percent, as measured
+          by the annual change in the price index for personal consumption expenditures, is most consistent
+          over the longer run with the Federal Reserve’s statutory maximum employment and price stability
+          mandates.
+        text_zh: 委员会重申其判断：以个人消费支出价格指数年变化衡量的 2% 通胀率，在长期内最符合美联储关于最大就业与物价稳定的法定使命。
+        attribution: FOMC，《长期目标与货币政策策略声明》
+        locator: 第 1 页
+        ref: 1
+      - text: This target is symmetric, meaning negative and positive deviations of inflation from the
+          target are equally undesirable.
+        text_zh: 这一目标是对称的，意味着通胀低于或高于目标的偏离同样不受欢迎。
+        attribution: 欧洲央行新闻稿，2021 年 7 月 8 日
+        locator: 正文第 3 段
+        ref: 3
+    - position: 零通胀会因名义工资刚性和利率下限带来持久的实际成本
+      consensus_role: 支持正通胀目标的核心学术论证
+      evidence:
+        label: 结构模型与大型政策模型模拟
+        note: Akerlof 等人的结论依赖名义工资刚性的程度；Kiley–Roberts 的结果依赖均衡实际利率假设与政策规则，作者也指出是否应提高目标取决于其他策略是否可行。[4][6]
+      holders:
+      - name: George A. Akerlof、William T. Dickens、George L. Perry
+        identity: 1996 年 BPEA 论文作者；文中所署单位为布鲁金斯学会（Akerlof 另署加州大学伯克利分校）。[4]
+      - name: Michael T. Kiley、John M. Roberts
+        identity: 2017 年 BPEA 论文作者，所署单位为美联储理事会。[6]
+      argument: Akerlof 等人质疑标准自然率模型：在企业面临随机需求冲击、名义工资难以下调的经济中，与稳定通胀相容的失业率本身取决于通胀率；长期看，适度的稳定通胀能实现最高就业与产出，维持零通胀则会可测地提高可持续失业率。[4]
+        Kiley 与 Roberts 则指出，央行通胀目标低于历史平均通胀、均衡实际利率又明显下降，名义利率可能长期偏低，从而更频繁、更久地触及下限；在传统简单规则下，经济活动与通胀会更波动并系统性低于目标。[6]
+        布鲁金斯的摘要称，按其模型，利率可能有多达 40% 的时间处于零。[7]
+      quotes:
+      - text: But as our results show, a target of zero inflation will impose permanent real costs on
+          the economy rather than the real benefits this preamble describes.
+        text_zh: 但正如我们的结果所示，零通胀目标将给经济带来永久性的实际成本，而不是（该法案）序言所描述的实际收益。
+        attribution: Akerlof、Dickens 与 Perry，BPEA 1996:1
+        locator: 第 2 页
+        ref: 4
+    - position: 零通胀（真正的物价稳定）收益更大，值得付出过渡成本
+      consensus_role: 有影响力的少数派/反方
+      evidence:
+        label: 基于税制扭曲的福利计算
+        note: 估计高度依赖税制结构与贴现率假设（作者使用 1970–1994 年标准普尔股票组合的税后实际收益率 5.1% 贴现）；不同税制国家结论可能不同。[5]
+      holders:
+      - name: Martin Feldstein
+        identity: 'NBER 工作论文 5469 作者；该文收入 C. Romer 与 D. Romer 主编的《Reducing Inflation: Motivation and Strategy》（1997）。[5]'
+      argument: Feldstein 的核心论点是：即便在物价稳定时税制也会造成扭曲，而通胀会放大这些扭曲（例如对名义资本收益和名义利息征税）。因此 2% 通胀的年度无谓损失高达约 GDP
+        的 1%；由于收益随 GDP 永久增长，其现值是初始 GDP 的 35% 以上，远大于约 5% GDP 的过渡成本。[5] 这一论证提醒：「2% 更好」的结论并非无条件成立，若通过税制指数化等方式消除通胀与税收的交互，权衡会改变。
+      quotes:
+      - text: Because inflation exacerbates the tax distortions that would exist even with price stability,
+          the annual deadweight loss of a two percent inflation rate is a surprisingly large one percent
+          of GDP.
+        text_zh: 由于通胀会加剧那些即使在物价稳定时也存在的税收扭曲，2% 通胀率的年度无谓损失出人意料地高，达到 GDP 的 1%。
+        attribution: Martin Feldstein，NBER Working Paper 5469
+        locator: 摘要
+        ref: 5
+    open_parts: 第一，最优通胀目标的具体数值（1%、2%、3% 还是更高）取决于均衡实际利率与工资刚性程度，这两者都难以精确估计且随时间变化。[4][6] 第二，平均通胀目标、价格水平目标、前瞻指引与资产购买等工具能在多大程度上替代更高的通胀目标，Kiley
+      与 Roberts 也认为取决于这些策略的可行性。[6] 第三，价格指数可能高估真实通胀（质量改进、新产品等），使「测得的 2%」与「真实的零」之间的距离难以确定；本文未能打开相关官方报告原文，故不给出具体数值。第四，零通胀的税制收益在多大程度上可以通过税制改革直接获得，而无需改变通胀目标，仍有争议。[5]
+    references:
+    - id: 1
+      citation: Federal Open Market Committee. Statement on Longer-Run Goals and Monetary Policy Strategy.
+        Adopted effective January 24, 2012; as reaffirmed effective January 27, 2026. Board of Governors
+        of the Federal Reserve System.
+      url: https://www.federalreserve.gov/monetarypolicy/files/FOMC_LongerRunGoals.pdf
+    - id: 2
+      citation: 'Board of Governors of the Federal Reserve System. FAQs: Why does the Federal Reserve
+        aim for inflation of 2 percent over the longer run? Last update: August 22, 2025.'
+      url: https://www.federalreserve.gov/faqs/economy_14400.htm
+    - id: 3
+      citation: European Central Bank. (2021, July 8). ECB’s Governing Council approves its new monetary
+        policy strategy [Press release].
+      url: https://www.ecb.europa.eu/press/pr/date/2021/html/ecb.pr210708~dc78cc4b0d.en.html
+    - id: 4
+      citation: Akerlof, G. A., Dickens, W. T., & Perry, G. L. (1996). The macroeconomics of low inflation.
+        Brookings Papers on Economic Activity, 1996(1), 1–76（含 Gordon 与 Mankiw 的评论）。页码按 BPEA PDF。
+      url: https://www.brookings.edu/wp-content/uploads/1996/01/1996a_bpea_akerlof_dickens_perry_gordon_mankiw.pdf
+    - id: 5
+      citation: 'Feldstein, M. (1996). The costs and benefits of going from low inflation to price stability.
+        NBER Working Paper No. 5469. 收入 C. Romer & D. Romer (Eds.), Reducing Inflation: Motivation and
+        Strategy (University of Chicago Press, 1997). 摘要据 NBER 页面。'
+      url: https://www.nber.org/papers/w5469
+    - id: 6
+      citation: Kiley, M. T., & Roberts, J. M. (2017). Monetary policy in a low interest rate world. Brookings
+        Papers on Economic Activity, Spring 2017, 317–396.
+      url: https://www.brookings.edu/wp-content/uploads/2017/08/kileytextsp17bpea.pdf
+    - id: 7
+      citation: Brookings Institution. (2017, March 23). Monetary policy in a low interest rate world（论文摘要页，含「多达
+        40% 的时间处于零利率」的概述）。
+      url: https://www.brookings.edu/articles/monetary-policy-in-a-low-interest-rate-world/
+- id: 2026-11-11-sci-holocene
+  date: '2026-11-11'
+  category: science
+  title_zh: 为什么全新世的气候突然变得如此稳定？
+  title_en: Why did climatic variability suddenly decline in the Holocene period?
+  commentary: 农业、城市与文明都诞生在过去约一万年这段异常平稳的气候里；弄清「为什么稳」，既关乎人类起源的叙事，也关乎变暖的未来会更稳还是更乱。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 古气候
+  - 全新世
+  - 冰芯
+  - 大西洋经向翻转环流
+  - 农业起源
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 「末次冰期远比全新世多变」是高度共识；变幅大小与机制细节仍有争论
+      note: 格陵兰冰芯记录显示末次冰期存在几百年尺度的突变，而全新世相对稳定；[3][4] Rehfeld 等人用全球代用指标网络估计，全球温度变率从末次盛冰期到全新世下降约 4 倍，远小于格陵兰冰芯所示的
+        73 倍。[2] 机制上，与大冰盖、大西洋经向翻转环流（AMOC）的多稳态以及经向温度梯度变化相关的解释得到较多支持，但没有单一被普遍接受的完整理论。[2][6][7]
+    summary: Collison 的问题源于格陵兰冰芯 δ18O 曲线：约 1.2 万年前起，气候似乎一下子安静下来；他同时引用 Rehfeld 等人（2018）指出，用全球数据看下降幅度没有格陵兰那么夸张。[1][2]
+      现有证据可以概括为四点。（1）事实：末次冰期充满 Dansgaard–Oeschger（D–O）事件与 Heinrich 事件等快速突变，全新世则没有这类事件；[3][6] Ditlevsen
+      等人对格陵兰 9.1 万年冰芯记录的分析还表明，冰期大气环流本身就更「湍急」。[3] （2）幅度：全球温度变率下降约 4 倍，热带只下降 1.6–2.8 倍，中纬度下降 3.3–14 倍，格陵兰则达
+      73 倍，说明格陵兰记录夸大了全球变化。[2] （3）机制：Ganopolski 与 Rahmstorf 的模型显示，冰期条件下大西洋环流的「暖模态」只是边缘不稳定，容易被扰动触发，从而产生类似
+      D–O 事件的突变；全新世没有巨大北半球冰盖，环流处于更稳定的状态；[6] EPICA 南极冰芯显示每个 D–O 事件都在南极有对应的「两极跷跷板」信号，支持海洋环流耦合的解释；[7] Rehfeld
+      等人则把全球变率的下降归因于经向温度梯度的减小。[2] （4）全新世是否独特：早期 GRIP 冰芯曾显示上一次间冰期也不稳定，[4] 但 NGRIP 未受扰动的记录显示上一次间冰期气候是稳定的，[5]
+      这提示「稳定」更像间冰期（无大冰盖）状态的共性，而非全新世独有的奇迹。至于「稳定使农业成为可能」，Richerson 等人提出了有影响的假说，但它仍是假说。[8][9]
+    definitions:
+    - term: 全新世（Holocene）
+      text: 约 11,500 年前至今的地质时期。Rehfeld 等人以「过去 11,500 年」界定。[2]
+    - term: Dansgaard–Oeschger 事件与 Heinrich 事件
+      text: 末次冰期中反复出现的快速变暖与大规模冰山排放事件。Ganopolski 与 Rahmstorf 指出这类突变出现在末次冰期（约 10 万至 1 万年前），而不见于全新世。[6]
+    - term: δ18O 代用指标
+      text: 冰芯中氧同位素比值的偏差，常被用作当地温度的代用指标。Ditlevsen 等人的分析即基于格陵兰高分辨率冰芯的氧同位素记录。[3]
+    milestones:
+    - year: '1993'
+      name: GRIP 冰芯：「近期稳定也许是例外」
+      explanation: Dansgaard 等人发表 25 万年记录，认为气候不稳定不仅出现在末次冰期，也出现在上一个间冰期，并据此提出全新世的极端稳定可能是例外而非常态。[4]
+    - year: '1996'
+      name: 冰期大气更动荡
+      explanation: Ditlevsen、Svensmark 与 Johnsen 对格陵兰冰芯 9.1 万年氧同位素记录的时间趋势分析，给出冰期大气环流比今天更湍急的直接证据。[3]
+    - year: '2001'
+      name: 冰期海洋环流的「边缘不稳定」
+      explanation: Ganopolski 与 Rahmstorf 用中等复杂度气候模型解释冰期为何比全新世多变：冰期只有一种稳定的大西洋环流模态，暖模态容易被临时触发。[6]
+    - year: '2004'
+      name: NGRIP：上一次间冰期其实是稳定的
+      explanation: 北格陵兰冰芯给出延伸到 12.3 万年前的未扰动记录，显示上一次间冰期气候稳定，且比今天暖约 5 °C；中部格陵兰旧冰芯底部的年代受冰层褶皱扰动。[5]
+    - year: '2018'
+      name: 全球变率下降约 4 倍
+      explanation: Rehfeld 等人用海洋与陆地温度代用指标网络，量化末次盛冰期到全新世的全球变率下降，并指出其纬向格局可由经向温度梯度的变化解释。[2]
+    views:
+    - position: 冰期多变源于大冰盖与大西洋环流的多稳态；全新世失去了这一「触发器」
+      consensus_role: 主流机制解释之一
+      evidence:
+        label: 冰芯记录 + 模型模拟，相互印证
+        note: EPICA 与格陵兰记录的两极对应关系是观测证据；Ganopolski–Rahmstorf 是模型研究。具体触发因子（冰山、淡水注入、海冰等）仍有争论。[6][7]
+      holders:
+      - name: Andrey Ganopolski、Stefan Rahmstorf
+        identity: 2001 年《Nature》论文《Rapid changes of glacial climate simulated in a coupled climate model》作者。[6]
+      - name: EPICA 社区成员
+        identity: 欧洲南极冰芯项目（EPICA）合作团队，2006 年在《Nature》发表毛德皇后地冰芯记录。[7]
+      argument: Ganopolski 与 Rahmstorf 发现，冰期条件下大西洋只有一种稳定模态（深水在冰岛以南形成的冷模态），而类似今天的暖模态只是边缘不稳定，很容易被临时触发，从而产生与观测到的
+        D–O 事件特征相符的突然增暖；大规模淡水注入（如冰山排放）则会暂停深水形成，产生 Heinrich 事件式的格局。[6] EPICA 南极冰芯显示，每一次北方 D–O 事件在南极都有对应信号，南极增暖幅度与北方同期冷期长度呈线性关系，为「两极跷跷板」提供了独立证据。[7]
+        全新世没有北美与欧亚的巨大冰盖，也就缺少了让环流在不同模态之间跳动的条件。
+      quotes:
+      - text: Our stability analysis provides an explanation why glacial climate is much more variable
+          than Holocene climate.
+        text_zh: 我们的稳定性分析解释了为什么冰期气候比全新世气候多变得多。
+        attribution: Ganopolski 与 Rahmstorf，Nature（2001）
+        locator: 摘要
+        ref: 6
+    - position: 全球变率下降主要源自经向温度梯度变小，且幅度远小于格陵兰所示
+      consensus_role: 对「下降有多大」的重要定量修正
+      evidence:
+        label: 全球代用指标网络的统计分析
+        note: 代用指标的时间分辨率与噪声校正会影响变率估计；作者把格陵兰 73 倍的下降解释为受局地温度以外因素影响或大气与全球地表变率脱耦。[2]
+      holders:
+      - name: Kira Rehfeld、Thomas Münch、Sze Ling Ho、Thomas Laepple
+        identity: 2018 年《Nature》论文《Global patterns of declining temperature variability from the Last
+          Glacial Maximum to the Holocene》作者。[2]
+      argument: 作者利用海洋和陆地温度代用指标网络，发现随着气候从末次盛冰期（约 2.1 万年前）增暖 3–8 °C 到全新世，全球温度变率下降约 4 倍；这一下降有清晰的纬向格局：热带变化小，中纬度变化大。[2]
+        他们认为整体格局可以用经向温度梯度的变化来解释——赤道与高纬之间温差越大，中纬度天气系统搬运的冷暖空气差异越大。作者还指出，这一机制意味着在更暖的未来温度变率可能进一步下降。[2] 这直接回应了
+        Collison 的疑问：格陵兰曲线显示的「突然安静」在全球尺度上被明显夸大了。[1][2]
+      quotes:
+      - text: Here we use a network of marine and terrestrial temperature proxies to show that temperature
+          variability decreased globally by a factor of four as the climate warmed by 3–8 degrees Celsius
+          from the Last Glacial Maximum (around 21,000 years ago) to the Holocene epoch (the past 11,500
+          years).
+        text_zh: 我们利用海洋与陆地温度代用指标网络表明：在气候从末次盛冰期（约 21,000 年前）增暖 3–8 摄氏度进入全新世（过去 11,500 年）的过程中，全球温度变率下降了约四倍。
+        attribution: Rehfeld 等，Nature（2018）
+        locator: 摘要
+        ref: 2
+    - position: 全新世的稳定是否「例外」：从 GRIP 到 NGRIP 的反转
+      consensus_role: 历史上的争论，后续数据倾向「间冰期普遍较稳定」
+      evidence:
+        label: 冰芯记录，存在年代学修正
+        note: 1993 年 GRIP 关于上一次间冰期不稳定的结论，后被认为与冰芯底部冰层褶皱造成的年代扰动有关；NGRIP 提供了未扰动的记录。[4][5]
+      holders:
+      - name: W. Dansgaard、S. J. Johnsen 等（GRIP）
+        identity: 1993 年《Nature》论文《Evidence for general instability of past climate from a 250-kyr ice-core
+          record》作者。[4]
+      - name: 北格陵兰冰芯项目（NGRIP）成员
+        identity: 2004 年《Nature》论文《High-resolution record of Northern Hemisphere climate extending into
+          the last interglacial period》作者团队。[5]
+      argument: Dansgaard 等人在 1993 年认为，气候不稳定不仅限于末次冰期，在上一次间冰期早期以及之前的萨勒—霍尔斯坦冰期旋回也很明显，并据此提出近期的气候稳定可能是例外。[4]
+        但 NGRIP 指出，20 世纪 90 年代钻取的两支中部格陵兰冰芯最老部分因靠近基岩的冰层褶皱而年代紊乱；其未扰动的新记录显示，上一次间冰期气候是稳定的，温度比今天高约 5 °C。[5]
+        这使问题的焦点从「全新世为何独特」转向「为什么冰期状态不稳定」。
+      quotes:
+      - text: This is in contrast with the extreme stability of the Holocene, suggesting that recent climate
+          stability may be the exception rather than the rule.
+        text_zh: 这与全新世的极端稳定形成对比，表明近期的气候稳定可能是例外而非常态。
+        attribution: Dansgaard 等，Nature（1993）
+        locator: 摘要
+        ref: 4
+      - text: The oxygen isotopes in the ice imply that climate was stable during the last interglacial
+          period, with temperatures 5 °C warmer than today.
+        text_zh: 冰中的氧同位素表明，上一次间冰期的气候是稳定的，温度比今天高 5 °C。
+        attribution: NGRIP 成员，Nature（2004）
+        locator: 摘要
+        ref: 5
+    - position: 气候稳定让农业从「不可能」变成「必然」
+      consensus_role: 有影响力的假说（未定论）
+      evidence:
+        label: 考古与古气候的相关性论证，因果难以检验
+        note: 多地在全新世早期相继出现农业是事实；但「稳定性是必要条件」属于假说，难以排除二氧化碳浓度、人口与文化演化等共变因素。[8][9]
+      holders:
+      - name: Peter J. Richerson、Robert Boyd、Robert L. Bettinger
+        identity: 2001 年《American Antiquity》论文《Was Agriculture Impossible during the Pleistocene but Mandatory
+          during the Holocene?》作者。[8]
+      - name: Joan Feynman、Alexander Ruzmaikin
+        identity: 《Climate Stability and the Origin of Agriculture》作者（Collison 原问题引用；本次未能打开原文）。[1][9]
+      argument: Richerson 等人指出，更新世没有已知以植物为主的生计强化，即便在晚更新世人类已相当复杂时也是如此；冰芯与海洋岩芯代用指标显示末次冰期气候干燥、二氧化碳浓度低，并且在很短时间尺度上极度多变。他们据此假设农业在末次冰期条件下不可能，而在全新世长期看则是「强制性的」。[8]
+        Collison 的问题也转引 Feynman 与 Ruzmaikin 的观点：约 1 万年前，许多地区在几千年内独立建立了农业社会。[1][9]
+      quotes:
+      - text: We hypothesize that agriculture was impossible under last-glacial conditions.
+        text_zh: 我们假设，在末次冰期的条件下农业是不可能的。
+        attribution: Richerson、Boyd 与 Bettinger，American Antiquity（2001）
+        locator: 摘要
+        ref: 8
+    open_parts: 第一，D–O 事件的确切触发机制（淡水注入、海冰反馈、冰盖与大气环流相互作用等）仍有争论，模型能复现突变但对触发因子的解释并不唯一。[6][7] 第二，全新世并非完全平稳，其内部百年至千年尺度的变率如何解释仍是空白；Collison
+      转引 Maslin 等（2001）称全新世气候变率仍「没有充分解释」（本文未能打开该原文）。[1] 第三，Rehfeld 等人的机制若成立，意味着更暖的未来温度变率可能下降，但这与极端事件增多的预测如何协调，需要区分变率的时间尺度与变量。[2]
+      第四，气候稳定与农业起源之间的因果关系难以直接检验。[8][9]
+    references:
+    - id: 1
+      citation: Collison, P. Questions（个人网站问题列表）中的条目「Why did climatic variability suddenly decline in
+        the Holocene period?」，含对 Ditlevsen 1996、Rehfeld 2018、Richerson、Feynman & Ruzmaikin 与 Maslin 2001
+        的转引。
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: Rehfeld, K., Münch, T., Ho, S. L., & Laepple, T. (2018). Global patterns of declining
+        temperature variability from the Last Glacial Maximum to the Holocene. Nature, 554, 356–359.
+      url: https://www.nature.com/articles/nature25454
+    - id: 3
+      citation: Ditlevsen, P. D., Svensmark, H., & Johnsen, S. (1996). Contrasting atmospheric and climate
+        dynamics of the last-glacial and Holocene periods. Nature, 379, 810–812.
+      url: https://www.nature.com/articles/379810a0
+    - id: 4
+      citation: Dansgaard, W., Johnsen, S. J., Clausen, H. B., et al. (1993). Evidence for general instability
+        of past climate from a 250-kyr ice-core record. Nature, 364, 218–220.
+      url: https://www.nature.com/articles/364218a0
+    - id: 5
+      citation: North Greenland Ice Core Project members. (2004). High-resolution record of Northern Hemisphere
+        climate extending into the last interglacial period. Nature, 431, 147–151.
+      url: https://www.nature.com/articles/nature02805
+    - id: 6
+      citation: Ganopolski, A., & Rahmstorf, S. (2001). Rapid changes of glacial climate simulated in
+        a coupled climate model. Nature, 409, 153–158.
+      url: https://www.nature.com/articles/35051500
+    - id: 7
+      citation: EPICA Community Members. (2006). One-to-one coupling of glacial climate variability in
+        Greenland and Antarctica. Nature, 444, 195–198.
+      url: https://www.nature.com/articles/nature05301
+    - id: 8
+      citation: Richerson, P. J., Boyd, R., & Bettinger, R. L. (2001). Was agriculture impossible during
+        the Pleistocene but mandatory during the Holocene? A climate change hypothesis. American Antiquity,
+        66(3), 387–411.
+      url: https://doi.org/10.2307/2694241
+    - id: 9
+      citation: Feynman, J., & Ruzmaikin, A. (2007). Climate stability and the origin of agriculture.
+        Climatic Change. 出版商页面对自动访问返回验证挑战，本次未能打开原文，观点据 [1] 的转述。
+      url: null
+- id: 2026-11-11-phil-something
+  date: '2026-11-11'
+  category: philosophy
+  title_zh: 为什么存在某物，而不是什么都没有？
+  title_en: Why is there something instead of nothing?
+  commentary: 莱布尼茨称它是我们有权提出的「第一个问题」，海德格尔称它是形而上学最根本的问题——它逼问的是：解释链条最终会停在必然存在、残酷事实，还是一个本身问错了的问题上。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/821/why-is-there-something-instead-of-nothing
+  author: Geoffroy CALA
+  source_type: stackexchange
+  tags:
+  - 形而上学
+  - 充足理由律
+  - 宇宙论
+  - 存在
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 无共识；主要分歧在于「必然存在者」「残酷事实」「问题本身含混/无需特殊解释」三条路线
+      note: 斯坦福哲学百科（SEP）「Nothingness」条目把该问题与「空世界是否可能」「是否存在解释框架」「偶然性困境」等子问题并列讨论，未给出公认答案。[2] 本题没有可引用的系统性专家民调，故此处只能报告主要立场，而不报告比例。
+    summary: 这道题在近代的经典表述来自莱布尼茨（1714）：基于「凡事皆有充足理由」的原则，他认为我们首先可以问「为什么存在某物而不是什么都没有」，因为「无」比「有」更简单、更容易。[1]
+      回答大致分为几条路线。（1）必然存在者路线：莱布尼茨认为充足理由不能在偶然事物的序列中找到，必须在一个必然存在、自身包含存在理由的实体中找到，他称之为上帝；这是宇宙论论证的一支，SEP 对其有系统综述。[1][3]
+      （2）残酷事实路线：物理学家 Sean Carroll 认为，任何解释最终都要落在一组残酷事实（brute facts）上，宇宙可以「就是存在」而没有终极原因或解释。[5] 这条路线需要拒绝或限制充足理由律，而
+      SEP 指出，迄今为充足理由律提供证明的尝试大多不成功。[4] （3）概率/不需特殊解释路线：van Inwagen 论证，若空世界只有一个而非空世界有无限多个，则「有东西存在」的概率为 1；Baldwin
+      的「减法论证」则反过来支持空世界是可能的。[2][7] （4）问题本身含混：Brenner 认为这个问题高度含混，表面上的分歧常常只是语词之争；SEP 也讨论了 Rowe 的偶然性困境——所有偶然事实的合取既不能由偶然事实解释，也不能由必然事实推出。[2][9]
+      维特根斯坦则把「世界存在」本身归入不可言说的「神秘」。[8] Parfit 在《Why anything? Why this?》中系统讨论了这些可能性。[6]
+    definitions:
+    - term: 充足理由律（PSR）
+      text: 莱布尼茨的表述：对任何真命题 P，充分理解事物的人都能给出为何是 P 而不是非 P 的充足理由。[1] SEP 指出，如何避免「残酷事实、无穷倒退或循环」的阿格里帕三难困境，是 PSR
+        支持者面临的关键问题。[4]
+    - term: 残酷事实（brute fact）
+      text: 没有进一步解释的事实。Carroll 主张对「为何有物」的任何解释最终都要落到一组残酷事实上。[5]
+    - term: 减法论证（subtraction argument）
+      text: Baldwin（1996）的思想实验：设想一个只有有限个具体对象的世界，逐一「减去」对象，最终得到空世界，以此论证空世界是可能的。[2]
+    milestones:
+    - year: '1714'
+      name: 莱布尼茨《基于理性的自然与神恩原理》第 7–8 节
+      explanation: 以充足理由律提出该问题，并论证终极理由必须在偶然事物序列之外的必然存在者中。[1]
+    - year: 1921/1922
+      name: 维特根斯坦《逻辑哲学论》6.44
+      explanation: 「神秘的不是世界怎样，而是世界存在」——把问题放到可言说的界限之外。[8]
+    - year: 1935/1953
+      name: 海德格尔《形而上学导论》
+      explanation: SEP 指出海德格尔把这一问题刻画为哲学最根本的问题；Carroll 也称其为海德格尔所说的「形而上学的基本问题」。[2][5][10]
+    - year: 1996–1998
+      name: van Inwagen、Baldwin 与 Parfit
+      explanation: van Inwagen 提出统计论证，Baldwin 提出减法论证，[2][7] Parfit 在《伦敦书评》发表长文《Why anything? Why this?》。[6]
+    - year: '2018'
+      name: Carroll 的物理学家视角
+      explanation: Carroll 认为现代物理表明宇宙可以作为自足系统存在，无需外部创造或维持，但可能没有绝对答案。[5]
+    views:
+    - position: 存在的终极理由在于一个必然存在者
+      consensus_role: 经典立场（宇宙论论证传统）
+      evidence:
+        label: 先验论证，依赖充足理由律
+        note: 论证的力量取决于是否接受强形式的充足理由律以及「必然存在者」概念是否融贯；SEP 指出为 PSR 本身提供证明的尝试大多不成功，而 Rowe 的困境对该路线构成挑战。[2][4]
+      holders:
+      - name: G. W. Leibniz
+        identity: 17–18 世纪德国哲学家、数学家；《Principles of Nature and Grace, Based on Reason》（1714）作者。[1]
+      - name: 当代宇宙论论证的辩护者
+        identity: SEP「Cosmological Argument」条目（Bruce Reichenbach 撰，2026 年 7 月实质性修订）系统梳理了这一传统的各种版本与反驳。[3]
+      argument: 莱布尼茨的推理是：宇宙存在的充足理由不能在偶然事物的序列中找到，因为每一个偶然事物都只能诉诸更早的偶然事物，「为什么？」的问题会一直存在；要真正回答，就需要一个无需进一步理由的理由，它必须在偶然事物序列之外，在一个必然存在、在自身之内携带其存在理由的实体中，而他把这一终极理由称为上帝。[1]
+        SEP 则指出这一路线的「偶然性困境」：若上帝的存在必然推出地球存在，地球就成了必然存在而非偶然存在；Rowe 把这一困境推广到所有偶然真理的合取。[2][9]
+      quotes:
+      - text: 'Given that principle, the first question we can fairly ask is: Why is there something rather
+          than nothing? After all, nothing is simpler and easier than something.'
+        text_zh: 有了这一原则，我们可以正当地提出的第一个问题就是：为什么存在某物而不是什么都没有？毕竟，「无」比「有」更简单、更容易。
+        attribution: Leibniz，《基于理性的自然与神恩原理》§7（Jonathan Bennett 英译本）
+        locator: §7，Early Modern Texts PDF 第 4 页
+        ref: 1
+    - position: 解释最终止于残酷事实：宇宙「就是存在」
+      consensus_role: 自然主义者中常见的立场
+      evidence:
+        label: 哲学论证结合物理学背景，不是经验检验
+        note: Carroll 的文章为 arXiv 上的论文（physics.hist-ph），论证依赖对「解释」概念的限定；它并不声称物理学已经回答了这个问题。[5]
+      holders:
+      - name: Sean M. Carroll
+        identity: 文章所署单位为加州理工学院 Walter Burke 理论物理研究所。[5]
+      argument: Carroll 认为，现代物理学暗示宇宙可以作为一个自足系统存在，不需要外部事物来创造或维持它；但对于它为何存在，可能并没有绝对的答案。任何为「有而非无」提供解释的尝试，最终都必须落到一组残酷事实上。[5]
+        这需要放弃无限制的充足理由律；SEP 指出，PSR 支持者必须在接受残酷事实、无穷倒退或循环之间做出选择，而证明 PSR 的尝试大多未成功。[4]
+      quotes:
+      - text: I argue that any attempt to account for the existence of something rather than nothing must
+          ultimately bottom out in a set of brute facts; the universe simply is, without ultimate cause
+          or explanation.
+        text_zh: 我认为，任何试图解释「为何存在某物而非无」的尝试，最终都必须落到一组残酷事实上；宇宙就是存在，没有终极原因或解释。
+        attribution: Sean M. Carroll，Why Is There Something, Rather Than Nothing?
+        locator: arXiv:1802.02231 摘要
+        ref: 5
+    - position: 「有」并不需要特别解释：空世界最多是众多可能性中的一个
+      consensus_role: 当代分析形而上学中的一支
+      evidence:
+        label: 模态与概率论证，前提有争议
+        note: van Inwagen 的统计论证依赖于对可能世界的「均匀」测度，SEP 指出按其推理现实世界本身也同样极不可能；而 Baldwin 的减法论证得出相反方向的结论（空世界可能）。[2]
+      holders:
+      - name: Peter van Inwagen
+        identity: 《Why Is There Anything at All?》（Proceedings of the Aristotelian Society, 1996）作者；论证内容据
+          SEP 转述。[2][7]
+      - name: Thomas Baldwin
+        identity: 《There might be nothing》（Analysis, 1996）作者，减法论证的提出者；据 SEP 转述。[2]
+      argument: 如果只有一个空世界而有无限多个非空世界，那么随机选择会让我们预期一个非空世界；van Inwagen 据此论证「存在某物」的概率为 1，空世界虽不是不可能，但极不可能。[2]
+        SEP 作者 Sorensen 评论说，按同样推理，现实世界本身也同样极不可能，真正重要的是「有物」对「无物」的概率。[2] 另一方面，Baldwin 的减法论证支持空世界是真正可能的，从而让问题保持开放。[2]
+    - position: 问题本身含混，或超出可言说/可解释的范围
+      consensus_role: 消解式立场
+      evidence:
+        label: 概念分析
+        note: Brenner 的论点与 Rowe 的困境均据 SEP 转述；本文未能打开其原文。维特根斯坦的表述是格言式的，不是论证。[2][8]
+      holders:
+      - name: Andrew Brenner
+        identity: 《What do we mean when we ask “Why is there something rather than nothing?”》（Erkenntnis,
+          2016）作者；据 SEP 转述。[2]
+      - name: Ludwig Wittgenstein
+        identity: 《逻辑哲学论》作者（C. K. Ogden 英译本）。[8]
+      argument: SEP 介绍，Brenner 认为这个问题高度含混，讨论中的各种问题之间至多只有家族相似，表面上的分歧常常是语词之争。[2] Rowe 的困境则显示：所有偶然真理的合取本身是偶然的，它既不能被某个偶然真理解释（会循环），也不能被必然真理解释（必然真理只能推出必然真理），因此「为什么有偶然存在者」似乎无法回答；SEP
+        也指出，如果允许归纳或最佳解释推理而非演绎解释，可能存在出路。[2] 维特根斯坦把「世界存在」这一事实本身称为神秘的，暗示它不在可陈述的事实之列。[8]
+      quotes:
+      - text: Brenner argues the question is highly ambiguous. At best there is only a family resemblance
+          between the questions under discussion. What appears to be disagreement is too often a verbal
+          dispute.
+        text_zh: Brenner 认为这个问题高度含混。讨论中的各个问题之间至多只有家族相似。看似分歧的东西，往往只是语词之争。
+        attribution: Roy Sorensen，SEP「Nothingness」
+        locator: 第 5 节「The contingency dilemma」
+        ref: 2
+      - text: Not how the world is, is the mystical, but that it is.
+        text_zh: 神秘的不是世界怎样，而是世界存在。
+        attribution: Wittgenstein，《逻辑哲学论》（Ogden 英译）
+        locator: 命题 6.44
+        ref: 8
+    open_parts: 第一，空世界是否形而上学上可能（减法论证是否成功）仍有争议。[2] 第二，若接受充足理由律，能否避免把一切变成必然（偶然性困境）；若拒绝它，又如何划定哪些事实可以是残酷的。[2][4]
+      第三，物理学中的「从无中产生宇宙」讨论的「无」通常仍预设物理定律或量子态，它们是否回答了哲学意义上的问题，Carroll 本人也认为可能没有绝对答案。[5] 第四，这个问题是否只是若干不同问题的混合，需要先澄清「为什么」「有」「无」的含义。[2][6]
+    references:
+    - id: 1
+      citation: Leibniz, G. W. (1714). Principles of Nature and Grace, Based on Reason. Jonathan Bennett
+        译（Early Modern Texts，2017 版权）。引文按该 PDF；方括号与点号为译者插入，此处引文不含插入部分。
+      url: https://www.earlymoderntexts.com/assets/pdfs/leibniz1714a.pdf
+    - id: 2
+      citation: Sorensen, R. Nothingness. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia
+        of Philosophy. First published 2003; substantive revision February 28, 2022.
+      url: https://plato.stanford.edu/entries/nothingness/
+    - id: 3
+      citation: Reichenbach, B. Cosmological Argument. The Stanford Encyclopedia of Philosophy. First
+        published 2004; substantive revision July 1, 2026.
+      url: https://plato.stanford.edu/entries/cosmological-argument/
+    - id: 4
+      citation: Melamed, Y. Y., & Lin, M. Principle of Sufficient Reason. The Stanford Encyclopedia of
+        Philosophy. First published 2010; substantive revision June 14, 2023.
+      url: https://plato.stanford.edu/entries/sufficient-reason/
+    - id: 5
+      citation: Carroll, S. M. (2018). Why is there something, rather than nothing? arXiv:1802.02231 [physics.hist-ph].
+      url: https://arxiv.org/abs/1802.02231
+    - id: 6
+      citation: 'Parfit, D. (1998, January 22). Why anything? Why this? London Review of Books, 20(2).
+        正文为订阅内容，本次仅能核对其首句：“It might have been true that nothing ever existed: no living beings, no stars,
+        no atoms, not even space or time.”'
+      url: https://www.lrb.co.uk/the-paper/v20/n02/derek-parfit/why-anything-why-this
+    - id: 7
+      citation: van Inwagen, P. (1996). Why is there anything at all? Proceedings of the Aristotelian
+        Society, 70, 95–110. 书目据 [2] 参考文献；本次未能打开原文。
+      url: null
+    - id: 8
+      citation: 'Wittgenstein, L. (1922). Tractatus Logico-Philosophicus. C. K. Ogden 英译，Bertrand Russell
+        导言。Project Gutenberg eBook #5740（德英对照）。'
+      url: https://www.gutenberg.org/files/5740/5740-pdf.pdf
+    - id: 9
+      citation: Rowe, W. (1975). The Cosmological Argument. Princeton University Press. 书目据 [2] 参考文献；本次未能打开原书，论点据
+        [2] 转述。
+      url: null
+    - id: 10
+      citation: Heidegger, M. Introduction to Metaphysics (2nd ed., G. Fried & R. Polt, Trans.). Yale
+        University Press, 2014. 出版社图书信息页；SEP [2] 引用的是 R. Manheim 1959 年英译本。本次未打开正文，不从中摘句。
+      url: https://yalebooks.yale.edu/book/9780300186123/introduction-to-metaphysics/
+- id: 2026-11-11-phil-gambler
+  date: '2026-11-11'
+  category: philosophy
+  title_zh: 赌徒谬误为什么是谬误？
+  title_en: Why is the gambler's fallacy a fallacy?
+  commentary: 连开九次正面，第十次「该轮到反面了」——这个直觉错在哪里，又在什么条件下其实并不算错？问题一路牵出独立性假设、贝叶斯推理，以及 2018 年才被发现的一个有限样本「真相」。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/30546/why-is-the-gamblers-fallacy-a-fallacy
+  author: Nelson Alexander
+  source_type: stackexchange
+  tags:
+  - 概率
+  - 认知偏差
+  - 归纳推理
+  - 决策
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 在「独立同分布且概率已知」的模型下它是谬误，这一点是数学共识；但它是否「总是」谬误取决于模型假设
+      note: 若每次结果独立且成功概率 p 已知，则无论过去出现什么连串，下一次成功的条件概率仍为 p；拉普拉斯早在 1814 年就把彩票中的「久未开出的号码该出了」称为一种错觉。[1] 但拉普拉斯本人也指出，若硬币偏向未知，连串正面反而是硬币偏向正面的证据；若从有限的瓮中不放回抽取，负相关是真实的。[1]
+        Miller 与 Sanjurjo（2018）进一步证明，在有限序列中统计「连串之后」的成功比例存在系统性向下偏差。[3]
+    summary: 赌徒谬误是相信独立随机过程会「自我纠正」：一个结果连续出现后，另一个结果「该来了」。它之所以是谬误，在于硬币、轮盘等装置没有记忆：在独立同分布（i.i.d.）且概率已知的模型下，P(下一次正面
+      | 过去九次正面) = P(正面)。大数定律说的是频率比例在长期中趋于概率，靠的是后续大量试验「稀释」早期偏差，而不是「补偿」它。拉普拉斯在《概率论的哲学随笔》中已描述过法国彩票中人们争相押注久未开出的号码，并把这种常见错误归因于一种「把人不自觉地带回事件起点」的错觉。[1]
+      心理学上，Tversky 与 Kahneman 把这类直觉归入「小数定律」信念：人们期望小样本也像总体一样「有代表性」。[2] 这一偏差在真实高风险决策中也有记录：Chen、Moskowitz
+      与 Shue 发现庇护法官、贷款审批员与棒球裁判的决定呈负自相关，最符合赌徒谬误的解释。[5] 但哲学上更有意思的是它的边界：（1）若概率未知，连串是关于装置偏向的证据，理性推理应当更相信同一结果，而不是相反；（2）若是有限总体不放回抽样，负相关是真实的；[1]
+      （3）Miller 与 Sanjurjo 证明，在任何有限的 i.i.d. 序列中，「紧跟在连串成功之后的结果」中成功的期望比例严格小于真实概率——这为赌徒式直觉提供了一个经验上的「真相内核」，也推翻了经典「热手谬误」研究的结论。[3][4]
+    definitions:
+    - term: 独立同分布（i.i.d.）
+      text: 每次试验结果的概率分布相同，且任一结果不改变其他结果的概率。在此假设下，过去的连串对下一次没有预测力。
+    - term: 小数定律（law of small numbers）
+      text: Tversky 与 Kahneman（1971）用来讽刺性地描述的信念：人们以为小样本也会高度代表总体特征。[2] Chen 等人把它概括为人们低估连串偶然出现的可能性。[5]
+    - term: 连串选择偏差（streak selection bias）
+      text: Miller 与 Sanjurjo（2018）证明的结果：在有限 i.i.d. 二元序列中，计算「紧跟在 k 次连续成功之后的成功比例」，其期望严格小于真实成功概率；偏差随序列变长而减小、随连串长度增加而增大。[3]
+    milestones:
+    - year: '1814'
+      name: 拉普拉斯论概率估计中的错觉
+      explanation: 描述法国彩票中的「冷号」押注，并区分了无限瓮（独立）、有限瓮（不放回）以及未知原因（如出生性别比的季节性）三种情形。[1]
+    - year: '1971'
+      name: Tversky 与 Kahneman「相信小数定律」
+      explanation: 把对小样本代表性的过度信任确立为系统性偏差的研究议程。[2]
+    - year: '1985'
+      name: 「热手谬误」
+      explanation: Gilovich、Vallone 与 Tversky 认为篮球运动员的「手感火热」是错觉，这被视为赌徒谬误的镜像（期待连串延续）。[6]
+    - year: '2016'
+      name: 真实决策中的赌徒谬误
+      explanation: Chen、Moskowitz 与 Shue 在庇护法官、贷款审批员与职业棒球主裁判的决定数据中发现负自相关。[5]
+    - year: '2018'
+      name: Miller–Sanjurjo：「小数定律中的一个真相」
+      explanation: 证明连串选择偏差，并指出经典热手研究受此偏差影响，纠正后其结论被反转。[3]
+    views:
+    - position: 在独立且概率已知的模型下，它是明确的推理错误
+      consensus_role: 数学与心理学的标准立场
+      evidence:
+        label: 概率论定理 + 大量实验与实地证据
+        note: 谬误的「错误性」是相对于 i.i.d. 模型的数学事实；人们确实犯此错误的证据来自实验心理学与真实决策数据。[1][2][5]
+      holders:
+      - name: Pierre-Simon Laplace
+        identity: 《概率论的哲学随笔》作者（此处据 Truscott 与 Emory 英译本）。[1]
+      - name: Amos Tversky、Daniel Kahneman
+        identity: 《Belief in the law of small numbers》（Psychological Bulletin, 1971）作者；本文未能打开原文，其主张据 [3][5]
+          的转述。[2]
+      - name: Daniel L. Chen、Tobias J. Moskowitz、Kelly Shue
+        identity: 《Decision Making Under the Gambler’s Fallacy》（QJE 2016）作者。[5]
+      argument: 在彩票每次都把所有号码重新混匀、使每个号码被抽中的机会完全相等的情形下，过去的结果不会改变下一次的概率；拉普拉斯认为，人们之所以押注久未开出的号码，是因为不自觉地把自己带回到事件的起点，把「十次连续正面」的低先验概率错误地套用到「已经九次正面之后的第十次」上。[1]
+        Chen 等人表明，这种偏差在专业决策者中也存在，并且在决策者较温和、经验较少、前面连串较长、案件相似或时间相近、以及准确性激励较弱时更强。[5]
+      quotes:
+      - text: When a number in the lottery of France has not been drawn for a long time the crowd is eager
+          to cover it with stakes.
+        text_zh: 当法国彩票中的某个号码很久没有开出时，人们便争相在它上面下注。
+        attribution: Laplace，《概率论的哲学随笔》（Truscott 与 Emory 英译）
+        locator: 「论概率估计中的错觉」一章，第 161 页
+        ref: 1
+      - text: The evidence is most consistent with the law of small numbers and the gambler's fallacy
+          – people underestimating the likelihood of sequential streaks occurring by chance – leading
+          to negatively autocorrelated decisions that result in errors.
+        text_zh: 证据最符合小数定律与赌徒谬误的解释——人们低估了连串偶然出现的可能性——从而导致负自相关、并造成错误的决定。
+        attribution: Chen、Moskowitz 与 Shue
+        locator: NBER Working Paper 22026 摘要
+        ref: 5
+    - position: 它只是「相对于模型」的谬误：当概率未知或抽样不放回时，结论会改变
+      consensus_role: 哲学与统计学的重要限定
+      evidence:
+        label: 概率论推理（贝叶斯更新、不放回抽样）
+        note: 这是逻辑/数学层面的论证，不依赖实验；它指出「谬误」的判定依赖于对数据生成过程的背景知识。[1][7]
+      holders:
+      - name: Pierre-Simon Laplace
+        identity: 同一章中明确讨论了硬币偏向未知与有限瓮的情形。[1]
+      argument: 拉普拉斯紧接着指出：过去连续出现正面，恰恰表明硬币可能更倾向于正面，因此（在不确定硬币是否均匀时）下一次正面的概率反而更高；他还说明，从只含有限个白球和黑球的瓮中抽出白球，会提高下一次抽出黑球的概率，但当瓮中球数无限时这种效应消失；对自然界中的不规则事件，某类事件频繁出现似乎表明有某种原因偏向它。[1]
+        用今天的话说：赌徒谬误错在把「可交换的独立过程」与「有记忆或有未知参数的过程」混为一谈。若你确信装置公平，连串无信息；若你不确信，连串是关于装置的证据，但它指向「继续」而不是「反转」。SEP
+        关于概率诠释的条目可作为理解这些模型假设的背景。[7]
+      quotes:
+      - text: But the past indicating in the coin a greater propensity for heads than for tails renders
+          the first of the events more probable than the second; it increases as one has seen the probability
+          of throwing heads at the following throw.
+        text_zh: 但过去的结果表明这枚硬币更倾向于出正面而非反面，这使前一种事件比后一种更可能；正如我们所见，它提高了下一次掷出正面的概率。
+        attribution: Laplace，《概率论的哲学随笔》（Truscott 与 Emory 英译）
+        locator: 第 162 页
+        ref: 1
+    - position: 有限序列中存在真实的「连串后偏差」，为直觉提供了一个真相内核
+      consensus_role: 近年的重要新结果（数学上已证明，心理学含义仍在讨论）
+      evidence:
+        label: 数学证明 + 对既有数据的再分析
+        note: 偏差本身是定理；其能否解释人们为何持有赌徒谬误信念，作者称之为「新的结构性候选解释」，尚属假说。[3]
+      holders:
+      - name: Joshua B. Miller、Adam Sanjurjo
+        identity: 《Surprised by the Hot Hand Fallacy? A Truth in the Law of Small Numbers》（Econometrica
+          2018）作者。[3][4]
+      argument: Miller 与 Sanjurjo 构造了一个例子：研究者 Jack 抛一枚硬币 100 次，每次出现正面后就记下下一次的结果，他自然预期所记结果中正面占一半——但对公平硬币而言，期望比例小于一半。[3]
+        他们证明，对任何有限的 i.i.d. 二元序列，紧跟在连续成功之后的结果中成功的期望比例严格小于基础概率；在抛三次的最简单情形里，这一期望是 5/12。[3] 由于人们的经验恰恰来自有限序列，这一偏差意味着「连串后更可能反转」在被以这种方式统计时会显得有经验支持；作者在脚注中指出，这与样本量忽视的准贝叶斯模型结合，可为赌徒谬误信念的持续存在提供一种新的结构性候选解释。[3]
+        他们还发现，Gilovich 等人（1985）的经典热手研究使用了类似 Jack 的有偏统计，纠正后结论被反转。[3][6]
+      quotes:
+      - text: Shockingly, Jack is wrong. For a fair coin, the expected proportion of heads is smaller
+          than one-half.
+        text_zh: 令人震惊的是，Jack 错了。对一枚公平硬币而言，（他记下的结果中）正面的期望比例小于二分之一。
+        attribution: Miller 与 Sanjurjo，Econometrica（2018）
+        locator: arXiv:1902.01265 PDF 第 2 页
+        ref: 3
+    open_parts: 第一，人们犯赌徒谬误，究竟主要源于「代表性」启发式、对有限序列经验的合理（但被误用的）学习，还是对数据生成过程的不同先验，仍在讨论中。[2][3][5] 第二，在现实中区分「真正独立的过程」与「存在负反馈的过程」（例如库存、配额或均值回归）本身就很难，Chen
+      等人也承认不能完全排除顺序对比效应等替代解释。[5] 第三，热手现象在不同运动与任务中的真实大小，在纠正连串选择偏差后仍有争议。[3][6] 第四，与之相关的「逆赌徒谬误」（从观察到的结果推断有过很多次试验）在宇宙学设计论证中的适用性，是哲学上的开放话题；本文未能打开
+      Hacking（1987）原文，故不展开。[8]
+    references:
+    - id: 1
+      citation: Laplace, P.-S. (1814/1951). A Philosophical Essay on Probabilities (F. W. Truscott & F.
+        L. Emory, Trans., from the 6th French ed.; introductory note by E. T. Bell). Dover Publications.
+        页码按 Internet Archive 扫描本「Concerning Illusions in the Estimation of Probabilities」一章。
+      url: https://archive.org/details/philosophicaless00lapl
+    - id: 2
+      citation: Tversky, A., & Kahneman, D. (1971). Belief in the law of small numbers. Psychological
+        Bulletin, 76(2), 105–110. APA 页面对自动抓取返回拦截，本次未能打开原文。
+      url: null
+    - id: 3
+      citation: Miller, J. B., & Sanjurjo, A. (2018). Surprised by the hot hand fallacy? A truth in the
+        law of small numbers. Econometrica, 86(6), 2019–2047. 引文页码按 arXiv:1902.01265 PDF。
+      url: https://arxiv.org/abs/1902.01265
+    - id: 4
+      citation: The Econometric Society. Econometrica 文章页：Surprised by the Hot Hand Fallacy? A Truth in
+        the Law of Small Numbers（用于核对卷期页码）。
+      url: https://doi.org/10.3982/ECTA14943
+    - id: 5
+      citation: 'Chen, D. L., Moskowitz, T. J., & Shue, K. (2016). Decision making under the gambler’s
+        fallacy: Evidence from asylum judges, loan officers, and baseball umpires. Quarterly Journal of
+        Economics, 131(3), 1181–1242. 链接为 NBER Working Paper 22026 页面。'
+      url: https://www.nber.org/papers/w22026
+    - id: 6
+      citation: 'Gilovich, T., Vallone, R., & Tversky, A. (1985). The hot hand in basketball: On the misperception
+        of random sequences. Cognitive Psychology, 17(3), 295–314. 出版商页面对自动抓取返回拦截，本次未能打开原文；其被再分析的情况据 [3]。'
+      url: null
+    - id: 7
+      citation: Hájek, A. Interpretations of Probability. The Stanford Encyclopedia of Philosophy. First
+        published 2002; substantive revision November 16, 2023（作为概率诠释与模型假设的背景综述）。
+      url: https://plato.stanford.edu/entries/probability-interpret/
+    - id: 8
+      citation: 'Hacking, I. (1987). The inverse gambler’s fallacy: The argument from design. The anthropic
+        principle applied to Wheeler universes. Mind, 96(383), 331–340. 出版商页面对自动抓取返回拦截，本次未能打开原文。'
+      url: null
+- id: 2026-11-11-psych-seven
+  date: '2026-11-11'
+  category: psychology
+  title_zh: 「神奇的数字 7」还成立吗？
+  title_en: Is the magical number 7 still valid?
+  commentary: 「人一次只能记住 7±2 个东西」可能是心理学最出圈的数字，可连提出者自己都怀疑它是巧合——今天的工作记忆研究认为真正的上限更小，甚至可能根本不是「几个」的问题。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/672/is-the-magical-number-7-still-valid
+  author: Benny Skogberg
+  source_type: stackexchange
+  tags:
+  - 工作记忆
+  - 短时记忆
+  - 组块
+  - 认知容量
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 「7±2 是精确容量」已不被主流接受；容量更接近 3–5 个组块是主流观点，但「离散槽位 vs 连续资源」仍有争论
+      note: Cowan（2001）在《行为与脑科学》靶文中汇集大量证据，认为纯粹的短时记忆容量平均约为 4 个组块，并认为 Miller 的 7 更像粗略估计和修辞手法。[2] 视觉工作记忆研究同样报告约
+        4 个对象的上限。[4][5] 另一方面，Ma、Husain 与 Bays 主张工作记忆更像可灵活分配的有限资源，表现取决于表征质量而非数量。[6]
+    summary: George Miller 1956 年的经典论文把绝对判断的通道容量与即时记忆广度放在一起讨论，指出两者都在 7 左右；但他同时强调，即时记忆的限制是以「组块」而非信息比特计量的，并且对「所有这些
+      7 之间有深刻联系」持保留态度，怀疑那只是「有害的毕达哥拉斯式巧合」。[1] 后来的研究基本不再把 7 当作工作记忆的真实容量。Cowan 认为，当复述、长时记忆和组块重编码等因素被排除时，存在一个平均约
+      4 个组块的中央容量限制；[2] 他在 2010 年的综述中把年轻成人的中央记忆存储概括为 3 到 5 个有意义的项目。[3] Luck 与 Vogel 的视觉实验发现，人一次只能保持约 4
+      种颜色或朝向，但可以保持 4 个对象的多重特征，说明容量以整合的对象为单位。[4] 与此同时，记忆广度也受材料长度与时间影响：Chen 与 Cowan 发现组块限制和长度限制都会起作用。[7]
+      而资源模型认为「几个槽位」本身就是错误的比喻。[6] 所以，若问题是「7 是否是工作记忆的精确上限」，答案是否定的；若问题是「普通人能复述的数字串大约多长」，7 左右作为粗略经验值仍大体可用，但它混合了组块、复述与长时记忆的贡献。
+    definitions:
+    - term: 组块（chunk）
+      text: Miller 区分了「比特」与「组块」：绝对判断的限制以比特计，即时记忆的限制以组块计；通过把输入重新编码为更少、更大的组块，人们能记住更多信息。[1]
+    - term: 工作记忆容量
+      text: Cowan 把它描述为完成认知任务时，在处理信息的同时能够保持的信息量；他认为存在一个有限的中央存储。[3]
+    - term: 槽位模型与资源模型
+      text: 前者认为工作记忆有固定数量的离散「槽位」；后者认为存在一种可在所有项目之间灵活分配的有限资源，项目越多每个项目的精度越低。[5][6]
+    milestones:
+    - year: '1956'
+      name: Miller《神奇的数字 7±2》
+      explanation: 发表于《Psychological Review》，讨论绝对判断与即时记忆的容量限制，提出组块与重编码概念。[1]
+    - year: '1997'
+      name: Luck 与 Vogel：视觉工作记忆约 4 个对象
+      explanation: 在《Nature》报告人们只能保持约 4 种颜色或朝向，但能保持 4 个对象的颜色与朝向组合。[4]
+    - year: '2001'
+      name: Cowan「神奇的数字 4」
+      explanation: 《行为与脑科学》靶文整合多种范式，论证中央容量约为 4 个组块。[2]
+    - year: '2014'
+      name: 资源模型的系统综述
+      explanation: Ma、Husain 与 Bays 在《Nature Neuroscience》综述行为与神经证据，主张工作记忆是可灵活分配的有限资源。[6]
+    views:
+    - position: 真实的中央容量约为 3–5 个组块（「神奇的数字 4」）
+      consensus_role: 主流观点
+      evidence:
+        label: 多范式行为证据的整合，加上视觉工作记忆实验
+        note: Cowan 2001 是附有大量同行评论的靶文；估计值依赖于能否有效阻止复述与组块重编码。[2][3]
+      holders:
+      - name: Nelson Cowan
+        identity: 《The magical number 4 in short-term memory》（BBS 2001）与《The Magical Mystery Four》（CDPS
+          2010）作者。[2][3]
+      - name: Steven J. Luck、Edward K. Vogel
+        identity: 1997 年《Nature》视觉工作记忆容量论文与 2013 年《Trends in Cognitive Sciences》综述作者。[4][5]
+      argument: Cowan 指出，要观察真正的容量限制，必须满足一些边界条件，例如信息过载使组块只能是单个刺激项，或采取措施专门阻止把刺激重新编码为更大组块；在这些条件下，复述和长时记忆无法把项目合成未知大小的组块，结果指向一个平均约
+        4 个组块的单一中央容量限制。[2] 视觉方面，Luck 与 Vogel 发现约 4 个对象的上限，且以对象而非特征计；[4] 他们 2013 年的综述认为，现有经验证据与神经网络模型更支持离散项目上限。[5]
+      quotes:
+      - text: Miller (1956) summarized evidence that people can remember about seven chunks in short-term
+          memory (STM) tasks. However, that number was meant more as a rough estimate and a rhetorical
+          device than as a real capacity limit.
+        text_zh: Miller（1956）总结的证据表明，人们在短时记忆任务中能记住大约七个组块。然而，这个数字更多是作为粗略估计和修辞手法，而不是真实的容量限制。
+        attribution: Nelson Cowan，Behavioral and Brain Sciences（2001）
+        locator: 摘要
+        ref: 2
+      - text: 'The ability to repeat information depends on task demands but can be distinguished from
+          a more constant, underlying mechanism: a central memory store limited to 3 to 5 meaningful items
+          in young adults.'
+        text_zh: 复述信息的能力取决于任务要求，但可以与一种更恒定的底层机制区分开来：在年轻成人中，一个限于 3 到 5 个有意义项目的中央记忆存储。
+        attribution: Nelson Cowan，Current Directions in Psychological Science（2010）
+        locator: 摘要
+        ref: 3
+    - position: 容量不是「几个」，而是可灵活分配的连续资源
+      consensus_role: 有力的竞争理论
+      evidence:
+        label: 心理物理学与神经证据，争论仍在进行
+        note: 资源模型与槽位模型对同一批数据常能给出竞争性拟合；Luck 与 Vogel（2013）认为证据目前更支持离散上限，而 Ma 等人（2014）持相反倾向，可见此处尚无定论。[5][6]
+      holders:
+      - name: Wei Ji Ma、Masud Husain、Paul M. Bays
+        identity: 《Changing concepts of working memory》（Nature Neuroscience, 2014）作者。[6]
+      argument: Ma 等人指出，工作记忆通常被认为容量有限、保存固定的少量项目，例如 Miller 的 7 或 Cowan 的 4；但近来有人提出，工作记忆更应被理解为在所有待保持项目之间灵活分配的有限资源——按这一观点，决定表现的是表征的质量而不是数量。[6]
+        如果这是对的，那么「到底是 7 还是 4」这个问题本身就问错了：记住更多项目并不会在某个数字处突然断崖，而是每个项目都变得更模糊。
+      quotes:
+      - text: According to this view, the quality rather than the quantity of working memory representations
+          determines performance.
+        text_zh: 按照这一观点，决定表现的是工作记忆表征的质量，而不是其数量。
+        attribution: Ma、Husain 与 Bays，Nature Neuroscience（2014）
+        locator: 摘要
+        ref: 6
+    - position: 记忆广度同时受组块数与材料长度/时间的限制
+      consensus_role: 重要补充
+      evidence:
+        label: 受控实验
+        note: Chen 与 Cowan 通过预先教授词对来人为制造双词组块，比较组块数与长度的作用；Baddeley 等人（1975）的词长效应本文未能打开原文，据 [7] 摘要中的引用。[7][8]
+      holders:
+      - name: Zhijian Chen、Nelson Cowan
+        identity: '《Chunk Limits and Length Limits in Immediate Recall: A Reconciliation》（JEP:LMC 2005）作者。[7]'
+      argument: 一些研究认为即时回忆受可回忆组块数的限制，另一些（如 Baddeley、Thomson 与 Buchanan, 1975）认为受材料长度限制。Chen 与 Cowan 发现两者都会起作用：在
+        12 词列表的自由回忆中，6 个预学词对与 6 个单词回忆得差不多，符合组块限制；但在 8 词列表的顺序回忆中，4 个预学词对与 8 个单词回忆得差不多，符合长度限制。[7] 这说明「能记住几个」取决于任务是否要求保持顺序、材料能否被复述等，单一数字难以概括。
+    open_parts: 第一，工作记忆容量是离散槽位、连续资源，还是两者的混合，仍是活跃争论。[5][6] 第二，「组块」本身缺乏独立于任务的操作定义，Miller 早已承认我们对什么构成一个组块并不十分确定。[1]
+      第三，容量限制与注意力的关系——注意力是有限资源还是选择机制——Oberauer 的综述显示不同版本得到的支持并不一致。[9] 第四，个体差异中有多少反映真实存储容量、多少反映有效使用容量的能力，Luck
+      与 Vogel 认为两者都存在。[5]
+    references:
+    - id: 1
+      citation: 'Miller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our
+        capacity for processing information. Psychological Review, 63(2), 81–97. 约克大学 Classics in the
+        History of Psychology 全文重排版（标注原刊页码）。'
+      url: https://psychclassics.yorku.ca/Miller/
+    - id: 2
+      citation: 'Cowan, N. (2001). The magical number 4 in short-term memory: A reconsideration of mental
+        storage capacity. Behavioral and Brain Sciences, 24(1), 87–114. 摘要据 Cambridge Core 页面。'
+      url: https://doi.org/10.1017/S0140525X01003922
+    - id: 3
+      citation: 'Cowan, N. (2010). The magical mystery four: How is working memory capacity limited, and
+        why? Current Directions in Psychological Science, 19(1), 51–57. PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2864034/
+    - id: 4
+      citation: Luck, S. J., & Vogel, E. K. (1997). The capacity of visual working memory for features
+        and conjunctions. Nature, 390, 279–281.
+      url: https://www.nature.com/articles/36846
+    - id: 5
+      citation: 'Luck, S. J., & Vogel, E. K. (2013). Visual working memory capacity: From psychophysics
+        and neurobiology to individual differences. Trends in Cognitive Sciences, 17(8), 391–400. PMC
+        开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3729738/
+    - id: 6
+      citation: Ma, W. J., Husain, M., & Bays, P. M. (2014). Changing concepts of working memory. Nature
+        Neuroscience, 17(3), 347–356. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4159388/
+    - id: 7
+      citation: 'Chen, Z., & Cowan, N. (2005). Chunk limits and length limits in immediate recall: A reconciliation.
+        Journal of Experimental Psychology: Learning, Memory, and Cognition, 31(6), 1235–1249. PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2673719/
+    - id: 8
+      citation: Baddeley, A. D., Thomson, N., & Buchanan, M. (1975). Word length and the structure of
+        short-term memory. Journal of Verbal Learning and Verbal Behavior, 14(6), 575–589. 出版商页面对自动抓取返回拦截，本次未能打开原文。
+      url: null
+    - id: 9
+      citation: Oberauer, K. (2019). Working memory and attention – A conceptual analysis and review.
+        Journal of Cognition, 2(1), 36. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6688548/
+- id: 2026-11-11-psych-multitask
+  date: '2026-11-11'
+  category: psychology
+  title_zh: 多任务处理是一个神话吗？
+  title_en: Is multitasking a myth?
+  commentary: 边开会边回消息、边写代码边刷信息流，我们到底是在「同时做」，还是在飞快地来回切换并为每次切换付费？这道题把实验室里的瓶颈理论与日常的媒体多任务习惯连在了一起。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/3708/is-multitasking-a-myth
+  author: user3554
+  source_type: stackexchange
+  tags:
+  - 多任务
+  - 注意力
+  - 任务切换
+  - 认知控制
+  - 媒体使用
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-11'
+    consensus:
+      label: 「同时执行两项需要中枢加工的任务而毫无代价」在大多数情况下不成立，这一点有较强共识；但「多任务完全不可能」也不准确
+      note: 双任务范式中的心理不应期（PRP）效应是被广泛用作多任务代价的指标，被归因于反应选择阶段的容量限制。[1][2] 同时，Fischer 与 Plessow 的综述强调并行与串行加工并不相互排斥，经过练习的特定任务组合可达到近乎完美的时间共享，也存在所谓「超级多任务者」。[1][3][4]
+        至于「习惯性媒体多任务者认知控制更差」，证据不一致，元分析在校正小样本效应后不再显著。[5][6][7]
+    summary: 如果「多任务」指同时完成两件都需要思考和决策的事而不付出代价，那么它在大多数情况下确实接近神话。双任务实验中，两项任务呈现得越接近，第二项任务的反应越慢、错误越多，这一心理不应期效应被广泛视为反应选择这一容量有限阶段的瓶颈所致。[1][2]
+      任务切换研究也显示，即使有准备时间，切换仍有「残余代价」。[9] 但「完全不可能」同样不准确：Fischer 与 Plessow 综述指出，并行与串行加工不是非此即彼，人们会根据环境要求灵活调整；Schumacher
+      等人（2001）报告，两项选择反应任务在仅五次练习后即可达到「完美时间共享」；Watson 与 Strayer（2010）描述了多任务时成绩不下降的「超级多任务者」。[1][3][4] 日常意义上的「媒体多任务」是另一个问题：Ophir、Nass
+      与 Wagner（2009）发现重度媒体多任务者更易受无关刺激干扰、任务切换反而更差，[5] 但后续重复研究与元分析未能稳健复现这一关联，[6] Uncapher 与 Wagner 的综述认为整体证据倾向于重度媒体多任务者在若干认知领域表现较差，但许多研究并未发现差异，因果方向也不明。[7]
+      2020 年的一项研究把重度媒体多任务与注意力走神和遗忘联系起来。[8] 结论：对需要中枢加工的任务，所谓多任务基本是快速切换，并伴随可测量的代价；简单、练熟或使用不同通道的任务可以部分并行；习惯性多任务是否会损害认知仍未定论。
+    definitions:
+    - term: 心理不应期（PRP）效应
+      text: 在双任务范式中，两个刺激呈现的时间间隔越短，第二项任务的反应时越长、错误越多；短间隔与长间隔下第二项任务反应时之差即 PRP 效应，常被用作双任务代价的指标。[1][2]
+    - term: 任务切换代价
+      text: 在不同任务之间转换时相对重复同一任务出现的额外反应时或错误。Elchlepp、Monsell 与 Lavric 的综述指出，即使有准备时间，提前把注意转向相关属性的能力也有限，存在「残余代价」。[9]
+    - term: 媒体多任务指数
+      text: Ophir 等人设计的问卷指标，衡量一个人在使用媒体时平均同时使用多少种媒体，用于区分重度与轻度媒体多任务者。[5]
+    milestones:
+    - year: '1994'
+      name: Pashler 的双任务干扰综述
+      explanation: 《Psychological Bulletin》综述简单任务中的双任务干扰，PRP 效应与中枢瓶颈观点由此成为经典参照（本文据 [1] 的引用与概述）。[1][2]
+    - year: '2001'
+      name: 练习后的「完美时间共享」
+      explanation: Schumacher 等人报告，在两项选择反应任务同时呈现且同等优先的条件下，仅五次练习即可达到双任务成绩等于单任务成绩（据 [1] 的概述）。[1][3]
+    - year: '2009'
+      name: 媒体多任务者的认知控制
+      explanation: Ophir、Nass 与 Wagner 在 PNAS 报告重度媒体多任务者更易受干扰、任务切换更差。[5]
+    - year: 2017–2020
+      name: 重复研究、元分析与神经证据
+      explanation: Wiradhany 与 Nieuwenstein 的元分析在校正小样本效应后不再显著；[6] Uncapher 与 Wagner 2018 年综述证据；[7] Madore
+        等人 2020 年把媒体多任务、注意力走神与遗忘联系起来。[8]
+    views:
+    - position: 中枢瓶颈：需要决策的任务无法真正同时进行，只能串行或切换
+      consensus_role: 主流实验心理学观点
+      evidence:
+        label: 数十年双任务与任务切换实验
+        note: PRP 与切换代价是稳健、可重复的实验现象；但瓶颈的性质（结构性还是策略性）仍有争论。[1]
+      holders:
+      - name: Harold Pashler
+        identity: '《Dual-task interference in simple tasks: Data and theory》（Psychological Bulletin, 1994）作者；本文未能打开原文，其观点据
+          [1] 转述。[2]'
+      - name: Rico Fischer、Franziska Plessow
+        identity: '《Efficient multitasking: parallel versus serial processing of multiple tasks》（Frontiers
+          in Psychology, 2015）作者，系统综述该领域。[1]'
+      - name: Stephen Monsell 等
+        identity: 任务切换研究者；此处引用其与 Elchlepp、Lavric 合著的 2021 年《Journal of Cognition》综述与实验论文。[9]
+      argument: Fischer 与 Plessow 介绍，在 PRP 范式中两项任务的时间重叠越大，第二项任务越慢、越易出错；这一 PRP 效应被广泛用作在容量有限的反应选择阶段产生的双任务代价的指标。[1]
+        换言之，当两件事都需要「选择怎么回应」时，大脑往往一次只能处理一件，另一件必须排队。任务切换研究则显示，即使提前有时间准备，在刺激出现前把注意转向相关属性或对象的能力也有限，存在「残余代价」。[9]
+        这正是「多任务是神话」说法的科学内核：看似同时，其实是交替，并且每次交替都有代价。
+      quotes:
+      - text: The PRP effect reflects a widely used measure of dual-task costs evolving at the capacity-limited
+          response-selection stage in dual-tasking (Figure 1A).
+        text_zh: PRP 效应是一种被广泛使用的双任务代价指标，这种代价产生于双任务中容量有限的反应选择阶段（图 1A）。
+        attribution: Fischer 与 Plessow，Frontiers in Psychology（2015）
+        locator: 正文「PRP」相关小节
+        ref: 1
+    - position: 并非绝对：练习、任务类型与个体差异可以带来部分并行
+      consensus_role: 重要限定
+      evidence:
+        label: 实验证据，但条件特定
+        note: 「完美时间共享」与「超级多任务者」的证据来自特定任务与样本；其普遍性有限，且本文对 [3][4] 原文的数据未能直接核对，据 [1] 的综述转述。[1][3][4]
+      holders:
+      - name: Eric H. Schumacher 等
+        identity: 2001 年《Psychological Science》「虚拟完美时间共享」研究作者（据 [1]）。[3]
+      - name: Jason M. Watson、David L. Strayer
+        identity: '《Supertaskers: Profiles in extraordinary multitasking ability》（Psychonomic Bulletin
+          & Review, 2010）作者（据 [1]）。[4]'
+      argument: Fischer 与 Plessow 认为，并行与串行加工并不相互排斥，只问其中一种模式的问题过于简化；从更并行到更串行加工的转变关键取决于多项任务执行的条件，高效多任务体现为根据环境要求灵活调整任务成分调度策略的能力。[1]
+        他们介绍，Schumacher 等人（2001）让被试同时、同等优先地完成视觉—手动与听觉—言语两项选择反应任务，仅五次练习后即达到双任务成绩等于单任务成绩的「完美时间共享」标准；[1][3]
+        另有研究发现了与单任务相比多任务时成绩不下降的「超级多任务者」。[1][4]
+      quotes:
+      - text: Parallel and serial processing of multiple tasks are not mutually exclusive. Therefore,
+          questions focusing exclusively on either task-processing mode are too simplified.
+        text_zh: 多项任务的并行加工与串行加工并不相互排斥。因此，只聚焦其中一种任务加工模式的问题过于简化了。
+        attribution: Fischer 与 Plessow，Frontiers in Psychology（2015）
+        locator: 摘要
+        ref: 1
+    - position: 习惯性媒体多任务与较差的注意控制相关——但证据不一致、因果不明
+      consensus_role: 有争议的研究领域
+      evidence:
+        label: 相关研究为主，复现性存疑
+        note: Ophir 等人（2009）是相关研究；Wiradhany 与 Nieuwenstein 的元分析在校正小样本效应后不再显著；Uncapher 与 Wagner 的综述明确指出因果方向尚待确定。[5][6][7]
+      holders:
+      - name: Eyal Ophir、Clifford Nass、Anthony D. Wagner
+        identity: 《Cognitive control in media multitaskers》（PNAS 2009）作者。[5]
+      - name: Wisnu Wiradhany、Mark R. Nieuwenstein
+        identity: 两项重复研究与元分析（Attention, Perception & Psychophysics, 2017）作者。[6]
+      - name: Melina R. Uncapher、Anthony D. Wagner
+        identity: 《Minds and brains of media multitaskers》（PNAS 2018）综述作者。[7]
+      argument: Ophir 等人发现，重度媒体多任务者更易受环境中无关刺激和记忆中无关表征的干扰，这导致了一个令人意外的结果：他们在任务切换测验中表现更差，可能是因为难以过滤无关任务集的干扰。[5]
+        但 Wiradhany 与 Nieuwenstein 的两项重复研究共 14 项检验中只有 5 项显著，其中只有 2 项在更保守的贝叶斯分析中成立；对 39 个效应量的元分析显示弱但显著的关联，在校正小样本效应后变得不显著。[6]
+        Uncapher 与 Wagner 的综述则认为，证据总体倾向于重度媒体多任务者在若干认知领域表现较差，但许多研究并未发现差异，且需要进一步确定因果方向。[7] Madore 等人 2020
+        年用脑电与瞳孔测量发现，注意力走神与遗忘相关，并在媒体多任务与记忆之间起中介作用。[8]
+      quotes:
+      - text: Taken together, these findings lead us to question the existence of an association between
+          media multitasking and distractibility in laboratory tasks of information processing.
+        text_zh: 综合来看，这些发现使我们质疑：在实验室信息加工任务中，媒体多任务与易分心之间是否真的存在关联。
+        attribution: Wiradhany 与 Nieuwenstein，Attention, Perception & Psychophysics（2017）
+        locator: 摘要
+        ref: 6
+      - text: While the literature is still sparse, and is marked by both convergent and divergent findings,
+          the balance of evidence suggests that heavier media multitaskers exhibit poorer performance
+          in a number of cognitive domains, relative to lighter media multitaskers (although many studies
+          find no performance differences between groups).
+        text_zh: 尽管相关文献仍然稀少，且既有趋同也有分歧的发现，但证据总体表明，与轻度媒体多任务者相比，重度媒体多任务者在若干认知领域表现较差（尽管许多研究发现两组之间没有表现差异）。
+        attribution: Uncapher 与 Wagner，PNAS（2018）
+        locator: 摘要
+        ref: 7
+    open_parts: 第一，中枢瓶颈是大脑的结构性限制，还是为避免任务间串扰而采取的策略性串行化，仍有争论。[1] 第二，练习带来的并行能力能否迁移到复杂、真实的工作情境（如驾驶时打电话、编程时开会），实验室证据有限。[1][3]
+      第三，「超级多任务者」的比例与稳定性有多大，需要更多独立复现。[4] 第四，媒体多任务与注意控制之间是否存在关联、方向如何（多任务导致注意力差，还是注意力差的人更爱多任务），仍未解决。[6][7][8]
+    references:
+    - id: 1
+      citation: 'Fischer, R., & Plessow, F. (2015). Efficient multitasking: Parallel versus serial processing
+        of multiple tasks. Frontiers in Psychology, 6, 1366. PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4561751/
+    - id: 2
+      citation: 'Pashler, H. (1994). Dual-task interference in simple tasks: Data and theory. Psychological
+        Bulletin, 116(2), 220–244. APA 页面对自动抓取返回拦截，本次未能打开原文。'
+      url: null
+    - id: 3
+      citation: 'Schumacher, E. H., Seymour, T. L., Glass, J. M., et al. (2001). Virtually perfect time
+        sharing in dual-task performance: Uncorking the central cognitive bottleneck. Psychological Science,
+        12(2), 101–108. 出版商页面对自动抓取返回 403，本次未能打开原文；内容据 [1]。'
+      url: null
+    - id: 4
+      citation: 'Watson, J. M., & Strayer, D. L. (2010). Supertaskers: Profiles in extraordinary multitasking
+        ability. Psychonomic Bulletin & Review, 17(4), 479–485. 出版商页面对自动访问返回验证挑战，本次未能打开原文；内容据 [1]。'
+      url: null
+    - id: 5
+      citation: Ophir, E., Nass, C., & Wagner, A. D. (2009). Cognitive control in media multitaskers.
+        Proceedings of the National Academy of Sciences, 106(37), 15583–15587. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2747164/
+    - id: 6
+      citation: 'Wiradhany, W., & Nieuwenstein, M. R. (2017). Cognitive control in media multitaskers:
+        Two replication studies and a meta-analysis. Attention, Perception, & Psychophysics, 79(8), 2620–2641.
+        PMC 开放全文（另有更正，见 PMC6828338）。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC5662702/
+    - id: 7
+      citation: 'Uncapher, M. R., & Wagner, A. D. (2018). Minds and brains of media multitaskers: Current
+        findings and future directions. Proceedings of the National Academy of Sciences, 115(40), 9889–9896.
+        PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6176627/
+    - id: 8
+      citation: Madore, K. P., Khazenzon, A. M., Backes, C. W., et al. (2020). Memory failure predicted
+        by attention lapsing and media multitasking. Nature, 587, 87–91. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC7644608/
+    - id: 9
+      citation: 'Elchlepp, H., Monsell, S., & Lavric, A. (2021). How task set and task switching modulate
+        perceptual processes: Is recognition of facial emotion an exception? Journal of Cognition, 4(1),
+        36. PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8344960/
