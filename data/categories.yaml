@@ -1,0 +1,26 @@
+categories:
+  - id: ai
+    name: AI
+    name_en: Artificial Intelligence
+    description: 智能、对齐、可解释性与人机协作相关的好问题
+    color: "#6366f1"
+  - id: business
+    name: 商业
+    name_en: Business
+    description: 创业、经济、进步研究与制度设计相关的好问题
+    color: "#0d9488"
+  - id: science
+    name: 科学
+    name_en: Science
+    description: 数学、物理、生物与科学体制相关的好问题
+    color: "#0284c7"
+  - id: philosophy
+    name: 哲学
+    name_en: Philosophy
+    description: 知识、意识、伦理与存在相关的好问题
+    color: "#a855f7"
+  - id: psychology
+    name: 心理学
+    name_en: Psychology
+    description: 认知、学习、判断与行为相关的好问题
+    color: "#e11d48"

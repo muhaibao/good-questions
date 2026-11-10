@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}RSS 订阅 · {{ site.name }}{% endblock %}
+{% block content %}
+<section class="hero compact">
+  <div class="hero-text">
+    <h1>RSS 订阅</h1>
+    <p class="lede">把链接丢进任意 RSS 阅读器即可。Feed 为 RSS 2.0，条目地址是绝对 URL。</p>
+  </div>
+</section>
+<div class="feed-grid">
+  <a class="feed-card featured" href="{{ site.base_path }}feed.xml">
+    <strong>全部好问题</strong>
+    <span>{{ site.base_url }}/feed.xml</span>
+    <small>所有领域合并更新</small>
+  </a>
+  {% for c in categories %}
+  <a class="feed-card" href="{{ site.base_path }}feeds/{{ c.id }}.xml" style="--cat: {{ c.color }}">
+    <strong>{{ c.name }}</strong>
+    <span>{{ site.base_url }}/feeds/{{ c.id }}.xml</span>
+    <small>{{ c.description }}</small>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

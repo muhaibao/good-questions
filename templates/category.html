@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "macros.html" import question_card %}
+{% block title %}{{ category.name }} · {{ site.name }}{% endblock %}
+{% block content %}
+<section class="hero compact">
+  <div class="hero-text">
+    <p class="eyebrow" style="color: {{ category.color }}">{{ category.name_en }}</p>
+    <h1>{{ category.name }}</h1>
+    <p class="lede">{{ category.description }}</p>
+  </div>
+  <aside class="hero-cta">
+    <a class="btn btn-primary" href="{{ site.base_path }}feeds/{{ category.id }}.xml">订阅本领域 RSS</a>
+    <p class="hint">{{ questions|length }} 个问题</p>
+  </aside>
+</section>
+<section class="q-list">
+  {% for q in questions %}
+    {{ question_card(q, site.base_path) }}
+  {% else %}
+    <p>该领域暂无问题。</p>
+  {% endfor %}
+</section>
+{% endblock %}

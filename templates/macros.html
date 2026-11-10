@@ -1,0 +1,19 @@
+{% macro question_card(q, base_path) %}
+<article class="q-card">
+  <div class="q-meta">
+    <a class="cat-pill" href="{{ base_path }}category/{{ q.category }}.html" style="--cat: {{ q.category_meta.color }}">{{ q.category_meta.name }}</a>
+    <time datetime="{{ q.date }}">{{ q.date }}</time>
+  </div>
+  <h2 class="q-title">
+    <a href="{{ base_path }}questions/{{ q.id }}.html">{{ q.title_zh }}</a>
+  </h2>
+  {% if q.title_en %}
+  <p class="q-en">{{ q.title_en }}</p>
+  {% endif %}
+  <p class="q-comment">{{ q.commentary }}</p>
+  <p class="q-source">
+    来源：<a href="{{ q.source_url }}" rel="noopener noreferrer" target="_blank">{{ q.source_name }}</a>
+    {% if q.author %} · {{ q.author }}{% endif %}
+  </p>
+</article>
+{% endmacro %}

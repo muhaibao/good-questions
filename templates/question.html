@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ question.title_zh }} · {{ site.name }}{% endblock %}
+{% block description %}{{ question.commentary }}{% endblock %}
+{% block content %}
+<article class="q-detail">
+  <nav class="breadcrumb">
+    <a href="{{ site.base_path }}index.html">首页</a> /
+    <a href="{{ site.base_path }}category/{{ question.category }}.html">{{ question.category_meta.name }}</a> /
+    <span>详情</span>
+  </nav>
+
+  <header class="detail-head">
+    <div class="q-meta">
+      <a class="cat-pill" href="{{ site.base_path }}category/{{ question.category }}.html" style="--cat: {{ question.category_meta.color }}">{{ question.category_meta.name }}</a>
+      <time datetime="{{ question.date }}">{{ question.date }}</time>
+    </div>
+    <h1>{{ question.title_zh }}</h1>
+    {% if question.title_en %}
+    <p class="q-en large">{{ question.title_en }}</p>
+    {% endif %}
+  </header>
+
+  <section class="panel why">
+    <h2>为什么这是个好问题</h2>
+    <p>{{ question.commentary }}</p>
+  </section>
+
+  <section class="panel source">
+    <h2>出处</h2>
+    <dl class="kv">
+      <dt>来源</dt>
+      <dd><a href="{{ question.source_url }}" rel="noopener noreferrer" target="_blank">{{ question.source_name }}</a></dd>
+      {% if question.author %}
+      <dt>提问人 / 出处</dt>
+      <dd>{{ question.author }}</dd>
+      {% endif %}
+      <dt>原文链接</dt>
+      <dd class="break"><a href="{{ question.source_url }}" rel="noopener noreferrer" target="_blank">{{ question.source_url }}</a></dd>
+      {% if question.tags %}
+      <dt>标签</dt>
+      <dd>{% for t in question.tags %}<span class="tag">{{ t }}</span>{% endfor %}</dd>
+      {% endif %}
+    </dl>
+  </section>
+
+  <p class="back"><a href="{{ site.base_path }}index.html">← 返回今日</a> · <a href="{{ site.base_path }}archive.html#day-{{ question.date }}">查看当日存档</a></p>
+</article>
+{% endblock %}

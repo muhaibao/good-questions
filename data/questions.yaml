@@ -1,0 +1,377 @@
+- id: 2026-11-09-ai-explainable
+  date: '2026-11-09'
+  category: ai
+  title_zh: 我们为什么需要可解释的人工智能？
+  title_en: Why do we need explainable AI?
+  commentary: 当模型决策影响信贷、医疗与司法时，「能用」不再够用——问题逼出透明度与问责的边界。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/14224/why-do-we-need-explainable-ai
+  author: malioboro
+  source_type: stackexchange
+  tags:
+  - 可解释性
+  - 问责
+  - 机器学习
+- id: 2026-11-09-ai-fooled
+  date: '2026-11-09'
+  category: ai
+  title_zh: 深度神经网络为什么如此容易被愚弄？
+  title_en: How is it possible that deep neural networks are so easily fooled?
+  commentary: 对抗样本暴露了「高准确率」与「稳健理解」之间的裂缝，是通往对齐与安全的入口问题。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/92/how-is-it-possible-that-deep-neural-networks-are-so-easily-fooled
+  author: kenorb
+  source_type: stackexchange
+  tags:
+  - 对抗样本
+  - 稳健性
+- id: 2026-11-09-biz-cost-disease
+  date: '2026-11-09'
+  category: business
+  title_zh: 为什么有些东西变得越来越贵？
+  title_en: Why are certain things getting so much more expensive?
+  commentary: 医疗、教育成本暴涨而电子产品暴跌——这个问题把「鲍莫尔成本病」、监管与质量未被计量绑在一起。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 成本病
+  - 进步研究
+  - 价格
+- id: 2026-11-09-sci-pnp
+  date: '2026-11-09'
+  category: science
+  title_zh: P 是否等于 NP？
+  title_en: Does P = NP?
+  commentary: 千禧年七大难题之一：若相等，许多「难」的搜索与证明问题将变得可高效求解，计算机科学与密码学的地基都会重排。
+  source_name: Clay Mathematics Institute — Millennium Problems
+  source_url: https://www.claymath.org/millennium/p-vs-np/
+  author: Clay Mathematics Institute
+  source_type: curated
+  tags:
+  - 计算复杂性
+  - 千禧年难题
+- id: 2026-11-09-phil-math
+  date: '2026-11-09'
+  category: philosophy
+  title_zh: 数学是被发明的，还是被发现的？
+  title_en: Is mathematics invented or discovered?
+  commentary: 哲学 Stack Exchange 最高票问题之一；逼你在柏拉图主义与建构主义之间表态，并检验自己对「真理」的直觉。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/1/is-mathematics-invented-or-discovered
+  author: Ami
+  source_type: stackexchange
+  tags:
+  - 数学哲学
+  - 本体论
+- id: 2026-11-09-psych-incubation
+  date: '2026-11-09'
+  category: psychology
+  title_zh: 为什么暂时放下一个问题，有时反而能想出答案？
+  title_en: How is it that taking a break from a problem sometimes allows you to figure out the answer?
+  commentary: 「孵化效应」连接创造性思维、遗忘干扰与默认网络——一个日常经验背后的认知科学谜题。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/1/how-is-it-that-taking-a-break-from-a-problem-sometimes-allows-you-to-figure-out
+  author: Josh
+  source_type: stackexchange
+  tags:
+  - 创造力
+  - 孵化效应
+  - 认知
+- id: 2026-11-09-ai-bubble
+  date: '2026-11-09'
+  category: ai
+  title_zh: 作为人类，你是否庆幸所谓的 AI 泡沫正在破裂？
+  title_en: 'Ask HN: As a human, are you glad the AI bubble is bursting?'
+  commentary: 把技术周期、就业焦虑与价值判断捆在同一句问话里，适合当作时代情绪的温度计。
+  source_name: Hacker News — Ask HN
+  source_url: https://news.ycombinator.com/item?id=50421778
+  author: roschdal
+  source_type: hackernews
+  tags:
+  - AI周期
+  - 社会影响
+- id: 2026-11-09-biz-robots-jobs
+  date: '2026-11-09'
+  category: business
+  title_zh: 如果工作不断被机器人取代并外包，不富裕的公民将如何谋生？
+  title_en: How will non-rich citizens make a living if jobs keep getting replaced by robots and are outsourced?
+  commentary: 自动化与分配问题的经典表述，连接 UBI、再培训与「工作意义」三重讨论。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/9176/how-will-non-rich-citizens-make-a-living-if-jobs-keep-getting-replaced-by-robots
+  author: Bruno1993
+  source_type: stackexchange
+  tags:
+  - 自动化
+  - 就业
+  - 分配
+- id: 2026-11-08-ai-blackbox
+  date: '2026-11-08'
+  category: ai
+  title_zh: 科学家真的知道人工神经网络内部在发生什么吗？
+  title_en: Do scientists know what is happening inside artificial neural networks?
+  commentary: 可解释性与机械可解释性运动的起点：若我们连「它为何这样判断」都说不清，扩展能力就伴随未知风险。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/1479/do-scientists-know-what-is-happening-inside-artificial-neural-networks
+  author: kenorb
+  source_type: stackexchange
+  tags:
+  - 机械可解释性
+  - 黑箱
+- id: 2026-11-08-ai-trolley
+  date: '2026-11-08'
+  category: ai
+  title_zh: 自动驾驶汽车如何就「该撞谁」做出伦理决策？
+  title_en: How could self-driving cars make ethical decisions about who to kill?
+  commentary: 电车难题被装进产品规格：迫使工程师、法学家与公众直面算法伦理的不可回避性。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/111/how-could-self-driving-cars-make-ethical-decisions-about-who-to-kill
+  author: kenorb
+  source_type: stackexchange
+  tags:
+  - 自动驾驶
+  - 算法伦理
+- id: 2026-11-08-biz-fast-projects
+  date: '2026-11-08'
+  category: business
+  title_zh: 为什么过去似乎有更多「快速完工的重大工程」？
+  title_en: Why do there seem to be more examples of rapidly-completed major projects in the past than
+    the present?
+  commentary: 帝国大厦 410 天建成对照当代基建拖延——进步研究里关于许可、协调与野心的核心追问。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 基建
+  - 执行力
+  - 进步研究
+- id: 2026-11-08-sci-science-progress
+  date: '2026-11-08'
+  category: science
+  title_zh: 我们如何更好地理解科学进步的动力学？
+  title_en: How can we better understand the dynamics of progress in science?
+  commentary: NIH 年投数百亿美元，却缺少对资助体制本身的系统研究——把「元科学」推上议程的好问题。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 元科学
+  - 科研体制
+- id: 2026-11-08-phil-dreaming
+  date: '2026-11-08'
+  category: philosophy
+  title_zh: 人如何知道自己不是在做梦？
+  title_en: How does one know one is not dreaming?
+  commentary: 笛卡尔式怀疑的大众入口；把「确定性」从口号拉回可操作的认识论标准。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/24/how-does-one-know-one-is-not-dreaming
+  author: wizlog
+  source_type: stackexchange
+  tags:
+  - 认识论
+  - 怀疑论
+- id: 2026-11-08-phil-edge-believe
+  date: '2026-11-08'
+  category: philosophy
+  title_zh: 有哪些事，你即使无法证明，仍然相信为真？
+  title_en: What do you believe is true even though you cannot prove it?
+  commentary: Edge.org 2005 年度问题：邀请科学家公开「信念」与「证据」之间的张力，是好问题策展的典范。
+  source_name: Edge.org Annual Question 2005
+  source_url: https://www.edge.org/annual-questions
+  author: Edge.org / John Brockman
+  source_type: curated
+  tags:
+  - 信念
+  - 证据
+  - Edge
+- id: 2026-11-08-psych-critical
+  date: '2026-11-08'
+  category: psychology
+  title_zh: 批判性思维可以被教会吗？
+  title_en: Can critical thinking be taught?
+  commentary: 教育政策的核心赌注：若可教，课程设计就有杠杆；若大多是迁移失败，就得改策略。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/1415/can-critical-thinking-be-taught
+  author: Artem Kaznatcheev
+  source_type: stackexchange
+  tags:
+  - 教育
+  - 批判性思维
+- id: 2026-11-08-psych-maslow
+  date: '2026-11-08'
+  category: psychology
+  title_zh: 证据是否支持马斯洛的需求层次理论？
+  title_en: Does evidence support Maslow's Hierarchy of Needs?
+  commentary: 流行理论遇上复现与测量危机：提醒我们区分「有用的隐喻」与「经检验的科学主张」。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/169/does-evidence-support-maslows-hierarchy-of-needs
+  author: Zelda
+  source_type: stackexchange
+  tags:
+  - 动机
+  - 理论检验
+- id: 2026-11-07-ai-paradox
+  date: '2026-11-07'
+  category: ai
+  title_zh: 悖论能「杀死」一个 AI 吗？
+  title_en: Could a paradox kill an AI?
+  commentary: 科幻 tropes 碰撞形式逻辑与停机问题：看似玩笑，实则指向系统在自指与不一致输入下的行为。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/1768/could-a-paradox-kill-an-ai
+  author: Josh B.
+  source_type: stackexchange
+  tags:
+  - 逻辑
+  - 鲁棒性
+  - 自指
+- id: 2026-11-07-biz-bloom
+  date: '2026-11-07'
+  category: business
+  title_zh: Bloom 的「两标准差」效应是真的吗？若是，我们该怎么办？
+  title_en: Is Bloom's "Two Sigma" phenomenon real? If so, what do we do about it?
+  commentary: 一对一掌握学习可达约两个标准差提升——若属实，教育生产力与 AI 家教的社会回报将被重估。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 教育
+  - 掌握学习
+  - 生产力
+- id: 2026-11-07-biz-wage-gap
+  date: '2026-11-07'
+  category: business
+  title_zh: 若同工不同酬成立，雇主为什么不大量只雇薪酬更低的一方？
+  title_en: If women are paid less for the same work, why don't employers hire just women?
+  commentary: 用竞争市场逻辑检验工资差距叙事，逼出歧视、职业选择、工时与不可观测生产力等多重解释。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/42999/if-women-are-paid-less-for-the-same-work-why-dont-employers-hire-just-women
+  author: Sergey Zolotarev
+  source_type: stackexchange
+  tags:
+  - 劳动力市场
+  - 歧视
+  - 实证
+- id: 2026-11-07-sci-edge-toolkit
+  date: '2026-11-07'
+  category: science
+  title_zh: 哪个科学概念若被更多人掌握，将改善每个人的认知工具箱？
+  title_en: What scientific concept would improve everybody's cognitive toolkit?
+  commentary: Edge.org 2011 年度问题：把「科学素养」从知识点清单升级为可迁移的思维工具。
+  source_name: Edge.org Annual Question 2011
+  source_url: https://www.edge.org/annual-questions
+  author: Edge.org / John Brockman
+  source_type: curated
+  tags:
+  - 科学素养
+  - 认知工具
+  - Edge
+- id: 2026-11-07-sci-edge-last
+  date: '2026-11-07'
+  category: science
+  title_zh: 最后一个问题是什么？
+  title_en: What is the last question?
+  commentary: Edge 项目二十年收官之问：关于提问本身还能走多远——元问题中的元问题。
+  source_name: Edge.org Annual Question 2018
+  source_url: https://www.edge.org/annual-question/what-is-the-last-question
+  author: Edge.org / John Brockman
+  source_type: curated
+  tags:
+  - 元问题
+  - Edge
+- id: 2026-11-07-phil-dangerous
+  date: '2026-11-07'
+  category: philosophy
+  title_zh: 你危险的想法是什么？
+  title_en: What is your dangerous idea?
+  commentary: Edge.org 2006：鼓励说出「可能颠覆常识或制度」的观念，衡量思想自由与社会责任的边界。
+  source_name: Edge.org Annual Question 2006
+  source_url: https://www.edge.org/annual-questions
+  author: Edge.org / John Brockman
+  source_type: curated
+  tags:
+  - 观念史
+  - 异议
+  - Edge
+- id: 2026-11-07-phil-consciousness
+  date: '2026-11-07'
+  category: philosophy
+  title_zh: 为什么物理过程会产生主观体验？（意识的困难问题）
+  title_en: Why do physical processes give rise to subjective experience? (The hard problem of consciousness)
+  commentary: David Chalmers 提出的困难问题：解释功能与行为之后，仍剩「感受质」缺口——哲学与神经科学的交界高峰。
+  source_name: Wikipedia — Hard problem of consciousness
+  source_url: https://en.wikipedia.org/wiki/Hard_problem_of_consciousness
+  author: David Chalmers（概念提出者）；Wikipedia 词条综述
+  source_type: curated
+  tags:
+  - 意识
+  - 感受质
+  - 心灵哲学
+- id: 2026-11-07-psych-pseudoscience
+  date: '2026-11-07'
+  category: psychology
+  title_zh: 是什么让人们轻易相信伪科学理论？
+  title_en: What makes people easily subscribe to pseudoscientific theories?
+  commentary: 连接认知偏误、社会认同与科学传播失败——比「他们太蠢」更有用的研究起点。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/1556/what-makes-people-easily-subscribe-to-pseudoscientific-theories
+  author: Bharadwaj Srigiriraju
+  source_type: stackexchange
+  tags:
+  - 伪科学
+  - 认知偏误
+- id: 2026-11-07-psych-writing
+  date: '2026-11-07'
+  category: psychology
+  title_zh: 把东西写下来真的有助于记忆吗？
+  title_en: Does writing something down help memorize it?
+  commentary: 看似生活小问题，实则触及编码、提取练习与「手写 vs 打字」的实证争论。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/68/does-writing-something-down-help-memorize-it
+  author: laurent
+  source_type: stackexchange
+  tags:
+  - 记忆
+  - 学习方法
+- id: 2026-11-07-hn-books
+  date: '2026-11-07'
+  category: philosophy
+  title_zh: 哪些书几乎改变了你看待一切事物的方式？
+  title_en: 'Ask HN: What books changed the way you think about almost everything?'
+  commentary: 高票 Ask HN：用一份书单地图间接回答「什么问题值得反复追问」。
+  source_name: Hacker News — Ask HN
+  source_url: https://news.ycombinator.com/item?id=19087418
+  author: apitman
+  source_type: hackernews
+  tags:
+  - 阅读
+  - 心智模型
+- id: 2026-11-09-biz-econ-consensus
+  date: '2026-11-09'
+  category: business
+  title_zh: 有哪些经济学结论既是学界共识，又远离常识？
+  title_en: What are some results in Economics that are both a consensus and far from common sense?
+  commentary: 好问题清单的生成器：找「反直觉但扎实」的结论，比背模型更能训练商业判断。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/20992/what-are-some-results-in-economics-that-are-both-a-consensus-and-far-from-common
+  author: psn
+  source_type: stackexchange
+  tags:
+  - 经济学
+  - 反直觉
+- id: 2026-11-08-hn-obscure-ds
+  date: '2026-11-08'
+  category: science
+  title_zh: 有哪些酷但冷门的数据结构？
+  title_en: 'Ask HN: What are some cool but obscure data structures you know about?'
+  commentary: 技术好奇心的好样本：问题本身鼓励分享「不在教材目录里」的知识。
+  source_name: Hacker News — Ask HN
+  source_url: https://news.ycombinator.com/item?id=32186203
+  author: Uptrenda
+  source_type: hackernews
+  tags:
+  - 计算机科学
+  - 数据结构
