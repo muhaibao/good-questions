@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "macros.html" import question_card %}
+{% set root = '' %}
 {% block title %}历史存档 · {{ site.name }}{% endblock %}
 {% block content %}
 <section class="hero compact">
@@ -13,7 +14,7 @@
   <h2 class="day-title"><time datetime="{{ date }}">{{ date }}</time> <span class="muted">{{ qs|length }} 题</span></h2>
   <div class="q-list">
     {% for q in qs %}
-      {{ question_card(q, site.base_path) }}
+      {{ question_card(q, root) }}
     {% endfor %}
   </div>
 </section>

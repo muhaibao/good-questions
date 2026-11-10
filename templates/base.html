@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang }}">
+<html lang="zh-Hans">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{% block title %}{{ site.name }}{% endblock %}</title>
   <meta name="description" content="{% block description %}{{ site.description }}{% endblock %}" />
-  <link rel="stylesheet" href="{{ site.base_path }}static/css/style.css" />
-  <link rel="alternate" type="application/rss+xml" title="{{ site.name }} RSS" href="{{ site.base_url }}/feed.xml" />
+  <link rel="stylesheet" href="{{ root }}static/css/style.css" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name }} RSS" href="{{ root }}feed.xml" />
   {% block head %}{% endblock %}
 </head>
 <body>
   <a class="skip" href="#main">跳到正文</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="{{ site.base_path }}index.html">
+      <a class="brand" href="{{ root }}index.html">
         <span class="brand-mark" aria-hidden="true">?</span>
         <span class="brand-text">
           <strong>{{ site.name }}</strong>
@@ -21,15 +21,15 @@
         </span>
       </a>
       <nav class="nav" aria-label="主导航">
-        <a href="{{ site.base_path }}index.html">今日</a>
-        <a href="{{ site.base_path }}archive.html">存档</a>
-        <a href="{{ site.base_path }}feeds.html" class="nav-rss">RSS 订阅</a>
-        <a href="{{ site.base_path }}about.html">关于</a>
+        <a href="{{ root }}index.html">今日</a>
+        <a href="{{ root }}archive.html">存档</a>
+        <a href="{{ root }}feeds.html" class="nav-rss">RSS 订阅</a>
+        <a href="{{ root }}about.html">关于</a>
       </nav>
     </div>
     <div class="wrap cat-bar" aria-label="领域">
       {% for c in categories %}
-      <a class="cat-chip" href="{{ site.base_path }}category/{{ c.id }}.html" style="--cat: {{ c.color }}">{{ c.name }}</a>
+      <a class="cat-chip" href="{{ root }}category/{{ c.id }}.html" style="--cat: {{ c.color }}">{{ c.name }}</a>
       {% endfor %}
     </div>
   </header>
@@ -40,11 +40,11 @@
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <p>© {{ site.name }} · 构建于 {{ site.built_at }}（{{ site.timezone_label }}）</p>
+      <p>© {{ site.name }} · 本地原型 · 构建于 {{ site.built_at }}（{{ site.timezone_label }}）</p>
       <p>
-        <a href="{{ site.base_path }}feed.xml">RSS</a> ·
-        <a href="{{ site.base_path }}feeds.html">分领域订阅</a> ·
-        <a href="{{ site.base_path }}about.html">关于与来源</a>
+        <a href="{{ root }}feed.xml">RSS</a> ·
+        <a href="{{ root }}feeds.html">分领域订阅</a> ·
+        <a href="{{ root }}about.html">关于与来源</a>
       </p>
     </div>
   </footer>

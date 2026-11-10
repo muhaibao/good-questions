@@ -1,9 +1,13 @@
 {% extends "base.html" %}
+{% set root = '' %}
 {% block title %}关于 · {{ site.name }}{% endblock %}
 {% block content %}
 <article class="prose">
   <h1>关于「好问题」</h1>
-  <p>这是一个<strong>每日更新的好问题策展站</strong>：收集世界上最有价值或最有意思的问题，优先覆盖 AI、商业、科学、哲学、心理学。不限于未解难题——能打开思路、值得反复追问的，都收。</p>
+  <p>这是一个<strong>每日更新的好问题策展站</strong>原型：收集世界上最有价值或最有意思的问题，优先覆盖 AI、商业、科学、哲学、心理学。不限于未解难题——能打开思路、值得反复追问的，都收。</p>
+
+  <h2>每题都有解答</h2>
+  <p>除了问题本身，详情页还提供中文综述、2–4 种主要观点（含持有者与论证），以及可查证的论文、百科或原始讨论链接，并标明仍然没有定论的部分。我们不编造引文；打不开的出处会换掉或删掉。</p>
 
   <h2>我们怎么选</h2>
   <ul>
@@ -19,12 +23,12 @@
   <p>默认不做知乎 / Quora / Reddit 的自动抓取（反爬与条款限制）；此类源适合人工精选。</p>
 
   <h2>订阅</h2>
-  <p>全站 RSS：<a href="{{ site.base_path }}feed.xml">feed.xml</a>。也可按领域订阅，见 <a href="{{ site.base_path }}feeds.html">订阅页</a>。</p>
+  <p>全站 RSS：<a href="feed.xml">feed.xml</a>。也可按领域订阅，见 <a href="feeds.html">订阅页</a>。</p>
 
   <h2>版权说明</h2>
   <p>本站提供中文改写、点评与出处链接，不全文转载原文。Stack Exchange 等内容遵循其站点声明的许可（多为 CC BY-SA）；博客与个人清单仅摘要+链接。若你是原作者并希望调整引用方式，欢迎联系站点维护者。</p>
 
-  <h2>站点怎么更新</h2>
-  <p>页面由 Python + Jinja2 从 YAML 静态生成，发布在 GitHub Pages。已发布的问题由维护者写入数据文件后手动发布；采集脚本只产生候选，不会自动上线。</p>
+  <h2>本地原型</h2>
+  <p>当前版本先在本地构建预览，满意后再决定部署位置。技术栈：Python + Jinja2 静态生成，数据为 YAML，可日后迁到 GitHub Pages / Cloudflare Pages。</p>
 </article>
 {% endblock %}

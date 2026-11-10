@@ -208,3 +208,65 @@ main.wrap { padding: 1.5rem 0 3rem; }
   .kv { grid-template-columns: 1fr; }
   .brand-text small { max-width: 100%; }
 }
+
+/* —— 解答 —— */
+.q-answer-teaser {
+  margin: 0 0 .4rem;
+  color: #44403c;
+  font-size: .95rem;
+  border-left: 3px solid color-mix(in srgb, var(--accent) 55%, white);
+  padding-left: .75rem;
+}
+.q-answer-link { margin: 0 0 .7rem; }
+.q-answer-link a {
+  font-weight: 650;
+  text-decoration: none;
+  color: var(--accent);
+}
+.q-answer-link a:hover { text-decoration: underline; }
+
+.answer { margin: 1.5rem 0 1.25rem; }
+.answer > h2, .views-heading, .answer h3, .panel h3 {
+  font-family: var(--font);
+  margin: 0 0 .65rem;
+}
+.answer > h2 { font-size: 1.45rem; }
+.views-heading { font-size: 1.15rem; margin: 1.2rem 0 .7rem; }
+.panel h3 { font-size: 1.05rem; }
+
+.panel.summary { border-color: #fdba74; background: linear-gradient(180deg, #fff7ed, var(--bg-elev)); }
+.panel.open { border-color: #c4b5fd; background: linear-gradient(180deg, #f5f3ff, var(--bg-elev)); }
+
+.views { display: grid; gap: .9rem; margin-bottom: 1.1rem; }
+.view-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem 1.05rem;
+  box-shadow: var(--shadow);
+}
+.view-card h4 {
+  font-family: var(--font);
+  font-size: 1.08rem;
+  margin: 0 0 .4rem;
+  line-height: 1.35;
+}
+.holders {
+  margin: 0 0 .55rem;
+  font-size: .88rem;
+  color: var(--muted);
+}
+.view-arg { margin: 0 0 .7rem; }
+.source-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: .86rem;
+}
+.source-list li { margin: .2rem 0; }
+.source-list a { word-break: break-word; }
+
+@media (max-width: 720px) {
+  .q-answer-teaser { font-size: .92rem; }
+  .view-card, .panel { padding: .95rem 1rem; }
+  .answer > h2 { font-size: 1.28rem; }
+}

@@ -1,17 +1,18 @@
 {% extends "base.html" %}
+{% set root = '../' %}
 {% block title %}{{ question.title_zh }} · {{ site.name }}{% endblock %}
 {% block description %}{{ question.commentary }}{% endblock %}
 {% block content %}
 <article class="q-detail">
   <nav class="breadcrumb">
-    <a href="{{ site.base_path }}index.html">首页</a> /
-    <a href="{{ site.base_path }}category/{{ question.category }}.html">{{ question.category_meta.name }}</a> /
+    <a href="{{ root }}index.html">首页</a> /
+    <a href="{{ root }}category/{{ question.category }}.html">{{ question.category_meta.name }}</a> /
     <span>详情</span>
   </nav>
 
   <header class="detail-head">
     <div class="q-meta">
-      <a class="cat-pill" href="{{ site.base_path }}category/{{ question.category }}.html" style="--cat: {{ question.category_meta.color }}">{{ question.category_meta.name }}</a>
+      <a class="cat-pill" href="{{ root }}category/{{ question.category }}.html" style="--cat: {{ question.category_meta.color }}">{{ question.category_meta.name }}</a>
       <time datetime="{{ question.date }}">{{ question.date }}</time>
     </div>
     <h1>{{ question.title_zh }}</h1>
@@ -24,6 +25,46 @@
     <h2>为什么这是个好问题</h2>
     <p>{{ question.commentary }}</p>
   </section>
+
+  {% if question.answer %}
+  <section class="answer" id="answer">
+    <h2>详细解答</h2>
+
+    <div class="panel summary">
+      <h3>综述</h3>
+      <p>{{ question.answer.summary }}</p>
+    </div>
+
+    {% if question.answer.views %}
+    <h3 class="views-heading">主要观点</h3>
+    <div class="views">
+      {% for v in question.answer.views %}
+      <article class="view-card">
+        <h4>{{ v.position }}</h4>
+        {% if v.holders %}
+        <p class="holders">谁持此观点：{{ v.holders }}</p>
+        {% endif %}
+        <p class="view-arg">{{ v.argument }}</p>
+        {% if v.sources %}
+        <ul class="source-list">
+          {% for s in v.sources %}
+          <li><a href="{{ s.url }}" rel="noopener noreferrer" target="_blank">{{ s.title }}</a></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if question.answer.open_parts %}
+    <div class="panel open">
+      <h3>仍然没有定论的部分</h3>
+      <p>{{ question.answer.open_parts }}</p>
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
 
   <section class="panel source">
     <h2>出处</h2>
@@ -43,6 +84,6 @@
     </dl>
   </section>
 
-  <p class="back"><a href="{{ site.base_path }}index.html">← 返回今日</a> · <a href="{{ site.base_path }}archive.html#day-{{ question.date }}">查看当日存档</a></p>
+  <p class="back"><a href="{{ root }}index.html">← 返回今日</a> · <a href="{{ root }}archive.html#day-{{ question.date }}">查看当日存档</a></p>
 </article>
 {% endblock %}

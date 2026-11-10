@@ -1,16 +1,20 @@
-{% macro question_card(q, base_path) %}
+{% macro question_card(q, root='') %}
 <article class="q-card">
   <div class="q-meta">
-    <a class="cat-pill" href="{{ base_path }}category/{{ q.category }}.html" style="--cat: {{ q.category_meta.color }}">{{ q.category_meta.name }}</a>
+    <a class="cat-pill" href="{{ root }}category/{{ q.category }}.html" style="--cat: {{ q.category_meta.color }}">{{ q.category_meta.name }}</a>
     <time datetime="{{ q.date }}">{{ q.date }}</time>
   </div>
   <h2 class="q-title">
-    <a href="{{ base_path }}questions/{{ q.id }}.html">{{ q.title_zh }}</a>
+    <a href="{{ root }}questions/{{ q.id }}.html">{{ q.title_zh }}</a>
   </h2>
   {% if q.title_en %}
   <p class="q-en">{{ q.title_en }}</p>
   {% endif %}
   <p class="q-comment">{{ q.commentary }}</p>
+  {% if q.answer and q.answer.summary %}
+  <p class="q-answer-teaser">{{ q.answer.summary | truncate(90, True, '…') }}</p>
+  <p class="q-answer-link"><a href="{{ root }}questions/{{ q.id }}.html#answer">查看解答 →</a></p>
+  {% endif %}
   <p class="q-source">
     来源：<a href="{{ q.source_url }}" rel="noopener noreferrer" target="_blank">{{ q.source_name }}</a>
     {% if q.author %} · {{ q.author }}{% endif %}

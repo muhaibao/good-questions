@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "macros.html" import question_card %}
+{% set root = '' %}
 {% block title %}今日好问题 · {{ site.name }}{% endblock %}
 {% block content %}
 <section class="hero">
@@ -9,15 +10,15 @@
     <p class="lede">精选约 {{ questions|length }} 个最有价值或最有意思的问题。不限于未解难题——能改变思考方式的提问，都值得收藏。</p>
   </div>
   <aside class="hero-cta">
-    <a class="btn btn-primary" href="{{ site.base_path }}feed.xml">订阅 RSS</a>
-    <a class="btn btn-ghost" href="{{ site.base_path }}feeds.html">分领域 Feed</a>
+    <a class="btn btn-primary" href="feed.xml">订阅 RSS</a>
+    <a class="btn btn-ghost" href="feeds.html">分领域 Feed</a>
     <p class="hint">共收录 {{ total }} 个问题 · {{ all_dates|length }} 天存档</p>
   </aside>
 </section>
 
 <section class="q-list" aria-label="今日问题列表">
   {% for q in questions %}
-    {{ question_card(q, site.base_path) }}
+    {{ question_card(q, root) }}
   {% else %}
     <p>今日暂无问题。</p>
   {% endfor %}
@@ -28,7 +29,7 @@
   <h2>最近几天</h2>
   <ul class="date-list">
     {% for d in recent_dates %}
-    <li><a href="{{ site.base_path }}archive.html#day-{{ d }}">{{ d }}{% if d == today %}（今天）{% endif %}</a></li>
+    <li><a href="archive.html#day-{{ d }}">{{ d }}{% if d == today %}（今天）{% endif %}</a></li>
     {% endfor %}
   </ul>
 </section>
