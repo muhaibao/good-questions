@@ -3785,3 +3785,1275 @@
         perceptual processes: Is recognition of facial emotion an exception? Journal of Cognition, 4(1),
         36. PMC 开放全文。'
       url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8344960/
+- id: 2026-11-12-sci-navier-stokes
+  date: '2026-11-12'
+  category: science
+  title_zh: 三维纳维–斯托克斯方程的光滑解是否总是存在？
+  title_en: Navier–Stokes existence and smoothness
+  commentary: 描述水流与气流的方程写下来快两百年了，数学家却仍无法证明：三维流体从光滑初值出发，会不会在有限时间内「爆破」出无穷大。这是千禧年难题中离日常物理最近的一道，近十年又因计算机辅助证明和机器学习而重新升温。
+  source_name: Clay Mathematics Institute — Millennium Problems
+  source_url: https://www.claymath.org/millennium/navier-stokes-equation/
+  author: Clay Mathematics Institute
+  source_type: curated
+  tags:
+  - 偏微分方程
+  - 流体力学
+  - 千禧年难题
+  - 有限时间爆破
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 开放问题；对答案方向没有可引用的共识
+      note: Clay 官方问题描述要求证明四种表述之一：在 R³ 或周期区域上光滑、能量有界的解对所有时间存在，或者给出爆破反例。[1] 截至本文核对日，没有被接受的解答。与 P vs NP
+        不同，这里没有可引用的专家民调，因此本文不对「多数人相信哪一边」下判断。官方陈述作者 Fefferman 认为标准 PDE 方法不足以解决问题；Tao 的「平均化方程」爆破结果从技术上支持了这一判断。[1][5]
+    summary: 纳维–斯托克斯（Navier–Stokes, NS）方程描述不可压缩粘性流体的速度场和压强。Fefferman 在官方问题描述中说明，动量方程就是流体微元的牛顿定律 f = ma，另一条方程表示流体不可压缩。[1]
+      二维情形的全局光滑解早已由 Ladyzhenskaya 证明；三维情形下，只知道小初值时或在一段短时间内有光滑解。若存在有限的「爆破时间」，速度必然在该时刻附近无界。[1] 另一条路线是弱解：Leray
+      1934 年证明三维 NS 总有弱解，但弱解是否唯一至今未知。[1][2] Caffarelli–Kohn–Nirenberg 1982 年的部分正则性定理表明，奇异集在一维抛物型 Hausdorff
+      测度意义下为零。Fefferman 称这是「迄今已知最好的部分正则性定理」，并说再往前走似乎非常困难。[1][4] 近十年的进展主要是「障碍」和「相邻问题」上的突破。Tao（2016）构造了一个保留能量恒等式的「平均化」NS
+      方程，并证明它会有限时间爆破，说明仅靠调和分析估计和能量恒等式无法证明正则性。[5] Buckmaster 与 Vicol（2019）证明某类弱解不唯一；[6] Albritton、Brué
+      与 Colombo（2022）在带外力的情形下证明 Leray 解不唯一。[7] Chen 与 Hou 严格证明了有边界、光滑初值下二维 Boussinesq 方程和三维轴对称 Euler（无粘）方程的有限时间近自相似爆破。[8]
+      2025 年 Wang 等人的预印本用机器学习结合高精度优化，系统找到多族「不稳定」自相似奇点解。[9] 不过，这些结果都不是 Clay 问题本身的解答：无边界、有粘性的三维 NS 是否会爆破，仍然悬而未决。
+    definitions:
+    - term: 纳维–斯托克斯方程
+      text: 关于速度 u(x,t) 与压强 p(x,t) 的偏微分方程组。动量方程中含粘性项 νΔu 与外力 f，同时要求 div u = 0（不可压缩）。粘性系数 ν = 0 时即为 Euler
+        方程。[1]
+    - term: 有限时间爆破（blowup）
+      text: 光滑解在有限时间 T 内失去光滑性。对 NS（ν > 0），若存在有限爆破时间，速度在 T 附近必然无界。[1] 通俗说，就是方程预言某处流速或其梯度会在有限时间内变成无穷大。
+    - term: 弱解
+      text: 把方程与光滑的检验函数相乘、积分并分部积分，使导数落到检验函数上，得到对 u 要求更低（只需平方可积等）的广义解。[1] 常见策略是先构造弱解，再证明弱解其实是光滑的；这一步对三维
+        NS 只取得部分成功。[1]
+    milestones:
+    - year: '1934'
+      name: Leray 弱解
+      explanation: Leray 证明三维 NS 方程总存在满足适当增长条件的弱解。[1][2] 这保证了「某种意义上的解」存在，但不保证它光滑或唯一。
+    - year: '1982'
+      name: Caffarelli–Kohn–Nirenberg 部分正则性
+      explanation: 在 Scheffer 工作的基础上证明适当弱解的奇异集的一维抛物型 Hausdorff 测度为零。由此推出，奇异集不可能包含一条时空曲线。[1][4]
+    - year: 2000 前后
+      name: 列为千禧年大奖难题
+      explanation: Clay 数学研究所把 NS 方程的存在性与光滑性列为千禧年难题之一，官方问题描述由 Charles Fefferman 撰写。[1][3]
+    - year: '2016'
+      name: Tao 的「平均化」NS 爆破
+      explanation: Tao 构造了 NS 方程的一个平均化版本，它满足同样的能量恒等式，却存在有限时间爆破的光滑解。这表明任何正则性证明都必须用到非线性项更精细的结构。[5]
+    - year: 2019–2022
+      name: 弱解不唯一
+      explanation: Buckmaster–Vicol 证明某类有限能量弱解不唯一；[6] Albritton–Brué–Colombo 证明带外力时 Leray 解不唯一。[7]
+    - year: 2022–2025
+      name: Euler 爆破证明与机器学习搜索
+      explanation: Chen–Hou 证明有边界的三维轴对称 Euler 方程可从光滑初值有限时间爆破；[8] Wang 等人用机器学习发现多族不稳定自相似解，精度据称满足计算机辅助证明的要求（预印本）。[9]
+    views:
+    - position: 现有技术不足以证明光滑性，需要本质上的新思想
+      consensus_role: 官方陈述与障碍结果共同支持的判断
+      evidence:
+        label: 严格的障碍定理 + 权威专家意见
+        note: Tao 的结果是定理，严格表明「只用能量恒等式和调和分析估计」的证明路线行不通；[5] Fefferman 的判断是专家意见，不是定理。[1]
+      holders:
+      - name: Charles L. Fefferman
+        identity: Clay 千禧年难题 NS 问题官方描述的作者。[1]
+      - name: Terence Tao
+        identity: 《Finite time blowup for an averaged three-dimensional Navier–Stokes equation》（J. Amer.
+          Math. Soc., 2016）作者。[5]
+      argument: Fefferman 指出，二维的结论对三维没有启示，因为主要困难在二维并不存在。CKN 定理是迄今最好的部分正则性结果，再往前推进似乎非常困难。[1] Tao 把 NS 写成
+        ∂ₜu = Δu + B(u,u)，并用平均化算子替换双线性项 B。新方程同样满足能量恒等式，却可以从光滑初值有限时间爆破。[5] 换言之，任何「只用能量守恒和一般性估计」的论证都不足以排除爆破，因为同样的论证会对一个确实爆破的方程「错误地」成立。
+      quotes:
+      - text: Standard methods from PDE appear inadequate to settle the problem. Instead, we probably
+          need some deep, new ideas.
+        text_zh: 偏微分方程的标准方法看来不足以解决这个问题。我们很可能需要某些深刻的新思想。
+        attribution: Charles L. Fefferman，Clay 官方问题描述
+        locator: 第 4 页，结尾段
+        ref: 1
+      - text: This demonstrates that any attempt to positively resolve the Navier-Stokes global regularity
+          problem in three dimensions has to use finer structure on the nonlinear portion B(u,u) of the
+          equation than is provided by harmonic analysis estimates and the energy identity.
+        text_zh: 这表明，任何试图正面解决三维纳维–斯托克斯全局正则性问题的尝试，都必须利用方程非线性部分 B(u,u) 的更精细结构，而不能只依赖调和分析估计和能量恒等式所提供的信息。
+        attribution: Terence Tao，J. Amer. Math. Soc.（2016）
+        locator: 摘要（arXiv:1402.0290）
+        ref: 5
+    - position: 爆破可能真实存在：从相关模型出发，构造或计算出奇点
+      consensus_role: 活跃的研究纲领；对真正的 NS 尚无结论
+      evidence:
+        label: 相关方程上的严格证明 + 高精度数值
+        note: 已有严格证明的爆破针对的是平均化 NS、有边界的 Euler 方程等相邻问题；[5][8] Wang 等人的结果是预印本，研究对象同样是有边界的 Euler 与多孔介质方程。[9]
+          对无边界、有粘性的三维 NS，没有爆破证据。
+      holders:
+      - name: Terence Tao
+        identity: 在 2016 年论文摘要中提出把平均化方程的爆破结果推广到真正 NS 方程的研究纲领。[5]
+      - name: Jiajie Chen、Thomas Y. Hou
+        identity: '《Stable nearly self-similar blowup of the 2D Boussinesq and 3D Euler equations with
+          smooth data I: Analysis》作者。[8]'
+      - name: Yongji Wang 等
+        identity: 预印本《Discovery of Unstable Singularities》（2025）作者。[9]
+      argument: Chen 与 Hou 受早期数值证据启发，严格证明了在有边界、能量有限的光滑初值下，二维 Boussinesq 与三维轴对称 Euler 方程会出现有限时间、近自相似的爆破。[8]
+        Wang 等人指出，数值研究以往主要找到「稳定」奇点；而对于无边界的 Euler 与 NS 等关键开放问题，人们预计起作用的是「不稳定」奇点。这类奇点要求无限精确地调好初值，因此极难发现。[9]
+        他们用定制的机器学习架构和高精度 Gauss–Newton 优化器找到了多族不稳定自相似解。[9] Fefferman 也提醒，Euler 方程的数值计算极不稳定，难以从中得出可靠结论。[1]
+        这正是此类工作转向计算机辅助证明的原因。
+      quotes:
+      - text: Whether singularities can form in fluids remains a foundational unanswered question in mathematics.
+        text_zh: 流体中是否会形成奇点，仍是数学中一个基础性的未解问题。
+        attribution: Wang 等，arXiv 预印本（2025）
+        locator: 摘要
+        ref: 9
+    - position: 弱解框架本身不足以挑出「物理上正确」的解
+      consensus_role: 已被严格证明的相邻结论
+      evidence:
+        label: 严格定理
+        note: Buckmaster–Vicol 与 Albritton–Brué–Colombo 的不唯一性定理均发表于 Annals of Mathematics；[6][7] 但无外力情形下
+          Leray–Hopf 解是否唯一仍未解决。
+      holders:
+      - name: Tristan Buckmaster、Vlad Vicol
+        identity: 《Nonuniqueness of weak solutions to the Navier–Stokes equation》（Annals of Mathematics,
+          2019）作者。[6]
+      - name: Dallas Albritton、Elia Brué、Maria Colombo
+        identity: 《Non-uniqueness of Leray solutions of the forced Navier–Stokes equations》（Annals of
+          Mathematics, 2022）作者。[7]
+      argument: 经典策略是先证明弱解存在，再证明弱解光滑。[1] 但如果弱解可以不唯一，「某个弱解存在」就不足以确定流体的演化。Buckmaster 与 Vicol 证明三维 NS 的某类有限能量弱解不唯一；[6]
+        Albritton 等人进一步证明，在适当外力下，连满足能量不等式的 Leray 解也可以不唯一。[7] 这些结果不回答 Clay 问题，却说明弱解理论与「物理上合理解」之间的缝隙是真实存在的。
+    open_parts: 第一，Clay 问题本身：无边界（R³ 或周期区域）、有粘性的三维 NS，从任意光滑初值出发是否都有全局光滑解。[1] 第二，若爆破存在，是否通过 Wang 等人所说的不稳定自相似奇点发生，以及能否用计算机辅助证明把数值发现变成定理。[9]
+      第三，无外力时 Leray–Hopf 弱解是否唯一。[7] 第四，即使数学上存在爆破，它与真实湍流物理有何关系，目前也没有定论。
+    references:
+    - id: 1
+      citation: Fefferman, C. L. Existence and smoothness of the Navier–Stokes equation. Clay Mathematics
+        Institute 官方问题描述（PDF，文中未注明日期，附勘误）。
+      url: https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf
+    - id: 2
+      citation: Leray, J. (1934). Sur le mouvement d’un liquide visqueux emplissant l’espace. Acta Mathematica,
+        63, 193–248. 书目据 [1] 的参考文献 [5]；本次未打开原文。
+      url: null
+    - id: 3
+      citation: Clay Mathematics Institute. Navier–Stokes Equation（千禧年难题页面）。
+      url: https://www.claymath.org/millennium/navier-stokes-equation/
+    - id: 4
+      citation: Caffarelli, L., Kohn, R., & Nirenberg, L. (1982). Partial regularity of suitable weak
+        solutions of the Navier–Stokes equations. Communications on Pure and Applied Mathematics, 35,
+        771–831. 书目据 [1] 的参考文献 [2]；本次未打开原文。
+      url: null
+    - id: 5
+      citation: Tao, T. (2016). Finite time blowup for an averaged three-dimensional Navier–Stokes equation.
+        Journal of the American Mathematical Society, 29(3), 601–674. doi:10.1090/jams/838；摘要据 arXiv:1402.0290。
+      url: https://www.ams.org/journals/jams/2016-29-03/S0894-0347-2015-00838-4/
+    - id: 6
+      citation: Buckmaster, T., & Vicol, V. (2019). Nonuniqueness of weak solutions to the Navier–Stokes
+        equation. Annals of Mathematics, 189(1), 101–144.
+      url: https://annals.math.princeton.edu/2019/189-1/p03
+    - id: 7
+      citation: Albritton, D., Brué, E., & Colombo, M. (2022). Non-uniqueness of Leray solutions of the
+        forced Navier–Stokes equations. Annals of Mathematics, 196(1). 预印本 arXiv:2112.03116。
+      url: https://arxiv.org/abs/2112.03116
+    - id: 8
+      citation: 'Chen, J., & Hou, T. Y. (2022). Stable nearly self-similar blowup of the 2D Boussinesq
+        and 3D Euler equations with smooth data I: Analysis. arXiv:2210.07191.'
+      url: https://arxiv.org/abs/2210.07191
+    - id: 9
+      citation: Wang, Y., Bennani, M., Martens, J., et al. (2025). Discovery of unstable singularities.
+        arXiv:2509.14185（预印本，未经同行评议）。
+      url: https://arxiv.org/abs/2509.14185
+- id: 2026-11-12-biz-oil-negative
+  date: '2026-11-12'
+  category: business
+  title_zh: 为什么原油期货价格会变成负数？
+  title_en: Why is the oil future price negative?
+  commentary: 2020 年 4 月 20 日，「卖油还要倒贴钱」真的发生了。这道题逼人把期货合约、实物交割和储罐容量放在一起想：屏幕上那个价格，到底是什么东西的价格？
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/36127/why-is-the-oil-future-price-negative
+  author: chatGPT（Stack Exchange 用户名）
+  source_type: stackexchange
+  tags:
+  - 期货
+  - 原油
+  - 储存
+  - 市场微观结构
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「发生了什么」有较强共识；各因素的相对权重与是否存在不当交易仍有争议
+      note: CFTC 工作人员的中期报告与美国能源信息署（EIA）的分析都认为基本面因素奠定了基础：新冠疫情导致需求骤降、库欣（Cushing）交割地储罐接近满载、合约须实物交割。临近到期的集中平仓和流动性下降则放大了跌幅。[1][2]
+        学术研究对「原油 ETF 展期是元凶」的说法给出了否定证据，[3] 但「按结算价交易」（TAS）机制与掠夺性交易贡献多大仍有分歧。[3][4] CFTC 报告明确不评估是否存在操纵或违法交易，也不认定根本原因。[1]
+    summary: 负价格只出现在一张特定合约上：NYMEX 的 WTI 原油 2020 年 5 月合约。它在 4 月 20 日，即到期前一个交易日，以每桶 −37.63 美元结算，盘中最低 −40.32
+      美元；当天其他月份的 WTI 合约都以正价结算。[1] 因此，负价格并不意味着「石油本身一文不值」，而是说：在那一天，持有这张即将到期、必须在俄克拉何马州库欣提货的合约，是一种负担。EIA 解释，持有
+      WTI 期货到期的人必须在库欣进行实物交割；通常只有约 1% 的期货最终走到实物交割，绝大多数人在到期前平仓。[2] 2020 年春，疫情使原油和成品油消费骤降，过剩原油涌入储罐。CFTC 报告指出，到
+      2020 年 3 月，库欣可用的工作库容已接近满载。[1] 提问者问：「为什么不囤着等疫情过去？为什么投机者不进场把价格买回正数？」答案是：囤油需要储罐，而储罐恰恰最稀缺。没有预订储罐的多头只能付高价找库容，或者以任何价格平仓。[2][3]
+      负价格正是对接盘者承担交割和储存成本的补偿。EIA 的说法是，部分合约持有人以负价格卖出合约，「实际上是付钱给对手方，让自己得以退出头寸」。[2] 研究者进一步指出，年初的「超级升水」（远月价格远高于近月）吸引了大量现金–持有套利者买入近月、卖出远月并预订库欣储罐，这本身加剧了库容紧张。[3]
+      另有研究认为，单靠平仓压力只能把价格压到约每桶 7 美元，其余跌幅需要结合盘中动态与 TAS 交易来解释。[4]
+    definitions:
+    - term: 实物交割期货
+      text: 到期时多头必须在约定地点接收现货、空头必须交付现货的期货合约。WTI 合约的交割地是俄克拉何马州库欣。[2] 不想接货的人必须在到期前平仓。
+    - term: 升水结构（contango）
+      text: 远月合约价格高于近月合约价格的期限结构。升水足够大时，「现在买油存起来、同时卖出远月合约」的现金–持有套利有利可图，但这需要储存能力。[3]
+    - term: 按结算价交易（TAS）
+      text: 一种允许参与者以当日结算价或与其相差固定价差的价格成交的订单类型。原油合约自 2001 年起提供 TAS 交易。[1]
+    - term: 未平仓量（OI）
+      text: 在某个交割月份已建立、尚未被对冲交易了结或通过交割履约的合约总数。[1] 4 月初到 4 月 20 日开盘，5 月合约的未平仓量从 634,727 张降到 108,593 张。[1]
+    milestones:
+    - year: '1983'
+      name: WTI 期货上市
+      explanation: NYMEX WTI 原油期货开始交易；此后 37 年间从未出现过负价格。[1][2]
+    - year: 2020 年 3–4 月
+      name: 库欣接近满载、交易所准备负价格
+      explanation: 到 3 月库欣工作库容已接近满载；3 月末至 4 月初，NYMEX 与部分行业参与者开始为 WTI 出现负价格做技术与定价模型上的准备。[1]
+    - year: '2020-04-20'
+      name: 5 月合约结算于 −37.63 美元
+      explanation: 价格在美东时间约 14:08 至 14:30 结算期间低于零，盘中最低 −40.32 美元；当天触发了 30 多次动态熔断。[1]
+    - year: '2020-11-23'
+      name: CFTC 中期报告
+      explanation: CFTC 市场监督部与首席经济学家办公室发布中期工作人员报告，梳理基本面与交易层面的因素。[1]
+    views:
+    - position: 基本面与交割约束：储罐满了，即将到期的合约就成了负资产
+      consensus_role: 官方分析的主线
+      evidence:
+        label: 官方数据与监管调查
+        note: 依据是 EIA 的库存与炼厂数据，以及 CFTC 对持仓、成交与订单簿的分析。[1][2] 但 CFTC 报告是中期报告，明确不判定根本原因。[1]
+      holders:
+      - name: 美国能源信息署（EIA）
+        identity: 美国能源部下属统计与分析机构，2020 年 4 月 27 日发布《Today in Energy》分析。[2]
+      - name: CFTC 市场监督部与首席经济学家办公室工作人员
+        identity: 2020 年 11 月中期报告作者；报告观点仅代表工作人员，不代表委员会。[1]
+      argument: CFTC 报告列出的基本面因素是：全球原油本已供过于求，疫情又带来前所未有的需求下降；市场担心欧佩克+等产油方来不及减产，进而担心储存能力，这在作为交割地的库欣尤为突出。[1]
+        EIA 补充说，截至 4 月 17 日当周，美国炼厂开工量降至每天 1,280 万桶，比上年同期少 24%。[2] 当没有储罐的多头必须在最后时刻离场，而接盘者要承担交割和储存，价格就可以跌破零。
+      quotes:
+      - text: In summary, a variety of factors coincided leading up to, on, and around April 20, when
+          WTI Contract prices fell from $17.73 per barrel at the beginning of the trading session to finally
+          settle at -$37.63 per barrel.
+        text_zh: 总之，在 4 月 20 日前后及当天，多种因素同时出现：WTI 合约价格从交易时段开始时的每桶 17.73 美元跌落，最终结算于每桶 −37.63 美元。
+        attribution: CFTC 工作人员中期报告（2020）
+        locator: 第 II 节「执行摘要」，第 3 页
+        ref: 1
+      - text: with some contract holders resorting to selling their futures contracts at negative prices,
+          in effect paying a counterparty to allow them to exit their positions.
+        text_zh: 一些合约持有人不得不以负价格卖出期货合约，实际上是付钱给对手方，让自己得以退出头寸。
+        attribution: U.S. Energy Information Administration（2020）
+        locator: 《Today in Energy》2020 年 4 月 27 日，第 3 段
+        ref: 2
+    - position: 「超级升水」引来的套利占满了库容；原油 ETF 不是元凶
+      consensus_role: 有实证支持的学术解释
+      evidence:
+        label: 单组作者的实证研究（已发表于 Energy Journal）
+        note: Granger 因果检验显示 USO 资金流对 WTI 价格影响很小。[3] 需要注意的是，作者在致谢中说明该研究由 USO 的管理人 USCF 资助，存在潜在利益冲突；目前也缺少独立团队用不同数据的复现。[3]
+      holders:
+      - name: Adrian Fernandez-Perez
+        identity: 奥克兰理工大学高级研究员（据论文署名）。[3]
+      - name: Ana-Maria Fuertes
+        identity: 伦敦城市大学商学院金融与计量经济学教授（据论文署名）。[3]
+      - name: Joëlle Miffre
+        identity: Audencia 商学院金融学教授（据论文署名）。[3]
+      argument: 作者认为，疫情带来的需求骤降与俄沙之争引发的供给冲击，使 WTI 曲线在 2020 年初进入升水并演变为「超级升水」。这吸引了大量现金–持有套利，迅速推高了库欣库存。[3]
+        5 月合约临近到期时，大量多头急于离场；对库欣储罐即将「满顶」的恐惧触发了恐慌性抛售和流动性冻结。[3] 他们据此反驳了「最大的原油 ETF（USO）展期砸盘」的流行说法。[3]
+      quotes:
+      - text: We show empirically that USO flows do not cause the price of WTI futures in general, nor
+          of CLK20 in particular.
+        text_zh: 我们的实证结果表明，USO 的资金流既不是 WTI 期货价格总体变动的原因，也不是 CLK20（2020 年 5 月合约）价格变动的原因。
+        attribution: Fernandez-Perez、Fuertes 与 Miffre，工作论文版本（2020）
+        locator: 摘要
+        ref: 3
+    - position: 平仓压力只能解释一部分，其余来自盘中动态与 TAS「掠夺性交易」
+      consensus_role: 有争议的补充解释
+      evidence:
+        label: 会议论文中的回归与理论模拟
+        note: 该文发表于 2023 年美国经济学会年会论文集，本文未能确认其是否已在同行评议期刊正式发表；结论依赖模型设定。[4] Fernandez-Perez 等人也把 TAS 列为可能的加剧因素，[3]
+          但对其权重的判断不同。
+      holders:
+      - name: Yiqing Ge、Wenjin Kang、Ke Tang、Liyan Yang
+        identity: 《Closing Pressure, Predatory Trading, and the Negative Price of Oil》作者，署名单位为清华大学、澳门大学与多伦多大学。[4]
+      argument: 作者承认，储存短缺加上急于平仓的多头（即「平仓压力」）确实压低了价格。但他们的基准回归只能把 4 月 20 日的价格解释到约每桶 7 美元，远高于实际结算价 −37.63
+        美元。[4] 他们把盘中动态和 TAS 套利纳入模型：套利者先在 TAS 市场大量买入互换交易商卖出的合约，再在普通市场（包括结算时段）分批卖出，压低结算价。这样模拟出的价格约为每桶 −40
+        美元。[4] 换句话说，实物交割规则加上 TAS 掠夺性交易，才足以解释负价格的深度。
+      quotes:
+      - text: Empirical tests confirm this negative price effect of closing pressure, but it is estimated
+          to bring the price down to only $7/barrel.
+        text_zh: 实证检验证实了平仓压力的压价效应，但据估计它只能把价格压到每桶 7 美元左右。
+        attribution: Ge、Kang、Tang 与 Yang，AEA 2023 年会论文
+        locator: 摘要
+        ref: 4
+    open_parts: 第一，TAS 机制与结算窗口内的集中卖出到底贡献了多少跌幅，不同研究的估计差距很大。[3][4] 第二，是否存在操纵或其他不当交易：CFTC 中期报告明确把这一问题排除在范围之外，[1]
+      本文也未检索到据此作出的公开定论，因此不作判断。第三，实物交割合约在储存极度受限时是否需要改变设计（例如交割地、结算方式），尚无共识。第四，EIA 当时判断负价格主要局限于金融市场，实物市场中很少有卖家真的倒贴钱卖油；[2]
+      这一区分对理解「油价为负」的经济含义很关键。
+    references:
+    - id: 1
+      citation: 'U.S. Commodity Futures Trading Commission, Division of Market Oversight & Office of the
+        Chief Economist (2020, November 23). Interim Staff Report: Trading in NYMEX WTI Crude Oil Futures
+        Contract Leading up to, on, and around April 20, 2020.'
+      url: https://www.cftc.gov/media/5296/InterimStaffReportNYMEX_WTICrude/download
+    - id: 2
+      citation: U.S. Energy Information Administration (2020, April 27). Low liquidity and limited available
+        storage pushed WTI crude oil futures prices below zero. Today in Energy.
+      url: https://www.eia.gov/todayinenergy/detail.php?id=43495
+    - id: 3
+      citation: Fernandez-Perez, A., Fuertes, A.-M., & Miffre, J. (2023). The negative pricing of the
+        May 2020 WTI contract. The Energy Journal, 44(1). doi:10.5547/01956574.44.1.afer。期刊页面对自动访问拦截，摘要与引语据作者
+        2020 年工作论文版本《On the Negative Pricing of WTI Crude Oil Futures》（奥克兰理工大学托管 PDF）。
+      url: https://acfr.aut.ac.nz/__data/assets/pdf_file/0004/541903/WTI-crude-oil-prices_Adrian-2021DMC.pdf
+    - id: 4
+      citation: Ge, Y., Kang, W., Tang, K., & Yang, L. Closing pressure, predatory trading, and the negative
+        price of oil. 美国经济学会（AEA）2023 年年会论文。
+      url: https://www.aeaweb.org/conference/2023/program/paper/FRQksbtk
+- id: 2026-11-12-biz-wikipedia
+  date: '2026-11-12'
+  category: business
+  title_zh: 经济学家如何解释人们为什么无偿编辑维基百科？
+  title_en: How do economists explain why people contribute to Wikipedia?
+  commentary: 不领工资、大多匿名，却合力写出了人类最大的百科全书。这是公共品理论的一道活体考题：标准模型预测「人越多越搭便车」，维基百科的自然实验却给出了相反的结果。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/39425/how-do-economists-explain-why-people-contribute-to-wikipedia
+  author: user16353
+  source_type: stackexchange
+  tags:
+  - 公共品
+  - 同伴生产
+  - 激励
+  - 社会收益
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「非金钱的社会收益与认可在起作用」有较强的因果证据；哪种动机最重要没有定论
+      note: 一项准自然实验（中文维基百科在中国大陆被封锁）[1] 和一项随机田野实验（在维基百科向新编辑随机颁发象征性奖励）[3] 都表明，社会收益和认可会显著改变贡献行为。不过两项研究分别针对特定社群和特定干预，外推到「所有编辑为什么编辑」需要谨慎。Benkler
+        的同伴生产理论提供了解释框架，但它本身不是因果检验。[2] 本文没有纳入编辑动机的自报问卷研究，因为未能打开原文核对。
+    summary: 提问者把维基百科看作一个「公共品博弈」：贡献者得不到钱，多数匿名，似乎也得不到声誉。这正是经济学的经典难题。Zhang 与 Zhu 概括说，公共品私人供给的文献认为贡献激励与群体规模呈反向关系，即人越多越容易搭便车。[1]
+      他们利用一次外生冲击做检验：中文维基百科在中国大陆被封锁，相当于贡献者群体突然缩小。结果，未被封锁的贡献者平均减少了 42.8% 的贡献，而不是像搭便车理论预测的那样增加。[1] 他们的解释是社会效应：贡献者获得的社会收益随自身贡献量和群体规模一同增加，群体缩小削弱了这种收益；越看重社会收益的人，减少得越多。[1]
+      法学学者 Benkler 从制度角度提出「基于公共资源的同伴生产」（commons-based peer production），把它视为与市场、企业并列的第三种生产方式。[2] 他认为，人的动机多种多样，社会心理回报在某些情况下与金钱回报此消彼长；而大项目被拆成许多小块后，让任何一个人参与所需的动机都很小。[2]
+      Gallus 在维基百科上做了大规模随机田野实验，发现纯象征性的奖励能显著提高新编辑的留存率，效果持续到干预后四个季度。[3] 综合来看，经济学家并不把维基百科当作「理性人假设的反例」，而是把它当作检验非金钱激励（社会收益、身份认同、认可与地位）的天然实验室。
+    definitions:
+    - term: 公共品
+      text: 具有非排他性（难以阻止他人使用）和非竞争性（一人使用不减少他人可用量）的物品。Benkler 引用经济学传统，指出信息可以被任意多的人使用而不减少其可得性。[2]
+    - term: 基于公共资源的同伴生产
+      text: Benkler 提出的概念：一种依靠分散的信息收集与交换来降低参与者不确定性的生产方式；个体自行认领任务，出于多种动机完成它，而不是听从价格信号或管理命令。[2]
+    - term: 间接收益（indirect appropriation）
+      text: 不依赖排他性（如知识产权）来获取自身努力价值的方式，例如通过参与开源项目积累人力资本、获得声誉或创造的乐趣。[2]
+    views:
+    - position: 社会收益随群体规模增长：人越多，贡献越值得
+      consensus_role: 有准自然实验支持的主要经济学解释
+      evidence:
+        label: 准自然实验（American Economic Review）
+        note: 封锁带来的群体规模变化是外生的，识别较干净；[1] 但样本是中文维基百科的特定时期，社会收益的具体内容（被阅读、被认可、与他人互动）没有直接测量。
+      holders:
+      - name: Xiaoquan (Michael) Zhang、Feng Zhu
+        identity: '《Group Size and Incentives to Contribute: A Natural Experiment at Chinese Wikipedia》（AER,
+          2011）作者。[1]'
+      argument: 若贡献只是为了让公共品存在，群体缩小时剩下的人应该多做一点。但数据显示，剩下的人反而少做了 42.8%。[1] 作者据此认为，贡献者获得的是一种随受众和同伴规模而增长的社会收益：写给更多人看、与更多人协作更有意义。[1]
+        越看重社会收益的人，在封锁后减少得越多，这一点与解释一致。[1]
+      quotes:
+      - text: We find, however, that after an exogenous reduction of group size at Chinese Wikipedia,
+          the nonblocked contributors decrease their contributions by 42.8 percent on average.
+        text_zh: 然而我们发现，在中文维基百科的群体规模外生缩小之后，未被封锁的贡献者平均减少了 42.8% 的贡献。
+        attribution: Zhang 与 Zhu，American Economic Review（2011）
+        locator: 摘要
+        ref: 1
+    - position: 多元动机 + 模块化：把任务切碎，微小的动机就够了
+      consensus_role: 有影响力的理论框架
+      evidence:
+        label: 理论与案例分析（法学期刊长文）
+        note: Benkler 用 Linux、维基百科等案例建立理论，没有做因果检验；[2] 其中关于动机的部分借用了 Lerner 与 Tirole 等人对开源动机的梳理（据 [2] 转述，本文未打开原文）。
+      holders:
+      - name: Yochai Benkler
+        identity: 《Coase’s Penguin, or, Linux and The Nature of the Firm》（Yale Law Journal, 2002）作者；发表时为纽约大学法学院教授（据论文脚注）。[2]
+      argument: Benkler 的第一步论证是：人的动机是多样的，在某些经验领域里，金钱回报的存在会挤掉其他社会心理回报，因此一个远离金钱、提供社会心理回报的项目能吸引金钱吸引不来的人，或人们一天中的某些时段。[2]
+        第二步是模块化：把项目拆成许多可以在短时间内完成的小块，参与所需的动机就可以很小。[2] 他还指出，创造的乐趣、声誉和人力资本积累等「间接收益」在很大程度上回答了同伴生产的激励问题。[2]
+      quotes:
+      - text: The second analytic move involves understanding that when a project of any size is broken
+          up into little pieces, each of which can be performed by an individual in a short amount of
+          time, the motivation to get any given individual to contribute need only be very small.
+        text_zh: 第二步分析是认识到：当一个任意规模的项目被拆成许多小块，而每一块都能由一个人在短时间内完成时，让任何一个人参与贡献所需的动机就只需非常小。
+        attribution: Yochai Benkler，Yale Law Journal（2002）
+        locator: 第 112 卷，第 378 页
+        ref: 2
+    - position: 认可与身份：象征性奖励也能留住志愿者
+      consensus_role: 有随机实验支持的补充解释
+      evidence:
+        label: 大规模随机田野实验（Management Science）
+        note: 随机化保证获奖与此前表现无关，因果识别强；[3] 但研究对象是新编辑的留存率，而不是资深编辑的长期贡献，结论不宜直接推广。
+      holders:
+      - name: Jana Gallus
+        identity: 《Fostering Public Good Contributions with Symbolic Awards》（Management Science, 2017）作者，署名单位为加州大学洛杉矶分校
+          Anderson 管理学院。[3]
+      argument: Gallus 在维基百科随机给新编辑颁发纯象征性的奖励。这些奖励不带来金钱或职业机会，地位提升也只体现在刚加入不久的社区中的化名身份上。[3] 结果显示，奖励显著提高了新编辑的留存率，效果持续四个季度。作者认为这可以用对社区的认同感增强来解释，也与关于地位、声誉和认可的研究一致。[3]
+      quotes:
+      - text: The analysis reveals that awards have a sizeable effect on newcomer retention, which persists
+          over the four quarters following the initial intervention.
+        text_zh: 分析显示，奖励对新编辑的留存有相当大的影响，并且这种影响在初次干预后的四个季度内持续存在。
+        attribution: Jana Gallus，Management Science（2017）
+        locator: 摘要
+        ref: 3
+    open_parts: 第一，社会收益、身份认同、乐趣和学习等动机各自的权重是多少，目前缺少能同时区分它们的因果研究。[1][3] 第二，这些发现能否推广到其他语言版本、其他时期，以及其他开放协作平台。第三，大语言模型大量使用维基百科内容、读者越来越多地通过
+      AI 间接接触维基内容，这会不会削弱 Zhang 与 Zhu 所说的「受众规模带来的社会收益」？这是新的开放问题，尚无系统研究可引。
+    references:
+    - id: 1
+      citation: 'Zhang, X. (M.), & Zhu, F. (2011). Group size and incentives to contribute: A natural
+        experiment at Chinese Wikipedia. American Economic Review, 101(4), 1601–1615. doi:10.1257/aer.101.4.1601'
+      url: https://www.aeaweb.org/articles?id=10.1257/aer.101.4.1601
+    - id: 2
+      citation: Benkler, Y. (2002). Coase’s penguin, or, Linux and The Nature of the Firm. Yale Law Journal,
+        112, 369–446.
+      url: https://yalelawjournal.org/pdf/354_t5aih5i1.pdf
+    - id: 3
+      citation: 'Gallus, J. (2017). Fostering public good contributions with symbolic awards: A large-scale
+        natural field experiment at Wikipedia. Management Science, 63(12), 3999–4015. doi:10.1287/mnsc.2016.2540'
+      url: https://pubsonline.informs.org/doi/10.1287/mnsc.2016.2540
+- id: 2026-11-12-ai-nn-weak
+  date: '2026-11-12'
+  category: ai
+  title_zh: 神经网络在哪些众所周知的问题上表现并不好？
+  title_en: What are some well-known problems where neural networks don't do very well?
+  commentary: 在「大模型无所不能」的氛围里，反问短板更有价值。表格数据、分布外外推、捷径学习和少样本抽象推理都在提醒我们：「万能逼近」不等于「会泛化」。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/18576/what-are-some-well-known-problems-where-neural-networks-dont-do-very-well
+  author: AB_IM
+  source_type: stackexchange
+  tags:
+  - 深度学习
+  - 表格数据
+  - 泛化
+  - 外推
+  - 捷径学习
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「中等规模表格数据上树模型常优于神经网络」有多项基准支持，但正被表格基础模型挑战；外推与捷径学习的局限证据较强，边界仍在移动
+      note: Grinsztajn 等人用 45 个数据集做的基准，以及 Shwartz-Ziv 与 Armon 的独立比较，都发现 XGBoost 等树模型优于当时的深度表格模型。[1][2]
+        2025 年发表于 Nature 的 TabPFN 则报告，在不超过 10,000 个样本的数据集上，它大幅超越此前所有方法。[3] 因此更准确的说法是：用传统方式逐个数据集训练的神经网络，在中等规模表格数据上长期不占优。外推方面有理论结果：ReLU
+        多层感知机沿任意方向会迅速趋于线性。[4] 捷径学习和少样本抽象推理方面的证据主要来自观点性综述和专门基准，[5][6][7] 结论随模型进步在变化。
+    summary: 提问者想要具体例子：哪些（非时序的）回归任务上，神经网络不是最先进的方法？最直接的答案是表格数据，即行代表样本、列代表异质特征的电子表格式数据。Grinsztajn、Oyallon
+      与 Varoquaux 用 45 个标准数据集和大规模超参数搜索（每个学习器约 2 万计算小时）做了系统基准，发现在中等规模（约 1 万个样本）数据上，树模型仍是最先进的，而且这还没算上它们速度更快的优势。[1]
+      他们把原因归结为归纳偏置的差异：神经网络不擅长忽略无信息特征、会破坏数据原有的「朝向」，也难以学习不规则的函数。[1] Shwartz-Ziv 与 Armon 的比较同样发现，XGBoost
+      在多个数据集上胜过新提出的深度表格模型，包括那些模型原论文使用的数据集，而且需要的调参少得多。[2] 但这条结论正在被改写：Hollmann 等人的 TabPFN 是在数百万个合成数据集上预训练的
+      Transformer，在 ≤10,000 样本的数据集上大幅超越此前所有方法。[3] 第二类短板是外推。Xu 等人证明 ReLU MLP 沿离开原点的任意方向会迅速收敛为线性函数，因此无法外推大多数非线性函数。[4]
+      第三类是捷径学习：Geirhos 等人认为，深度学习的许多问题是同一症状的不同表现，即模型学到在标准基准上有效、换到更难的测试条件就失效的决策规则。[5] 第四类是少样本学习、因果建模和组合泛化。Lake
+      等人、Chollet 和 Marcus 从不同角度论证，当时的深度网络在这些方面与人类智能差距明显。[6][7][8]
+    definitions:
+    - term: 表格数据
+      text: 以行和列组织的数据，例如电子表格，每列可以是不同类型、不同量纲的特征。[3] 与图像、文本不同，它没有天然的空间或序列结构。
+    - term: 外推（extrapolation）
+      text: 模型对训练分布支撑集之外的输入作出预测。[4] 与之相对的是插值，即在训练数据覆盖的范围内预测。
+    - term: 捷径学习（shortcut learning）
+      text: 模型学到在标准基准上表现良好、但无法迁移到更具挑战性的测试条件（如真实场景）的决策规则。[5]
+    milestones:
+    - year: 2016–2017
+      name: 「像人一样学习和思考的机器」
+      explanation: Lake 等人在 Behavioral and Brain Sciences 发表靶文章，主张机器需要因果模型、直觉物理与心理学，以及组合性和「学会学习」。[6]
+    - year: '2019'
+      name: ARC 抽象推理基准
+      explanation: Chollet 把智能定义为「技能获取效率」，并提出抽象与推理语料库（ARC）。[7]
+    - year: '2020'
+      name: 捷径学习与外推理论
+      explanation: Geirhos 等人提出捷径学习框架；[5] Xu 等人分析 MLP 与图神经网络如何外推。[4]
+    - year: 2021–2022
+      name: 表格数据基准
+      explanation: 两项独立基准都发现树模型在表格数据上优于深度模型。[1][2]
+    - year: '2025'
+      name: 表格基础模型
+      explanation: TabPFN 在 Nature 发表，报告在小规模表格数据上超越梯度提升树等基线。[3]
+    views:
+    - position: 表格数据：梯度提升树至今仍是很强的基线
+      consensus_role: 多项基准的共同发现（正受挑战）
+      evidence:
+        label: 系统基准研究
+        note: 两组作者用不同数据集与流程得出一致结论；[1][2] 但结论限于中等规模数据，且早于 TabPFN 一类的预训练表格模型。[3]
+      holders:
+      - name: Léo Grinsztajn、Edouard Oyallon、Gaël Varoquaux
+        identity: 《Why do tree-based models still outperform deep learning on tabular data?》作者。[1]
+      - name: Ravid Shwartz-Ziv、Amitai Armon
+        identity: '《Tabular Data: Deep Learning is Not All You Need》作者。[2]'
+      - name: Noah Hollmann 等（反方证据）
+        identity: 《Accurate predictions on small data with a tabular foundation model》（Nature, 2025）作者。[3]
+      argument: Grinsztajn 等人的结论是：树模型的归纳偏置更适合表格数据：它对无信息特征稳健，能保留数据原有的朝向（不像神经网络那样具有旋转不变性），也容易拟合不规则的函数。[1]
+        想造出专门针对表格数据的神经网络，就要逐条克服这些挑战。[1] TabPFN 换了思路：不在单个数据集上从头训练，而是在数百万个合成数据集上「学会如何学习」，然后在新数据集上直接推断。[3]
+      quotes:
+      - text: Results show that tree-based models remain state-of-the-art on medium-sized data (∼10K samples)
+          even without accounting for their superior speed.
+        text_zh: 结果表明，即使不考虑树模型在速度上的优势，它们在中等规模数据（约 1 万个样本）上仍是最先进的方法。
+        attribution: Grinsztajn、Oyallon 与 Varoquaux（2022）
+        locator: 摘要（arXiv:2207.08815）
+        ref: 1
+      - text: Although deep learning has revolutionized learning from raw data and led to numerous high-profile
+          success stories, gradient-boosted decision trees have dominated tabular data for the past 20
+          years.
+        text_zh: 尽管深度学习彻底改变了从原始数据中学习的方式，并带来了许多引人注目的成功案例，但在过去 20 年里，梯度提升决策树一直主导着表格数据。
+        attribution: Hollmann 等，Nature（2025）
+        locator: 摘要（原文中的参考文献角标已略去）
+        ref: 3
+    - position: 分布外泛化：外推失败与捷径学习
+      consensus_role: 有理论与大量实证支持的局限
+      evidence:
+        label: 理论证明 + 综述性观点
+        note: Xu 等人的外推结论是针对 ReLU MLP 的数学结果（基于神经正切核分析），并有实验支持；[4] Geirhos 等人的捷径学习是一篇视角文章，它把大量已发表的失败案例统一到一个框架下，本身不是新的实验。[5]
+      holders:
+      - name: Keyulu Xu、Stefanie Jegelka 等
+        identity: '《How Neural Networks Extrapolate: From Feedforward to Graph Neural Networks》作者。[4]'
+      - name: Robert Geirhos、Matthias Bethge 等
+        identity: 《Shortcut Learning in Deep Neural Networks》（Nature Machine Intelligence, 2020）作者。[5]
+      argument: 万能逼近定理只保证在训练数据覆盖的范围内能拟合得很好，不保证范围之外的行为。Xu 等人证明，ReLU MLP 一离开训练区域就近乎线性，所以对大多数非线性目标无法正确外推，除非把合适的非线性编码进架构或特征中。[4]
+        Geirhos 等人则指出，模型常常利用数据中的「捷径」，例如背景纹理或数据集特有的伪相关；这些规则在同分布测试集上看起来很好，换到真实场景就失效。[5] 这一点与本站已收录的「深度神经网络为什么容易被愚弄」相互补充。
+      quotes:
+      - text: Shortcuts are decision rules that perform well on standard benchmarks but fail to transfer
+          to more challenging testing conditions, such as real-world scenarios.
+        text_zh: 捷径是这样一类决策规则：它们在标准基准上表现良好，却无法迁移到更具挑战性的测试条件，例如真实世界的场景。
+        attribution: Geirhos 等，Nature Machine Intelligence（2020）
+        locator: 摘要（arXiv:2004.07780）
+        ref: 5
+    - position: 少样本、因果与组合泛化：与人类学习方式的差距
+      consensus_role: 有影响但有争议的批评
+      evidence:
+        label: 观点性综述与专门基准
+        note: Lake 等人与 Marcus 的论证主要是综述和观点；[6][8] Chollet 提供了可检验的 ARC 基准。[7] 这些批评写于大语言模型兴起之前或早期，近年模型在部分基准上进步明显，差距的大小存在争议。
+      holders:
+      - name: Brenden M. Lake、Tomer D. Ullman、Joshua B. Tenenbaum、Samuel J. Gershman
+        identity: 《Building Machines That Learn and Think Like People》（Behavioral and Brain Sciences）作者。[6]
+      - name: François Chollet
+        identity: 《On the Measure of Intelligence》作者，ARC 基准提出者。[7]
+      - name: Gary Marcus
+        identity: '《Deep Learning: A Critical Appraisal》作者。[8]'
+      argument: Lake 等人主张，真正像人一样学习的机器需要构建支持解释与理解的因果模型，而不只是做模式识别；需要以直觉物理和直觉心理学为基础；还要利用组合性与「学会学习」，以便快速习得新任务并推广。[6]
+        Chollet 认为，只测某项任务的技能不等于测智能，因为无限的先验或无限的训练数据可以「买到」任意水平的技能。他因此提出用技能获取效率来衡量智能，并构建了 ARC。[7] Marcus
+        列出了深度学习的十项担忧，认为要实现通用人工智能，深度学习必须辅以其他技术。[8]
+      quotes:
+      - text: Despite their biological inspiration and performance achievements, these systems differ
+          from human intelligence in crucial ways.
+        text_zh: 尽管这些系统受到生物学启发并取得了出色的表现，它们在一些关键方面与人类智能不同。
+        attribution: Lake 等，Behavioral and Brain Sciences
+        locator: 摘要（arXiv:1604.00289）
+        ref: 6
+    open_parts: 第一，像 TabPFN 这样的表格基础模型能否推广到更大规模、更高维的表格数据，从而终结「树模型在表格数据上占优」这一经验规律。[1][3] 第二，规模扩大（更多数据、更大模型）能否在根本上缓解外推失败与捷径学习，还是只是把失败推到更远的分布之外。[4][5]
+      第三，少样本抽象推理上的差距还剩多少，取决于如何防止基准被「训练进去」，这正是 Chollet 强调的先验与经验控制问题。[7]
+    references:
+    - id: 1
+      citation: Grinsztajn, L., Oyallon, E., & Varoquaux, G. (2022). Why do tree-based models still outperform
+        deep learning on tabular data? NeurIPS 2022 Datasets and Benchmarks Track. arXiv:2207.08815.
+      url: https://arxiv.org/abs/2207.08815
+    - id: 2
+      citation: 'Shwartz-Ziv, R., & Armon, A. (2021). Tabular data: Deep learning is not all you need.
+        arXiv:2106.03253（后发表于 Information Fusion）。'
+      url: https://arxiv.org/abs/2106.03253
+    - id: 3
+      citation: Hollmann, N., Müller, S., Purucker, L., Krishnakumar, A., et al. (2025). Accurate predictions
+        on small data with a tabular foundation model. Nature, 637, 319–326.
+      url: https://www.nature.com/articles/s41586-024-08328-6
+    - id: 4
+      citation: 'Xu, K., Zhang, M., Li, J., Du, S. S., Kawarabayashi, K., & Jegelka, S. (2020). How neural
+        networks extrapolate: From feedforward to graph neural networks. arXiv:2009.11848.'
+      url: https://arxiv.org/abs/2009.11848
+    - id: 5
+      citation: Geirhos, R., Jacobsen, J.-H., Michaelis, C., Zemel, R., Brendel, W., Bethge, M., & Wichmann,
+        F. A. (2020). Shortcut learning in deep neural networks. Nature Machine Intelligence, 2. arXiv:2004.07780.
+      url: https://arxiv.org/abs/2004.07780
+    - id: 6
+      citation: Lake, B. M., Ullman, T. D., Tenenbaum, J. B., & Gershman, S. J. (2017). Building machines
+        that learn and think like people. Behavioral and Brain Sciences, 40, e253. arXiv:1604.00289.
+      url: https://arxiv.org/abs/1604.00289
+    - id: 7
+      citation: Chollet, F. (2019). On the measure of intelligence. arXiv:1911.01547.
+      url: https://arxiv.org/abs/1911.01547
+    - id: 8
+      citation: 'Marcus, G. (2018). Deep learning: A critical appraisal. arXiv:1801.00631.'
+      url: https://arxiv.org/abs/1801.00631
+- id: 2026-11-12-ai-strong-weak
+  date: '2026-11-12'
+  category: ai
+  title_zh: 「强人工智能」和「弱人工智能」有什么区别？
+  title_en: What is the difference between strong-AI and weak-AI?
+  commentary: 看似只是术语辨析，背后却是心灵哲学的核心分歧：一个会说话的程序，是在「理解」，还是只在「模拟理解」？大语言模型让这场 1980 年开始的争论重新变得紧迫。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/74/what-is-the-difference-between-strong-ai-and-weak-ai
+  author: WilliamKF
+  source_type: stackexchange
+  tags:
+  - 心灵哲学
+  - 中文屋
+  - 理解
+  - 通用人工智能
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 术语有公认的经典出处，但用法已经分化；「机器能否真正理解」本身没有共识
+      note: 「强 AI / 弱 AI」的经典定义出自 Searle 1980 年的论文。[1][2] 哲学文献中的区分关心的是「是否真有心智」，与「窄 AI / 通用人工智能（AGI）」这条关于能力广度的轴不同；SEP
+        的人工智能词条把这两组概念分开讨论。[3] 至于语言模型能否「理解」，2022 年对自然语言处理研究者的调查中，480 名回答者几乎恰好一半同意、一半反对。[4][5]
+    summary: Searle 在 1980 年区分了两种立场。按照弱 AI（或「谨慎的 AI」），计算机在心灵研究中的主要价值是充当一件强大的工具，帮助我们更严格地表述和检验假说。按照强 AI，恰当编程的计算机本身就是一个心灵：只要有正确的程序，就可以字面意义上说它理解、拥有其他认知状态。[1]
+      Searle 不反对弱 AI，他的中文屋论证针对的是强 AI。[1][2] SEP 的中文屋词条强调，这一论证并不试图证明「机器不能思考」，因为 Searle 认为大脑就是机器，而大脑会思考。它针对的是「对符号的形式计算能产生思想」这一观点。[2]
+      SEP 人工智能词条换了一种表述：强 AI 试图造出拥有我们全部心智能力（包括现象意识）的人造人；弱 AI 则试图造出「看起来」拥有人类全部心智能力的信息处理机器。[3] 由此可见，在哲学用法中，弱
+      AI 并不等于「只会做一件事的窄 AI」：一个能通过完全图灵测试的系统，仍可能只是「弱 AI」。日常和产业语境中，人们常把「强 AI」当作通用人工智能的同义词，这是另一条区分轴。SEP 词条在讨论
+      AI 只在狭窄领域取得成就时，另行介绍了「通用人工智能」运动。[3] 大语言模型出现后，这个问题从术语之争变成了经验和理论之争：Mitchell 与 Krakauer 综述了「LLM 是否以任何类人的意义理解语言」这一激烈争论；[4]
+      Chalmers 认为当前模型有意识的可能性不大，但其后继者在不远的将来可能有意识，这一可能性值得认真对待。[6]
+    definitions:
+    - term: 强 AI（Searle 定义）
+      text: 认为恰当编程的计算机「真的就是一个心灵」，即拥有正确程序的计算机可以字面意义上被说成能理解、具有认知状态，并且程序本身就是对人类认知的解释。[1]
+    - term: 弱 AI（Searle 定义）
+      text: 认为计算机在心灵研究中的主要价值是作为强大的工具，用于更严格地表述和检验假说。[1]
+    - term: 中文屋论证
+      text: Searle 设想自己独自在房间里，按照程序处理从门缝塞进来的中文字符并给出合适回答，自己却完全不懂中文。他由此论证：仅凭执行程序（只操作语法），任何计算机都不会真正理解中文。[2]
+    milestones:
+    - year: '1980'
+      name: Searle《Minds, brains, and programs》
+      explanation: 在 Behavioral and Brain Sciences 发表，提出强 AI / 弱 AI 的区分与中文屋论证，并附同行评论。[1][2]
+    - year: '2022'
+      name: NLP 社区元调查
+      explanation: Michael 等人的调查显示，研究者在语言模型是否理解语言等问题上几乎对半分裂。[5]
+    - year: '2023'
+      name: LLM 理解之争的综述
+      explanation: Mitchell 与 Krakauer 在 PNAS 发表视角文章，梳理正反论证。[4]
+    views:
+    - position: 强 AI 不可能仅靠程序实现：语法不足以产生语义
+      consensus_role: 经典反方立场（影响极大，也极具争议）
+      evidence:
+        label: 思想实验（概念论证）
+        note: 中文屋是哲学论证而非实验，它的效力取决于对「理解」和「系统」的直觉；SEP 词条记录了大量反驳与再反驳。[2]
+      holders:
+      - name: John R. Searle
+        identity: 美国哲学家（1932–2025），发表论文时任职于加州大学伯克利分校哲学系。[1][2]
+      argument: Searle 论证说，房间里的人按规则操作中文符号，给出的回答与母语者无法区分，但他一个中文字也不懂。计算机执行程序时做的正是同样的事：只依据符号的形式（语法）操作。因此，没有任何计算机仅凭执行程序就能真正理解。[2]
+        他由此得出结论：任何试图人为产生意向性的尝试，都不能只靠设计程序，而必须复制人脑的因果能力。[1]
+      quotes:
+      - text: But according to strong AI, the computer is not merely a tool in the study of the mind;
+          rather, the appropriately programmed computer really is a mind, in the sense that computers
+          given the right programs can be literally said to understand and have other cognitive states.
+        text_zh: 但按照强 AI，计算机不仅仅是研究心灵的工具；恰当编程的计算机真的就是一个心灵，也就是说，拥有正确程序的计算机可以字面意义上被说成能理解、并具有其他认知状态。
+        attribution: John R. Searle，Behavioral and Brain Sciences（1980）
+        locator: 正文第一段（原刊第 3 卷第 417 页起）
+        ref: 1
+      - text: The Chinese Room argument is not directed at weak AI, nor does it purport to show that no
+          machine can think – Searle says that brains are machines, and brains think.
+        text_zh: 中文屋论证并不针对弱 AI，也不打算证明没有机器能思考。Searle 说，大脑就是机器，而大脑会思考。
+        attribution: David Cole，Stanford Encyclopedia of Philosophy「The Chinese Room Argument」
+        locator: 第 3 节「The Chinese Room Argument」
+        ref: 2
+    - position: 系统回应：房间里的人不懂中文，但整个系统懂
+      consensus_role: 最常见的反驳
+      evidence:
+        label: 概念论证
+        note: 与中文屋一样是哲学论证；SEP 记录 Searle 本人称之为「也许最常见的回应」。[2]
+      holders:
+      - name: Ned Block、Daniel Dennett、Douglas Hofstadter 等
+        identity: 据 SEP 中文屋词条，属于最早提出或支持「系统回应」的一批学者，同列者还有 Jack Copeland、Jerry Fodor、John Haugeland、Ray
+          Kurzweil、Georges Rey。[2]
+      argument: 系统回应承认房间里的人不懂中文，但认为这个人只是更大系统中的一个部件，相当于中央处理器。整个系统包括巨大的数据库、记录中间状态的草稿纸和全部指令，作为整体的系统可能懂中文。[2]
+        换言之，「执行者不懂」推不出「系统不懂」，正如单个神经元不懂中文，并不意味着人脑不懂中文。
+    - position: 大语言模型时代：「理解」成了开放的经验与理论问题
+      consensus_role: 当前研究界的分裂状态
+      evidence:
+        label: 调查数据 + 综述
+        note: NLP 元调查样本为自愿参与的研究者（n = 480，就该题而言），能反映分歧，但不代表全体；[4][5] Chalmers 的判断是基于主流意识理论的概率性哲学论证。[6]
+      holders:
+      - name: Melanie Mitchell、David C. Krakauer
+        identity: 《The debate over understanding in AI’s large language models》（PNAS, 2023）作者。[4]
+      - name: Julian Michael 等
+        identity: 《What Do NLP Researchers Believe? Results of the NLP Community Metasurvey》作者。[5]
+      - name: David J. Chalmers
+        identity: 《Could a Large Language Model be Conscious?》作者（基于 NeurIPS 2022 特邀报告）。[6]
+      argument: Mitchell 与 Krakauer 指出，争论的一方认为把理解或意识归于 LLM 是「ELIZA 效应」：人类倾向于把理解和能动性归于哪怕只表现出一点类人语言的机器。另一方则依据模型在各类测评上的表现。[4]
+        他们主张发展一门更广的智能科学，以刻画不同的理解模式及其优劣。[4] Chalmers 列出当前模型在意识方面的障碍，如缺乏循环加工、全局工作空间和统一的能动性，同时认为这些障碍可能在未来十年左右被克服。[6]
+      quotes:
+      - text: Of 480 people responding, essentially half (51%) agreed, and the other half (49%) disagreed
+        text_zh: 在 480 名回答者中，基本上一半（51%）同意，另一半（49%）不同意。
+        attribution: Mitchell 与 Krakauer，PNAS（2023），转述 2022 年 NLP 社区元调查
+        locator: 正文「理解之争」相关段落
+        ref: 4
+      - text: I conclude that while it is somewhat unlikely that current large language models are conscious,
+          we should take seriously the possibility that successors to large language models may be conscious
+          in the not-too-distant future.
+        text_zh: 我的结论是：虽然当前的大语言模型有意识的可能性不大，但我们应当认真对待这样一种可能性，即大语言模型的后继者可能在不远的将来具有意识。
+        attribution: David J. Chalmers（2023）
+        locator: 摘要（arXiv:2303.07103）
+        ref: 6
+    open_parts: 第一，「理解」应当如何操作化定义和测量，目前没有公认标准，这也是 NLP 研究者对半分裂的部分原因。[4][5] 第二，即使行为上无法区分，是否还存在「真理解」与「模拟理解」的事实差别，这正是
+      Searle 与系统回应之争的核心，至今没有被普遍接受的论证能够终结它。[2] 第三，「强 AI」被等同于 AGI 的日常用法会把「能力有多广」与「是否有心智」混为一谈，讨论时需要先说清用的是哪种含义。[1][3]
+    references:
+    - id: 1
+      citation: Searle, J. R. (1980). Minds, brains, and programs. Behavioral and Brain Sciences, 3(3),
+        417–457. 本文据华盛顿大学课程网站托管的文本核对引文。
+      url: https://courses.washington.edu/info300/searle.pdf
+    - id: 2
+      citation: Cole, D. (2024). The Chinese Room Argument. In E. N. Zalta & U. Nodelman (Eds.), Stanford
+        Encyclopedia of Philosophy（2024 年 10 月 23 日实质修订版）。
+      url: https://plato.stanford.edu/entries/chinese-room/
+    - id: 3
+      citation: Bringsjord, S., & Govindarajulu, N. S. (2018). Artificial Intelligence. Stanford Encyclopedia
+        of Philosophy. §8.1「“Strong” versus “Weak” AI」。
+      url: https://plato.stanford.edu/entries/artificial-intelligence/
+    - id: 4
+      citation: Mitchell, M., & Krakauer, D. C. (2023). The debate over understanding in AI’s large language
+        models. Proceedings of the National Academy of Sciences, 120(13), e2215907120. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10068812/
+    - id: 5
+      citation: Michael, J., Holtzman, A., Parrish, A., et al. (2022). What do NLP researchers believe?
+        Results of the NLP Community Metasurvey. arXiv:2208.12852.
+      url: https://arxiv.org/abs/2208.12852
+    - id: 6
+      citation: Chalmers, D. J. (2023). Could a large language model be conscious? arXiv:2303.07103.
+      url: https://arxiv.org/abs/2303.07103
+- id: 2026-11-12-phil-quantum-determinism
+  date: '2026-11-12'
+  category: philosophy
+  title_zh: 量子力学否证了决定论吗？
+  title_en: Does quantum mechanics disprove determinism?
+  commentary: 流行说法是「量子力学证明了世界是随机的」。物理哲学的回答更微妙：量子力学的核心方程本身是决定性的，随机性从哪里来，取决于你接受哪一种诠释。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/1210/does-quantum-mechanics-disprove-determinism
+  author: glifchits
+  source_type: stackexchange
+  tags:
+  - 决定论
+  - 量子诠释
+  - 玻姆力学
+  - 测量问题
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「量子力学并未否证决定论」是物理哲学文献的主流判断；物理学家对诠释的选择高度分裂
+      note: Hoefer 在 SEP 中指出，量子力学是否是决定论的，完全取决于采取何种诠释和哲学立场：没有坍缩的诠释和玻姆力学是决定论的，而假设随机坍缩的诠释则不是。[1] Nature 2025
+        年的调查共有 1,101 名有效受访者，以物理学家为主：36% 选择哥本哈根诠释，只有 24% 认为自己选择的诠释是正确的；对于波函数，36% 认为它代表某种真实存在，47% 认为它只是有用的工具。[2][3]
+        2013 年发表的一项民调（2011 年 7 月对一次量子基础会议 33 名与会者的调查）中，48% 认为个别量子事件的随机性不可约，没有人选择「存在隐藏的决定论」。[4] 后者样本很小，且允许多选。
+    summary: 流行的说法是：放射性衰变、光子的发射与吸收等现象只能作概率描述，即使对一个镭原子作最完整的描述，也不能确定它何时衰变；爱因斯坦希望用隐变量恢复决定论，但「后来的工作证明这种隐变量理论不可能存在」。Hoefer
+      认为，这个故事「部分是错误或误导的」。[1] 非相对论量子力学的基本定律是薛定谔方程，波函数在它支配下的演化通常被认为是完全决定性的。[1] 随机性来自测量问题的处理方式。若像 20 世纪更常见的做法那样，假设测量时波函数发生「坍缩」，并按玻恩规则给出各结果的概率，理论就是非决定论的。但
+      Hoefer 指出，坍缩过程在物理上没有良好定义，又借助「测量」这样带人类中心色彩的概念，很少有人把它当作自然的基本定律，除非对理论持工具主义态度。[1] 若认为薛定谔演化从不中断，坍缩只是由退相干造成的表观现象（如多世界诠释），量子力学就是完全决定论的。[1]
+      玻姆 1952 年构建的理论则为粒子补上确定的位置，再加一条导引方程，同样是决定论的，并且在「量子平衡」条件下与标准量子力学在经验上等价。[1] 因此，现有实验不能在这几种诠释之间作出裁决。[1]
+      回到提问者的困惑：不确定性原理本身并不直接等于「自然是非决定论的」，关键在于你如何解释测量。
+    definitions:
+    - term: 决定论（因果决定论）
+      text: 粗略地说，世界在某一时刻的完整状态加上自然律，唯一地确定此后的全部状态。[1]
+    - term: 测量问题与坍缩
+      text: 薛定谔方程本身是决定性的，但测量只给出一个确定结果。许多诠释为此假设测量时波函数发生不确定的「坍缩」，各结果的概率由玻恩规则给出。[1]
+    - term: 玻姆力学（导航波理论）
+      text: 假设所有粒子在任何时刻都有确定的位置和速度，由薛定谔方程与一条额外的导引方程共同决定其运动；在「量子平衡」条件下，其统计预测与标准量子力学一致。[1]
+    milestones:
+    - year: '1952'
+      name: 玻姆的决定论隐变量理论
+      explanation: David Bohm 为非相对论量子力学构建了决定论的替代框架，实现了爱因斯坦式的隐变量设想，并与哥本哈根量子力学经验等价。[1]
+    - year: '2006'
+      name: Conway–Kochen「自由意志定理」
+      explanation: 在三条物理公理下证明：若实验者对某类自旋实验的选择不是其可获信息的函数，则粒子的响应也不是它可获信息的函数。[5]
+    - year: 2011–2013
+      name: 量子基础会议民调
+      explanation: Schlosshauer、Kofler 与 Zeilinger 在 2011 年 7 月对一次会议 33 名与会者所作、2013 年发表的调查显示，在随机性等基础问题上缺乏共识。[4]
+    - year: '2025'
+      name: Nature 量子诠释大调查
+      explanation: 量子力学百年之际，Nature 向一万五千多名研究者发出邀请，收到 1,101 份有效回答，显示诠释选择高度分裂。[2][3]
+    views:
+    - position: 量子事件本质随机：自然是非决定论的
+      consensus_role: 教科书与多数物理学家的默认立场
+      evidence:
+        label: 主流诠释 + 定理（但依赖前提）
+        note: 坍缩诠释在经验上成功，但无法与决定论诠释在实验上区分；[1] 自由意志定理是严格定理，但其结论依赖「实验者选择自由」等公理。[5] 民调数据反映信念而非证明。[2][4]
+      holders:
+      - name: John Conway、Simon Kochen
+        identity: 《The Free Will Theorem》（2006）作者。[5]
+      - name: 哥本哈根诠释的支持者
+        identity: Nature 2025 年调查中最大的群体（36%），但其中很多人并不确信该诠释正确。[2]
+      argument: 按照标准的坍缩表述，量子理论不说在个别情形中会发生什么，只给出各种结果的概率，概率由玻恩规则从波函数算出。[1] Conway 与 Kochen 更进一步：在三条物理公理下，如果实验者对测量方式的选择不是此前信息的函数，那么粒子的响应也不是。他们还推出，隐变量理论和
+        GRW 类型的坍缩机制都不能做成相对论性的。[5]
+      quotes:
+      - text: On the basis of three physical axioms, we prove that if the choice of a particular type
+          of spin 1 experiment is not a function of the information accessible to the experimenters, then
+          its outcome is equally not a function of the information accessible to the particles.
+        text_zh: 基于三条物理公理，我们证明：如果对某一类自旋 1 实验的选择不是实验者可获得信息的函数，那么其结果同样不是粒子可获得信息的函数。
+        attribution: John Conway 与 Simon Kochen（2006）
+        locator: 摘要（arXiv:quant-ph/0604079）
+        ref: 5
+    - position: 量子力学可以是完全决定论的（无坍缩诠释、玻姆力学）
+      consensus_role: 物理哲学中被严肃对待的少数立场
+      evidence:
+        label: 数学上自洽、经验上等价的理论
+        note: 玻姆力学在非相对论情形下与标准量子力学经验等价；[1] 但 Hoefer 也提到，Wallace（2020）论证玻姆力学及其扩展尚不能替代标准模型的量子场论，而 Bell 的一种扩展方案会把理论变成随机的。[1]
+      holders:
+      - name: David Bohm
+        identity: 1952 年提出决定论的隐变量（导航波）理论。[1]
+      - name: 多世界 / 一致历史与玻姆导航波的支持者
+        identity: Nature 2025 年调查中都有可观的支持者（具体比例见 [2]）。[2]
+      argument: Hoefer 写道：如果采取「仅此而已」的诠释，即薛定谔演化从不被打断，由方程支配的波函数讲述了完整的物理故事，那么量子力学就是一个完全决定论的理论。[1] 玻姆理论则保留粒子轨迹：给定波函数与粒子的初始位置和速度，导引方程决定其未来，因此它和任何经典点粒子理论一样是决定论的。[1]
+        在这些图景中，测量结果看起来随机，只是因为我们不知道（或原则上无法得知）全部初始条件或所处分支。
+      quotes:
+      - text: Ironically, quantum mechanics is one of the best prospects for a genuinely deterministic
+          theory in modern times. Everything hinges on what interpretational and philosophical decisions
+          one adopts.
+        text_zh: 具有讽刺意味的是，量子力学是现代最有希望成为真正决定论理论的候选者之一。一切都取决于人们采取什么样的诠释和哲学立场。
+        attribution: Carl Hoefer，Stanford Encyclopedia of Philosophy「Causal Determinism」
+        locator: §4.4 Quantum mechanics
+        ref: 1
+    - position: 决定论问题可能无法由物理理论本身裁决
+      consensus_role: 物理哲学中的审慎结论
+      evidence:
+        label: 概念分析
+        note: 基于「存在经验等价但决定论性质不同的理论」这一事实；[1] 它不是经验发现，而是关于证据能告诉我们什么的元论证。
+      holders:
+      - name: Carl Hoefer
+        identity: SEP「Causal Determinism」词条作者（2023 年实质修订）。[1]
+      argument: Hoefer 总结说，对几个主要物理理论的考察并没有告诉我们决定论在我们的世界中是否为真。即使将来拿到了「终极理论」，也可能出现两种麻烦：一是理论带着未解决的诠释或数学难题，难以判定它是否决定论；二是即使终极理论是非决定论的，也可能存在一个经验等价的决定论对手，玻姆力学就是例子。[1]
+        这也牵涉概率的本性：如果玻姆版本的量子力学正确，玻恩规则给出的概率就不是不可约的。[1]
+      quotes:
+      - text: If a Bohmian version of QM is correct, then the probabilities dictated by the Born rule
+          are not irreducible.
+        text_zh: 如果玻姆版本的量子力学是正确的，那么玻恩规则所规定的概率就不是不可约的。
+        attribution: Carl Hoefer，Stanford Encyclopedia of Philosophy
+        locator: §5 Chance and Determinism
+        ref: 1
+    open_parts: 第一，测量问题没有解决：坍缩是真实的物理过程、表观现象，还是根本不存在，物理学界没有共识，而这直接决定了量子力学是否是决定论的。[1][2] 第二，决定论诠释能否推广到量子场论和引力，尤其是玻姆力学能否覆盖标准模型，仍有争议。[1]
+      第三，即使量子力学是非决定论的，它对自由意志有何意义也是另一个问题：随机性本身并不等于自主选择。
+    references:
+    - id: 1
+      citation: Hoefer, C. (2023). Causal Determinism. In E. N. Zalta & U. Nodelman (Eds.), Stanford Encyclopedia
+        of Philosophy（2023 年 9 月 21 日实质修订版），§4.4、§5。
+      url: https://plato.stanford.edu/entries/determinism-causal/
+    - id: 2
+      citation: Gibney, E. (2025). Physicists disagree wildly on what quantum mechanics says about reality,
+        Nature survey shows. Nature, 643, 1175–1179. doi:10.1038/d41586-025-02342-y（2025 年 8 月 12 日有更正）。正文需订阅，本文据该文印刷版
+        PDF 核对数字。
+      url: https://www.nature.com/articles/d41586-025-02342-y
+    - id: 3
+      citation: Nature (2025). Quantum survey methodology（Nature 量子诠释调查方法说明，PDF）。
+      url: https://media.nature.com/original/magazine-assets/d41586-025-02342-y/51289210
+    - id: 4
+      citation: Schlosshauer, M., Kofler, J., & Zeilinger, A. (2013). A snapshot of foundational attitudes
+        toward quantum mechanics. arXiv:1301.1069.
+      url: https://arxiv.org/abs/1301.1069
+    - id: 5
+      citation: Conway, J., & Kochen, S. (2006). The free will theorem. arXiv:quant-ph/0604079.
+      url: https://arxiv.org/abs/quant-ph/0604079
+- id: 2026-11-12-phil-lion-evil
+  date: '2026-11-12'
+  category: philosophy
+  title_zh: 为什么狮子捕杀猎物不算「恶」？
+  title_en: Why is a lion not evil?
+  commentary: 提问者不接受「它靠本能、它得吃饭」的标准答案，因为人也常凭本能作恶。这道题逼我们说清楚：道德评价究竟要求行动者具备什么能力？
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/51603/why-is-a-lion-not-evil
+  author: Deoro
+  source_type: stackexchange
+  tags:
+  - 道德能动性
+  - 动物伦理
+  - 恶的概念
+  - 道德责任
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「狮子不是道德行动者，所以捕猎不构成道德上的恶」是传统主流；但道德行动者的门槛，以及动物能否成为「道德主体」，正在被重新讨论
+      note: 这是概念分析问题，没有可量化的共识数据。本文依据 SEP 两个词条的综述 [1][2] 和一篇哲学评论文章 [3]。SEP「Animal Normativity」指出，从亚里士多德以来，「只有人是规范性动物」几乎是西方哲学的固定点，但近几十年这一点受到越来越多的质疑。[1]
+    summary: 先区分两种「恶」。Calder 在 SEP 中说明，广义的恶指任何坏的事态、错误行为或品格缺陷，又分为自然恶与道德恶：自然恶是并非出于道德行动者意图或疏忽的坏事态，如飓风和牙痛；道德恶则出于道德行动者的意图或疏忽，如谋杀和说谎。[2]
+      按这一区分，羚羊被咬死所受的痛苦可以算广义的恶（自然恶），但说狮子「作恶」需要它是道德行动者。按照标准看法，道德行动者是能对自己的行为负道德责任、能在相关情境下被赞扬或谴责的存在。[1] 传统上，哲学家要求道德行动者能理解自己在做什么、为什么做、该不该这样做，也就是能作道德判断、能反思道德要求。所以幼儿和严重认知障碍者通常被视为缺乏道德能动性。[1]
+      提问者的质疑恰好击中了这一传统观点的软肋。SEP 指出，成年人也常被强烈情绪和无意识过程驱动，我们却仍然认为他们应负道德责任；黑猩猩也确实能抑制冲动、预见行为的许多后果。门槛定得太高会排除太多人类，定得太低则会让某些动物成为道德行动者。[1]
+      Rowlands 提出折中方案：动物即使不是道德行动者，也可以是「道德主体」，即至少有时出于道德理由行动。[1] 至于「必要性」，它本身并不是关键：即使狮子不必吃肉，只要它缺乏理解道德理由的能力，谴责它仍然不恰当。另一方面，McMahan
+      提醒，狮子无可指责，并不意味着捕食造成的痛苦不是坏事。[3]
+    definitions:
+    - term: 道德行动者（moral agent）
+      text: 能够对其行为（或不作为）负道德责任，并能在相关情境下被赞扬、谴责或作其他道德评价的存在。[1] 能动性是必要条件，但不是充分条件。
+    - term: 道德主体（moral subject）
+      text: Rowlands 提出的范畴：至少有时出于道德理由而行动，但不一定是道德行动者（即不一定应负道德责任）。[1]
+    - term: 自然恶与道德恶
+      text: 自然恶是并非出于道德行动者意图或疏忽的坏事态；道德恶则出于道德行动者的意图或疏忽。[2]
+    views:
+    - position: 传统观点：狮子缺乏反思能力，不是道德行动者，因此不可谴责
+      consensus_role: 西方哲学的传统主流
+      evidence:
+        label: 概念论证（哲学传统）
+        note: 依据是对道德责任条件的分析，而不是经验发现；SEP 指出这一观点难以同时解释许多人类的道德责任案例。[1]
+      holders:
+      - name: Christine M. Korsgaard
+        identity: 据 SEP，是为道德心理学设定「反思条件」的代表之一，见其《Morality and the Distinctiveness of Human Action》（收于《Primates
+          and Philosophers》，2006）。[1][4]
+      - name: Beth Dixon
+        identity: '《Animals, Emotion, and Morality: Marking the Boundary》（2008）作者；SEP 同处将其列为持反思条件者。[1]'
+      argument: 只有能对自己的动机和行为作自觉反思的存在，才能负道德责任，因而才可能拥有道德心理。[1] 狮子按本能捕猎，不能问自己「我应不应该这样做」，所以它的行为可以造成伤害（因果责任），却谈不上道德上的对错（道德责任）。[1]
+        SEP 也提到一个常见理由：中世纪欧洲曾审判和处罚动物，这种做法的荒谬性常被用作否认动物是道德行动者的理由。[1]
+      quotes:
+      - text: 'A standard conception of moral agency holds that moral agents: (1) can be held morally
+          responsible for their actions (or omissions), and (2) can be praised, blamed, or otherwise morally
+          evaluated in relevant circumstances (Rowlands 2012).'
+        text_zh: 关于道德能动性的标准观念认为，道德行动者：（1）能够为其行为（或不作为）承担道德责任；（2）在相关情境下能够被赞扬、谴责或以其他方式受到道德评价（Rowlands 2012）。
+        attribution: Simon Fitzpatrick，Stanford Encyclopedia of Philosophy「Animal Normativity」
+        locator: §2.3 Animal moral agency
+        ref: 1
+    - position: 门槛并不清晰：道德能动性可能是分级的，动物可以是「道德主体」
+      consensus_role: 近年的重要挑战
+      evidence:
+        label: 概念论证 + 动物行为学证据
+        note: 论证依赖对人类边缘案例（儿童、情绪驱动者、成瘾者）的类比，以及对灵长类等动物认知能力的经验研究；[1] 这些研究主要涉及社会性较强的动物，未必适用于狮子捕猎这类跨物种情境。[1]
+      holders:
+      - name: Mark Rowlands
+        identity: 《Can Animals Be Moral?》（2012）作者，提出「道德主体」范畴。[1][5]
+      - name: Behdadi、Pluhar、DeGrazia 等
+        identity: 据 SEP，主张道德能动性可分级或依赖社会情境，从而为动物的道德能动性留出空间。[1]
+      argument: Rowlands 认为，道德动机与道德责任可以而且应当分开。他反驳的论证模式是：只有能审视自身动机、从而控制动机的行动者，其动机才能提供道德理由。在他看来，在一阶心理状态之上加一层元认知，并不能解释行动者为何更能控制动机，只是把控制问题推到了更高一层。[1]
+        他主张，只要动物的动机状态系统地追踪着道德上相关的特征（例如「这个生物的痛苦是坏的」），它就可以出于道德理由行动。[1] SEP 还讨论了另一种思路：把道德能动性相对化到物种和群体之内。动物在自己的群体中也许有道德标准，但在捕食其他物种时则不适用。[1]
+        狮子捕猎羚羊恰好落在这种「跨物种」情境中。
+      quotes:
+      - text: A moral subject at least sometimes acts for moral reasons, even if they lack moral agency.
+        text_zh: 道德主体至少有时出于道德理由而行动，即使他们缺乏道德能动性。
+        attribution: Simon Fitzpatrick，Stanford Encyclopedia of Philosophy
+        locator: §2.3.1 Moral subjects
+        ref: 1
+    - position: 狮子无可指责，但捕食带来的痛苦仍然是坏事
+      consensus_role: 有争议的伦理立场（野生动物苦难问题）
+      evidence:
+        label: 规范伦理论证（评论文章）
+        note: McMahan 的文章发表于《纽约时报》哲学专栏 The Stone，是面向公众的论证，而非同行评议论文；结论（人类是否应干预自然捕食）争议很大，作者本人也强调不得造成更坏的后果。[3]
+      holders:
+      - name: Jeff McMahan
+        identity: 发表时为罗格斯大学哲学教授（据文末作者介绍）。[3]
+      argument: 这一立场把「谁该受谴责」与「发生的事好不好」分开：狮子不是道德行动者，但猎物的痛苦是自然恶，是真实的坏事。[2][3] McMahan 认为，即使我们没有道德义务去阻止并非由我们造成的野生动物苦难，我们也有阻止它的道德理由；主要约束是行动不能带来比所阻止的更坏的后果。[3]
+      quotes:
+      - text: But if suffering is bad for animals when we cause it, it is also bad for them when other
+          animals cause it.
+        text_zh: 但如果痛苦在由我们造成时对动物是坏的，那么当它由其他动物造成时，对它们也同样是坏的。
+        attribution: Jeff McMahan，《The Meat Eaters》，The New York Times「The Stone」（2010）
+        locator: 正文
+        ref: 3
+      - text: Natural evils are bad states of affairs which do not result from the intentions or negligence
+          of moral agents.
+        text_zh: 自然恶是并非由道德行动者的意图或疏忽所导致的坏事态。
+        attribution: Todd Calder，Stanford Encyclopedia of Philosophy「The Concept of Evil」
+        locator: 引言部分
+        ref: 2
+    open_parts: 第一，道德能动性是全有或全无，还是有程度之分；若有程度，它的标准是什么，目前没有共识。[1] 第二，动物群体内部的「道德」与跨物种行为（如捕食）能否用同一套标准评价。[1]
+      第三，若捕食的痛苦是坏事，人类是否有理由、又能否在不造成更大伤害的前提下干预，这一「野生动物苦难」问题争议很大。[3]
+    references:
+    - id: 1
+      citation: Fitzpatrick, S. (2026). Animal Normativity. In Stanford Encyclopedia of Philosophy（2026
+        年 8 月 24 日首次发布），§1、§2.3、§2.3.1。
+      url: https://plato.stanford.edu/entries/animal-normativity/
+    - id: 2
+      citation: Calder, T. (2022). The Concept of Evil. In Stanford Encyclopedia of Philosophy（2022 年
+        10 月 3 日实质修订版）。
+      url: https://plato.stanford.edu/entries/concept-evil/
+    - id: 3
+      citation: McMahan, J. (2010, September 19). The meat eaters. The New York Times, Opinionator「The
+        Stone」.
+      url: https://archive.nytimes.com/opinionator.blogs.nytimes.com/2010/09/19/the-meat-eaters/
+    - id: 4
+      citation: 'Korsgaard, C. M. (2006). Morality and the distinctiveness of human action. In S. Macedo
+        & J. Ober (Eds.), Primates and Philosophers: How Morality Evolved. Princeton University Press.
+        书目据 [1]；本次未打开原文。'
+      url: null
+    - id: 5
+      citation: 'Rowlands, M. (2012). Can Animals Be Moral? New York: Oxford University Press. 书目据 [1]；本次未打开原文。'
+      url: null
+- id: 2026-11-12-psych-isolated-language
+  date: '2026-11-12'
+  category: psychology
+  title_zh: 如果婴儿在没有人对他们说话的环境中长大，他们会自己发明语言吗？
+  title_en: If babies were isolated, would they develop their own language?
+  commentary: 这是有记载以来最古老的「心理学实验」设想之一：希罗多德就写过一位法老真的这样做了。今天它当然不能做，但聋童自创手语的「自然实验」给出了出人意料的答案。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/18714/if-babies-were-isolated-would-they-develop-their-own-language
+  author: John
+  source_type: stackexchange
+  tags:
+  - 语言起源
+  - 手语
+  - 语言习得
+  - 文化演化
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「儿童会自发创造具有语言结构的交流系统」证据较强；「两个完全被隔离的婴儿能否发展出完整语言」没有直接证据，也不可能用实验检验
+      note: 证据来自三类自然实验：听人父母家中缺乏手语输入的聋童会自创带有句法结构的手势系统（homesign）；[3] 尼加拉瓜新聚集的聋童群体在几十年内逐代形成了尼加拉瓜手语；[1] 以色列一个贝都因社群的手语在一代人之内就出现了系统的语序。[2]
+        但这些都不是「完全没有输入」：孩子有照料者，接触周围人的手势，往往还有同伴社群。所以它们只能间接回答提问者的设想。故意隔离儿童在伦理上不可接受。
+    summary: 提问者设想把两个或更多婴儿从出生起放在没有成人说话的环境中，只提供食物和照料，问他们十几年后会不会发展出自己的语言。历史上真有人设想过这个实验：希罗多德记载，埃及国王普萨美提克一世把两个新生儿交给牧人抚养，命令谁都不许在他们面前说话，想看他们最先说出什么话。两年后孩子喊出「bekos」，国王认定这是弗里吉亚语的「面包」，于是承认弗里吉亚人比埃及人更古老。[5]
+      这个故事背后的假设是：孩子会自动说出某种「最初的语言」。现代证据否定了这一点，却支持一个更有意思的结论：孩子会创造新的语言结构。Goldin-Meadow 与 Mylander 观察了美国和中国两地缺乏可用语言输入的聋童，发现他们自创的手势系统在句子和词两个层面都有结构，而且两种文化中的系统有许多共同点。[3]
+      Senghas、Kita 与 Özyürek 研究尼加拉瓜手语：这门语言是过去约 25 年里聋童聚集后创造出来的。最早的孩子已经把复杂事件分解成基本元素，并按层级结构重新组合；后续各代学习者又扩展了这一过程，把早期的手势形式变成了语言系统。[1]
+      Sandler 等人记录了 Al-Sayyid 贝都因手语，它在一个封闭社群中大约 70 年内出现，一代人之内就形成了与周围口语和手语都不同的系统语序。[2] Kirby、Cornish 与
+      Smith 的实验室研究则显示，单是一代代传递，人工语言就会变得更易学、更有结构，不需要任何人有意设计。[4] 综合来看，孩子很可能会发展出某种结构化的交流系统；但完整语言的许多特征似乎需要群体和代际传递才能逐步成形。
+    definitions:
+    - term: 家庭手语（homesign）
+      text: 听人家庭中的聋童在缺乏可用语言输入时自发创造的手势交流系统；它在句子和词的层面都有类似自然语言的结构。[3]
+    - term: 迭代学习（iterated learning）
+      text: 一种实验范式：一代学习者从上一代的输出中学习一门人工语言，再把自己的输出传给下一代，以此观察语言结构如何在文化传递中涌现。[4]
+    milestones:
+    - year: 公元前 5 世纪（记载）
+      name: 普萨美提克的「禁言」实验
+      explanation: 希罗多德《历史》第 2 卷第 2 节记载了这则故事，并说明是从孟斐斯的祭司那里听来的。[5]
+    - year: '1998'
+      name: 两种文化中的家庭手语
+      explanation: Goldin-Meadow 与 Mylander 在 Nature 报告美国与中国聋童自创的手势系统有共同的结构特征。[3]
+    - year: '2004'
+      name: 尼加拉瓜手语的诞生
+      explanation: Senghas 等人在 Science 报告，儿童在创造语言之初就把事件分解为元素并按层级组合，这是周围人说话时的伴随手势所没有的。[1]
+    - year: '2005'
+      name: Al-Sayyid 贝都因手语的语序
+      explanation: Sandler 等人在 PNAS 报告，一门约 70 年历史的新手语在一代人之内出现了系统的语法结构。[2]
+    - year: '2008'
+      name: 实验室中的累积文化演化
+      explanation: Kirby 等人用迭代学习证明，人工语言在传递中变得更易学、更有结构。[4]
+    views:
+    - position: 儿童天生具有给交流系统赋予语言结构的学习能力
+      consensus_role: 有较强自然实验证据的主流解释之一
+      evidence:
+        label: 自然实验（观察研究，发表于 Science、Nature）
+        note: 聋童自创手势与新兴手语提供了少有的「无现成语言输入」情境；[1][3] 但样本量有限，且儿童仍接触周围人的手势，不能完全排除环境输入的贡献。[3]
+      holders:
+      - name: Ann Senghas、Sotaro Kita、Aslı Özyürek
+        identity: '《Children creating core properties of language: Evidence from an emerging sign language
+          in Nicaragua》（Science, 2004）作者。[1]'
+      - name: Susan Goldin-Meadow、Carolyn Mylander
+        identity: 《Spontaneous sign systems created by deaf children in two cultures》（Nature, 1998）作者。[3]
+      argument: Goldin-Meadow 与 Mylander 承认，使用手势的倾向可能源于听人父母说话时的手势，但他们强调，是孩子自己把类语言的结构引入了手势。[3] 尼加拉瓜的证据更进一步：第一代孩子的组织原则在周围口语的伴随手势中观察不到。[1]
+        作者据此认为，这种早期的切分与重组反映了儿童学习语言、并由此让语言延续下去的机制。[1]
+      quotes:
+      - text: Thus, children naturally possess learning abilities capable of giving language its fundamental
+          structure.
+        text_zh: 由此可见，儿童天然具有能够赋予语言基本结构的学习能力。
+        attribution: Senghas、Kita 与 Özyürek，Science（2004）
+        locator: 摘要
+        ref: 1
+    - position: 完整的语言结构在社群使用与代际传递中逐步涌现
+      consensus_role: 与上一观点互补的重要解释
+      evidence:
+        label: 新兴手语的描述研究 + 实验室实验
+        note: Al-Sayyid 贝都因手语提供了社群层面的证据；[2] 迭代学习实验在实验室中直接操纵了传递过程，但所用的是成年被试和人工语言，与婴儿的真实情境相去甚远。[4]
+      holders:
+      - name: Wendy Sandler、Irit Meir、Carol Padden、Mark Aronoff
+        identity: '《The emergence of grammar: Systematic structure in a new language》（PNAS, 2005）作者。[2]'
+      - name: Simon Kirby、Hannah Cornish、Kenny Smith
+        identity: 《Cumulative cultural evolution in the laboratory》（PNAS, 2008）作者。[4]
+      argument: 尼加拉瓜手语本身就显示了代际作用：后续各代学习者扩展了最初的切分与组合，才把早期的手势形式变成了语言系统。[1] Sandler 等人指出，Al-Sayyid 贝都因手语的语序既不同于社群中的口语，也不同于周边地区的主要手语，因此应视为语言内部的独立发展。[2]
+        Kirby 等人证明，语言在文化传递中会朝着更易传递的方向演化，结构的出现「无需设计者」。[4] 照这个思路，提问者设想的「两三个孩子」也许能发展出结构化的交流系统，但更丰富的语法可能需要更大的社群和更多代人。
+      quotes:
+      - text: In the space of one generation from its inception, systematic grammatical structure has
+          emerged in the language.
+        text_zh: 从这门语言诞生起，仅仅一代人的时间里，它就出现了系统的语法结构。
+        attribution: Sandler、Meir、Padden 与 Aronoff，PNAS（2005）
+        locator: 摘要
+        ref: 2
+      - text: 'We show that languages transmitted culturally evolve in such a way as to maximize their
+          own transmissibility: over time, the languages in our experiments become easier to learn and
+          increasingly structured.'
+        text_zh: 我们表明，经由文化传递的语言会朝着使自身可传递性最大化的方向演化：随着时间推移，我们实验中的语言变得更容易学习，结构也越来越强。
+        attribution: Kirby、Cornish 与 Smith，PNAS（2008）
+        locator: 摘要
+        ref: 4
+    - position: 孩子会自动说出某种「最初的语言」
+      consensus_role: 历史上的设想，已被现代证据否定
+      evidence:
+        label: 古代传闻，不可核实
+        note: 普萨美提克的故事是希罗多德转述的祭司说法，他本人还提到希腊人有另一种「愚蠢」的版本；[5] 现代新兴手语都是全新的系统，而不是某种祖先语言的重现。[1][2]
+      holders:
+      - name: 普萨美提克一世（据希罗多德记载）
+        identity: 古埃及国王；故事见希罗多德《历史》2.2。[5]
+      argument: 这一设想认为语言是预先写好的，只要不受干扰就会「冒出来」。孩子喊出的「bekos」被当作弗里吉亚语的证据。[5] 但这个故事本身无法核实，「bekos」也可能另有来源。现代证据显示，孩子带来的是组织语言的能力，而不是某种现成的语言。[1][3]
+      quotes:
+      - text: He gave instructions that no one was to speak a word in their hearing; they were to stay
+          by themselves in a lonely hut
+        text_zh: 他下令任何人都不得在他们面前说一个字；他们要单独待在一间孤零零的小屋里。
+        attribution: 希罗多德《历史》，A. D. Godley 英译
+        locator: 第 2 卷第 2 节第 2 段
+        ref: 5
+    open_parts: 第一，完全没有语言输入、长达十几年的儿童还能否完整习得语言，即所谓「关键期」问题。本文没有找到可以核对的一手文献，不作结论。第二，两三个孩子组成的极小群体与上百人的聋童社群有何不同：语言结构的丰富程度在多大程度上取决于群体规模和代际数量，目前只有间接证据。[1][2][4]
+      第三，儿童的「先天学习能力」与「文化传递」各自贡献多少，仍是语言起源研究的核心争论。[1][4]
+    references:
+    - id: 1
+      citation: 'Senghas, A., Kita, S., & Özyürek, A. (2004). Children creating core properties of language:
+        Evidence from an emerging sign language in Nicaragua. Science, 305(5691), 1779–1782. doi:10.1126/science.1100199（PubMed
+        摘要页）'
+      url: https://pubmed.ncbi.nlm.nih.gov/15375269/
+    - id: 2
+      citation: 'Sandler, W., Meir, I., Padden, C., & Aronoff, M. (2005). The emergence of grammar: Systematic
+        structure in a new language. Proceedings of the National Academy of Sciences, 102(7), 2661–2665.
+        PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC548320/
+    - id: 3
+      citation: Goldin-Meadow, S., & Mylander, C. (1998). Spontaneous sign systems created by deaf children
+        in two cultures. Nature, 391, 279–281. doi:10.1038/34646（PubMed 摘要页）
+      url: https://pubmed.ncbi.nlm.nih.gov/9440690/
+    - id: 4
+      citation: 'Kirby, S., Cornish, H., & Smith, K. (2008). Cumulative cultural evolution in the laboratory:
+        An experimental approach to the origins of structure in human language. Proceedings of the National
+        Academy of Sciences, 105(31), 10681–10686. PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2504810/
+    - id: 5
+      citation: Herodotus. The Histories, 2.2 (A. D. Godley, Trans.). Perseus Digital Library.
+      url: https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0126%3Abook%3D2%3Achapter%3D2
+- id: 2026-11-12-psych-personality
+  date: '2026-11-12'
+  category: psychology
+  title_zh: 理解和刻画人格的正确方式是什么？
+  title_en: What's the right way to understand and model personality?
+  commentary: 大五人格几乎成了心理学的「标准坐标系」。可它到底是描述、预测，还是解释？在非西方社会还成立吗？Collison 的追问正好落在当下人格科学最活跃的几条争论线上。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 大五人格
+  - HEXACO
+  - 人格测量
+  - 跨文化心理学
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-12'
+    consensus:
+      label: 「特质模型（大五 / 五因素模型）是当前主流的描述框架」有较强共识；因素的数目与粒度、跨文化普适性和解释力仍有争议
+      note: 大五特质与重要人生结果之间的关联总体上可以重复：一项包含 78 个预注册、高统计功效重复研究的项目中，87% 的结果在预期方向上显著，但效应量平均只有原研究的 77%。[3] 与此同时，六因素的
+        HEXACO 模型、[5]「细微特质」（nuances）层级 [7] 以及非 WEIRD（西方、受过教育、工业化、富裕、民主）人群中的测量失效 [8][9] 都表明，五个因素并不是终点。
+    summary: Collison 的原问题是：自 20 世纪 80 年代起，五因素人格模型影响越来越大，似乎适用于生活的方方面面，那么它有什么局限，应该在哪些情境下使用？McCrae 与 John
+      把五因素模型概括为人格特质的层级组织，五个基本维度是外向性、宜人性、尽责性、神经质和开放性；自然语言形容词和基于理论的问卷都支持它的全面性，以及它在不同观察者和文化之间的适用性。[1] 它的实用价值体现在预测力上：Roberts
+      等人只纳入前瞻性纵向研究，发现人格特质对死亡率、离婚和职业成就的预测力，与社会经济地位和认知能力不相上下。[2] Soto 的大规模预注册重复研究表明，这些关联大体可靠，但原始效应量有所高估。[3]
+      争论集中在四个方面。一是结构：Ashton 与 Lee 主张加入「诚实–谦逊」，形成六因素的 HEXACO 模型；[5] Mõttus 等人发现，单个题项去除上级特质后剩下的「细微特质」，在他人评定一致性、多年稳定性和遗传性上都有类似特质的表现。[7]
+      二是情境：Mischel 与 Shoda 认为，人格表现为稳定的「如果–那么」情境–行为模式；[4] Fleeson 的经验取样研究发现，一个人在日常生活中几乎会表现出每个特质的所有水平，特质更像状态的分布。[6]
+      三是普适性：在玻利维亚亚马孙地区的 Tsimane 人和 23 个中低收入国家的面访调查中，大五问卷都没有测出预期的结构。[8][9] 四是可变性：人格特质的平均水平会随年龄变化，[10] 干预（主要是心理治疗）也与特质分数的明显变化相关。[11]
+      一个务实的回答是：大五适合作为描述和预测的通用坐标，但不是对人格机制的完整解释；跨文化使用和个体层面的细粒度预测需要格外谨慎。
+    definitions:
+    - term: 五因素模型（大五）
+      text: 把人格特质组织为层级结构，最上层是外向性、宜人性、尽责性、神经质、开放性五个基本维度。[1]
+    - term: HEXACO 模型
+      text: 包含诚实–谦逊（H）、情绪性（E）、外向性（X）、宜人性（A）、尽责性（C）、开放性（O）六个因素的人格结构模型，被提出作为大五的替代。[5]
+    - term: 人格细微特质（nuances）
+      text: 比层面（facet）更具体的人格特征，操作上指单个问卷题项在去除所有上级特质后剩余的独特变异。[7]
+    milestones:
+    - year: '1992'
+      name: 五因素模型综述
+      explanation: McCrae 与 John 总结了该模型的历史与证据，并提出理论议程。[1]
+    - year: '1995'
+      name: 认知–情感人格系统
+      explanation: Mischel 与 Shoda 提出用「如果–那么」行为签名调和人格稳定性与跨情境变异的悖论。[4]
+    - year: '2001'
+      name: 特质即状态分布
+      explanation: Fleeson 用经验取样发现，个体内变异很大，但分布的中心趋势极其稳定。[6]
+    - year: '2007'
+      name: 人格的预测力与 HEXACO
+      explanation: Roberts 等人比较人格、社会经济地位与认知能力的预测效度；[2] Ashton 与 Lee 系统阐述 HEXACO 模型。[5]
+    - year: 2013–2019
+      name: 跨文化与可重复性检验
+      explanation: Tsimane 研究与 23 国调查挑战大五的普适性；[8][9] LOOPR 项目检验人格–结果关联的可重复性。[3]
+    views:
+    - position: 五因素特质模型：全面、可重复、有预测力的描述框架
+      consensus_role: 人格心理学的主流
+      evidence:
+        label: 大样本纵向研究 + 预注册重复
+        note: 预测效度来自前瞻性纵向研究；[2] 可重复性有预注册证据支持，但效应量有缩水；[3] 这些证据说明特质能「预测」，不说明特质「解释」了行为背后的机制。
+      holders:
+      - name: Robert R. McCrae、Oliver P. John
+        identity: 《An introduction to the five-factor model and its applications》（Journal of Personality,
+          1992）作者。[1]
+      - name: Brent W. Roberts 等
+        identity: 《The Power of Personality》（Perspectives on Psychological Science, 2007）作者。[2]
+      - name: Christopher J. Soto
+        identity: LOOPR 项目（Psychological Science, 2019）作者。[3]
+      argument: 模型的力量在于可以通约：一套五维坐标适用于自评与他评，在许多文化中可以复现，[1] 还能预测死亡率、离婚、职业成就等硬结果，预测力与社会经济地位和认知能力相当。[2] Soto
+        的重复研究显示，这一文献对特质–结果关联给出了「相当准确的地图」，但也需要改进可重复性。[3]
+      quotes:
+      - text: Results showed that the magnitude of the effects of personality traits on mortality, divorce,
+          and occupational attainment was indistinguishable from the effects of SES and cognitive ability
+          on these outcomes.
+        text_zh: 结果显示，人格特质对死亡率、离婚和职业成就的影响大小，与社会经济地位和认知能力对这些结果的影响无法区分。
+        attribution: Roberts 等，Perspectives on Psychological Science（2007）
+        locator: 摘要
+        ref: 2
+    - position: 五个因素不是最终答案：需要 HEXACO 的第六因素或更细的层级
+      consensus_role: 结构之争中的重要竞争方案
+      evidence:
+        label: 跨文化词汇研究 + 双生子与多样本重复
+        note: HEXACO 的依据是跨文化重复出现的六维结构；[5] 细微特质的证据来自德国双生子样本，并在 6 国 6,287 人中得到重复。[7]
+      holders:
+      - name: Michael C. Ashton、Kibeom Lee
+        identity: 《Empirical, theoretical, and practical advantages of the HEXACO model of personality
+          structure》（PSPR, 2007）作者。[5]
+      - name: René Mõttus 等
+        identity: 人格细微特质系列研究作者（JPSP, 2017、2019）。[7]
+      argument: Ashton 与 Lee 认为，HEXACO 与跨文化重复出现的六维结构相符，并能解释大五解释不了的现象，比如人格因素与互惠利他、亲缘利他的关系，以及人格性别差异的模式。[5]
+        Mõttus 等人则从另一个方向挑战「五个够用」：大多数单个题项的独特变异都表现出显著的他评一致性和长期稳定性，多数还有遗传成分，并能对体重指数等结果作出增量预测。[7] 换言之，人格的信息并不都装在五个大桶里。
+    - position: 人格是情境–行为的动态系统，特质只是状态分布的概括
+      consensus_role: 长期存在的互补视角
+      evidence:
+        label: 理论模型 + 经验取样研究
+        note: Fleeson 的经验取样数据直接测量了日常行为的个体内变异；[6] Mischel 与 Shoda 的模型是理论整合，用来解释已有的悖论性发现。[4]
+      holders:
+      - name: Walter Mischel、Yuichi Shoda
+        identity: 《A cognitive-affective system theory of personality》（Psychological Review, 1995）作者。[4]
+      - name: William Fleeson
+        identity: 《Toward a structure- and process-integrated view of personality》（JPSP, 2001）作者。[6]
+      argument: Mischel 与 Shoda 认为，个体差异在于认知–情感中介单元（编码、预期、信念、情感、目标）的可及性和组织方式，因此会表现出可预测的跨情境变化模式，例如「在 A 情境中她做
+        X，在 B 情境中她做 Y」。[4] Fleeson 的数据显示，个体行为的中心趋势几乎完全稳定，变异幅度本身也是稳定的个体差异。去情境化的大五描述适合刻画整个分布，而要描述大量的个体内变异，还需要条件化的人格单元。[6]
+      quotes:
+      - text: Within-person variability was high, such that the typical individual regularly and routinely
+          manifested nearly all levels of all traits in his or her everyday behavior.
+        text_zh: 个体内的变异很大：典型的个体在日常行为中经常而惯常地表现出所有特质的几乎所有水平。
+        attribution: William Fleeson，Journal of Personality and Social Psychology（2001）
+        locator: 摘要
+        ref: 6
+    - position: 大五未必是人类普遍的结构：在非 WEIRD 人群中测量常常失效
+      consensus_role: 日益受到重视的挑战
+      evidence:
+        label: 大样本跨文化心理测量研究
+        note: Tsimane 研究有两个样本（n = 632 与 n = 430）；[8] Laajaj 等人分析了 23 个中低收入国家的 94,751 名面访受访者。[9] 两项研究都无法完全区分「结构不同」与「测量方式失效」（文化程度、访谈互动、作答风格）。[8][9]
+      holders:
+      - name: Michael Gurven 等
+        identity: 《How universal is the Big Five?》（JPSP, 2013）作者。[8]
+      - name: Rachid Laajaj、Karen Macours、Samuel D. Gosling 等
+        identity: 《Challenges to capture the big five personality traits in non-WEIRD populations》（Science
+          Advances, 2019）作者。[9]
+      argument: Gurven 等人指出，过去的大五研究大多限于识字的城市人口，而这类人口在人类演化史上并不典型。他们在玻利维亚 Tsimane 人中首次检验五因素模型，发现了两个主要因素，并提出这可能反映了小规模社会共有的社会生态特征。[8]
+        Laajaj 等人发现，同一批国家中自选样本的网络调查效度要高得多，问题可能主要出在面访调查的测量方式上。[9]
+      quotes:
+      - text: We failed to find robust support for the FFM
+        text_zh: 我们未能为五因素模型找到稳健的支持。
+        attribution: Gurven 等，Journal of Personality and Social Psychology（2013）
+        locator: 摘要
+        ref: 8
+      - text: we show that commonly used personality questions generally fail to measure the intended
+          personality traits and show low validity.
+        text_zh: 我们表明，常用的人格问题总体上未能测到其意图测量的人格特质，效度很低。
+        attribution: Laajaj 等，Science Advances（2019）
+        locator: 摘要
+        ref: 9
+    open_parts: 第一，特质是行为背后的因果实体，还是只是对行为分布的统计概括？预测力并不能回答这个问题。[4][6] 第二，五个、六个还是更细的层级才是「正确」的粒度，可能取决于用途：用于沟通的描述与用于个体预测的模型，答案可能不同。[5][7]
+      第三，人格结构在小规模社会和非 WEIRD 人群中是否不同，还是只是测量工具失效。[8][9] 第四，人格可以改变：平均水平随年龄变化，[10] 干预研究的元分析发现，平均约 24 周的干预伴随明显的特质变化（如
+      d = .37），以情绪稳定性的变化最大。[11] 这对「人格是固定标签」的通俗理解构成挑战，但干预研究中前后测设计较多，因果解释仍需谨慎。
+    references:
+    - id: 1
+      citation: McCrae, R. R., & John, O. P. (1992). An introduction to the five-factor model and its
+        applications. Journal of Personality, 60(2), 175–215.（PubMed 摘要页）
+      url: https://pubmed.ncbi.nlm.nih.gov/1635039/
+    - id: 2
+      citation: 'Roberts, B. W., Kuncel, N. R., Shiner, R., Caspi, A., & Goldberg, L. R. (2007). The power
+        of personality: The comparative validity of personality traits, socioeconomic status, and cognitive
+        ability for predicting important life outcomes. Perspectives on Psychological Science, 2(4), 313–345.
+        PMC 开放全文。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4499872/
+    - id: 3
+      citation: Soto, C. J. (2019). How replicable are links between personality traits and consequential
+        life outcomes? The Life Outcomes of Personality Replication Project. Psychological Science, 30(5),
+        711–727.（PubMed 摘要页）
+      url: https://pubmed.ncbi.nlm.nih.gov/30950321/
+    - id: 4
+      citation: 'Mischel, W., & Shoda, Y. (1995). A cognitive-affective system theory of personality:
+        Reconceptualizing situations, dispositions, dynamics, and invariance in personality structure.
+        Psychological Review, 102(2), 246–268.（PubMed 摘要页）'
+      url: https://pubmed.ncbi.nlm.nih.gov/7740090/
+    - id: 5
+      citation: Ashton, M. C., & Lee, K. (2007). Empirical, theoretical, and practical advantages of the
+        HEXACO model of personality structure. Personality and Social Psychology Review, 11(2), 150–166.（PubMed
+        摘要页）
+      url: https://pubmed.ncbi.nlm.nih.gov/18453460/
+    - id: 6
+      citation: 'Fleeson, W. (2001). Toward a structure- and process-integrated view of personality: Traits
+        as density distributions of states. Journal of Personality and Social Psychology, 80(6), 1011–1027.（PubMed
+        摘要页）'
+      url: https://pubmed.ncbi.nlm.nih.gov/11414368/
+    - id: 7
+      citation: 'Mõttus, R., Sinick, J., Terracciano, A., et al. (2019). Personality characteristics below
+        facets: A replication and meta-analysis of cross-rater agreement, rank-order stability, heritability,
+        and utility of personality nuances. Journal of Personality and Social Psychology, 117(4), e35–e50.
+        PMC 开放全文。另见 Mõttus, R., Kandler, C., Bleidorn, W., Riemann, R., & McCrae, R. R. (2017). JPSP,
+        112(3), 474–490。'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6348042/
+    - id: 8
+      citation: Gurven, M., von Rueden, C., Massenkoff, M., Kaplan, H., & Lero Vie, M. (2013). How universal
+        is the Big Five? Testing the five-factor model of personality variation among forager–farmers
+        in the Bolivian Amazon. Journal of Personality and Social Psychology, 104(2), 354–370. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC4104167/
+    - id: 9
+      citation: Laajaj, R., Macours, K., Pinzon Hernandez, D. A., Arias, O., Gosling, S. D., Potter, J.,
+        et al. (2019). Challenges to capture the big five personality traits in non-WEIRD populations.
+        Science Advances, 5(7), eaaw5226. PMC 开放全文。
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6620089/
+    - id: 10
+      citation: 'Roberts, B. W., Walton, K. E., & Viechtbauer, W. (2006). Patterns of mean-level change
+        in personality traits across the life course: A meta-analysis of longitudinal studies. Psychological
+        Bulletin, 132(1), 1–25.（PubMed 摘要页）'
+      url: https://pubmed.ncbi.nlm.nih.gov/16435954/
+    - id: 11
+      citation: Roberts, B. W., Luo, J., Briley, D. A., Chow, P. I., Su, R., & Hill, P. L. (2017). A systematic
+        review of personality trait change through intervention. Psychological Bulletin, 143(2), 117–141.（PubMed
+        摘要页）
+      url: https://pubmed.ncbi.nlm.nih.gov/28054797/
