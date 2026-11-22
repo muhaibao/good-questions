@@ -7676,3 +7676,1677 @@
         Nir, Y., & Tononi, G. (2010). Dreaming and the brain: From phenomenology to neurophysiology.
         Trends in Cognitive Sciences, 14(2), 88–100. 本次打开并核对的是 PMC 全文。
       url: https://pmc.ncbi.nlm.nih.gov/articles/PMC2814941/
+- id: 2026-11-23-ai-chatgpt-context
+  date: '2026-11-23'
+  category: ai
+  title_zh: ChatGPT 是如何记住前面问题的上下文的？
+  title_en: How does ChatGPT retain the context of previous questions?
+  commentary: >-
+    「再说详细一点」之所以能接上上一句，并不等于系统拥有了人那种跨时间的长期记忆。把窗口里的对话历史，和后来单独产品化的「记忆」分开，才能看清大模型到底记住了什么、又在哪里必然会忘。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/38150/how-does-chatgpt-retain-the-context-of-previous-questions
+  author: milez
+  source_type: stackexchange
+  tags:
+  - ChatGPT
+  - 上下文窗口
+  - Transformer
+  - 记忆
+  - 注意力机制
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: >-
+        公开的模型原理与官方说明较为一致：多轮对话里的「记住前文」，首先是把先前的用户消息和模型回复再次放进有限的上下文窗口，而不是一次生成之后把对话写入模型权重；后来的 Memory 是另一套、与当前窗口分开的机制。ChatGPT 未公开的内部工程细节（如何截断、是否摘要、缓存如何实现）不能从已发表论文直接断言
+      note: >-
+        OpenAI 的 API 文档把每次文本生成请求写成独立、无状态的，并说明多轮对话可以通过在下一次请求中再次提供先前消息来实现；上下文窗口则是一次请求里输入、输出（以及对某些模型还包括推理 token）所用 token 的总和，超出上限可能导致输出被截断。[4]
+        ChatGPT 帮助中心写明：当前对话中用户的消息和 ChatGPT 的回复都会占用空间，对话填满后会提示上下文窗口已满；删除已保存的记忆并不会给当前对话腾出更多空间。[5]
+        同一帮助中心把 Memory 描述为可跨聊天记住相关偏好与细节的单独功能，并写明保存的记忆与聊天记录分开存储。[6]
+        Transformer 用自注意力在一段序列内部建立位置之间的直接联系，[2] GPT-3 则把「不更新梯度、只通过文本交互给出任务」称为上下文学习（in-context learning），并标明其上下文窗口是有限的。[3]
+        以上说明的是公开机制与产品层面的区分。本题提出者在论坛上的重建与此方向一致，但并不是 OpenAI 对 ChatGPT 内部实现的官方说明书；[1] 本文不把 KV cache 等常见推理优化写成已核实的 ChatGPT 产品细节。
+    summary: >-
+      2022 年 12 月 4 日，milez 在 Artificial Intelligence Stack Exchange 提问：ChatGPT 之所以能理解「告诉我更多」并接着上一轮往下说，技术上到底是怎么做到的？它是否重用先前问题的激活值？是否另有一条专门的上下文输入？[1]
+      公开文献能比较有把握回答的部分是：当代对话系统并不是在每一次回复之后改写模型参数，从而获得一种「装进网络里的长期记忆」。OpenAI 在 API 文档中写明，每次文本生成请求本身是独立、无状态的；要实现多轮对话，需要把先前的消息作为参数再次提供给下一次请求。[4] 提问者后来在自答中也把这一图景概括为：先前的提示与输出会按输入长度所允许的范围追加进下一次提示，于是「全部上下文实际上都在提示里」。[1] ChatGPT 帮助中心从产品一侧给出了相应的约束：你的消息和 ChatGPT 的回复都会占用空间，对话填满后会提示上下文窗口已满。[5]
+      窗口里的这些 token 之所以能被模型用上，要回到 Transformer：自注意力把同一序列里不同位置关联起来，以计算该序列的表示；与逐位置递推的循环网络相比，自注意力层用恒定次数的串行运算连接所有位置。[2] Brown 等人在 GPT-3 中把这种不更新梯度、只靠文本里的指令或示例来指定任务的做法称为上下文学习，并写明当时模型的上下文窗口为 n_ctx = 2048 个 token。[3] 窗口大小此后在产品中已显著扩大，但「有限窗口」这一结构没有消失。[4][5]
+      两件后来的事情需要分开写。第一，OpenAI 后来为 ChatGPT 提供了 Memory：在开启时，它可以从聊天和其他来源记住相关偏好与细节，而且保存的记忆与聊天记录是分开存放的；删除保存的记忆并不会给当前对话腾出窗口空间。[5][6] 第二，即使相关信息已经被放进长上下文，模型也不一定稳健地用上它们。Liu 等人发现，性能往往在相关信息位于输入开头或结尾时最高，而位于中段时显著下降，即便是明确宣传为长上下文的模型也是如此。[7]
+      因此，对原问题的审慎回答是：ChatGPT「记住前面的问题」，在公开可核验的层面上，首先是把对话历史放进上下文窗口并在其中做自注意力；它不是系统自带、不受窗口限制的长期记忆。记忆产品、摘要或检索等工程扩展，以及窗口内部的使用质量，是另外的问题。未公开的服务端实现，本文不加猜测。
+    definitions:
+    - term: 上下文窗口（context window）
+      text: >-
+        OpenAI 文档的定义是：一次请求中可用于输入 token 和输出 token（对某些模型还包括推理 token）的总量。若构造了过大的提示（常常是因为加入了额外上下文、数据或示例），就有超出该窗口、导致输出被截断的风险。[4] 在 ChatGPT 中，用户消息和模型回复都会占用这一空间。[5]
+    - term: 上下文学习（in-context learning）
+      text: >-
+        Brown 等人用来描述一种不更新梯度的任务指定方式：把预训练语言模型的文本输入当作任务说明，让模型以自然语言指令和（或）少量演示为条件，并只通过预测接下来应出现的文本来完成新的实例。[3] 多轮对话把先前回合放进同一窗口，利用的是同一种「只在前向计算中使用上下文」的能力，而不是在对话中途训练模型。
+    - term: 自注意力（self-attention）
+      text: >-
+        Vaswani 等人的定义：自注意力（有时也称 intra-attention）是一种注意力机制，它把单一序列中的不同位置关联起来，以计算该序列的表示。[2] 直观地说，窗口里的每一个词都可以直接「看见」同一窗口里的其他词，而不必像循环网络那样一步步传过去。
+    - term: Memory（ChatGPT 的记忆功能）
+      text: >-
+        ChatGPT 的一项可开关的产品功能：开启后，它可以从你的聊天和其他可用来源记住相关偏好与细节，以便少重复自己。[6] 官方说明把它与当前对话的上下文窗口区分开：保存的记忆与聊天记录分开存储；删除保存的记忆并不会给当前对话腾出更多空间。[5][6]
+    milestones:
+    - year: '2017'
+      name: Transformer 与自注意力
+      explanation: >-
+        Vaswani 等人提出完全基于注意力、不再使用循环或卷积的 Transformer，并说明自注意力层以恒定次数的串行运算连接序列中的所有位置。[2]
+    - year: '2020'
+      name: GPT-3 与上下文学习
+      explanation: >-
+        Brown 等人训练 1750 亿参数的 GPT-3，系统测量不微调、只通过文本交互给出任务时的少样本表现，并将上下文窗口写明为 2048 个 token。[3]
+    - year: '2022'
+      name: 本题追问 ChatGPT 的多轮上下文
+      explanation: >-
+        milez 于 2022 年 12 月 4 日在 AI Stack Exchange 提出本题，并在自答中根据当时可见的 OpenAI 说明，把「上下文其实都在提示里」这一机制写了出来。[1]
+    - year: '2023'
+      name: 「迷失在中间」
+      explanation: >-
+        Liu 等人报告：即便模型能够接受长输入，相关信息处在上下文中段时，表现也常常显著下降。[7] 此后 ChatGPT 的 Memory 被写成与当前对话窗口分开的产品功能，但本文未核对一项可公开引用的准确上线日期，故不以年份标记该产品发布。[6]
+    views:
+    - position: 多轮对话中的「上下文」首先是被再次放进提示或请求里的历史消息，而不是模型权重里的长期记忆
+      consensus_role: 与官方 API 说明和 ChatGPT 帮助中心表述一致的主流公开解释；论坛上的早期重建与此相符，但不能代替未公开的产品实现说明书
+      evidence:
+        label: 官方开发者文档与产品帮助页，辅以论坛自答中的公开推理
+        note: >-
+          API 文档描述的是文本生成请求的接口契约（请求无状态、靠再次提供消息来维持对话），并不等于一份 ChatGPT 客户端与服务端如何组装提示的完整白皮书。[4]
+          帮助中心确认了产品层的窗口占用与「记忆不会腾出当前对话空间」，但没有给出窗口的精确 token 数，也没有披露截断或摘要算法。[5][6]
+          milez 的自答是依据当时可见说明所做的合理重建，2023 年 2 月的补记还讨论了超长对话后可能用摘要或检索来压缩上下文；这些是工程上常见的做法，但不是 OpenAI 已核对的内部说明书，本文只把它当作公开讨论，不写成已证实的实现。[1]
+      holders:
+      - name: OpenAI
+        identity: 开发者文档《Conversation state》与帮助中心条目的发布者；本次打开的是 2026 年 11 月仍可访问的现行页面，其中的模型名称与界面细节以该页面当时文本为准。[4][5][6]
+      - name: milez
+        identity: Artificial Intelligence Stack Exchange 本题提问者，也是 32 票并被采纳的自答作者；页面未提供可核对外的真实姓名或机构，故不以论坛以外的身份书写。[1]
+      argument: >-
+        问题里最容易产生误会的一点，是把「它好像还记得我刚刚说过的话」理解成系统在内部保存了一个不受限制的心理状态。官方接口把机制说得很直白：每一次文本生成请求是独立、无状态的；所谓多轮，是把先前消息当作参数再送回去。[4] 这样，「告诉我更多」之所以能被理解，是因为上一轮的问答仍然出现在这一轮的输入里，模型只是在续写一段已经包含那些句子的文本。
+        ChatGPT 的帮助页从使用者一侧给出了同一结构的后果：消息和回复都占空间，对话会满；满了可以新开聊天，若选择带摘要继续，摘要可能漏掉细节。[5] 提问者在 2022 年的自答里已经写出了对应的判断：上下文功能来自模型接受很长输入、并被训练去续写给定提示的能力；实践上，每次提示都会按长度允许的范围拼上先前的输出和提示，「全部上下文实际上都在提示里」。[1]
+        这一解释也同时说明了它的界限。窗口不是无限的；删掉 Memory 里保存的条目，并不能给当前这轮对话腾出空位。[5] 至于对话极长之后系统是否会摘要、检索或静默丢弃更早的回合，公开材料没有提供一份可逐条核对的 ChatGPT 实现说明，本文不加断言。[1]
+      quotes:
+      - text: >-
+          While each text generation request is independent and stateless, you can still implement multi-turn conversations by providing additional messages as parameters to your text generation request.
+        text_zh: 尽管每一次文本生成请求都是独立、无状态的，你仍然可以通过把额外的消息作为参数提供给文本生成请求，来实现多轮对话。
+        attribution: OpenAI，Conversation state（API 文档）
+        locator: 标题 “Manually manage conversation state” 下首句；本次打开 https://developers.openai.com/api/docs/guides/conversation-state
+        ref: 4
+      - text: >-
+          Your messages and ChatGPT’s replies both take up space, so a few long exchanges can fill a chat.
+        text_zh: 你的消息和 ChatGPT 的回复都会占用空间，因此几轮较长的交流就可能把一次对话填满。
+        attribution: OpenAI Help Center，Why does ChatGPT say “Context window full” or “Chat memory full”?
+        locator: 文首说明段
+        ref: 5
+      - text: >-
+          So, all of the context is actually in the prompt.
+        text_zh: 所以，全部上下文实际上都在提示里。
+        attribution: milez，AI Stack Exchange 本题被采纳自答（2022 年 12 月前后的原答部分）
+        locator: 自答第一版结尾句
+        ref: 1
+    - position: 窗口里的历史之所以能被用上，是因为 Transformer 的自注意力可以直接关联序列中的任意位置；这是有限长度上的上下文学习，不是无限记忆
+      consensus_role: 对「为何把历史放进窗口就会起作用」的主流技术解释；窗口会满、且更长并不自动等于用得更好，也已被后来的实验所强调
+      evidence:
+        label: 奠基论文中的机制说明与上下文学习定义，再加上长上下文使用质量的对照实验
+        note: >-
+          Vaswani 等人的论文提出的是通用序列转换架构，并不讨论 ChatGPT。[2]
+          Brown 等人测量的是 GPT-3 在少样本、单样本和零样本条件下的上下文学习，上下文窗口为 2048 token；这可以说明「不更新梯度、只靠窗口里的文本」这一范式，但不能直接外推为今日 ChatGPT 所用模型的窗口大小或全部训练细节。[3]
+          Liu 等人的任务是多文档问答和键值检索，观察到与位置相关的 U 形表现曲线；这是关于「长上下文是否被稳健使用」的实验证据，不是对 ChatGPT 对话产品的专项审计。[7]
+      holders:
+      - name: Ashish Vaswani、Noam Shazeer、Niki Parmar、Jakob Uszkoreit、Llion Jones、Aidan N. Gomez、Łukasz Kaiser、Illia Polosukhin
+        identity: >-
+          《Attention Is All You Need》（arXiv:1706.03762v7）作者。文首署名单位为 Google Brain、Google Research，以及 University of Toronto（Aidan N. Gomez）；作者标注为同等贡献。[2]
+      - name: Tom B. Brown 等
+        identity: >-
+          《Language Models are Few-Shot Learners》（arXiv:2005.14165v4）作者团队，文首署名单位为 OpenAI。通讯与同等贡献标记以该 PDF 文首为准。[3]
+      - name: Nelson F. Liu、Kevin Lin、John Hewitt、Ashwin Paranjape、Michele Bevilacqua、Fabio Petroni、Percy Liang
+        identity: >-
+          《Lost in the Middle: How Language Models Use Long Contexts》（arXiv:2307.03172v3）作者。文首署名单位为 Stanford University、University of California, Berkeley 与 Samaya AI；通讯邮箱为 nfliu@cs.stanford.edu。致谢中写明该文经 TACL 编辑处理，但本次打开的是 arXiv v3，未打开期刊官方页面，故不擅写卷期页码。[7]
+      argument: >-
+        只说「把旧消息再贴回去」，还没有解释模型为什么能从中读出「这是在接着上一问往下说」。Transformer 的关键步骤是自注意力：它在单一序列内部把不同位置关联起来，从而计算整段序列的表示。[2] Vaswani 等人比较各类层时强调，自注意力层用恒定次数的串行运算连接所有位置，而循环层需要与长度成正比的串行步数。[2] 对对话而言，这意味着：只要上一轮的句子还在窗口里，当前的「告诉我更多」就可以直接注意到那些句子，而不必依赖一种在权重里单独保存的对话状态。
+        GPT-3 论文把这种能力说成一种任务层面的现象。模型在所有任务上都不做梯度更新或微调，任务和少样本演示纯粹通过与模型的文本交互来指定；[3] 作者将「上下文学习」定义为：以自然语言指令和（或）少量演示为条件，然后只通过预测接下来的文本来完成新实例。[3] 多轮聊天可以看成同一机制的日常形式：前文是条件，后文是续写。但他们也写明，这一机制受上下文窗口限制——当时所有被训练的模型都使用 n_ctx = 2048 个 token。[3]
+        窗口后来在产品中变大了，可结构限制还在。官方文档仍把上下文窗口定义为输入与输出（以及某些模型的推理 token）的总量，并警告过大的提示可能超出窗口。[4] 更重要的是，Liu 等人表明：把信息放进长窗口，并不等于模型会稳健地使用它；相关信息在开头或结尾时表现往往最好，在中间时显著变差，即使是明确的长上下文模型也如此。[7] 所以，「能记住前面的问题」既不是无限的，也不是在窗口内部均匀可靠的。
+      quotes:
+      - text: >-
+          Self-attention, sometimes called intra-attention is an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence.
+        text_zh: 自注意力（有时也称为 intra-attention）是一种注意力机制，它把单一序列中的不同位置关联起来，以便计算该序列的表示。
+        attribution: Vaswani 等，Attention Is All You Need
+        locator: arXiv:1706.03762v7，第 2 页，Introduction 中的定义句（原文在 “intra-attention” 后未加逗号，此处按 PDF 逐字抄录）
+        ref: 2
+      - text: >-
+          As noted in Table 1, a self-attention layer connects all positions with a constant number of sequentially executed operations, whereas a recurrent layer requires O(n) sequential operations.
+        text_zh: 如表 1 所示，自注意力层以恒定次数的串行运算连接所有位置，而循环层需要 O(n) 次串行运算。
+        attribution: Vaswani 等，Attention Is All You Need
+        locator: arXiv:1706.03762v7，第 6–7 页，§4 Why Self-Attention
+        ref: 2
+      - text: >-
+          For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model.
+        text_zh: 在所有任务上，GPT-3 都不进行任何梯度更新或微调，任务和少样本演示纯粹通过与模型的文本交互来指定。
+        attribution: Brown 等，Language Models are Few-Shot Learners
+        locator: arXiv:2005.14165v4，第 1 页，摘要
+        ref: 3
+      - text: >-
+          We find that performance can degrade significantly when changing the position of relevant information, indicating that current language models do not robustly make use of information in long input contexts. In particular, we observe that performance is often highest when relevant information occurs at the beginning or end of the input context, and significantly degrades when models must access relevant information in the middle of long contexts, even for explicitly long-context models.
+        text_zh: 我们发现，当相关信息的位置改变时，性能可能显著下降，这表明当前的语言模型并不能稳健地使用长输入上下文中的信息。特别是，当相关信息出现在输入上下文的开头或结尾时，性能往往最高；而当模型必须取用长上下文中段的相关信息时，性能显著下降，即便是明确的长上下文模型也是如此。
+        attribution: Liu 等，Lost in the Middle
+        locator: arXiv:2307.03172v3，第 1 页，摘要
+        ref: 7
+    - position: ChatGPT 后来的 Memory 是跨对话的个性化机制，必须与当前对话的上下文窗口分开；不能把它当成「窗口记忆」的升级版一笔带过
+      consensus_role: 与现行官方帮助页一致的产品区分；它回答的是「跨聊天还记不记得我」，而不是本题最初问的「这一轮里如何接上上一句」
+      evidence:
+        label: OpenAI 帮助中心对 Memory 与上下文窗口的并列说明
+        note: >-
+          这是产品帮助文本，不是经过同行评审的系统论文，也没有披露记忆写入、检索与更新的算法细节。[5][6]
+          帮助页写明功能、控件和存储区分会因套餐、地区、平台和工作区设置而异，因此不能把某一账户上见到的界面写成所有用户的统一实现。[6]
+          本文只依据本次打开的帮助页陈述，不补充未核对的发布博客中的日期或内部架构图。
+      holders:
+      - name: OpenAI
+        identity: 帮助中心条目《Memory in ChatGPT》与《Why does ChatGPT say “Context window full” or “Chat memory full”?》的发布者。[5][6]
+      argument: >-
+        如果把后来出现的 Memory 直接说成「ChatGPT 终于有真正的记忆了」，就会把两个不同的问题混在一起。本题问的是：在同一次对话里，模型为什么能接着前面的问题往下说。帮助中心把这一现象首先与上下文窗口联系起来：当前聊天中的来回都会占空间，满了就会提示。[5]
+        Memory 则被写成另一件事。开启后，ChatGPT 可以从聊天和其他可用来源记住相关偏好与细节，以便接着上次的进度、少重复自己；它并不保留每一段对话里的每一个细节。[6] 保存的记忆与聊天记录分开存储，删除原来的聊天并不会自动删除一条单独保存的记忆；反过来，删除保存的记忆，也不会给当前这轮对话腾出窗口空间。[5][6] 「参考聊天历史」（Reference chat history）若存在，也是让模型用过去对话中的相关信息来个性化未来回复，而不是把旧聊天无限地拼进当前窗口。[6]
+        因此，Memory 可以改变跨会话的个性化，但不能取消上下文窗口，也不能被当成对「它如何记住前面问题」的完整答案。把两者分开，反而让原问题更清楚：一轮对话里的衔接，靠的是窗口中的文本；跨聊天还记得你是谁、你喜欢什么，则是另外一套可开关的产品机制。
+      quotes:
+      - text: >-
+          When Memory is enabled, ChatGPT can remember relevant preferences and details from your chats and other available sources. This can help you pick up where you left off and spend less time repeating yourself.
+        text_zh: 当 Memory 开启时，ChatGPT 可以从你的聊天和其他可用来源记住相关的偏好与细节。这有助于你接着上次的进度继续，并减少重复自己的时间。
+        attribution: OpenAI Help Center，Memory in ChatGPT
+        locator: Overview 首段
+        ref: 6
+      - text: >-
+          Saved memories are stored separately from chat history. Deleting the original chat does not automatically delete a separate saved memory.
+        text_zh: 保存的记忆与聊天记录是分开存储的。删除原来的聊天，并不会自动删除一条单独保存的记忆。
+        attribution: OpenAI Help Center，Memory in ChatGPT
+        locator: 标题 “Saved memories” 下
+        ref: 6
+      - text: >-
+          Deleting saved memories won’t make more room in the chat.
+        text_zh: 删除已保存的记忆，并不会在当前对话中腾出更多空间。
+        attribution: OpenAI Help Center，Why does ChatGPT say “Context window full” or “Chat memory full”?
+        locator: 文首说明段末句
+        ref: 5
+    open_parts: >-
+      ChatGPT 在服务端如何具体组装、截断或压缩超长对话，公开材料并没有一份可逐条核对的实现说明。milez 后来补充说，超过最大长度后可能用语言模型做摘要，或用嵌入检索回相关片段；这在工程上常见，但仍属推测，不能写成已证实的产品细节。[1]
+      推理时缓存已计算的键和值（所谓 KV cache）是 Transformer 解码中广泛讨论的实现手段，可以提高多轮生成的计算效率；但本次并未打开一份把该技术陈述为 ChatGPT 内部设计的官方文档，因此不把它当作本题的已核实答案。
+      上下文窗口的具体长度随模型和套餐而变，本文只引用官方对「窗口是什么」的定义，以及 GPT-3 论文中已经写明的 2048 token，不罗列未在本轮打开的产品规格表中的数字。[3][4]
+      即便窗口足够长，Liu 等人的实验表明模型仍可能对中段信息使用不稳；该文主要评估检索式问答和键值查找，它对日常闲聊的外推程度仍是开放问题。[7]
+    references:
+    - id: 1
+      citation: >-
+        milez (2022, December 4). How does ChatGPT retain the context of previous questions? Artificial Intelligence Stack Exchange.
+      url: https://ai.stackexchange.com/questions/38150/how-does-chatgpt-retain-the-context-of-previous-questions
+    - id: 2
+      citation: >-
+        Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. arXiv:1706.03762v7 [cs.CL].
+      url: https://arxiv.org/pdf/1706.03762
+    - id: 3
+      citation: >-
+        Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D. M., Wu, J., Winter, C., … Amodei, D. (2020). Language models are few-shot learners. arXiv:2005.14165v4 [cs.CL].
+      url: https://arxiv.org/pdf/2005.14165
+    - id: 4
+      citation: >-
+        OpenAI. Conversation state. OpenAI API documentation. 本次打开并核对的是 https://developers.openai.com/api/docs/guides/conversation-state 及其 .md 版本的现行文本。
+      url: https://developers.openai.com/api/docs/guides/conversation-state
+    - id: 5
+      citation: >-
+        OpenAI Help Center. Why does ChatGPT say “Context window full” or “Chat memory full”? 本次按 2026-11-23 打开的页面文本核对。
+      url: https://help.openai.com/en/articles/20001639-why-does-chatgpt-say-context-window-full-or-chat-memory-full
+    - id: 6
+      citation: >-
+        OpenAI Help Center. Memory in ChatGPT. 本次按 2026-11-23 打开的页面文本核对。
+      url: https://help.openai.com/en/articles/8590148-memory-in-chatgpt
+    - id: 7
+      citation: >-
+        Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (2023). Lost in the middle: How language models use long contexts. arXiv:2307.03172v3 [cs.CL]. 致谢中提及 TACL 编辑过程，但本次未打开期刊官方页面，故不写卷期页码。
+      url: https://arxiv.org/pdf/2307.03172
+
+- id: 2026-11-23-ai-programmable
+  date: '2026-11-23'
+  category: ai
+  title_zh: 面向最终用户的应用，还会真正可编程吗？如果会，该怎么实现？
+  title_en: Will end-user applications ever be truly programmable? If so, how?
+  commentary: >-
+    当常用软件从可改的工具变成「防弹玻璃」后的服务，用户是更轻松了，还是失去了把工具弯成自己思维形状的能力？这个问题问的不是要不要多几个插件，而是个人计算一度许诺过的那种可塑性能不能回来。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 终端用户编程
+  - 个人计算
+  - Smalltalk
+  - 可塑性软件
+  - 大语言模型
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: >-
+        终端用户应当能够改写自己的工具，这一理想在个人计算的经典文献里很明确，在表格、脚本和宏里也从未完全消失；但 Collison 所指出的趋势——移动与网页应用日益运转在「防弹玻璃」之后——与该理想之间的紧张，并没有一个被普遍接受的技术解决答案。用自然语言驱动代码生成是近年一条真实的新路径，现有研究表明它并没有自动取消「如何把意图说成系统能执行的话」这一门槛
+      note: >-
+        Collison 的问题清单把 Emacs、Smalltalk、Genera 和 VBA 写成可塑性终端用户计算的体现，并判断今天的终端用户软件日益运转在防弹玻璃之后，在移动和网页这些增长领域尤其如此；他还写下「终端用户计算正变得不像一辆自行车，而更像一条供心智乘坐的单轨」。[1]
+        这是一份个人问题清单中的评论，不是调查或受控实验；「日益」是作者的判断，本文不加统计外推。
+        Kay 与 Goldberg 在 1977 年把 Smalltalk 和「interim Dynabooks」写成一种人人可拥有的个人动态媒介，并强调儿童也能写出做认真事情的程序。[2]
+        Ko 等人 2011 年的综述则指出，今天大多数程序并非由职业软件开发者写出，并给出终端用户编程的一个操作性定义；他们同时强调，这些用户仍然面对设计、测试与调试等软件工程质量问题。[3]
+        Liu、Sarkar 等人 2023 年的 CHI 论文承认，代码生成大模型把自然语言映射为代码，使「用英语来编程」成为一种可实现的前景，但也表明：只有一小部分自然说法能有效引导生成，非专家必须面对 abstraction matching 的困难。[4]
+    summary: >-
+      Patrick Collison 在自己的问题清单里问：面向最终用户的应用，还会真正可编程吗？如果会，该怎么实现？[1] 他把 Emacs、Smalltalk、Genera 和 VBA 看作同一种设想的化身：若应用不按你的需要工作，你可以比较容易地改它或扩展它。他接着写到，今天的终端用户软件却日益运转在防弹玻璃之后，在移动应用和网页应用这些增长领域里尤其明显；不但越来越难改应用逻辑，就连直接操作自己的数据也变得更难。他举的对比是：用 Visual Basic 给 Outlook 写一段日历分析脚本很容易，对 Google Calendar 做同一件事则非常费事。[1]
+      他把这一转变压缩成一句判断：终端用户计算正变得不像一辆自行车，而更像一条供心智乘坐的单轨。[1] 后果是人们越来越需要针对每一领域的专用软件，而不是用通用工具去处理图表和数据。他并不把专用工具说成纯然的退步——它们可以最大限度地提高易用性，并分摊复杂、专门功能的成本——但宏和浏览器插件的流行，在他看来强烈表明：用户是聪明的，并且想要更多控制。[1] 问题的收束是：我们是否该放弃早先那种赋能用户的设想，还是有可能达到一种更好的均衡？[1]
+      这一提问有一条很长的前史。Kay 与 Goldberg 在 Xerox PARC 的 Learning Research Group 中，把梦想结晶为一种笔记本大小、人人可拥有、几乎能处理主人全部信息相关需求的个人动态媒介（Dynabook），并为此设计了 Smalltalk 语言、实现于他们称为「interim Dynabooks」的小型计算机上。[2] 他们把计算机写成一种主动的「元媒介」：它能回应询问和实验，使信息可以与学习者形成双向对话；在他们看来，除个别教师这一媒介外，这种性质从未有过。[2] 他们还特别写到，以儿童为用户时，孩子们确实能写出做认真事情的程序。[2]
+      学术综述表明，终端用户编程并没有随着「防弹玻璃」而消失，但主战场往往不在 Collison 所担心的那些封闭应用里。Ko 等人开篇即写：今天大多数程序并非由职业软件开发者写出，而是由其他领域的专家为了自己需要计算支持的目标而写出。[3] 他们把终端用户编程定义为：编程的主要目的，是为了个人使用该程序的结果，而不是供有不同需求的大量用户使用。[3] 职业开发者领取报酬是为了交付并长期维护软件；终端用户写程序，则是为了支持自己领域里的某个目标。[3] 换句话说，「最终用户会不会编程」在表格、脚本和领域工具里一直在发生；Collison 问的是，面向消费级应用的那种可塑性，会不会在移动和网页主导的界面里回来。
+      近年一条新的候选答案是：让自然语言成为编程界面。Liu、Sarkar 等人写道，代码生成大模型把自然语言映射为代码；若终端用户程序员改用英语这样已知的自然语言，表面上几乎不必有意识地投入学习，而这一前景可以通过大模型来实现。[4] 但他们随即指出，在近乎无穷的自然说法里，只有一小部分能有效引导代码生成；对非专家的终端用户程序员来说，学会这一点就是 abstraction matching 的挑战。[4] 他们在电子表格数据分析的场景里做了 24 人对照的出声思维实验，并认为：把生成的代码再翻译回可预测的自然语言，有助于用户理解模型的范围、能力，以及要有效使用它所需的那种语言。[4] 因此，大模型给出了一条「如何再变得可编程」的新路径，但它并没有自动兑现「真正可编程」，反而把新的表述门槛放到了明处。
+    definitions:
+    - term: 可塑性的终端用户计算（malleable end-user computing）
+      text: >-
+        Collison 用来称呼 Emacs、Smalltalk、Genera 和 VBA 所体现的那种设想：如果应用不做你想做的事，你可以比较容易地调整或扩展它，使之适合自己的目的。[1] 这与他把当今许多移动和网页应用描述为运转在「防弹玻璃」之后的状态相对。
+    - term: 终端用户编程（end-user programming）
+      text: >-
+        Ko 等人给出的定义是：编程以取得一个程序的结果，而该结果主要供个人使用，而不是供有不同需求的大量用户使用。[3] 关键不在于使用哪种语言，而在于意图：程序是达到某个自身目标的手段。他们并指出，这一短语由 Nardi（1993）在对办公场所电子表格使用的研究中推广。[3]
+    - term: 抽象匹配（abstraction matching）
+      text: >-
+        Liu、Sarkar 等人用来描述自然语言编程里的核心困难：当用户已有明确意图时，如何从近乎无穷的自然说法里选出一句，使自己相信系统会把它可靠地映射为满意的解。[4] 这需要把说法匹配到系统能执行的那一层粒度、细节、用词和语法。
+    milestones:
+    - year: '1977'
+      name: Kay 与 Goldberg 发表《Personal Dynamic Media》
+      explanation: >-
+        在 IEEE Computer 上阐述 Dynabook 设想，并介绍已在 Smalltalk 中写出的各类系统，作为个人计算媒介的内核图像；文中把计算机写成可回应询问与实验的主动「元媒介」。[2]
+    - year: '2011'
+      name: Ko 等人综述终端用户软件工程
+      explanation: >-
+        在 ACM Computing Surveys 中界定 End-User Software Engineering，总结终端用户在需求、设计、复用、测试和调试上面临的质量问题，并给出终端用户编程的操作性定义。[3]
+    - year: '2023'
+      name: 用代码生成大模型做终端用户编程的实证研究
+      explanation: >-
+        Liu、Sarkar 等人在 CHI 2023 报告：自然语言到代码的前景是真实的，但非专家必须克服 abstraction matching；他们提出把代码再译回可预测自然语言的 grounded abstraction matching，并做了 24 人对照实验。[4]
+    views:
+    - position: 终端用户计算曾经允许把应用改成自己的工具，但在移动和网页主导的增长领域里，软件日益被放在「防弹玻璃」之后；用户仍想要控制，只是通道变窄了
+      consensus_role: 这是 Collison 本人的诊断，不是一项已有统计验证的行业共识；它把一种被广泛感觉到的封闭化说成了明确的问题
+      evidence:
+        label: 个人问题清单中的评论与举例，而非调查或受控研究
+        note: >-
+          文本来自 patrickcollison.com/questions，作者自署为 Patrick Collison，并欢迎把有趣阅读寄到 patrick@collison.ie。[1]
+          「日益」「尤其如此」「强烈表明」都是作者的定性判断；本次未打开可核对的产业统计来支撑或反驳「越来越难改应用逻辑」的幅度。
+          Emacs、Smalltalk、Genera、VBA、Outlook 与 Google Calendar 是作者给出的例证，本文只按原页转述，不另行增补未核对的产品史细节。
+      holders:
+      - name: Patrick Collison
+        identity: 页面标题为 “Questions · Patrick Collison”，文首写明这些是他认为有意思的一些问题，并给出邮箱 patrick@collison.ie。本次只依据该页已打开文本确定身份，不添加页面未写明的职务或机构。[1]
+      argument: >-
+        Collison 先给出一条对照。一侧是 Emacs、Smalltalk、Genera 和 VBA：它们体现了一种可塑性的终端用户计算，若应用不合用，你就改它或扩展它。[1] 另一侧是今天的情形：终端用户软件日益运转在防弹玻璃之后，在移动和网页这些增长领域尤其明显；不但更难改逻辑，也更难直接操作自己的数据。Visual Basic 加 Outlook 可以很快写出日历分析，Google Calendar 上做同样的事却非常费事。[1]
+        「自行车 / 单轨」的比喻把利害说得更尖锐。自行车是你可以转向、拆改、用自己的力去骑的工具；单轨则把你送向预定方向，平稳，但你不能把轨道掰弯。[1] 他承认专用软件并非全无好处：领域工具可以提高易用性，并分摊复杂功能的成本；他也写到，Sublime 内置的 ⌘-T 比每一个第三方 Emacs 包都更好用。尽管如此，宏和浏览器插件的流行「强烈表明」用户聪明，并且想要更多控制。[1]
+        所以他真正留下的，不是一句怀旧，而是一个未决的设计问题：是否该放弃早先那种赋能用户的设想，还是有可能达到更好的均衡？[1] 后文的两条线索——个人动态媒介的历史，以及自然语言编程的近况——都是在回应「如果会，该怎么实现」。
+      quotes:
+      - text: >-
+          Emacs, Smalltalk, Genera, and VBA embody a vision of malleable end-user computing: if the application doesn't do what you want, it's easy to tweak or augment it to suit your purposes. Today, however, end-user software increasingly operates behind bulletproof glass. This is especially true in the growth areas: mobile and web apps.
+        text_zh: Emacs、Smalltalk、Genera 和 VBA 体现了一种可塑性终端用户计算的设想：如果应用不做你想做的事，你可以很容易地调整或扩展它，使之适合你的目的。然而在今天，终端用户软件日益运转在防弹玻璃之后。在增长领域中尤其如此：移动应用和网页应用。
+        attribution: Patrick Collison，Questions
+        locator: 问题 “Will end-user applications ever be truly programmable? If so, how?” 下首段；https://patrickcollison.com/questions
+        ref: 1
+      - text: >-
+          End-user computing is becoming less a bicycle and more a monorail for the mind.
+        text_zh: 终端用户计算正变得不像一辆自行车，而更像一条供心智乘坐的单轨。
+        attribution: Patrick Collison，Questions
+        locator: 同一问题下单独成段的一句
+        ref: 1
+      - text: >-
+          Still, despite these benefits, the popularity of macros and browser plugins strongly suggest that users are smart and want more control.
+        text_zh: 尽管有这些好处，宏和浏览器插件的流行仍强烈表明：用户是聪明的，并且想要更多控制。
+        attribution: Patrick Collison，Questions
+        locator: 同一问题下讨论专用软件之后的一句（原文动词为 suggest，此处按网页逐字抄录）
+        ref: 1
+    - position: 「让非职业程序员也能改写自己的媒介」是个人计算的经典纲领，而且终端用户编程在表格和脚本中一直大规模存在；要恢复的不是「用户开始编程」这一事实，而是在封闭应用里重新获得那种可修改性
+      consensus_role: 在人机交互与终端用户软件工程中被广泛采用的历史判断；它支持 Collison 的问题是有根的，但提醒我们：可编程性并未从计算里消失，只是往往不发生在他点名的那些消费级应用里
+      evidence:
+        label: 1977 年的一手宣言，以及 2011 年对终端用户软件工程的权威综述
+        note: >-
+          Kay 与 Goldberg 的文章是对 Xerox PARC 工作的展望与已实现系统的展示，不是对当今移动生态的预测。[2] 本次打开并核对的是 The New Media Reader 的重印本（标明原刊为 Computer 10(3):31–41, March 1977），引语页码按该重印本。
+          Ko 等人的综述发表于 ACM Computing Surveys 43(3), Article 21 (2011)，是对既有研究的分类与概念澄清，并引用了 Scaffidi 等人关于电子表格与数据库使用者数量的估计；本次未打开 Scaffidi 等人的原始报告，故不转写其中的具体数字，只转述综述正文中已写出的对比。[3]
+      holders:
+      - name: Alan Kay、Adele Goldberg
+        identity: >-
+          《Personal Dynamic Media》（Computer, 1977）作者。文首写明他们属于 Xerox Palo Alto Research Center 的 Learning Research Group，并介绍 Smalltalk 及所谓 interim Dynabooks。[2]
+      - name: Amy J. Ko 等
+        identity: >-
+          《The State of the Art in End-User Software Engineering》（ACM Computing Surveys, 2011）作者。通讯作者 A. J. Ko 的地址署为 University of Washington 的 The Information School；文首还列出 Microsoft Corporation、University of Cambridge、Oregon State University、MIT Media Laboratory、Carnegie Mellon University 等合作者单位。[3]
+      argument: >-
+        若把 Collison 的问题只读成对旧编辑器的怀念，就会看漏它真正接上的那条线。Kay 与 Goldberg 要的不是更多专业程序员，而是一种人人可拥有的个人动态媒介：一种笔记本大小的「知识操纵器」，有能力处理主人几乎全部与信息有关的需求。[2] 为此他们设计了 Smalltalk，并在小型计算机上实现。更关键的是他们对媒介本身的主张：计算机若能充分提供嵌入与查看信息的方法，就可以成为所有其他媒介；而且这种新的「元媒介」是主动的，能回应询问和实验，使信息把学习者卷入双向对话。他们写到，除个别教师外，这种性质从未有过，其意涵广阔而难以抗拒。[2] 以儿童为用户时，他们报告：孩子们确实能写出做认真事情的程序——用符号指称对象，包含循环与递归，并在选择策略之前做相当程度的设想，还要交互地发现和去掉想法里的「虫子」。[2]
+        三十多年后，Ko 等人的综述把这一现象写成已经非常普遍的实践。他们开篇说：今天大多数程序并非由职业软件开发者写出，而是由其他领域的专家，为了自己需要计算支持的目标而写出，例如教师为节省时间而写评分表格。[3] 终端用户与职业开发者的差别首先在目标：后者受雇去交付并维护软件；前者写程序是为了支持自己领域里的某个目标。编程经验是另一回事，系统管理员或科研人员即使技能很高，也可能只把编程当作完成主业的手段。[3] 他们随即强调：尽管优先级不同，终端用户仍然面对选择接口、测试、验证和调试等软件工程问题，而且错误可以造成严重后果。[3]
+        把两份文献和 Collison 的观察放在一起，问题会变得更精确。终端用户编程并没有消失，它大量发生在表格、脚本和领域工具里；Kay 所设想的那种「媒介本身可被主人改写」的理想，也并没有从研究议程上被宣布取消。真正收紧的，是 Collison 所说的那些增长中的消费级应用：它们把逻辑和数据放在玻璃后面，使「改应用」不再是默认能力。于是「还会真正可编程吗」问的不是用户会不会写公式，而是那种可塑性会不会重新成为普通应用的一部分。
+      quotes:
+      - text: >-
+          Several years ago, we crystallized our dreams into a design idea for a personal dynamic medium the size of a notebook (the Dynabook) which could be owned by everyone and could have the power to handle virtually all of its owner’s information-related needs.
+        text_zh: 数年前，我们把梦想结晶为一个设计设想：一种笔记本大小的个人动态媒介（Dynabook），可以被每一个人拥有，并有能力处理其主人几乎全部与信息有关的需求。
+        attribution: Alan Kay 与 Adele Goldberg，Personal Dynamic Media
+        locator: The New Media Reader 重印本第 393 页；原刊 Computer 10(3), 1977
+        ref: 2
+      - text: >-
+          Moreover, this new “metamedium” is active—it can respond to queries and experiments—so that the messages may involve the learner in a two-way conversation. This property has never been available before except through the medium of an individual teacher. We think the implications are vast and compelling.
+        text_zh: 而且，这一新的「元媒介」是主动的——它能回应询问和实验——从而使信息可以把学习者卷入一场双向对话。除了通过个别教师这一媒介之外，这种性质以前从未有过。我们认为其意涵是广阔而令人难以抗拒的。
+        attribution: Alan Kay 与 Adele Goldberg，Personal Dynamic Media
+        locator: The New Media Reader 重印本第 393–394 页
+        ref: 2
+      - text: >-
+          Most programs today are written not by professional software developers, but by people with expertise in other domains working towards goals for which they need computational support.
+        text_zh: 今天的大多数程序并非由职业软件开发者写出，而是由在其他领域拥有专长的人写出，他们是为了那些需要计算支持的目标而工作。
+        attribution: Ko 等，The State of the Art in End-User Software Engineering
+        locator: ACM Computing Surveys 43(3), Article 21，第 21:1 页，摘要首句
+        ref: 3
+      - text: >-
+          We then define end-user programming as “programming to achieve the result of a program primarily for personal, rather public use.”
+        text_zh: 我们随即将终端用户编程定义为「编程以取得一个程序的结果，而该结果主要供个人使用，而非供公开使用」。
+        attribution: Ko 等，The State of the Art in End-User Software Engineering
+        locator: 第 21:4 页，§2.2 End-User Programming（原文在 rather 与 public 之间未写 than，此处按 PDF 逐字抄录）
+        ref: 3
+    - position: 大语言模型使自然语言成为一种真实的编程界面，但这并不等于终端用户已经「真正可编程」；用户仍须学会如何把意图说成模型能可靠执行的话
+      consensus_role: 近年HCI与代码生成研究中的一条重要新路径；它回应了「如果会，该怎么实现」，但现有实证把它写成仍待设计的交互问题，而不是已经完成的替代方案
+      evidence:
+        label: CHI 2023 的系统设计与 24 人对照出声思维实验
+        note: >-
+          论文聚焦电子表格中的数据分析，使用 Codex 把自然语言查询映射为 Python 并执行；不能自动外推到所有消费级移动或网页应用，也不能代表此后所有代码模型的能力。[4]
+          样本为 n=24 的实验室研究，比较的是 grounded abstraction matching 与一种基于既有查询组织原则的未锚定做法；作者报告 grounded 方法改善了终端用户对模型范围、能力和所需语言的理解，以及从系统失败中恢复的能力，但这不是对「应用将普遍可编程」的因果证明。[4]
+          本次打开的是 arXiv:2304.06597 的 PDF，文内给出 CHI ’23 与 DOI 10.1145/3544548.3580817；未另打开 ACM 官方 HTML。
+      holders:
+      - name: Michael Xieyang Liu、Advait Sarkar、Carina Negreanu、Benjamin Zorn、Jack Williams、Neil Toronto、Andrew D. Gordon
+        identity: >-
+          CHI 2023 论文《“What It Wants Me To Say”: Bridging the Abstraction Gap Between End-User Programmers and Code-Generating Large Language Models》作者。Liu 署名为 Microsoft Research 与 Carnegie Mellon University，Sarkar 署名为 Microsoft Research、University of Cambridge 与 University College London，二人标注同等贡献；其余作者署为 Microsoft Research（英国或美国，以文首为准）。[4]
+      argument: >-
+        Collison 问「如果会，该怎么实现」。一条晚近的回答是：不必再让用户进入 VBA 或 Lisp，而是让他们用已经会的自然语言来驱动应用。Liu 等人把这一前景写得很明确：编程语言是极强的用户界面，但对缺少计算训练的非专家终端用户程序员来说也极难学习；若他们改用英语这样的自然语言，这种语言用户已经知道，表面上几乎不必有意识地投入学习或努力，而这一前景可以通过把自然语言映射为代码的大模型来实现。[4]
+        他们立刻加上限制。在近乎无穷的自然说法里，只有一小部分能有效引导代码生成；对非专家来说，学会这一点就是 abstraction matching 的挑战。[4] 实验室和田野研究已经表明，自然语言与代码之间的映射被理解得很差，生成的代码可能包含隐蔽错误，并且可能难以验证。[4] 换句话说，玻璃后面并没有因为多了一个对话框就自动重新变得可塑；用户仍然必须摸清系统愿意执行的那一层说法。
+        作者提出的设计对策，不是假装这一层不存在，而是把系统已经执行的动作再翻译回一种系统化、可预测的自然语言，给用户一个可编辑的、接地的例子，说明「要稳定地调用同一动作，该怎么说」。[4] 在电子表格数据分析的 24 人对照实验中，他们发现这种锚定做法改善了终端用户对代码生成模型之范围与能力的理解，以及要有效使用它所需要的那种语言。[4]
+        对原问题而言，这是一条真实的实现路径，也是一份尚未完成的答案。它表明「真正可编程」可以不再只等于「打开脚本编辑器」，但用户要能把自己的意图说成系统听得懂、且自己事后还能检验的话，仍然需要新的界面与学习。Collison 所担心的数据与逻辑封闭，也不会仅仅因为有了对话界面就自动解除。
+      quotes:
+      - text: >-
+          Code-generating large language models map natural language to code. However, only a small portion of the infinite space of naturalistic utterances is effective at guiding code generation. For non-expert end-user programmers, learning this is the challenge of abstraction matching.
+        text_zh: 代码生成大模型把自然语言映射为代码。然而，在无穷的自然说法空间里，只有一小部分能有效引导代码生成。对非专家的终端用户程序员来说，学会这一点就是抽象匹配的挑战。
+        attribution: Liu、Sarkar 等，“What It Wants Me To Say”
+        locator: 摘要首三句；CHI ’23，arXiv:2304.06597
+        ref: 4
+      - text: >-
+          What if end-user programmers could instead use a natural language such as English? Natural language is already known to the user, and ostensibly requires little conscious investment of effort or learning. This prospect can be realized through large language models: deep neural networks using the transformer architecture, trained on large corpora, fine-tuned to generate code from natural language.
+        text_zh: 倘若终端用户程序员改为使用英语这样的自然语言，会怎样？自然语言是用户已经知道的，而且表面上几乎不需要有意识地投入努力或学习。这一前景可以通过大语言模型来实现：它们是使用 Transformer 架构、在大规模语料上训练、并被微调以由自然语言生成代码的深度神经网络。
+        attribution: Liu、Sarkar 等，“What It Wants Me To Say”
+        locator: 第 1 节 Introduction
+        ref: 4
+    open_parts: >-
+      Collison 的核心问题仍然开放：消费级移动和网页应用会不会重新变得可塑，还是领域专用、不可改写的工具会继续占上风。[1] 本文没有打开关于应用平台政策、应用商店限制或开放 API 变迁的系统证据，因此不能把「防弹玻璃」写成已经完成的历史定律。
+      终端用户编程的经典研究主要观察电子表格、脚本和领域工具；[3] 这些实践的存在，并不能直接回答「Outlook 式的可脚本性是否会回到 Google Calendar 一类的封闭服务」。
+      自然语言编程目前的实证，多集中在代码生成、电子表格或特定工作流，样本也相对较小。[4] 它是否能在不暴露底层数据与逻辑的前提下，恢复 Collison 所说的那种控制，仍然有待更多研究。大模型本身也会引入新的失败模式（隐蔽错误、难以验证、用户必须学习「它想让我说什么」），这些限制已被该论文指出，但尚未被写成已被克服的问题。[4]
+      同一清单上相邻的问题还提到 “magic ink”；本次解答不把那一问题的文献并入本题。Bret Victor 的相关文章未用作本条参考文献。
+    references:
+    - id: 1
+      citation: >-
+        Collison, P. Questions. 其中条目 “Will end-user applications ever be truly programmable? If so, how?”. 本次按 2026-11-23 打开的页面文本核对。
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: >-
+        Kay, A., & Goldberg, A. (1977). Personal dynamic media. Computer, 10(3), 31–41. 本次打开并核对的是 The New Media Reader 重印本（标注原刊信息同上），页码按该重印本。
+      url: https://www.newmediareader.com/book_samples/nmr-26-kay.pdf
+    - id: 3
+      citation: >-
+        Ko, A. J., Abraham, R., Beckwith, L., Blackwell, A., Burnett, M., Erwig, M., Scaffidi, C., Lawrance, J., Lieberman, H., Myers, B., Rosson, M. B., Rothermel, G., Shaw, M., & Wiedenbeck, S. (2011). The state of the art in end-user software engineering. ACM Computing Surveys, 43(3), Article 21, 1–44. https://doi.org/10.1145/1922649.1922658
+        本次打开并核对的是作者提供的 PDF。
+      url: https://faculty.washington.edu/ajko/papers/Ko2011EndUserSoftwareEngineering.pdf
+    - id: 4
+      citation: >-
+        Liu, M. X., Sarkar, A., Negreanu, C., Zorn, B., Williams, J., Toronto, N., & Gordon, A. D. (2023). “What it wants me to say”: Bridging the abstraction gap between end-user programmers and code-generating large language models. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems (CHI ’23). ACM. https://doi.org/10.1145/3544548.3580817
+        本次打开并核对的是 arXiv:2304.06597 的 PDF。
+      url: https://arxiv.org/pdf/2304.06597
+
+- id: 2026-11-23-biz-minimum-wage
+  date: '2026-11-23'
+  category: business
+  title_zh: 提高最低工资的经济目的是什么？
+  title_en: What is the economic purpose of increasing the minimum wage?
+  commentary: 这道题把「目的」和「效果」分开了：即便就业效应仍有争论，也仍要问提高工资下限究竟想解决什么问题——减贫、再分配，还是矫正买方垄断。把「经济学家早已意见一致」当成前提，本身就需要核对。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/429/what-is-the-economic-purpose-of-increasing-the-minimum-wage
+  author: Mathematician
+  source_type: stackexchange
+  tags:
+  - 最低工资
+  - 就业
+  - 买方垄断
+  - 贫困
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: 提高最低工资的常见政策目标是提高低工资劳动者的收入并减轻贫困；但在竞争性劳动市场模型中，有效的工资下限会导致部分低效率劳动者失业。这一教科书预测与较新的实证结果长期对立，学界并没有单一结论
+      note: >-
+        原问题把「经济学家普遍认为最低工资扭曲均衡、增加非熟练劳动力失业」当作既定前提，再问提高它有何经济理由。[0]
+        这一前提并不成立。Stigler 1946 年的经典分析把大众目标写成消除极端贫困，同时在竞争性条件下预言：若最低工资生效，边际产品低于下限的工人会被解雇。[1]
+        Card 与 Krueger 对 1992 年新泽西最低工资上调的快餐店前后对照，没有发现就业下降的迹象，结论段甚至报告就业增加，并写明这与教科书的中心预测相反。[2]
+        Neumark 与 Wascher 的长篇综述则明确写到：文献估计区间很宽，因而对低工资就业的总体效应缺乏共识；但他们同时认为，「新近研究不再支持传统的就业下降观点」这一说法显然不正确，他们视为最可信的研究绝大多数指向负向就业效应。[3]
+        Dube、Lester 与 Reich 用跨州相邻县比较，报告在其所考察的美国最低工资上调幅度内，没有可检出的就业损失。[4]
+        美国国会预算办公室（CBO）2019 年官方报告同时给出了收入上升、部分家庭脱贫，以及中位估计下的就业减少，并强调就业效应的不确定性很大。[5]
+        2013 年 IGM/Clark Center 对顶尖学术经济学家的调查，也显示出对「提到 9 美元是否会明显增加低技能者就业难度」存在明显分歧。[6]
+    summary: >-
+      原题问的不是「该不该涨」，而是：在承认价格下限会干扰供需的教科书图像之后，提高最低工资是否仍有严格的经济理由。[0]
+      把「目的」和「效果」分开，有助于看清争论。就目的而言，Stigler 写得很清楚：最低工资立法的流行目标——消除极端贫困——本身几乎不必争论；真正要问的是它是否减少贫困，以及是否存在更有效的替代政策。他自己的答案是「否」与「是」。[1]
+      就机制而言，竞争性劳动市场给出的预测也很明确：每个工人得到其边际产品的价值；若最低工资生效，则服务价值低于下限的工人会被解雇，或转入未受管制的部门、失业或退出劳动力。[1] 同一篇文章也已经指出另一种理论可能：若雇主对给定质量的劳动具有显著的工资决定权，设定得当的最低工资可以提高工资和就业，并使工资更接近边际产品价值；但他随即强调，全国统一的最低工资很难满足「恰到好处」的各项条件。[1]
+      实证争论从 1990 年代所谓「新最低工资研究」起变得尖锐。Card 与 Krueger 调查了新泽西最低工资从每小时 4.25 美元提到 5.05 美元前后的 410 家快餐店，并与宾夕法尼亚东部未调薪的店铺以及新泽西州内原本已高工资的店铺比较，摘要的判断是：没有迹象表明这次上调减少了就业。[2] Dube、Lester 与 Reich 把个案研究推广到 1990–2006 年全美跨州相邻县，同样报告没有不利的就业效应，并认为传统未控制地方经济条件的方法，会因与政策无关的空间异质性而产生虚假的负向结果。[4]
+      相反的阅读来自 Neumark 与 Wascher：他们承认估计值范围很宽、总体效应缺乏共识，但认为被调查的多数研究、尤其是他们视为最可信的研究，相对一致地指向负向就业效应，而且对技能最低的群体证据更强；他们几乎看不到有说服力的正向就业效应，尤其是在竞争性模型所针对的更宽群体上。[3]
+      CBO 的官方评估把这两面写在同一份报告里：提高联邦最低工资，对多数低工资工人意味着收入和家庭收入上升，并可使一些家庭脱贫；但另一些低工资工人会失去工作，其家庭收入下降，有时会降到贫困线以下。[5] 以把联邦最低工资本到 2025 年提到 15 美元并指数化这一方案为例，CBO 的中位估计是：2025 年平均一周将有 130 万本来会就业的工人失业，同时低于贫困线的人数将减少 130 万；就业变化有约三分之二的可能落在「接近零」到减少 370 万之间。[5]
+      因此，提高最低工资可以有清晰的规范目标（提高低端工资、减轻贫困，在买方力量存在时甚至可能改善配置），但其就业与分配效果在经验上仍有严重分歧。把「经济学家已经形成共识、因而涨工资没有经济理由」或反过来「已经证明没有失业代价」写成定论，都不符合已打开的一手文献。
+    definitions:
+    - term: 竞争性工资决定（competitive wage determination）
+      text: Stigler 用来描述雇主对给定技能与努力程度的劳动没有工资控制权的情形：每个工人得到其边际产品的价值。此时若最低工资生效，服务价值低于下限的工人会被解雇，或转入未受管制部门、失业或退出劳动力。[1]
+    - term: 雇主工资决定 / 买方垄断式市场（employer wage determination / monopsony-like market）
+      text: 若雇主对给定质量的劳动具有显著工资决定权，他可以把工资定在低于竞争性水平之处。Stigler 用假想数字说明：设定得当的最低工资可以提高就业和工资，并使工资更接近边际产品价值；但全国统一下限很难对准「正确」的水平，定得过高仍会减少就业。[1] Card 与 Krueger 也讨论了这类模型，并写明他们的总体发现难以用标准竞争模型或供给约束（如买方垄断或均衡搜寻）模型来解释。[2]
+    - term: 新最低工资研究（new minimum wage research）
+      text: Neumark 与 Wascher 用来指称 1990 年代初以来、更多利用州级差异和其他识别策略来估计最低工资就业效应的文献传统。他们指出，与较早综述相对狭窄的弹性共识相比，这一传统给出的估计区间更宽。[3]
+    milestones:
+    - year: '1946'
+      name: Stigler 给出竞争性市场的经典政策分析
+      explanation: 在《美国经济评论》发表《最低工资立法的经济学》，区分减贫目标与配置、就业、家庭收入效应，并讨论雇主控制工资时的例外情形。[1]
+    - year: '1992–1994'
+      name: 新泽西—宾夕法尼亚快餐自然实验
+      explanation: 新泽西于 1992 年 4 月 1 日把最低工资从 4.25 美元提到 5.05 美元。Card 与 Krueger 据此调查 410 家快餐店，1994 年在 AER 报告未发现就业下降。[2]
+    - year: '2007 / 2010'
+      name: 综述分歧与相邻县设计
+      explanation: Neumark 与 Wascher 发表对「新最低工资研究」的长篇评述，强调负向就业效应仍占多数可信证据；[3] Dube、Lester 与 Reich 用 1990–2006 年跨州相邻县比较，报告没有可检出的就业损失。[4]
+    - year: '2013 / 2019'
+      name: 专家调查与 CBO 官方评估
+      explanation: IGM/Clark Center 就联邦最低工资提到 9 美元的就业与福利含义询问学术经济学家，意见明显分歧；[6] CBO 发布关于提高联邦最低工资对就业与家庭收入影响的报告，同时给出中位就业损失与减贫估计，并标明很大的不确定性区间。[5]
+    views:
+    - position: 在竞争性劳动市场中，有效的最低工资会解雇边际产品低于下限的工人；作为减贫工具，它瞄准不准，因而提高下限并不是实现其流行目标的可靠办法
+      consensus_role: 长期占据教科书核心位置的理论预测，也是原问题当作「一般接受」的那一侧
+      evidence:
+        label: 经典理论分析，辅以后来仍坚持负向就业效应的文献综述
+        note: >-
+          Stigler 1946 年的文章是理论与政策评论，不是一项现代识别策略下的经验估计；文中关于总就业的数量推测（「可能有数十万工人被解雇」）被他自己写成「没有人知道确切数字」。[1]
+          Neumark 与 Wascher 的判断来自对既有研究的分类阅读，而不是一篇新的随机试验；他们明确承认估计值范围很宽、领域缺乏总体共识，其「最可信研究」的名单本身是作者的评估。[3]
+          竞争性预测是否适用于具体市场，取决于该市场是否接近完全竞争，以及上调幅度是否「有效」约束了工资。
+      holders:
+      - name: George J. Stigler
+        identity: '《The Economics of Minimum Wage Legislation》（American Economic Review, 1946）作者。文中脚注将其署为明尼苏达大学经济学教授。[1]'
+      - name: David Neumark、William Wascher
+        identity: '《Minimum Wages and Employment》（IZA Discussion Paper No. 2570, 2007）作者。通讯作者 Neumark 当时署于加州大学欧文分校（兼 PPIC、NBER 与 IZA）；Wascher 署于美国联邦储备理事会。文中声明观点属于作者，不一定反映美联储理事会立场。[3]'
+      argument: >-
+        Stigler 把问题从「要不要消除极端贫困」转到「最低工资能不能做到、有没有更好办法」。在竞争性工资决定下，生效的最低工资主要带来他所谓的配置效应：产出下降，略低于下限的人或许提高收入，显著低于下限的人收入减少。[1] 关于总就业，他的方向性判断是：最低工资越高，被解雇的受覆盖工人越多；直接失业「可观且确定」，并由此推定对总就业的净效应是不利的。[1]
+        即便承认雇主可能具有工资控制权，他也认为这对全国性最低工资「并不十分相关」：最优下限必须选得正确、随职业与工人质量、随企业、并随时间迅速变化，而当时并没有可容忍地准确的方法去导出所需的供需曲线。[1]
+        半个多世纪后，Neumark 与 Wascher 并不否认文献已经变得远更混杂，但他们拒绝「新研究已经推翻传统观点」的说法。在他们的计数里，综述表中的 102 个条目约三分之二相对一致地指向负向就业效应；他们标出的 33 项「最可信」证据中，28 项（85%）指向负向效应；若聚焦最可能受害的低技能群体，证据在他们看来尤其强。[3]
+        按这一侧的逻辑，提高最低工资的「经济目的」如果是减贫或提高最弱势者的福利，机制上并不可靠：受益的是保住工作、工资被抬高的人，代价往往落在技能最低、最可能失去工作的人身上。
+      quotes:
+      - text: >-
+          The popular objective of minimum wage legislation—the elimination
+          of extreme poverty—is not seriously debatable. The important questions are
+          rather (1) Does such legislation diminish poverty? (2) Are there efficient
+          alternatives?
+        text_zh: 最低工资立法的流行目标——消除极端贫困——并不是真正需要争论的。重要的问题反而是：（1）这类立法是否减少贫困？（2）是否存在有效的替代方案？
+        attribution: George J. Stigler，The Economics of Minimum Wage Legislation
+        locator: American Economic Review 36(3), 1946, 第 358 页
+        ref: 1
+      - text: >-
+          Each worker receives the value of his marginal product under competition.
+          If a minimum wage is effective, it must therefore have one of two effects:
+          first, workers whose services are worth less than the minimum wage are
+          discharged (and thus forced into unregulated fields of employment, or into
+          unemployment or retirement from the labor force); or, second, the productivity
+          of low-efficiency workers is increased.
+        text_zh: 在竞争条件下，每个工人得到其边际产品的价值。因此，若最低工资生效，它必定产生两种效果之一：第一，服务价值低于最低工资的工人被解雇（从而被迫进入未受管制的就业领域，或陷入失业，或退出劳动力）；第二，低效率工人的生产率提高。
+        attribution: George J. Stigler，The Economics of Minimum Wage Legislation
+        locator: American Economic Review 36(3), 1946, 第 358 页（Competitive Wage Determination 一节）
+        ref: 1
+      - text: >-
+          However, the oft-stated assertion that recent research fails to support the
+          traditional view that the minimum wage reduces the employment of low-wage
+          workers is clearly incorrect. A sizable majority of the studies surveyed in
+          this monograph give a relatively consistent (although not always statistically
+          significant) indication of negative employment effects of minimum wages.
+          In addition, among the papers we view as providing the most credible evidence,
+          almost all point to negative employment effects, both for the United States
+          as well as for many other countries.
+        text_zh: 然而，那种常被提出的断言——近期研究不再支持「最低工资会减少低工资工人就业」的传统观点——显然是不正确的。本专论所评述的研究中，相当大部分相对一致地（尽管并不总是统计显著）显示最低工资具有负向就业效应。此外，在我们视为提供最可信证据的论文中，几乎全部都指向负向就业效应，无论是对美国还是对许多其他国家。
+        attribution: David Neumark 与 William Wascher，Minimum Wages and Employment
+        locator: IZA Discussion Paper No. 2570, 2007, 摘要
+        ref: 3
+    - position: 在低工资劳动市场中，适度提高最低工资可以提高低收入者的工资，而不一定带来可检出的就业损失；若雇主具有买方力量，理论上甚至可能同时提高工资与就业
+      consensus_role: 1990 年代以来最有影响的「新最低工资研究」立场之一，直接挑战教科书的单向预测
+      evidence:
+        label: 自然实验与相邻县面板估计，外加教科书中已有的买方力量理论
+        note: >-
+          Card 与 Krueger 的对象是快餐业店铺，时间窗口覆盖一次州级上调；他们自己也提出，总体发现难以用标准竞争模型或买方垄断/搜寻模型来解释，因此机制并未被他们的数据单独裁定。[2]
+          Dube、Lester 与 Reich 考察的是 1990–2006 年美国已经出现过的最低工资上调幅度，结论不能自动外推到更大、更快的全国性上调；作者也提醒，估计更多涉及低工资岗位而非低工资工人，且未解决企业是否以更高技能工人替代低技能工人的问题。[4]
+          Stigler 对雇主工资决定的算术例子是假想数据，而且他本人认为这对全国统一下限「不是很相关」。[1]
+      holders:
+      - name: David Card、Alan B. Krueger
+        identity: '《Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania》（American Economic Review, 1994）作者。文中单位署为普林斯顿大学经济系。[2]'
+      - name: Arindrajit Dube、T. William Lester、Michael Reich
+        identity: '《Minimum Wage Effects Across State Borders: Estimates Using Contiguous Counties》（Review of Economics and Statistics, 2010）作者。脚注当时将 Dube 署于马萨诸塞大学阿默斯特分校经济系，Lester 署于北卡罗来纳大学教堂山分校城市与区域规划系，Reich 署于加州大学经济系与劳资关系研究所（IRLE）。[4]'
+      argument: >-
+        如果问题是「有没有经济机制，使提高最低工资可以改善低工资工人的处境」，这一侧给出了两条路径。一条是理论的：当雇主有工资决定权时，过低的工资并不等于市场出清；Stigler 自己的表 II 显示，把工资从 20 美元提到 24 美元可以使就业从 50 人增加到 70 人——当然，再高过 28 美元又会减少就业。[1]
+        另一条是经验的。Card 与 Krueger 问的是：低工资雇主面对最低工资上调会怎样反应？他们写明，传统理论的预测是明确的：上升导致完全竞争雇主削减就业（并引用了 Stigler 1946）。[2] 他们对新泽西与宾夕法尼亚东部快餐店的前后比较，以及新泽西州内高工资与低工资店铺的比较，都没有给出就业下降的迹象；结论段更写明，无论用哪一种对照，他们都发现这次上调增加了就业，并且多种设定都未出现负向就业效应。[2]
+        Dube、Lester 与 Reich 把这种地方性对照推广到全部跨州相邻县，摘要中的判断是「没有不利的就业效应」；在结论中他们进一步写：就过去数十年美国出现过的那类上调而言，使用地方比较、从而控制就业增长异质性的方法更为可靠，这些估计表明没有可检出的就业损失。[4]
+        若这一阅读成立，提高最低工资的经济目的就可以说成：在不造成明显失业的前提下提高低工资岗位的报酬，并在存在买方力量时纠正过低的工资。不过，就连 Card 与 Krueger 也承认，他们的发现整体上既不好用标准竞争模型解释，也不好用供给约束模型解释，[2] 因此「目的能够实现」并不等于「机制已经清楚」。
+      quotes:
+      - text: >-
+          We find no indication that the rise in the minimum wage reduced
+          employment.
+        text_zh: 我们没有发现任何迹象表明，这次最低工资上调减少了就业。
+        attribution: David Card 与 Alan B. Krueger，Minimum Wages and Employment
+        locator: American Economic Review 84(4), 1994, 第 772 页，开篇摘要段
+        ref: 2
+      - text: >-
+          Contrary to the central prediction of the textbook model of the minimum wage,
+          but consistent with a number of recent studies based on cross-sectional
+          time-series comparisons of affected and unaffected markets or employers,
+          we find no evidence that the rise in New Jersey's minimum wage reduced
+          employment at fast-food restaurants in the state.
+        text_zh: 与最低工资教科书模型的中心预测相反，但与若干基于受影响与未受影响市场或雇主的截面—时间序列比较的近期研究相一致，我们没有发现证据表明新泽西最低工资的上调减少了该州快餐店的就业。
+        attribution: David Card 与 Alan B. Krueger，Minimum Wages and Employment
+        locator: American Economic Review 84(4), 1994, 第 792 页，IX. Conclusions
+        ref: 2
+      - text: >-
+          These estimates suggest no detectable employment losses from the kind of
+          minimum wage increases we have seen in the United States.
+        text_zh: 这些估计表明，就我们在美国所见的那类最低工资上调而言，没有可检出的就业损失。
+        attribution: Arindrajit Dube、T. William Lester 与 Michael Reich，Minimum Wage Effects Across State Borders
+        locator: Review of Economics and Statistics 92(4), 2010, 第 962 页，结论段
+        ref: 4
+    - position: 就政策评估而言，提高最低工资往往同时带来低工资劳动者的收入增益（包括部分减贫）和不确定、但中位估计不为零的就业损失；目的可以部分达到，代价的大小仍无共识
+      consensus_role: 官方综合评估与专家调查所反映的「两面都在、尚未结算」的中间立场
+      evidence:
+        label: CBO 对联邦方案的官方模拟，以及 IGM 专家调查的公开投票表
+        note: >-
+          CBO 2019 年报告不是新的微观计量论文，而是基于已有研究和对工资增长、就业反应参数的中位与区间假设所做的政策模拟；报告开篇就强调任何方案的就业效应都有很大不确定性，且反应参数的可能区间并不对称：若大于中位数，可能会大得多。[5]
+          本次打开的是该报告官方 PDF 的 Internet Archive 快照（因 cbo.gov 对自动抓取返回 403）；文本与报告编号 CBO-55410、页面 www.cbo.gov/publication/55410 一致。[5]
+          IGM/Clark Center 2013 年调查针对的是提到每小时 9 美元并指数化的具体方案，不能直接外推到 15 美元或不同国家制度；本文只报告从已打开的逐人投票表清点出的未加权票数，不转述页面上以图像展示、未能逐字读出的置信度加权百分比。[6]
+      holders:
+      - name: 美国国会预算办公室（Congressional Budget Office）
+        identity: 美国国会的非党派预算机构。2019 年 7 月报告《The Effects on Employment and Family Income of Increasing the Federal Minimum Wage》由其撰写并发布。[5]
+      - name: IGM/Clark Center 经济专家小组（2013 年最低工资调查的响应者）
+        identity: 芝加哥大学布斯商学院 IGM Forum（现 Kent A. Clark Center for Global Markets）组织的学术经济学家调查。2013 年 2 月 26 日公布的「Minimum Wage」问卷，公开列出包括 Acemoglu、Autor、Chetty、Deaton、Hoxby、Saez、Thaler 等人在内的逐人投票与简短评论。[6]
+      argument: >-
+        若把「经济目的」理解成可观察的政策结果，而不是某一学派的理论推论，CBO 的写法最为直接。它考察三种到 2025 年把联邦最低工资分别提到 15、12 与 10 美元的方案，并一开篇就并置两种主效应：对多数低工资工人，收入和家庭收入会增加，一些家庭将脱贫；但另一些低工资工人会失去工作，其家庭收入下降，有时降到贫困线以下。[5]
+        对 15 美元方案，中位估计是 2025 年平均一周减少 130 万就业（相当于就业人数下降 0.8%），同时使低于贫困线的人数减少 130 万；工资低于 15 美元的 1700 万工人会因此提高工资，另外约 1000 万略高于新下限的工人也可能间接受益。[5] 关键的是不确定性：CBO 估计就业变化有约三分之二的可能落在接近零到减少 370 万之间。[5] 较小的 12 美元与 10 美元方案，就业与减贫效应都相应缩小。[5]
+        专家层面的分歧与这份官方谨慎态度一致。在 2013 年关于「提到 9 美元是否会明显增加低技能者找工作难度」的问题上，已公布的逐人投票未加权结果为：同意 13 票，不同意 12 票，不确定 9 票，无意见 1 票，未作答 3 票。[6] 这不是「一边倒反对最低工资」，也不是「已经证明没有就业代价」。
+        回到原题：提高最低工资可以有明确的分配目的，并且按 CBO 的中位估计，这一目的在减贫上会部分实现；但同一估计也包含就业损失，而且区间宽到足以包含「接近于没有损失」。经济理由存在，却不是一张已经结算清楚的成本—收益表。
+      quotes:
+      - text: >-
+          Increasing the federal minimum wage would have two principal
+          effects on low-wage workers. For most low-wage workers,
+          earnings and family income would increase, which would
+          lift some families out of poverty. But other low-wage
+          workers would become jobless, and their family income
+          would fall—in some cases, below the poverty threshold.
+        text_zh: 提高联邦最低工资会对低工资工人产生两项主要影响。对大多数低工资工人而言，收入和家庭收入会增加，从而使一些家庭脱贫。但另一些低工资工人会失去工作，其家庭收入会下降——有些情况下会降到贫困线以下。
+        attribution: Congressional Budget Office，The Effects on Employment and Family Income of Increasing the Federal Minimum Wage
+        locator: 2019 年 7 月报告，Summary，第 1 页
+        ref: 5
+      - text: >-
+          According to CBO’s median estimate, under the $15
+          option, 1.3 million workers who would otherwise be
+          employed would be jobless in an average week in 2025.
+          (That would equal a 0.8 percent reduction in the number
+          of employed workers.) CBO estimates that there is about
+          a two-thirds chance that the change in employment
+          would lie between about zero and a reduction of 3.7 million
+          workers.
+        text_zh: 按照 CBO 的中位估计，在 15 美元方案下，2025 年平均一周将有 130 万本来会就业的工人失业（相当于就业人数减少 0.8%）。CBO 估计，就业变化有约三分之二的可能落在接近零到减少 370 万工人之间。
+        attribution: Congressional Budget Office，The Effects on Employment and Family Income of Increasing the Federal Minimum Wage
+        locator: 2019 年 7 月报告，Summary，第 1 页
+        ref: 5
+    open_parts: >-
+      目的与效果仍不应被写成已经统一结算。竞争性模型、买方垄断模型和不同识别策略下的估计，对同一项政策给出的就业弹性可以从明显为负到接近于零，Neumark 与 Wascher 自己也把「估计区间很宽、缺乏总体共识」写在摘要的开头。[3][4]
+      现有主要证据多来自美国州级或地方性、幅度相对有限的上调；能否外推到更大的全国性提高（例如迅速提到 15 美元），正是 CBO 用宽区间来表达的那种不确定性。[5]
+      即便就业的平均效应接近零，仍可能存在对青少年、残疾工人或最缺乏技能者的不利分配效应，以及工作时长、价格、技能替代和不被计入就业人数的其他调整；Dube 等人已提醒，他们的估计更接近「对低工资岗位」而非「对低工资工人」。[4]
+      与最低工资并行的政策（如劳动所得税抵免 EITC）是否在瞄准贫困上更有效，是 Stigler 提出、后来文献反复讨论的问题，但本文未打开那些专门比较研究，故不在此下判断。[1]
+      至于原问题所问的「经济目的」，规范目标（提高低端报酬、减轻贫困、在买方力量下纠正过低工资）是清楚的；这些目标在经验上能实现多少，仍然是开放的实证问题。
+    references:
+    - id: 0
+      citation: Mathematician (2014). What is the economic purpose of increasing the minimum wage? Economics Stack Exchange.
+      url: https://economics.stackexchange.com/questions/429/what-is-the-economic-purpose-of-increasing-the-minimum-wage
+    - id: 1
+      citation: 'Stigler, G. J. (1946). The economics of minimum wage legislation. American Economic Review, 36(3), 358–365.'
+      url: https://www.cooperative-individualism.org/stigler-george_the-economics-of-minimum-wage-legislation-1946-jun.pdf
+    - id: 2
+      citation: 'Card, D., & Krueger, A. B. (1994). Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania. American Economic Review, 84(4), 772–793.'
+      url: https://davidcard.berkeley.edu/papers/njmin-aer.pdf
+    - id: 3
+      citation: 'Neumark, D., & Wascher, W. (2007). Minimum wages and employment (IZA Discussion Paper No. 2570). Institute for the Study of Labor.'
+      url: https://docs.iza.org/dp2570.pdf
+    - id: 4
+      citation: 'Dube, A., Lester, T. W., & Reich, M. (2010). Minimum wage effects across state borders: Estimates using contiguous counties. Review of Economics and Statistics, 92(4), 945–964.'
+      url: https://irle.berkeley.edu/wp-content/uploads/2010/11/Minimum-Wage-Effects-Across-State-Borders.pdf
+    - id: 5
+      citation: 'Congressional Budget Office. (2019). The effects on employment and family income of increasing the federal minimum wage.'
+      url: https://web.archive.org/web/20210101030423/https://www.cbo.gov/system/files/2019-07/CBO-55410-MinimumWage2019.pdf
+    - id: 6
+      citation: 'IGM Forum / Kent A. Clark Center for Global Markets. (2013, February 26). Minimum wage (Economic Experts Panel survey).'
+      url: https://kentclarkcenter.org/surveys/minimum-wage/
+
+- id: 2026-11-23-biz-replacement
+  date: '2026-11-23'
+  category: business
+  title_zh: 在没有自然消亡机制的体系里，如何保证足够的淘汰与更新？
+  title_en: How do you ensure an adequate replacement rate in systems that have no natural way to die?
+  commentary: 企业会破产，机构和制度却往往只会自我保全。把「如何配置现有结构」误当成全部问题，就会忽略结构本身的创造与毁灭——而这正是许多体系逐渐僵化却难以退出的原因。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 创造性毁灭
+  - 制度惰性
+  - 组织更新
+  - 官僚机构
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: 这是一道开放的制度设计问题，没有已被证明的单一操作方案；证据主要是理论和历史—组织案例，而不是受控实验
+      note: >-
+        Collison 的原题把问题规定得很清楚：破产可以处理衰败的企业，但在并不自然面临灭绝过程的体系与制度里，如何保证足够的更新率？他转述 Schumpeter 的主张——资本主义的问题不在于如何把资本配置给现有结构，而在于结构如何被创造与毁灭——并提示制度命令（institutional imperative）、Berliner 关于「看不见的脚」的评论，以及 Herbert Kaufman 的短书。[1]
+        Schumpeter 在《资本主义、社会主义与民主》第七章把「创造性毁灭」写成资本主义的本质事实，并写明：通常被想象的问题是资本主义如何管理现有结构，而真正相关的问题是它如何创造并毁灭这些结构。[2]
+        Kaufman 对美国联邦行政部门单位 1923–1973 年的清点表明：机构一旦成立，存活机会极高，但组织死亡并非未知现象。[3]
+        Buffett 在伯克希尔 1989 年股东信中描述了「制度命令」：机构会抗拒改变方向，并在制度动力学作用下走上往往被误导的路径。[4]
+        Berliner 的原文本次未能打开，因此只在 Collison 的转述层面提及，不引用其句子或页码。
+        上述文献共同说明「为什么更新困难」，但并不提供一套已被验证的、可普遍套用的替代灭绝机制。
+    summary: >-
+      Collison 问的不是企业如何新陈代谢——他写明，破产会处理衰败的企业——而是：系统和制度难免过时或变得低效，却会非常努力地活下去；在那些并不自然面临灭绝过程的体系里，怎样才能达到足够的更新率。[1]
+      他用来定位问题的第一条线索，是对 Schumpeter 的转述。打开《资本主义、社会主义与民主》第七章后，可以看到比转述更完整的表述。Schumpeter 把资本主义写成一种经济变迁的形式或方法，它不仅从来不是、而且永远不可能是静止的。[2] 他接着把从手工作坊到美国钢铁那样的组织演进，说成一种「工业突变」：它从内部不断革命化经济结构，不断毁灭旧结构、创造新结构。「创造性毁灭」的过程是关于资本主义的本质事实；每一个资本主义企业都必须生活在其中。[2] 正因为如此，他写道：通常被想象的问题是资本主义如何管理现有结构，而相关的问题是它如何创造并毁灭这些结构。[2] 对单个企业的行为，也必须放在「创造性毁灭的持久风暴」中来看，而不能假设风暴已经平息。[2]
+      一旦把目光转到公共机构和其他缺乏破产约束的组织，经验图像就不同了。Kaufman 的短书《政府组织是不朽的吗？》把标题当成一个有待经验检验的问题，而不是修辞。他考察了 400 多个联邦行政部门单位。在 1923 年样本的 175 个组织中，到 1973 年仍有 148 个（近 85%）还在运转，只有 27 个（略高于 15%）消失；其中 109 个（超过 62%）连地位都几乎未变。因此，一个 1923 年还活着的组织活到 1973 年的机会非常高。[3] 为该书作序的文字也写明：结论支持「机构一旦诞生就会存活」这一普遍印象，但同时表明组织死亡并非未知现象。[3]
+      在企业组织内部，Buffett 把自己「最意外的发现」写成一种他称为「制度命令」的看不见的力量：他原以为体面、聪明、有经验的经理人会自动做出理性决策，后来却发现，当制度命令起作用时，理性常常枯萎。他列举的机制包括：机构像受牛顿第一定律支配一样抗拒改变当前方向；项目或收购会冒出来吸尽可用资金；领导人的任何渴望都会迅速得到回报率与战略研究的支持；同业的行为会被盲目模仿。把企业推上这些往往被误导的路径的，是制度动力学，而不是恶意或愚蠢。[4]
+      把这三条线索合在一起：市场部门至少还有破产与创造性毁灭作为更新装置；许多公共机构、大型科层和类似「没有自然死亡方式」的体系，既缺乏同等强度的灭绝过程，又内生地倾向于自我保全。至于如何在这些体系里人为制造足够的更新率，已打开的文献更多是在诊断问题，而不是给出已被证明有效的通用处方。Collison 提到的 Berliner「看不见的脚」，本次未能核对原文，只能作为他本人的阅读指引保留。
+    definitions:
+    - term: 创造性毁灭（creative destruction）
+      text: Schumpeter 用来指资本主义从内部不断革命化经济结构、不断毁灭旧结构并创造新结构的过程。他称之为关于资本主义的本质事实，并认为每个资本主义企业都必须生活在这一过程之中。[2]
+    - term: 制度命令（institutional imperative）
+      text: Buffett 在 1989 年股东信中的提法：一种他起初未意识到的、在商业中具有压倒性重要性的看不见的力量。其作用包括抗拒改变方向、用项目吸尽可用资金、为领导人的渴望提供论证，以及盲目模仿同业；在它起作用时，理性常常枯萎。[4]
+    - term: 组织死亡与存活（organizational death and survival）
+      text: Kaufman 把联邦行政机构的设立、存续与终止当成可计数的经验现象。他的 1923–1973 年清点表明，样本中的机构存活率极高，但死亡仍然发生；标题中的「不朽」被他当作有待检验的问题。[3]
+    milestones:
+    - year: '1942 / 1950'
+      name: Schumpeter 提出创造性毁灭
+      explanation: 《资本主义、社会主义与民主》初版于 1942 年；本次打开并据以引用的是 1950 年第三版、Harper Torchbooks 1962 年印本的第七章「创造性毁灭的过程」。[2]
+    - year: '1976'
+      name: Kaufman 检验政府组织是否「不朽」
+      explanation: Brookings Institution 出版《Are Government Organizations Immortal?》，对美国联邦行政部门单位在 1923 与 1973 年的出生、存活与死亡做了系统清点。[3]
+    - year: '1989–1990'
+      name: Buffett 写下「制度命令」
+      explanation: 在 1989 年伯克希尔·哈撒韦股东信（信末日期为 1990 年 3 月 2 日）中，把制度命令列为自己在商业中最意外的发现之一。[4]
+    views:
+    - position: 资本主义的关键能力不在于管理既有结构，而在于不断创造并毁灭结构；对会破产的企业而言，更新率至少有一套内生装置
+      consensus_role: 创新与增长理论中极有影响的经典命题，也是 Collison 为这道题所锚定的出发点
+      evidence:
+        label: 理论与历史论述，不是受控的制度实验
+        note: >-
+          Schumpeter 的第七章是对资本主义过程的理论重述，并援引产业史与价格—工资观察来批评以静态竞争模型判断「大企业」的做法；它并不提供一套可在公共部门直接复制的操作手册，也不是随机对照试验。[2]
+          Collison 的转述与原文方向一致，但原文的表述是「如何管理（administers）现有结构」与「如何创造并毁灭它们」，而不是较窄的「如何把资本配置给现有结构」。[1][2]
+      holders:
+      - name: Joseph A. Schumpeter
+        identity: '《Capitalism, Socialism and Democracy》作者。本次引用据 1950 年第三版、Harper Torchbooks 1962 年印本第七章 The Process of Creative Destruction。[2]'
+      - name: Patrick Collison
+        identity: Stripe 联合创始人。本问题出自其个人网站上的问题清单，文中提示欢迎就这些题目提供阅读建议。[1]
+      argument: >-
+        Collison 把 Schumpeter 的要点转写成：资本主义的问题不在于如何把资本配置给现有结构，而在于结构如何被创造与毁灭。[1] 打开原文后，这一对比更加尖锐。Schumpeter 先排除了把资本主义看成静止体系的看法，强调其演化性质的首要动力并非战争、革命或人口与资本的准自动增长，而是经济结构从内部发生的革命。[2]
+        他用来命名这一革命的短语是「创造性毁灭」：开辟新市场、从手工作坊发展到美国钢铁那样的组织，都展示同一种「工业突变」——它从内部不断革命化经济结构，不断毁灭旧的、创造新的。这就是资本主义的本质事实，也是每个资本主义企业必须生活于其中的环境。[2]
+        由此得出方法论上的转换：若只在某一时点上看寡头行业里那些仿佛只为高价和限制产量而进行的招式，就是在假设风暴已经平息；企业的行为应被看成既是过去历史的结果，也是对即将变化的局面的应对——「通常被想象的问题是资本主义如何管理现有结构，而相关的问题是它如何创造并毁灭这些结构。」[2]
+        就 Collison 的问题而言，这一侧给出的是「有自然死亡方式」的那一半答案：在企业部门，破产、失败和新进入者至少构成了一种更新装置。它并不能自动推广到学校、行政机构、国际组织或任何成功地把自己隔绝于灭绝过程之外的体系。
+      quotes:
+      - text: >-
+          Schumpeter claimed that the problem of capitalism is not how capital is
+          allocated to existing structures but how structures are created and destroyed.
+          Systems and institutions inevitably get stale or become less effective but also
+          work very hard to survive. (See also: the institutional imperative, Berliner's
+          commentary on the “invisible foot”, and Herbert Kaufman's short book.)
+          Bankruptcy takes care of senescent businesses. But how do we get a sufficient
+          replacement rate in systems and institutions that aren't naturally subject to
+          extinction processes?
+        text_zh: Schumpeter 曾主张，资本主义的问题不在于如何把资本配置给现有结构，而在于结构如何被创造与毁灭。系统与制度难免过时或变得低效，却也会非常努力地存活下去。（另见：制度命令、Berliner 对「看不见的脚」的评论，以及 Herbert Kaufman 的短书。）破产会处理衰败的企业。但在那些并不自然面临灭绝过程的体系与制度里，我们如何获得足够的更新率？
+        attribution: Patrick Collison，Questions
+        locator: patrickcollison.com/questions 中题为 “How do you ensure an adequate replacement rate in systems that have no natural way to die?” 的条目正文
+        ref: 1
+      - text: >-
+          The opening up of new markets, foreign or domestic, and the organizational
+          development from the craft shop and factory to such concerns as U. S. Steel
+          illustrate the same process of industrial mutation - if I may use that biological
+          term - that incessantly revolutionizes the economic structure from within,
+          incessantly destroying the old one, incessantly creating a new one. This
+          process of Creative Destruction is the essential fact about capitalism. It is
+          what capitalism consists in and what every capitalist concern has got to live in.
+        text_zh: 开辟国内外新市场，以及从手工作坊和工厂发展到美国钢铁那样的企业，都说明了同一种工业突变过程——如果我可以使用这个生物学用语的话——它从内部不断地革命化经济结构，不断地毁灭旧结构，不断地创造新结构。这一创造性毁灭的过程，是关于资本主义的本质事实。资本主义就在于此，每一个资本主义企业都必须生活于此。
+        attribution: Joseph A. Schumpeter，Capitalism, Socialism and Democracy，Chapter VII
+        locator: 1950 年第三版，Harper Torchbooks 1962 年印本，第 82 页
+        ref: 2
+      - text: >-
+          In other words, the problem that is usually being visualized is how capitalism
+          administers existing structures, whereas the relevant problem is how it creates
+          and destroys them.
+        text_zh: 换句话说，通常被想象的问题是资本主义如何管理现有结构，而相关的问题是它如何创造并毁灭这些结构。
+        attribution: Joseph A. Schumpeter，Capitalism, Socialism and Democracy，Chapter VII
+        locator: 1950 年第三版，Harper Torchbooks 1962 年印本，第 83 页
+        ref: 2
+    - position: 缺乏灭绝压力的组织会高度倾向于存活和自我维持；内部的「制度命令」会进一步削弱转向的理性，因此足够的更新率不会自动出现
+      consensus_role: 对公共机构与大型组织惰性的经验与实务观察，说明问题为何困难，但并不等于已经找到替代方案
+      evidence:
+        label: 对联邦机构半个世纪存续的历史清点，以及一份基于商业实践的股东信论述
+        note: >-
+          Kaufman 的研究是小规模、进入「未知领域」的探索，作者自己提醒数据有多处薄弱，应谨慎使用；样本限于联邦行政部门总部及其主要下属单位，省略了派出机构，不能直接代表州与地方、非营利组织或国际机构。[3]
+          「只有约 15% 在五十年间消失」描述的是存活率，不是对「何为最优更新率」的规范答案，也不是一套改革技术。
+          Buffett 的「制度命令」出自伯克希尔股东信，是作者根据商业经验提出的概括，不是一项组织学研究；它有助于理解内部抵制，但不能单独证明某种治理安排必然有效。[4]
+          Berliner 关于「看不见的脚」的原文本次未打开，故不引用、不转述其具体句子。
+      holders:
+      - name: Herbert Kaufman
+        identity: '《Are Government Organizations Immortal?》（Brookings Institution, 1976）作者。书中著录为 Herbert Kaufman, 1922– ；书前文字称其为 Brookings 高级研究员（senior fellow）。[3]'
+      - name: Warren E. Buffett
+        identity: 伯克希尔·哈撒韦董事长。本段论述出自其 1989 年致股东信，信末署名为 Chairman of the Board，日期为 1990 年 3 月 2 日。[4]
+      argument: >-
+        如果创造性毁灭依赖某种「可以死去」的压力，那么下一步就要问：那些不容易死的组织，实际上死得有多勤？Kaufman 没有把「政府组织不朽」当成口号，而是去数。1923 年样本里的 175 个组织，到 1973 年仍有近 85% 还在，只有略高于 15% 消失；超过五分之三不仅还活着，而且地位几乎相同。[3] 序言把这一结果概括为：结论支持机构一旦诞生就会存活的普遍印象，但也说明组织死亡并非未知。[3]
+        高存活率本身不必等于失败——有些功能本就应当持续——但它确实意味着：在 Kaufman 所观察的联邦行政体系里，自然淘汰并不是主流机制。若新组织仍不断出现，而旧组织很少退出，Collison 所担心的「更新率不足」和「体系日益拥挤、老化」就会成为管理上的真实困难；Kaufman 在导言性质的文字里也提到，若旧组织很少死亡而新组织不断出现，随之而来的政治与管理困难将是惊人的。[3]
+        Buffett 则从组织内部说明，为什么转向会这么难。制度命令的第一条就是：机构会抗拒改变当前方向；此外还有用项目填满可用资金、为领导人的渴望提供论证、以及盲目模仿同业。推动这些路线的是制度动力学，不是恶意或愚蠢；他自己写明，曾因忽视其力量而付出昂贵代价，此后则试图以组织和投资选择来减弱它的影响。[4]
+        这一侧能够解释「为什么没有自然死亡方式的体系会更新不足」，却几乎没有回答「如何保证足够的更新率」。强制日落条款、定期重组、引入竞争、模拟破产或外部评审——这些常见建议并不在本次已打开的原文里得到检验，因此不能写成已经证实的方案。
+      quotes:
+      - text: >-
+          There were 175 organizations in the 1923 sample. No less than 148
+          of them (nearly 85 percent) were still going in 1973 (including 31
+          now at lower administrative levels and 8 no longer in executive departments).
+          Only 27 (a little over 15 percent) disappeared. Thus the chances that an
+          organization alive in 1923 would still be alive in 1973 were very high.
+        text_zh: 1923 年样本中有 175 个组织。其中不少于 148 个（近 85%）到 1973 年仍在运转（包括 31 个此时已处于较低行政层级、8 个已不在行政部门中）。只有 27 个（略高于 15%）消失了。因此，一个 1923 年还活着的组织活到 1973 年的机会非常高。
+        attribution: Herbert Kaufman，Are Government Organizations Immortal?
+        locator: Brookings Institution, 1976, 第 34 页，Findings and Evidence 章开篇
+        ref: 3
+      - text: >-
+          My most surprising discovery: the overwhelming importance in
+          business of an unseen force that we might call “the institutional
+          imperative.” ... I thought then that decent, intelligent, and experienced
+          managers would automatically make rational business decisions. But I
+          learned over time that isn't so. Instead, rationality frequently wilts when
+          the institutional imperative comes into play.
+        text_zh: 我最意外的发现是：商业中有一种我们可以称为「制度命令」的看不见的力量，具有压倒性的重要性。……我当时以为，体面、聪明、有经验的经理人会自动做出理性的商业决策。但随着时间推移我认识到并非如此。相反，当制度命令起作用时，理性常常会枯萎。
+        attribution: Warren E. Buffett，Berkshire Hathaway Chairman’s Letter 1989
+        locator: 1989 年致股东信中关于教训与发现的条目；信末日期为 1990 年 3 月 2 日
+        ref: 4
+      - text: >-
+          For example: (1) As if governed by Newton's First Law of
+          Motion, an institution will resist any change in its current
+          direction; (2) Just as work expands to fill available time,
+          corporate projects or acquisitions will materialize to soak up
+          available funds; (3) Any business craving of the leader, however
+          foolish, will be quickly supported by detailed rate-of-return and
+          strategic studies prepared by his troops; and (4) The behavior of
+          peer companies, whether they are expanding, acquiring, setting
+          executive compensation or whatever, will be mindlessly imitated.
+        text_zh: 例如：（1）仿佛受牛顿第一定律支配，一个机构会抗拒对其当前方向的任何改变；（2）正如工作会扩展到填满可用时间，公司的项目或收购也会冒出来，以吸尽可用资金；（3）领导人的任何商业渴望，无论多么愚蠢，都会迅速得到部下准备的详细回报率与战略研究的支持；（4）同业公司的行为——无论是扩张、收购、设定高管薪酬还是别的什么——都会被盲目模仿。
+        attribution: Warren E. Buffett，Berkshire Hathaway Chairman’s Letter 1989
+        locator: 1989 年致股东信中紧随「制度命令」定义的例举
+        ref: 4
+    open_parts: >-
+      Collison 的问题仍然是开放的。已打开的文献能够说明：创造性毁灭为何是市场部门的关键过程，以及公共机构与大型组织为何倾向于存活并抵制转向；但不能从中推出一套已被证明能够在「没有自然死亡方式」的体系里保证足够更新率的操作方案。[1][2][3][4]
+      多少的死亡或重组才算「足够」，本身没有中性标准；过高的强制淘汰可能摧毁有价值的制度记忆，过低则导致 Kaufman 所担心的那种日益拥挤与老化。
+      不同领域（行政机构、大学、国际组织、大型企业的内部部门、标准制定组织）的退出机制差异很大，Kaufman 的联邦样本不能直接外推。[3]
+      Berliner 的「看不见的脚」被 Collison 明确列为阅读线索，但本次未能打开其原书或论文，因此不能核对他究竟如何表述竞争压力与创新，也不能把它写成已核对的论点。[1]
+      若要进一步回答「如何保证」，需要具体制度史与可评估的改革案例，而不是把创造性毁灭的隐喻直接当成政策工具。
+    references:
+    - id: 1
+      citation: 'Collison, P. Questions. Retrieved 2026-11-23.'
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: 'Schumpeter, J. A. (1950/1962). Capitalism, socialism and democracy (3rd ed., Harper Torchbooks). Chapter VII, The process of creative destruction.'
+      url: https://msuweb.montclair.edu/~lebelp/SchumpeterChapter7.pdf
+    - id: 3
+      citation: 'Kaufman, H. (1976). Are government organizations immortal? Washington, DC: The Brookings Institution.'
+      url: https://gwern.net/doc/sociology/1976-kaufman-aregovernmentorganizationsimmortal.pdf
+    - id: 4
+      citation: 'Buffett, W. E. (1990, March 2). Chairman’s letter — 1989. Berkshire Hathaway Inc.'
+      url: https://berkshirehathaway.com/letters/1989.html
+
+- id: 2026-11-23-sci-riemann
+  date: '2026-11-23'
+  category: science
+  title_zh: 黎曼猜想是否成立？
+  title_en: The Riemann Hypothesis
+  commentary: >-
+    素数的平均分布已被素数定理抓住，但偏离平均有多远，却被一条复平面上的直线管着——如果黎曼是对的。把「尚未证明」和「证据已经很多」同时说清楚，比把猜想说成即将被计算解决更重要。
+  source_name: Clay Mathematics Institute — Millennium Problems
+  source_url: https://www.claymath.org/millennium/riemann-hypothesis/
+  author: Clay Mathematics Institute
+  source_type: curated
+  tags:
+  - 黎曼猜想
+  - 素数分布
+  - 千禧年难题
+  - 解析数论
+  - ζ 函数
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: >-
+        这是一个尚未被证明的猜想，也是 Clay 数学研究所千禧年七题之一。大量数值验证和若干部分定理，构成了支持它为真的重要证据，但都不等于证明。官方陈述写明许多数学家视之为今日纯数学中最重要的未解问题之一，并判断现在已有相当多证据；本次未找到可核对的系统民意调查数字，因此不虚构「百分之多少的解析数论学家相信它」的比例
+      note: >-
+        Clay 官方页面把黎曼猜想陈述为：ζ 函数所有「非显然」的零点都是实部为 1/2 的复数；并写明这已对前 10,000,000,000,000 个解做过检查，但真正的证明才会阐明素数分布中的许多谜团。[1]
+        Bombieri 撰写的官方问题陈述给出精确表述：非显然零点的实部等于 1/2；并写「在许多数学家看来」，这一猜想及其对一般 L 函数的推广，「可能是今日纯数学中最重要的未解问题」。[2]
+        在证据一节，他承认过去存在怀疑（或许更多来自失败的证明尝试，而非坚实的启发式理由），但认为今天已经有相当多支持它的证据。[2]
+        Conrey 在 2003 年的综述里也列出「相信 RH 的若干理由」，包括大规模数值检查和临界线上已证明的零点比例，并记载 Hardy 与 Littlewood 首先证明了 1/2 直线上有无穷多零点。[4]
+        这些都是权威作者的定性判断，不是抽样调查。数值上，Clay 页面给出的是 10^13 这一公开数字；Platt 与 Trudgian 在 2020 年的 arXiv 预印本中声称，以区间算术做了严格核验，直到高度 3·10^12，覆盖最低的 12,363,153,437,138 个非显然零点。[1][5] 有限范围内的核验，无论做到哪一步，都不能取代对所有零点的证明。
+    summary: >-
+      Clay 数学研究所把黎曼猜想列为千禧年难题，并在条目页上用两句话点出它和素数定理的分工：素数定理决定素数的平均分布，黎曼猜想告诉我们偏离平均有多远。该猜想在 Riemann 1859 年的论文中提出，断言 ζ 函数所有「非显然」的零点都是实部为 1/2 的复数。[1]
+      Bombieri 为 Clay 撰写的官方陈述把说法写精确。Riemann ζ 函数在半平面 Re(s)>1 由级数定义，并解析延拓到整个复平面；它在负偶数处有所谓平凡零点，其余零点则对应于一个整函数 ξ(t) 的零点。Riemann 猜想就是：ξ(t) 的所有零点都是实的；换成 ζ(s) 的语言，即非显然零点的实部等于 1/2。[2] Riemann 自己在 1859 年的论文里已经写出：在所述范围内确实找到了大约那么多的实根，「而且很可能所有的根都是实的」；他接着说，这里当然希望有一个更严格的证明，但在几次短暂而徒劳的尝试后，他暂时放下了这一寻找，因为对当时的主要目标似乎并不必要。[3][2]
+      这一猜想之所以处于素数理论的中心，是因为它管着素数计数函数偏离其平均值的程度。Clay 页面把这一点写成与素数定理的对照。[1] Bombieri 写得更明确：黎曼猜想成立，等价于 π(x) 与对数积分 Li(x) 的偏差为 O(√x log x)；误差项也不能再改善很多，因为已知它会在两个方向上振荡到至少 Li(√x) log log log x 的量级（Littlewood）。若猜想失败，将在素数分布中造成严重混乱；单单这一点，就使它成为素数理论中主要的未决问题。[2] 关于平均分布本身，Conrey 记载：最后一步留给了 Hadamard 与 de la Vallée Poussin，他们在 1896 年彼此独立地证明 ζ(s) 在实部等于 1 处不取零，并由此推出高斯的猜想，也就是现在所称的素数定理。[4] 素数定理已经证明；黎曼猜想要回答的，是比平均值更精细的误差。
+      支持猜想为真的证据是多方面的，但必须与证明分开。Bombieri 写明，尽管过去有过怀疑，今天已经有相当多证据：包括大范围的数值检验，以及「超过 40% 的非显然零点是单零点且满足黎曼猜想」（他在此处引用 Selberg、Levinson 与 Conrey 的工作）；他还认为，就启发式力量而言，有限域上代数簇的相应理论提供了最好的证据。[2] Conrey 把 Hardy 与 Littlewood 首先证明「1/2 直线上有无穷多零点」写进历史，并列出当时可见的数值结果（例如 van de Lune 对前 100 亿个零点的检查）作为「相信 RH 的理由」。[4] 更晚近，Platt 与 Trudgian 在 2020 年的预印本中报告：用区间算术严格核验了直到高度 3·10^12 的范围，并陈述定理：最低的 12,363,153,437,138 个非显然零点实部都是 1/2；他们同时强调，在缺乏证明的情况下，获得部分核验极为重要。[5] Clay 页面目前写的是前 10^13 个解已受检查。[1] 无论采用哪一则公开数字，有限个零点的核实都不能推出对全部零点的证明。
+      因此，对「黎曼猜想是否成立」的审慎回答是：它仍是未证明的猜想；就其与素数分布的关系、以及已有的数值与部分解析证据而言，把它当作很可能为真的中心猜想，是官方陈述和重要综述中的主流态度；但证据再强，也不等于定理。本次没有打开任何可引用的学科民调，故不把这一态度换算成百分比。
+    definitions:
+    - term: 黎曼猜想（Riemann hypothesis）
+      text: >-
+        Bombieri 给出的正式表述是：ζ(s) 的非显然零点的实部等于 1/2。[2] 所谓非显然零点，是相对于位于负偶数 −2, −4, … 的平凡零点而言的其他零点。等价地，Riemann 引入的偶整函数 ξ(t) 的所有零点都是实的。[2] Clay 页面则用较非正式的话说：所有「非显然」零点都是实部为 1/2 的复数。[1]
+    - term: 素数定理（Prime Number Theorem）
+      text: >-
+        关于素数平均分布的已证定理。Conrey 的历史叙述是：Hadamard 与 de la Vallée Poussin 在 1896 年彼此独立地证明 ζ(s) 在实部等于 1 时不取零，并由此推出高斯关于 π(x) 可用对数积分逼近的猜想，这一结果现在称为素数定理。[4] Clay 页面把它和黎曼猜想对举：前者决定平均分布，后者关乎对平均的偏离。[1] 本次未打开 1896 年的原始论文，上述历史脉络以 Conrey 已核对的综述为准。
+    - term: 临界线（critical line）
+      text: >-
+        复平面上实部等于 1/2 的垂直直线。黎曼猜想断言，ζ 的所有非显然零点都位于这条线上。Conrey 记载，Hardy 与 Littlewood 首先证明这条线上已经有无穷多零点；这是一条真正的定理，但距离「全部零点都在这条线上」仍然很远。[4]
+    milestones:
+    - year: '1859'
+      name: Riemann 提出猜想
+      explanation: >-
+        在提交柏林科学院的论文《Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse》中，Riemann 给出与 ζ 函数零点相联系的素数计数公式，并表示很可能 ξ(t) 的所有根都是实的，同时承认这里需要更严格的证明。[3][2]
+    - year: '1896'
+      name: 素数定理被证明
+      explanation: >-
+        据 Conrey 的综述，Hadamard 与 de la Vallée Poussin 彼此独立地证明 ζ(s) 在实部为 1 处不取零，并由此推出素数定理。[4] 平均分布成为定理；更精细的误差项仍取决于黎曼猜想。[2]
+    - year: '2000'
+      name: Clay 千禧年问题官方陈述
+      explanation: >-
+        Bombieri 撰写《Problems of the Millennium: the Riemann Hypothesis》，给出猜想的精确表述，并综述其与素数分布的关系以及当时可见的证据（包括 van de Lune 等人对前 15 亿个零点的核验，以及超过 40% 的非显然零点已被证明在临界线上）。[2]
+    - year: '2020'
+      name: 大规模严格数值核验的一项报告
+      explanation: >-
+        Platt 与 Trudgian 在 arXiv:2004.09765v1 中声称，用区间算术严格核验了直到高度约 3·10^12 的范围，覆盖最低的 12,363,153,437,138 个非显然零点。[5] 本次未打开 2021 年《Bulletin of the London Mathematical Society》的期刊排印本，数字以该预印本为准。有限核验仍不是证明。
+    views:
+    - position: 黎曼猜想是一个关于 ζ 函数非显然零点实部的未证明陈述，其成立等价于素数计数函数对平均值的偏差被限制在大约 √x 的量级；若失败，将严重扰乱我们对素数分布的理解
+      consensus_role: 对猜想内容及其数论后果的标准陈述，与 Clay 官方页面和 Bombieri 的正式文本一致
+      evidence:
+        label: 千禧年问题官方陈述、Riemann 1859 年论文的公开英译，以及综述中对素数定理的历史叙述
+        note: >-
+          Bombieri 的文本是 Clay 委托的官方问题描述，不是一篇给出新证明的研究论文；其中关于等价误差项和 Littlewood 振荡的陈述，是对已知解析数论结果的综述，本次未打开 Littlewood 的原始论文。[2]
+          Riemann 的原句按 Wilkins 1998 年公开英译（并对照其德文转写）核对；Bombieri 对同一德文句另有英译，二者措辞略有不同，本文分别注明。[2][3]
+          素数定理的 1896 年证明只通过 Conrey 的综述转述，未打开 Hadamard 与 de la Vallée Poussin 的原文。[4]
+      holders:
+      - name: Enrico Bombieri
+        identity: 'Clay 千禧年问题官方陈述《Problems of the Millennium: the Riemann Hypothesis》署名作者 E. Bombieri。本次只依据该 PDF 文首署名确定其为此官方文本的作者，不添加文中未写明的职务或头衔。[2]'
+      - name: Bernhard Riemann
+        identity: 1859 年论文《Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse》的作者。Clay 页面称其为德国数学家 G.F.B. Riemann（1826–1866）。[1][3]
+      - name: J. Brian Conrey
+        identity: 《The Riemann Hypothesis》（Notices of the AMS, 2003）作者。文中作者介绍写明：J. Brian Conrey is director of the American Institute of Mathematics。[4]
+      argument: >-
+        先要分开两件已经不相同的事。素数的平均分布，按照 Conrey 的叙述，已由 1896 年的素数定理解决：Hadamard 与 de la Vallée Poussin 证明 ζ 函数在实部等于 1 的直线上不取零，并由此推出高斯的猜想。[4] Clay 页面随后指出，黎曼猜想要说的是另一层事实：偏离这一平均有多远。[1]
+        Riemann 自己把猜想写得很克制。他估计了一定高度内 ξ(t) 的零点数目，并说在这些界限内的确大约找到了那么多实根，「而且很可能所有的根都是实的」；紧接着又希望有更严格的证明，但暂时放下了。[3] Bombieri 引用同一德文句，并把它翻译为 “it is very likely that all zeros are real”，然后给出今天的标准表述：ζ(s) 的非显然零点实部等于 1/2。[2]
+        这一「很可能」之所以变成素数理论的中心问题，是因为零点的位置直接进入素数计数的显式公式。Bombieri 写明：猜想成立，等价于 π(x) = Li(x) + O(√x log x)；而误差项也不能再改善很多。[2] 他又写了一句更重的话：若黎曼猜想失败，将在素数分布中造成严重混乱；单单这一事实，就使它成为素数理论中主要的未决问题。[2] 官方页面的预告与此一致：若能证明它对每一个「有意思的」解都成立，将阐明素数分布中的许多谜团。[1]
+        所以，本题首先不是「计算得够不够多」，而是一个尚未关闭的存在性命题：是否所有非显然零点都落在那条垂直线上。平均分布已经是定理；这条更精细的约束还不是。
+      quotes:
+      - text: >-
+          The prime number theorem determines the average distribution of the primes. The Riemann hypothesis tells us about the deviation from the average. Formulated in Riemann’s 1859 paper, it asserts that all the ‘non-obvious’ zeros of the zeta function are complex numbers with real part 1/2.
+        text_zh: 素数定理决定素数的平均分布。黎曼猜想告诉我们偏离平均有多远。它在 Riemann 1859 年的论文中提出，断言 ζ 函数所有「非显然」的零点都是实部为 1/2 的复数。
+        attribution: Clay Mathematics Institute，Riemann Hypothesis 条目页
+        locator: 页面开篇三句；https://www.claymath.org/millennium/riemann-hypothesis/
+        ref: 1
+      - text: >-
+          Riemann hypothesis. The nontrivial zeros of ζ(s) have real part equal to 1/2.
+        text_zh: 黎曼猜想。ζ(s) 的非显然零点的实部等于 1/2。
+        attribution: 'E. Bombieri，Problems of the Millennium: the Riemann Hypothesis'
+        locator: 第 1 页，正式陈述（PDF 将 1/2 排成叠式分数）
+        ref: 2
+      - text: >-
+          The failure of the Riemann hypothesis would create havoc in the distribution of prime numbers. This fact alone singles out the Riemann hypothesis as the main open question of prime number theory.
+        text_zh: 黎曼猜想一旦失败，将在素数分布中造成严重混乱。单单这一事实，就使黎曼猜想成为素数理论中主要的未决问题。
+        attribution: 'E. Bombieri，Problems of the Millennium: the Riemann Hypothesis'
+        locator: 第 4 页
+        ref: 2
+      - text: >-
+          One now finds indeed approximately this number of real roots within these limits, and it is very probable that all roots are real. Certainly one would wish for a stricter proof here; I have meanwhile temporarily put aside the search for this after some fleeting futile attempts, as it appears unnecessary for the next objective of my investigation.
+        text_zh: 人们现在的确在这些界限内找到了大约这么多的实根，而且很可能所有的根都是实的。这里当然希望有一个更严格的证明；与此同时，在几次短暂而徒劳的尝试之后，我暂时放下了这一寻找，因为对当前研究的下一个目标而言，它似乎并不必要。
+        attribution: Bernhard Riemann，On the Number of Prime Numbers less than a Given Quantity（David R. Wilkins 英译，1998 年初步版本）
+        locator: 该英译 PDF 第 4 页；德文转写相应句为 “es ist sehr wahrscheinlich, dass alle Wurzeln reell sind.”
+        ref: 3
+    - position: 已有的数值核验和部分定理，构成了相信黎曼猜想为真的重要理由，但无论检查了多少个零点、也无论证明了临界线上有多大比例的零点，都不能代替对全部零点的证明
+      consensus_role: 官方陈述和重要综述对「证据很多、仍未证明」的共同立场；相信它为真是常见态度，但必须依据已打开文献的定性表述来写，而不能写成一次未核对的学科公投
+      evidence:
+        label: 官方证据综述、2003 年 Notices 综述，以及一篇强调「严格核验仍非证明」的数值论文
+        note: >-
+          Bombieri 在 2000 年引用的数值纪录是 van de Lune、te Riele 与 Winter 对前 15 亿个零点的检查，以及 Odlyzko 在很高处选定区间中的计算；「超过 40%」这一比例，他归给 Selberg、Levinson 与 Conrey 的工作，并在文献表中列出 Conrey 1989 年的论文标题。本次未打开这些被引的原始论文，故不转写其证明细节或更新后的比例数字，只转述 Bombieri 与 Conrey 2003 年综述中已经写出的判断。[2][4]
+          Conrey 文中「前 100 亿」「Wedeniwski 的分布式计算声称前 1000 亿」等数字是 2003 年可见的报告，其中部分后来被 Platt 与 Trudgian 批评为缺乏经同行评审的计算细节；引用时只作为当时综述的记载，不以之作为当前最严格的核验纪录。[4][5]
+          Platt 与 Trudgian 的结果来自本次打开的 arXiv:2004.09765v1（2020 年 4 月 22 日）；检索显示其后有 2021 年期刊版本，但本次未打开该期刊 PDF，故不把期刊页码或可能的修订写成已核对事实。[5]
+          「许多数学家认为它可能是最重要的未解问题」「今天已有相当多证据」是 Bombieri 的措辞，不是民调结果。[2]
+      holders:
+      - name: Enrico Bombieri
+        identity: 同上，Clay 官方陈述作者；证据判断见该文本第 III、IV 节。[2]
+      - name: J. Brian Conrey
+        identity: 美国数学会《Notices》2003 年 3 月长文作者，文中署为 American Institute of Mathematics 主任；文内亦讨论他自己与他人在临界线比例、矩猜想等方面的工作。[4]
+      - name: Dave Platt、Tim Trudgian
+        identity: >-
+          《The Riemann hypothesis is true up to 3·10^12》（arXiv:2004.09765v1）作者。Platt 署为 University of Bristol 的 School of Mathematics，Trudgian 署为 The University of New South Wales Canberra 的 School of Science。[5]
+      argument: >-
+        把「还没有证明」说成「没有理由相信」，并不符合官方陈述的口气。Bombieri 在「证据」一节开头就写：尽管过去有过怀疑——或许更多是因为失败的证明尝试太多，而不是因为有坚实的反面启发式——但公平地说，今天已经有相当多支持它的证据；一般的黎曼猜想也与我们目前的数论知识相容。[2] 他列举的直接证据包括：强的数值证据；以及已经证明有超过 40% 的非显然零点是单零点且满足黎曼猜想。[2] 在他看来，就启发式而言，有限域上代数簇的相应理论甚至提供了最好的证据。[2]
+        Conrey 把这一态度写得更口语，也更具体。他列出「相信 RH 的若干理由」，其中一条是「数十亿个零点不会错」：当时他引 van de Lune 的工作，称前 100 亿个零点已在线上。[4] 历史方面，他记载 Hardy 与 Littlewood 首先证明了 1/2 直线上已有无穷多零点；Selberg 得到了正比例，Levinson 证明了至少 1/3，这一比例后来被改进到 40%。[4] 这些都是真定理，不是数值观察——可它们仍然只覆盖「无穷多」或「一个正比例」，而不是全部。
+        数值这边，纪录在官方文本之后还在延伸，也必须读得更小心。Clay 页面目前写的是前 10^13 个解已受检查。[1] Platt 与 Trudgian 则强调：在缺乏证明时，获得部分核验极为重要，但计算必须是严格的；他们对若干较早、未发表于同行评审期刊的宣称提出了关于舍入与截断误差的疑虑，并在自己的预印本中报告：用区间算术核验到高度 3,000,175,332,800，即最低的 12,363,153,437,138 个非显然零点实部都是 1/2。[5] 即便接受这一更强的有限核验，它仍然只是一个很大的有限范围。反例如果存在，原则上仍可能出现在尚未检查的高度；Bombieri 也提到过一种意见：若反例存在，或许会在 |ζ(1/2+it)| 异常大的峰附近。[2]
+        因此，把目前的局面说成「几乎已经算完了，只差写下来」，是不准确的。更准确的说法是：在已打开的权威文本里，这一猜想被当作有大量证据、因而值得认真相信的未解问题；证明仍然付之阙如，有限的计算不能填补这个缺口。至于「绝大多数解析数论学家相信它为真」这样的定量说法，本次没有打开相应的调查数据，故不采用。
+      quotes:
+      - text: >-
+          Notwithstanding some skepticism voiced in the past, based perhaps more on the number of failed attempts to a proof rather than on solid heuristics, it is fair to say that today there is quite a bit of evidence in its favor.
+        text_zh: 尽管过去有过一些怀疑——其基础或许更多是失败的证明尝试的数量，而非坚实的启发式理由——但公平地说，今天已经有相当多支持它的证据。
+        attribution: 'E. Bombieri，Problems of the Millennium: the Riemann Hypothesis'
+        locator: 第 5 页，第 III 节 Evidence for the Riemann hypothesis 首句
+        ref: 2
+      - text: >-
+          In the opinion of many mathematicians the Riemann hypothesis, and its extension to general classes of L-functions, is probably today the most important open problem in pure mathematics.
+        text_zh: 在许多数学家看来，黎曼猜想以及它向一般 L 函数类的推广，可能是今日纯数学中最重要的未解问题。
+        attribution: 'E. Bombieri，Problems of the Millennium: the Riemann Hypothesis'
+        locator: 第 1 页
+        ref: 2
+      - text: >-
+          Hardy and Littlewood gave the first proof that infinitely many of the zeros are on the 1/2-line.
+        text_zh: Hardy 与 Littlewood 首先证明了：有无穷多零点位于 1/2 直线上。
+        attribution: J. Brian Conrey，The Riemann Hypothesis
+        locator: Notices of the AMS 50(3) (2003)，第 344 页（本次按 Internet Archive 保存的官方 PDF 核对）
+        ref: 4
+      - text: >-
+          We verify numerically, in a rigorous way using interval arithmetic, that the Riemann hypothesis is true up to height 3 · 10^12. That is, all zeroes β + iγ of the Riemann zeta-function with 0 < γ ≤ 3 · 10^12 have β = 1/2.
+        text_zh: 我们以区间算术、用严格的方式数值核验了：黎曼猜想直到高度 3·10^12 都成立。也就是说，Riemann ζ 函数所有满足 0 < γ ≤ 3·10^12 的零点 β + iγ，都有 β = 1/2。
+        attribution: Dave Platt 与 Tim Trudgian，The Riemann hypothesis is true up to 3·10^12
+        locator: arXiv:2004.09765v1，第 1 页，摘要（原文指数为 3 · 10^{12}）
+        ref: 5
+      - text: >-
+          This has been checked for the first 10,000,000,000,000 solutions. A proof that it is true for every interesting solution would shed light on many of the mysteries surrounding the distribution of prime numbers.
+        text_zh: 这一点已对前 10,000,000,000,000 个解做过检查。若能证明它对每一个有意思的解都成立，将阐明围绕素数分布的许多谜团。
+        attribution: Clay Mathematics Institute，Riemann Hypothesis 条目页
+        locator: 页面正文末段
+        ref: 1
+    open_parts: >-
+      黎曼猜想本身仍未证明；也不存在一个被普遍接受、即将完成的证明纲领。Bombieri 甚至把有限域上的类似物看作启发式上最好的证据，但那是另一类对象上已经证明的理论，不能直接移植为对 ζ(s) 的证明。[2]
+      Conrey 在文末写下他个人的看法：RH 是一个真正算术性的问题，可能不会屈服于分析方法；要取得进展，或许需要考虑 L 函数族，而所需的许多工具仍然缺乏。[4] 这是作者的判断，不是一条已被证实的元定理。
+      数值核验的前沿数字会继续被刷新，也可能因方法是否严格（区间算术、截断误差、是否经过同行评审）而发生争议。[5] Clay 页面上的 10^13 与 Platt–Trudgian 预印本中的约 1.236×10^13 个零点，都应读作「到某一界限为止为真」，而不是终局证明。[1][5]
+      「大多数专家相信它为真」这一印象在综述的语气里很清楚，但本次没有打开可引用的问卷调查；任何具体百分比都不应被编造。对一般 L 函数的广义黎曼猜想，以及它与随机矩阵模型、算术几何之间的关系，官方陈述有所涉及，但已超出「这个猜想是否成立」的直接范围，这里不展开未逐条核对的后续文献。
+    references:
+    - id: 1
+      citation: >-
+        Clay Mathematics Institute. Riemann Hypothesis. Millennium Problems. 本次按 2026-11-23 打开的官方条目页核对。
+      url: https://www.claymath.org/millennium/riemann-hypothesis/
+    - id: 2
+      citation: >-
+        Bombieri, E. Problems of the Millennium: the Riemann Hypothesis. Official problem description, Clay Mathematics Institute. 本次打开的 PDF 为 https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf （文内创建时间为 2000 年 8 月）。
+      url: https://www.claymath.org/wp-content/uploads/2022/05/riemann.pdf
+    - id: 3
+      citation: >-
+        Riemann, B. (1859/1860). Ueber die Anzahl der Primzahlen unter einer gegebenen Grösse. Monatsberichte der Berliner Akademie. 本次打开并核对的是 David R. Wilkins 1998 年公开英译 Preliminary Version，以及同一站点的德文转写。
+      url: https://www.maths.tcd.ie/pub/HistMath/People/Riemann/Zeta/EZeta.pdf
+    - id: 4
+      citation: >-
+        Conrey, J. B. (2003). The Riemann hypothesis. Notices of the American Mathematical Society, 50(3), 341–353. 官方 PDF 为 https://www.ams.org/notices/200303/fea-conrey-web.pdf ；本次因出版方对自动抓取返回验证页，打开并核对的是 Internet Archive 快照 https://web.archive.org/web/20231228165617/http://www.ams.org/notices/200303/fea-conrey-web.pdf 。
+      url: https://web.archive.org/web/20231228165617/http://www.ams.org/notices/200303/fea-conrey-web.pdf
+    - id: 5
+      citation: >-
+        Platt, D., & Trudgian, T. (2020). The Riemann hypothesis is true up to 3·10^12. arXiv:2004.09765v1 [math.NT]. 检索显示其后有 Bulletin of the London Mathematical Society 53 (2021) 的期刊版本，但本次未打开该刊 PDF，页码与可能的修订不以期刊版为准。
+      url: https://arxiv.org/pdf/2004.09765
+
+- id: 2026-11-23-phil-cogito
+  date: '2026-11-23'
+  category: philosophy
+  title_zh: 「我思故我在」是假的吗？
+  title_en: Is 'cogito ergo sum' false?
+  commentary: 提问者想用它挡住「我们什么都不能真正知道」。可是这句口号有几种原句形式，关键争执也不全在真假，而在「我」是否已被预先放入，以及它究竟是推论还是直接的洞见。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/70/is-cogito-ergo-sum-false
+  author: Jez
+  source_type: stackexchange
+  tags:
+  - 笛卡尔
+  - 我思
+  - 怀疑论
+  - 自我
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: Descartes 用来对抗普遍怀疑的这一洞见，很少被径直写成一句普通的假命题；但对其逻辑形式、以及「我」是否已被预设，存在长期而严肃的争议，并没有单一被普遍接受的裁定
+      note: >-
+        原问题的直觉是：无论我如何被欺骗，只要我正在考虑这件事，我就必须存在；因而「cogito ergo sum」似乎不可能为假。[1]
+        Descartes 在 1637 年《谈谈方法》第四部分给出法语原句「je pense, donc je suis」，并把它当作所寻求的哲学的第一原理。[2]
+        在 1641 年《第一哲学沉思集》第二沉思的拉丁文本中，相应的确定命题是「Ego sum, ego existo」，其必然为真，取决于它每次被我提出或在心中构想；这里并没有写成「cogito, ergo sum」式的「因此」。[3]
+        Lichtenberg 在《废书》K 76 中主张：只应说「在思考」（Es denkt），正如只说「在打闪」（es blitzt）；把 cogito 译成「我思」，已经太多。[4]
+        Stanford Encyclopedia 条目指出，关于 Descartes 究竟把 cogito 当作直觉还是推论，存在持续争论；该条目并转述 Hintikka 1962 年的著名非推论、行事性解读，以及 Russell 对「我」这一语法主语的异议。本次打开的 Hintikka 原文扫描件 OCR 过差、且似非完整抽印，故不引用其原句，只按 SEP 的转述标明立场。[5]
+    summary: >-
+      原题来自一种常见的怀疑论挑战：「我们不能真正知道任何事情」。提问者承认这对绝大多数事情或许成立，但看不出「我思故我在」怎么可能为假——无论我是什么、如何被欺骗或陷入错觉，我必须存在，才能正在以某种方式考虑这件事。[1]
+      先应分清 Descartes 自己的几种表述。法语《谈谈方法》第四部分写的是：当他愿意设想一切皆假时，那个正在如此思考的「我」必须是某种东西；「je pense, donc je suis」这一真理如此坚实确定，连怀疑论者最夸张的假定也无法动摇，因而可以毫无顾忌地接受为他所寻求的哲学的第一原理。[2] 英译 Veitch 本把这句话译为 “I think, therefore I am”，但「因此」出现在《谈谈方法》里，并不等于 Descartes 在所有文本中都把它写成三段论。
+      拉丁文第二沉思的写法明显不同。在假设存在一个极有能力、极狡猾的欺骗者之后，Descartes 说：只要我受骗，我就也存在；欺骗者无论力量多大，只要我思想自己是某种东西，他就永远不能使我化为虚无。经过充分考量，必须认定这一命题——「Ego sum, ego existo」（我在，我存在）——每当由我提出或在心中构想时，必然为真。[3] 紧接着他又写：我是、我存在，这是确定的；但多久为真？只要我在思想（quandiu cogito）；若我停止一切思想，也许会立即整个不再存在。此时可承认的只有必然为真者，所以他精确地说自己只是一个思想的东西（res cogitans）。[3] 标准英语 Veitch 译本把关键句译为：必须坚持，这一命题（pronunciatum）“I am, I exist” 每次被我表达或在心中构想时都必然为真。[6]
+      因此，若把问题理解成「当思想正在发生时，能否连贯地否定有某种思想活动存在」，Descartes 的文本给出的是一种极强的确定性主张，而不是一句随便可以判为假的经验概括。真正的批评传统，大多不是说「其实你不存在」，而是说：从「有思想发生」到「有一个统一的、作为实体的我存在」，「我」可能已经被偷运进来。
+      Lichtenberg 把这一点说得很干脆。在《废书》K 76，他先写：我们只知道自己的感觉、表象和思想的存在；然后主张，应当说「在思考」，正如说「在打闪」。把 cogito 译成「我思」，已经太多；设定、假定一个「我」，只是实践上的需要。[4]
+      当代综述同样把争论的中心放在形式上。SEP 的 Descartes 知识论条目写明：最重要、仍在进行的辩论之一，是 Descartes 究竟把 cogito 当作直觉（大致即自明），还是当作推论。该条目介绍 Hintikka 的影响性主张：从「我思」到「我在」并不是逻辑推导，「我不存在」在逻辑上并不自相矛盾，关键在于思想这一行事本身具有存在上的不融贯——我不能既思想这句话又相信它为真。[5] 本次未能以可核对的全文引用 Hintikka 原句，因而只把这一解读记为 SEP 所概括的重要立场，而不写成已经在本轮核对过的原书结论。
+      回到「它是假的吗」：就 Descartes 自己要保住的那一点——正在思想时，不能连贯地主张「什么也没有」——它很难被当成一句普通的假话。但若把口号理解成一个从「有思想」推出「一个作为实体的我存在」的形式推论，则其有效性从 Lichtenberg 到后来的讨论都一直受到质疑。假不假，取决于你把哪一句话当成「cogito ergo sum」。
+    definitions:
+    - term: je pense, donc je suis / cogito, ergo sum
+      text: Descartes 在《谈谈方法》第四部分写下的法语第一原理，字面为「我思想，所以我存在」。后来广为流传的拉丁口号 cogito, ergo sum 与此对应；但在《第一哲学沉思集》第二沉思的拉丁文本中，他强调的命题是「Ego sum, ego existo」，并不写成带 ergo 的推论式。[2][3]
+    - term: Ego sum, ego existo
+      text: 第二沉思中的确定命题：「我在，我存在」。其必然为真，被明确限制在「每当由我提出或在心中构想」的场合。[3] Veitch 英译作 “I am, I exist”。[6]
+    - term: 「在思考」（Es denkt）
+      text: Lichtenberg 的批评性提法：正如天气上只说「在打闪」，对思想也应说「在思考」，而不应已经把一个「我」放进前提里；把 cogito 译成「我思」已经太多，「我」的设定是实践需要。[4]
+    milestones:
+    - year: '1637'
+      name: 《谈谈方法》写下 je pense, donc je suis
+      explanation: Descartes 在第四部分把这一真理当作所寻求的哲学的第一原理，并强调连怀疑论者最夸张的假定也无法动摇它。[2]
+    - year: '1641'
+      name: 第二沉思以 Ego sum, ego existo 重述确定性
+      explanation: 拉丁文《第一哲学沉思集》把确定命题写成「我在，我存在」，其真依赖于每次被提出或构想，并进而把自我精确地规定为思想的东西。[3]
+    - year: '18 世纪（Sudelbuch K）'
+      name: Lichtenberg 提出「应说：在思考」
+      explanation: 《废书》K 76 主张 cogito 一旦译成「我思」就已经过多，设定「我」只是实践需要。[4] 条目编号据 Lichtenberg-Gesellschaft 公布的选录。
+    views:
+    - position: 在普遍怀疑之后，仍可确定：当我思想时，我存在；这不是一条普通的经验概括，而是每当被提出或构想时便必然为真的第一原理
+      consensus_role: Descartes 本人的立场，也是原问题直觉所依赖的那一侧
+      evidence:
+        label: 已打开的法语《谈谈方法》、拉丁文第二沉思及对应英译
+        note: >-
+          法语引文据维基文库的 Cousin 版《谈谈方法》第四部分，保留该书拼写（étoit、pouvois 等）；这是 19 世纪校勘本，不是 1637 年原刊本的逐页影印，但语句与同期公开文本一致。[2]
+          拉丁引文据维基文库 Adam et Tannery 版 Meditatio II。[3]
+          英译据 Veitch 译本（1853 年初版，1901 年重印）的第二沉思维基文库文本。[6]
+          Descartes 后来如何在《哲学原理》等书中使用 cogito, ergo sum 这一拉丁口号，本次未打开相应原文，故不另作引用。
+      holders:
+      - name: René Descartes
+        identity: 法国哲学家、数学家。《Discours de la méthode》（1637）与《Meditationes de prima philosophia》（1641）作者。[2][3]
+      argument: >-
+        原问题的核心直觉，其实非常接近《谈谈方法》里的论证步骤。Descartes 先愿意设想：感官所见、几何推理、乃至醒时的一切对象都可能与梦中幻象一样不真；但立刻注意到，当他愿意如此思想「一切皆假」时，那个正在思想的「我」必须是某种东西。「je pense, donc je suis」因此被接受为第一原理。[2]
+        第二沉思把这确定点说得更精确，也更少依赖「因此」。即便有一个极强的欺骗者始终在骗他，只要他受骗，他就存在；只要他思想自己是某种东西，欺骗者就不能使他化为无。必须认定的命题是「我在，我存在」，而且是在每次提出或构想它时必然为真。[3] 他紧接着追问「我是什么」，并得出：此刻可承认的只有必然为真者，所以精确地说，他只是一个思想的东西。[3]
+        按这一侧，原问题里「我必须存在才能正在考虑这件事」的直觉，正是 Descartes 要保住的那一点。若有人把「cogito ergo sum 是假的」理解成「也许此时什么思想主体都没有、却仍在思想」，则与这些文本中的确定性主张直接冲突。需要另外讨论的，是这一确定性到底证明了怎样的「我」，以及它是不是一步形式推论。
+      quotes:
+      - text: >-
+          Mais aussitôt après je pris garde que, pendant que je voulois ainsi penser
+          que tout étoit faux, il falloit nécessairement que moi qui le pensois fusse
+          quelque chose ; et remarquant que cette vérité, je pense, donc je suis,
+          étoit si ferme et si assurée, que toutes les plus extravagantes suppositions
+          des sceptiques n’étoient pas capables de l’ébranler, je jugeai que je pouvois
+          la recevoir sans scrupule pour le premier principe de la philosophie que
+          je cherchois.
+        text_zh: 但随后我立刻注意到，当我愿意这样思想一切皆假时，那个正在如此思想的我必须是某种东西；并且看到「我思想，所以我存在」这一真理是如此坚实、如此确定，连怀疑论者最夸张的假定也无法动摇它，我便判断，可以毫无顾忌地把它接受为我所寻求的哲学的第一原理。
+        attribution: René Descartes，Discours de la méthode，第四部分（Cousin 版）
+        locator: 维基文库《Discours de la méthode (éd. Cousin)/Quatrième partie》相应段落
+        ref: 2
+      - text: >-
+          Adeo ut, omnibus satis superque pensitatis, denique statuendum sit hoc
+          pronuntiatum, Ego sum, ego existo, quoties a me profertur, vel mente
+          concipitur, necessario esse verum.
+        text_zh: 以至于在充分且逾分地考量了一切之后，终于必须认定这一命题：我在，我存在，每当由我提出、或在心中被构想时，必然为真。
+        attribution: René Descartes，Meditationes de prima philosophia，Meditatio II（Adam et Tannery 版）
+        locator: 拉丁维基文库 Adam et Tannery 版 Meditatio II，欺骗者论证之后的确定命题
+        ref: 3
+      - text: >-
+          So that it must, in fine, be maintained, all things being maturely and carefully
+          considered, that this proposition (pronunciatum) I am, I exist, is necessarily
+          true each time it is expressed by me, or conceived in my mind.
+        text_zh: 因此，归根结底必须主张：在成熟而审慎地考量了一切之后，这一命题（pronunciatum）「我在，我存在」，每一次由我表达、或在我心中被构想时，都必然为真。
+        attribution: René Descartes，Meditations on First Philosophy，Meditation II，John Veitch 英译
+        locator: 维基文库英译第二沉思第 3 段（1853 年初版、1901 年重印的 Veitch 本）
+        ref: 6
+    - position: 即便承认「有思想发生」极为确定，「我思」中的「我」仍可能预设过多；更审慎的最小表述或许只是「在思考」，而「我思故我在」作为形式推论并不当然有效
+      consensus_role: 自 Lichtenberg 以来持续存在的批评传统，也是原问题下高票回答所依赖的思路
+      evidence:
+        label: Lichtenberg 的一手格言，以及 SEP 对后来争论的权威综述
+        note: >-
+          Lichtenberg 的条目是一则札记，不是对《沉思集》的系统论文；它提出了「我」被设定的问题，但并不提供现代意义上的形式证明。[4]
+          Hintikka 1962 年论文、Bernard Williams 与 Russell《西方哲学史》中的相关讨论，本次未能以可逐字核对的全文引用（Hintikka 的一份转载扫描件 OCR 严重，且像是从文集中途开始），因此不引用其原句；其行事性解读与 Russell「只应说存在思想」的异议，仅按已打开的 SEP 条目转述。[5]
+          原问题下的高票回答提到 Williams 与 Kierkegaard 曾反对预设「我」，但那些文本本次也未打开，故不写成已核对的引语。
+      holders:
+      - name: Georg Christoph Lichtenberg
+        identity: 18 世纪德国科学家与格言作者。《Sudelbücher》（废书）作者。本次引文据 Lichtenberg-Gesellschaft 公布的选录，编号为 K 76。[4]
+      - name: Lex Newman（Stanford Encyclopedia of Philosophy 条目作者）
+        identity: 'Stanford Encyclopedia 条目 “Descartes’ Epistemology” 的作者。该条目首次发布于 1997 年 12 月 3 日，本次打开的文本标注实质性修订于 2023 年 11 月 27 日。[5]'
+      argument: >-
+        原问题把「我正在考虑这件事」直接写成「我必须存在」。Lichtenberg 要截断的，正是这一步里的「我」。他并不否认我们意识到某些感觉、表象和思想；他否认的是，从这些发生着的思想里，已经可以合法地读出一个作为主语的「我」。应当说「在思考」，正如说「在打闪」；把 cogito 译成「我思」，已经太多。「我」是被设定、被假定的，而这是实践上的需要。[4]
+        这一批评并不自动推出「cogito ergo sum 为假」，它推出的是：若该口号被理解成一个以「我思」为前提、以「我作为一个实体存在」为结论的推论，则前提可能已经包含了结论里最有争议的部分。SEP 条目把同类异议追溯到后来的讨论，并记载 Russell 认为「我」一词其实不合法，Descartes 的终极前提本应写成「存在着思想」；「我」在语法上方便，却并不描述一项所与。[5]
+        同一条目还把另一条主要战线写成：这究竟是直觉还是推论。Hintikka 的影响性方案把过渡看成行事性的：重点不在从「我思」逻辑地推出「我在」，而在于思想这一表演使「我存在」在行事中自我证实。[5] 即便接受这一解读，它也改变了原问题的形状——要问的不再是「这句推论是真是假」，而是「在进行这一思想行动时，发生了什么」。
+        因此，较审慎的回答是：把「我思故我在」当成对「正在思想却完全不存在」的拒斥，它很难被判为假；把它当成已经证明了一个统一意识主体或灵魂实体的形式推论，则批评传统从 18 世纪起就已经成立。原问题若要继续往下问，需要先说明自己用的是哪一种形式。
+      quotes:
+      - text: >-
+          Wir kennen nur allein die Existenz unserer Empfindungen, Vorstellungen und
+          Gedanken. Es denkt, sollte man sagen, so wie man sagt: es blitzt. Zu sagen
+          cogito, ist schon zu viel, so bald man es durch Ich denke übersetzt. Das Ich
+          anzunehmen, zu postulieren, ist praktisches Bedürfnis.
+        text_zh: 我们仅仅知道自己的感觉、表象和思想的存在。应当说「在思考」，正如人们说「在打闪」。说 cogito，一旦把它译成「我思」，就已经太多了。设定、假定一个「我」，是实践上的需要。
+        attribution: Georg Christoph Lichtenberg，Sudelbücher，K 76
+        locator: Lichtenberg-Gesellschaft 公布的《Sudelbücher》选录，条目 [K 76]
+        ref: 4
+      - text: >-
+          The most significant ongoing debate concerns whether Descartes intends the
+          cogito to be an intuition (i.e., roughly, self-evident), or instead an inference.
+        text_zh: 最重要、仍在进行的辩论关系到：Descartes 究竟是把 cogito 当作一种直觉（大致即自明的东西），还是当作一种推论。
+        attribution: Lex Newman，Descartes’ Epistemology，Stanford Encyclopedia of Philosophy
+        locator: 条目中讨论 cogito 的形式（直觉或推论）的段落；文本标注 2023 年 11 月 27 日实质性修订
+        ref: 5
+    open_parts: >-
+      「是假的吗」这个问题，取决于把哪一句当作 cogito。法语《谈谈方法》中带 donc 的表述、拉丁第二沉思中不带 ergo 的「我在，我存在」，以及后世口号 cogito, ergo sum，并不是同一个句子。[2][3]
+      「我」究竟是直接呈现在意识中的主观性，还是被语法偷运进来的实体，仍是开放争论；Lichtenberg 提出了尖锐形式，但并没有关闭后来关于自我意识与第一人称的全部讨论。[4][5]
+      即便确定了「有思想发生」，由此能推出多少关于自我持续存在、心灵实体或身心关系的结论，早已超出第二沉思开头那一步。Descartes 在后文引入上帝来保证清晰明白的观念并回应欺骗者，那些步骤有独立的争议，不能单靠 cogito 一并解决。
+      Hintikka、Williams、Kant、Nietzsche 等人的专门讨论，只有在打开其全文后才能逐字引用；本轮对其中若干文本未能做到这一点，故不把 SEP 的转述写成已核对的原书引语。[5]
+    references:
+    - id: 1
+      citation: Jez (2011). Is 'cogito ergo sum' false? Philosophy Stack Exchange.
+      url: https://philosophy.stackexchange.com/questions/70/is-cogito-ergo-sum-false
+    - id: 2
+      citation: 'Descartes, R. (1637). Discours de la méthode, quatrième partie. In Œuvres de Descartes (éd. Cousin).'
+      url: https://fr.wikisource.org/wiki/Discours_de_la_m%C3%A9thode_(%C3%A9d._Cousin)/Quatri%C3%A8me_partie
+    - id: 3
+      citation: 'Descartes, R. (1641). Meditationes de prima philosophia, Meditatio II. In Œuvres de Descartes (Adam & Tannery).'
+      url: https://la.wikisource.org/wiki/Meditationes_de_prima_philosophia_(Adam_et_Tannery)/Meditatio_II
+    - id: 4
+      citation: 'Lichtenberg, G. C. Sudelbücher, K 76. In Lichtenberg-Gesellschaft, G. C. Lichtenberg – Sudelbücher – Auswahl.'
+      url: https://www.lichtenberg-gesellschaft.de/leben/l_wirk_sudel_02.html
+    - id: 5
+      citation: 'Newman, L. (2023). Descartes’ epistemology. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy (substantive revision November 27, 2023).'
+      url: https://plato.stanford.edu/entries/descartes-epistemology/
+    - id: 6
+      citation: 'Descartes, R. (1901). Meditations on First Philosophy, Meditation II (J. Veitch, Trans.; first published 1853).'
+      url: https://en.wikisource.org/wiki/Meditations_on_First_Philosophy/Meditation_II
+
+- id: 2026-11-23-phil-faith
+  date: '2026-11-23'
+  category: philosophy
+  title_zh: 宗教信仰如何能在知识论上得到辩护？
+  title_en: How can religious faith be epistemically justified?
+  commentary: 提问者感受到的轻蔑，背后是一场更旧的知识论争执：没有充分证据就相信，究竟是对人类的过失，还是在真正的选项面前一种可允许、甚至不可避免的激情决定，或是一种本来就可以是基本的信念。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/50288/how-can-religious-faith-be-epistemically-justified
+  author: lukuss
+  source_type: stackexchange
+  tags:
+  - 信仰
+  - 证据主义
+  - 改革宗知识论
+  - 知识论
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: 这是长期分裂的哲学争论，没有统一共识。证据主义要求信念与证据相称，并常把无证据的信仰看成过失；反对者或为在真正选项下的激情决定辩护，或主张对上帝的信念可以是「恰当基本的」
+      note: >-
+        原问题由一位自视为理性的基督徒提出，他感到在当代讨论中一暴露信仰就遭到轻视，并询问为何信仰会被看成软弱，而不是一块尚未充分探索的领域。[1]
+        这一社会感受背后的知识论争执，至少可以沿着三条已打开的一手线索来写。Clifford 在 1877 年的《信念的伦理学》中把证据主义提升为普遍的道德要求：「无论何时、何地、对任何人，依据不充分的证据去相信任何事情，都是错误的。」[2]
+        James 在《信仰的意志》中明确把 Clifford 当作对手，并辩护如下论题：当我们的理智按其本性无法决定一个真正的选项时，我们的激情本性必须、并且可以合法地作出决定；在这种情况下，说「先不要决定、让问题悬着」，本身也是一种带有失去真理之风险的激情决定。[3]
+        Plantinga 在 1981 年的论文中把证据主义异议的根源追溯到古典基础主义，并论证：自明、不可纠正或对感官明显，并不是恰当基本性的必要条件；主张对上帝的信念是恰当基本的，并不等于主张它没有根据、是任意的或缺少证成情境。[4]
+        Stanford Encyclopedia 的 Faith 与 The Epistemology of Religion 条目，把上述路线写成信仰知识论中持续并存的模型，而不是已经结算的统一理论。[5][6]
+    summary: >-
+      原题的表面是「为什么当代有人一听到信仰就换上一副轻蔑或优越的态度」，作者也拒绝只要定义、只要死人语录或只要意见之争。[1] 若把问题收成知识论上可讨论的形式，它就是：宗教信仰如何——如果能够的话——得到认识上的辩护？对这一点，当代哲学并没有共同答案，但有几条边界清楚、且应用一手文本即可陈述的主要立场。
+      第一条是证据主义。Clifford 用一艘移民船的船主作引子：即便船主真诚地相信船只适航，若他是靠压制怀疑、避免调查才得到这份真诚，他仍然没有权利依据当时那点证据去相信。文章在「探究的义务」一节收束为那句最常被引用的话：无论何时、何地、对任何人，依据不充分的证据去相信任何事情，都是错误的。紧接着他还写：一个人若把童年或事后被说服得来的信念压下怀疑、回避讨论它的书籍与人物，并把扰乱该信念的问题看成不虔诚，则此人的一生是对人类的长期罪过。[2] 按此标准，许多宗教信仰若拿不出与其确信程度相称的证据，就不仅是「不够理性」，而且是伦理上的失败。
+      第二条路线直接针对这一禁令。James 把文章写成对信仰之正当性的辩护：即使我们仅仅逻辑的理智尚未被强制，我们仍有权利采取一种相信的态度。[3] 他先引入技术区分：假设可以是活的或死的，选项可以是强迫的或可回避的、重大的或琐碎的；当一个选项既是强迫的、活的、又是重大的，便是「真正的选项」。[3] 然后他提出论题：每当真正的选项按其本性无法在理智上决定时，我们的激情本性必须、并且可以合法地在命题之间作出决定；此时「先不要决定」本身也是一种激情决定，并带有同样的失去真理的风险。[3] 宗教假设若被理解为这类真正的选项，则暂停判断并不比相信更中性。需要强调的是：James 并没有主张可以任意愿意自己去相信任何事情——他自己也用林肯是否存在、床上的风湿病等例子说明，意志并不能随便改写已被理智判定的事实。[3]
+      第三条路线改变了「证据」在结构中的位置。Plantinga 指出，两类看起来相反的人其实共享一个前提：有神信念只有在有充分证据时才在理智上可接受——无论是批评者因此判它不理性，还是自然神学传统因此忙着提供证明。[4] 他把这一前提与古典基础主义联系起来：恰当的基本命题只包括自明、不可纠正或对感官明显的命题，而上帝存在不在其中，所以必须有证据。[4] 他的反题是：这些并不是恰当基本性的必要条件；而且，主张对上帝的信念是恰当基本的，并不等于说它没有根据、是任意的或缺少证成情境。改革宗知识论者可以从自己的例证出发，而不必接受「伟大的南瓜」之类反例可以任意混入基本信念的说法；他还可以与 Calvin 一样，主张上帝在我们里面放置了一种在周围世界中看见其作为的自然倾向，而这并不适用于「伟大的南瓜」。[4]
+      SEP 的综述把这些路线写成对「信仰既大胆又要求合理性」这一张力的不同处理：Clifford 把证据主义做成绝对道德要求；改革宗知识论则借助外在主义，主张有神信念可以是得到保证的，即使其真对信者而言只是基本地、而不是从其他更基本信念推论出来地明显。[5][6] 没有任何一条已经消灭另外两条。若原问题要的是「如何得到辩护」，诚实的回答只能是：有几种相互竞争的辩护策略，它们在什么算证据、什么算任意、以及暂停判断是否中性这些问题上并不一致。
+    definitions:
+    - term: 证据主义（evidentialism）
+      text: 一种关于信念规范的主张：信念应与证据相称；在 Clifford 的强形式里，依据不充分的证据去相信任何事情，无论何时何地、对任何人都是错误的。[2] SEP 把「信念只有在与证据相称时才得证成」称作起初显得很有说服力的立场。[6]
+    - term: 真正的选项（genuine option）
+      text: James 的术语：一个既是强迫的、又是活的、又是重大的选项。活的假设是对当事人而言构成真实可能性的假设；强迫的选项无法靠回避来取消；重大的选项关系重大后果。他认为，当这类选项按其本性无法在理智上决定时，激情本性可以合法地介入。[3]
+    - term: 恰当基本的信念（properly basic belief）
+      text: 不必基于其他命题的证据、却仍可以是理性或得到保证的信念。Plantinga 反对把恰当基本性仅限于自明、不可纠正或对感官明显的命题，并主张对上帝的信念可以是恰当基本的，同时否认这会使该信念变成没有根据或任意的。[4]
+    milestones:
+    - year: '1877'
+      name: Clifford 发表《信念的伦理学》
+      explanation: 在 Contemporary Review 刊出，后收入 Lectures and Essays（1879）第二卷。文中提出「依据不充分的证据去相信即错」的普遍禁令。[2]
+    - year: '1896'
+      name: James 宣讲《信仰的意志》
+      explanation: 他把文章写成对在宗教事务上采取相信态度的权利的辩护，并针对 Clifford 的禁令提出关于真正选项与激情决定的论题。文集通常署 1897 年出版；本次引文据公开的 Wikisource 文本。[3]
+    - year: '1981'
+      name: Plantinga 论证「对上帝的信念可以是恰当基本的」
+      explanation: 在 Noûs 发表 *Is Belief in God Properly Basic?*，把证据主义异议与古典基础主义联系起来，并陈述改革宗知识论的核心反题。他后来在 *Warranted Christian Belief*（2000）等著作中扩展了这一模型；本次未打开该书全文，故不以之引页。[4]
+    views:
+    - position: 没有充分证据就相信，在认识上是不负责任的，在伦理上也是错的；宗教信仰若不能满足这一标准，就不能在知识论上得到辩护
+      consensus_role: 近代以来最常被用来质疑信仰之合理性的规范立场之一
+      evidence:
+        label: 经典的规范论文，不是对当代宗教经验的经验调查
+        note: >-
+          Clifford 的文章以思想实验和道德论证为主，提出的是一条普遍原则，而不是对某一具体教义之证据的评审。[2]
+          「不充分」如何度量、科学与历史中不可避免的不确定信念是否也被一网打尽，是后来文献对这条原则的常见追问；这些反驳只有在打开相应文本后才能详细展开。
+          原问题中的社会轻蔑，不能直接等同于 Clifford 的伦理论证：有人轻视信仰，可能并不持有如此之强的原则。
+      holders:
+      - name: William Kingdon Clifford
+        identity: 英国数学家与哲学家。《The Ethics of Belief》作者。本次文本据 Wikisource 所刊、转载于 Lectures and Essays（1879）第二卷第 177–211 页的版本；文首先刊于 Contemporary Review，1877 年 1 月。[2]
+      argument: >-
+        若宗教信仰要在知识论上得到辩护，按 Clifford 的标准，辩护只能来自与确信程度相称的证据，而不能来自真诚、安慰或童年养成的习惯。船主的例子要说明的是：真诚本身不够；若这份真诚是靠避开调查「偷来的」，则即使后来证明船是适航的，他当时也没有权利那样相信。[2]
+        把原则推广到一般信念之后，禁令变得非常强：错的不是「相信了假的东西」，而是「在证据不足时相信」。因此，一个把怀疑压下去、回避反对书籍与人物、并把扰乱性提问视为不虔诚的人，其生活被写成对人类的长期罪过——即便他从未觉得自己在作恶。[2]
+        对原问题而言，这一侧可以解释部分轻蔑态度的知识论来源：在证据主义者看来，信仰若意味着在证据不够时仍坚持，那就不是「尚未探索的土地」，而是对一种公共认识义务的放弃。它并不能证明所有宗教信仰都必然证据不足，但它把举证责任放在信者一边。
+      quotes:
+      - text: >-
+          To sum up: it is wrong always, everywhere, and for anyone, to believe
+          anything upon insufficient evidence.
+        text_zh: 总而言之：无论何时、何地、对任何人，依据不充分的证据去相信任何事情，都是错误的。
+        attribution: William Kingdon Clifford，The Ethics of Belief
+        locator: 第一节 “The Duty of Inquiry” 的收束句；Wikisource 所刊 Lectures and Essays（1879）第二卷文本
+        ref: 2
+      - text: >-
+          If a man, holding a belief which he was taught in childhood or persuaded of
+          afterwards, keeps down and pushes away any doubts which arise about it in
+          his mind, purposely avoids the reading of books and the company of men that
+          call in question or discuss it, and regards as impious those questions which
+          cannot easily be asked without disturbing it—the life of that man is one long
+          sin against mankind.
+        text_zh: 若一个人持有童年所学或事后被说服接受的信念，把心中生起的任何怀疑压下去、推开，有意避开那些质疑或讨论该信念的书籍与人们的交往，并把那些一经提出便不免扰乱该信念的问题视为不虔诚——则此人的一生，是对人类的一项长期罪过。
+        attribution: William Kingdon Clifford，The Ethics of Belief
+        locator: 紧随上述总则之后的段落；第一节 “The Duty of Inquiry”
+        ref: 2
+    - position: 当一个宗教假设构成真正的、且按其本性无法仅靠理智裁定的选项时，激情本性必须并且可以合法地作出决定；要求此时仍「暂停判断」，本身并不是中立的
+      consensus_role: 对过度证据主义最著名的实用/意志主义反驳之一
+      evidence:
+        label: 经典讲演文本，属于规范与心理学论证，而非对宗教命题的经验证实
+        note: >-
+          James 明确把讨论放在「独断」的地基上，即设定有真理、并且我们的心智注定要达到它，从而把系统的哲学怀疑论暂时放在一边。[3]
+          他的许可是有条件的：选项必须是真正的，并且「按其本性」无法在理智上决定；对已被理智判定的事实，他否认意志可以随意改写。[3]
+          因此，这一辩护能走多远，取决于某一具体宗教信仰是否真的满足「真正的选项」以及「理智无法决定」这两个前提——这不能由讲演本身普遍担保。
+      holders:
+      - name: William James
+        identity: 美国哲学家与心理学家。《The Will to Believe》作者。文中自称把这篇讲演带到听众面前，作为对在宗教事务上采取相信态度之权利的辩护；Wikisource 与 Project Gutenberg 均提供该文集的公开文本。[3]
+      argument: >-
+        James 并不否认 Clifford 听起来「健康」，甚至说其文风有时过于雄健感人；他要争的是，这条禁令被用到了它不能单独统治的地方。[3] 文章开头就把目标说成：为我们有权利在宗教事务上自愿采取相信态度作辩护，即使仅仅逻辑的理智尚未被强制。[3]
+        关键装置是「真正的选项」。若两个假设对你都是死的，或你可以用回避取消选择，或事情无足轻重，证据主义式的暂停判断往往代价很低。可一旦选项是活的、强迫的、重大的，而且按其本性无法在理智上决定，则「让问题悬着」并不比「是」或「否」更少激情，也带着失去真理的同样风险。[3]
+        宗教假设在 James 的处理中被说得相当宽泛：它至少断言最美好的事物更为永恒，并且我们若相信这一宗教真理，即便现在也会更好。若这两个分支事实上为真，则是否相信就不再是对一件已完结的理智题目的冷处理。[3] 这一侧为宗教信仰提供的辩护，因此不是「已经证明为真」，而是「在真正的选项面前，等待更多证据并不是唯一合法的认识态度」。
+        对原问题中被轻视的信者而言，James 可以提供的不是一块免战牌，而是一种反问：批评者以为自己只是在「按证据办事」，但在某些选项上，拒绝相信本身也已经是一种会带来损失的激情决定。
+      quotes:
+      - text: >-
+          The thesis I defend is, briefly stated, this: Our passional nature must, and
+          lawfully may, decide an option between propositions, whenever it is a genuine
+          option that cannot by its nature be decided on intellectual grounds; for to say,
+          under such circumstances, “Do not decide but leave the question open,” is
+          itself a passional decision, just like deciding “yes” or “no,” and is attended
+          with the same risk of losing the truth.
+        text_zh: 我所辩护的论题，简言之是这样的：每当一个真正的选项按其本性无法在理智根据上被决定时，我们的激情本性必须、并且可以合法地在命题之间作出决定；因为在这种情况下，说「不要决定，让问题悬着」，本身就是一种激情的决定，正像决定「是」或「否」一样，并且带着同样的失去真理的风险。
+        attribution: William James，The Will to Believe
+        locator: 文中以 “The thesis I defend is, briefly stated, this” 引出的论题陈述；Wikisource 文本
+        ref: 3
+      - text: >-
+          I have brought with me to-night something very like a sermon on justification
+          by faith to read to you—I mean an essay in justification of faith, a defense of
+          our right willfully to adopt a believing attitude in religious matters, in spite
+          of the fact that our merely logical intellect may not have been coerced.
+        text_zh: 今晚我带来的，很像一篇关于「因信称义」的讲道——我是说一篇为信仰作辩护的文章，为我们有权利在宗教事务上自愿采取一种相信的态度作辩护，尽管我们仅仅逻辑的理智可能尚未被强制。
+        attribution: William James，The Will to Believe
+        locator: 开篇说明文章旨趣的段落；Wikisource 文本
+        ref: 3
+    - position: 对上帝的信念不必从其他命题推论出来也可以是恰当基本的；这并不使它变成没有根据或任意的，因此宗教信仰可以在不满足古典证据主义的情况下仍是理性的
+      consensus_role: 20 世纪后期改革宗知识论的核心主张，是对证据主义结构本身的挑战
+      evidence:
+        label: 已打开的 1981 年期刊论文；后续专著仅按 SEP 述及，不引页码
+        note: >-
+          Plantinga 1981 年的论文是哲学论证，旨在反驳「有神信念只有在有充分命题证据时才理性」这一共同前提，并说明改革宗知识论不必接受「任何信念都可以是基本的」。它并不提供对上帝存在的新的经验证明，也不试图在这篇短文里给出完备的恰当基本性标准。[4]
+          作者当时署于 Calvin College。他后来以 warrant（保证）和 sensus divinitatis 等概念在 *Warranted Christian Belief*（2000）中扩展模型；这些后来的细节本次未打开全书，只在 SEP 综述中被提及，故不引用其页码或原句。[5][6]
+      holders:
+      - name: Alvin Plantinga
+        identity: '《Is Belief in God Properly Basic?》（Noûs, 1981）作者。论文标题下将单位署为 Calvin College。[4]'
+      argument: >-
+        Plantinga 要移动的不是某条证据的权重，而是整幅关于「何谓理性信念」的图画。他指出，证据主义的批评者与自然神学的辩护者都同意：只有具备充分证据，有神信念在理智上才可接受。更精确地说，一个人只有在知道或理性地相信某些支持该命题的其他命题、并据此相信它时，才是理性的。[4]
+        若古典基础主义是对的，上帝存在确实很难成为基本信念。但他认为，把恰当基本性限于自明、不可纠正或对感官明显，并不是必要的；这一限制本身就站不住。于是，「对上帝的信念不是恰当基本的」就不能再靠那幅旧图画来维持。剩下的问题变成：若有人把有神信念当作基本的，他是否就得承认几乎任何信念——例如对「伟大的南瓜」的信念——也可以是恰当基本的？Plantinga 的回答是否定的。改革宗知识论者对自己的例证负责，而不必符合反对者的例证；他还可以指出相关差别，例如与 Calvin 一样认为上帝在人里面放置了一种在世界中看见其作为的自然倾向，而并不存在关于「伟大的南瓜」的类似倾向。[4]
+        结论段把三点收在一起：自明、不可纠正或对感官明显，不是恰当基本性的必要条件；主张对上帝的信念是恰当基本的，并不等于主张它没有根据、是任意的或缺少证成情境；即使还没有一套完备标准，也不必把几乎任何信念都当成恰当基本的。[4]
+        对原问题而言，这一侧提供的辩护是结构性的：信仰不必先通过 Clifford 式的证据审查才算理智上可尊重。它仍然必须面对已知的反驳，并且「恰当基本」不等于「不可批评」。但它阻断了那句最常见的轻蔑——「你没有证据，所以你的信念从一开始就不合格」。
+      quotes:
+      - text: >-
+          These two groups unite in holding that theistic belief is rationally acceptable
+          only if there is sufficient evidence for it. More exactly, they hold that a person
+          is rational or reasonable in accepting theistic belief only if she has sufficient
+          evidence for it—only if, that is, she knows or rationally believes some other
+          propositions which support the one in question, and believes the latter on the
+          basis of the former.
+        text_zh: 这两类人一致认为，有神信念只有在有充分证据时才是理性上可接受的。更精确地说，他们主张：一个人只有在拥有充分证据时——也就是说，只有在她知道或理性地相信某些支持该命题的其他命题、并据此相信后者时——在接受有神信念上才是理性或合理的。
+        attribution: Alvin Plantinga，Is Belief in God Properly Basic?
+        locator: Noûs 15(1), 1981, 第 41 页，开篇
+        ref: 4
+      - text: >-
+          By way of conclusion then: being self-evident, or incorrigible, or evident to
+          the senses is not a necessary condition of proper basicality. Furthermore, one
+          who holds that belief in God is properly basic is not thereby committed to the
+          idea that belief in God is groundless or gratuitous or without justifying
+          circumstances. And even if he lacks a general criterion of proper basicality,
+          he is not obliged to suppose that just any or nearly any belief—belief in the
+          Great Pumpkin, for example—is properly basic.
+        text_zh: 作为结论：自明、不可纠正、或对感官明显，并不是恰当基本性的必要条件。此外，主张对上帝的信念是恰当基本的人，并不因此就得承认：对上帝的信念是没有根据的、任意的、或缺少证成情境的。即使他还缺少一套关于恰当基本性的普遍标准，他也并无义务假定：随便什么或几乎随便什么信念——例如对「伟大的南瓜」的信念——都是恰当基本的。
+        attribution: Alvin Plantinga，Is Belief in God Properly Basic?
+        locator: Noûs 15(1), 1981, 第 51 页，结论段
+        ref: 4
+    open_parts: >-
+      三种立场在「什么算证据」「暂停判断是否中性」「基本信念如何避免任意性」上仍然对立，当代哲学没有形成统一的结算。[5][6]
+      James 的辩护依赖「真正的选项」与「理智按其本性无法决定」；某一具体宗教主张是否满足这些条件，不能由这篇讲演自动给出，也容易随当事人的文化与教育背景而变化。[3]
+      Plantinga 1981 年的论文并没有完整给出恰当基本性的标准，他自己也把这写成仍可暂付阙如的一点；后来以 warrant 与 sensus divinitatis 展开的模型，需要直接打开《Warranted Christian Belief》等书才能核对，本文不作转引。[4][5]
+      原问题还包含一层社会学与心理上的轻蔑感受。哲学上的证据主义可以解释其中一部分知识论来源，但不能单独解释「为什么是现在、为什么以这种方式表现」；那需要思想史或经验研究，不在本次打开的文本范围内。[1]
+      Locke 等更早的证据主义表述，以及其他宗教传统中的信仰模型，只有在打开相应原文后才能纳入；本文没有把它们写成已核对的论据。
+    references:
+    - id: 1
+      citation: lukuss (2018). How can religious faith be epistemically justified? Philosophy Stack Exchange.
+      url: https://philosophy.stackexchange.com/questions/50288/how-can-religious-faith-be-epistemically-justified
+    - id: 2
+      citation: 'Clifford, W. K. (1877/1879). The ethics of belief. In Lectures and essays (Vol. 2, pp. 177–211). London: Macmillan. (First published in Contemporary Review, January 1877.)'
+      url: https://en.wikisource.org/wiki/The_Ethics_of_Belief
+    - id: 3
+      citation: 'James, W. (1896/1897). The will to believe. In The will to believe and other essays in popular philosophy.'
+      url: https://en.wikisource.org/wiki/The_Will_to_Believe
+    - id: 4
+      citation: 'Plantinga, A. (1981). Is belief in God properly basic? Noûs, 15(1), 41–51.'
+      url: https://www.andrewmbailey.com/ap/Belief_in_God_Properly_Basic.pdf
+    - id: 5
+      citation: 'Bishop, J., & McKaughan, D. J. (2023). Faith. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy (substantive revision December 9, 2023).'
+      url: https://plato.stanford.edu/entries/faith/
+    - id: 6
+      citation: 'Forrest, P. (2025). The epistemology of religion. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy (substantive revision October 26, 2025).'
+      url: https://plato.stanford.edu/entries/religion-epistemology/
+
+- id: 2026-11-23-psych-sex-private
+  date: '2026-11-23'
+  category: psychology
+  title_zh: 人类为什么通常在私密处发生性行为？
+  title_en: Why do humans have sex in private?
+  commentary: >-
+    许多社会把「性交应当避开他人耳目」当作不言而喻的规范；可一旦拿来和常在同伴眼前交配的社会性灵长类近亲比较，它就不再只是礼仪细节，而变成一个需要跨文化证据、也不能靠演化故事直接拍板的问题。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/1567/why-do-humans-have-sex-in-private
+  author: Piotr Migdal
+  source_type: stackexchange
+  tags:
+  - 性行为
+  - 隐私
+  - 文化比较
+  - 演化人类学
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: 就「合法的、为社会规范所允许的性交，人们通常会设法避开其他成人的视听」而言，已有系统的民族志综述表明这一偏好在有记录的文化中极为广泛，但并非毫无例外，也不等于总能做到完全私密；至于「为什么会这样」，目前没有被广泛接受的、已经过严格检验的单一演化解释
+      note: >-
+        Ben Mocha 检索了电子人类关系区域档案（eHRAF）中 249 个文化、四千余份民族志，在能够编码「合法交配是否被感官隐蔽」的样本里，调查数据集为 130/131 个文化、标准跨文化样本/民族志图集（SCCS/EA）数据集为 81/82 个文化，被报告会至少部分地采取措施，使合法交配避开成年同类的视听。[1]
+        作者同时写明：许多文化的居住条件使完全隐私难以实现；约 20 个文化在仪式或性教育等特殊情境下有公开性行为的习俗；民族志对性规范的结论必须谨慎，因为报告人未必会在来自性规范更严社会的人类学家面前展示更开放的行为。[1]
+        关于功能，作者认为既有人类学假说大多简短，且不足以解释「人类中习以为常、其他社会性类人猿优势个体却很少习惯性隐蔽」这一分类学分布；他提出的「合作维持假说」（cooperation maintenance hypothesis, CMH）被他本人明确称为事后提出的假说，其力量在于可检验的预测，而不是已经完成的证实。[1]
+        野生灵长类中已有关于婚外交配战术性隐蔽的观察，但这解释的是避免被发现与惩罚的非法/婚外交配，不能直接等同于对「合法交配为何也要隐蔽」的答案。[2]
+    summary: >-
+      原问题把「人类伴侣通常在私密处性交，不仅躲开捕食者，也躲开其他人类」与倭黑猩猩、黑猩猩、大猩猩等近亲的对比当作起点。要严肃回答，首先必须分清两种很不一样的现象：一种是为社会规范所禁止的性交（例如婚外性）因害怕惩罚或干扰而躲避；另一种是连被规范允许的「合法交配」，当事人也常设法把视、听乃至气味刺激对同类掩藏起来。[1]
+      Ben Mocha 的综述把讨论对象明确限制在后一种，即合法交配的感官隐蔽——例如等到同住者入睡再进行——而不是隐瞒「已婚者会发生性关系」这一事实，因为人类通常都知道配偶之间存在合法的性关系。[1]
+      在这一较严格的定义下，跨文化模式比个别逸事更清楚，也比「几乎所有物种都公开交配」的印象更复杂。作者报告：在有足够资料的文化中，几乎都有至少部分的隐蔽措施；同时，完全隐私常常做不到，特殊场合的公开性行为也有记录，传统时期的瓜希罗人（Goajiro）还被记为几乎不采取预防，不过接触传教士之前的资料薄弱。[1]
+      「为什么」则仍是开放的。较早文献里常见的说法，是公开交配会激起嫉妒与公开的生殖竞争，从而损害配偶关系或群体和谐；这些说法在这篇综述里被当作简短的既有解释来讨论，但作者认为，若仅凭避免竞争，难以说明何以许多社会性动物、尤其是社会性非人类人猿的优势个体并不习惯性隐蔽交配。[1]
+      作者提出的合作维持假说是：交配的感官刺激会在目击者中唤起性兴奋并可能引发求偶；若一方既试图控制对伴侣的交配机会，又必须与那些被排除在外的群体成员合作，公开交配就会把「控制」与「合作」同时置于冲突之中；隐蔽则是一种相对低成本的策略，用来避免不必要的性唤起。[1]
+      必须强调：这是一条带有前提和预测的假说，证据主要来自民族志编码与跨物种比较，而不是在人类中完成的实验裁决。婚外或从属性交配为躲避干扰而隐蔽，在其他灵长类中有独立的观察支持，但那是另一类问题。[1][2]
+    definitions:
+    - term: 合法交配的感官隐蔽（sensory concealment of legitimate mating）
+      text: >-
+        Ben Mocha 所用的分析概念。合法交配指符合一对伴侣所处文化之社会规范的性交（例如规范所允许的夫妻性交），其隐蔽不能用「逃避对违规行为的惩罚」来解释；感官隐蔽指设法使交配的视觉、听觉或气味刺激不被同类感知，而不是否认合法性关系的存在。[1]
+    - term: 合作维持假说（cooperation maintenance hypothesis, CMH）
+      text: >-
+        Ben Mocha 提出的功能假说：隐蔽交配的近端作用，是防止目击者被性唤起；远端作用，是使个体能够同时维持对伴侣交配机会的控制，以及与那些被阻止接近该伴侣的群体成员之间的合作。作者称其为事后提出的假说，并给出跨物种与跨文化的可检验预测。[1]
+    - term: 战术性隐蔽（tactical concealment）
+      text: >-
+        le Roux 等人在野生狮尾狒（gelada）研究中使用的概念，用来描述婚外交配时降低被戴绿帽的雄性察觉的行为（例如较少发声、选择距离更远时交配）。它针对的是可能受惩罚的婚外性交，与「合法交配为何也要避开同伴」不是同一个命题。[2]
+    milestones:
+    - year: 2013
+      name: le Roux、Snyder-Mackler、Roberts、Beehner 与 Bergman 报告野生狮尾狒的战术性隐蔽
+      explanation: >-
+        他们在野生狮尾狒中量化了婚外交配（约占观察到的交配的 9%）时的行为：当事者更少发声，并更常在被戴绿帽的雄性距离较远（大于 20 米）时交配；约 20% 的婚外交配随后引发该雄性的攻击，作者将其理解为可能的惩罚。这项工作为「躲避干扰/惩罚而隐蔽」提供了野外证据，但对象是婚外交配，不是对人类合法交配私密性的直接证明。[2]
+    - year: 2020
+      name: Ben Mocha 发表跨文化综述并系统陈述合作维持假说
+      explanation: >-
+        这篇发表于《Proceedings of the Royal Society B》的论文，据作者说是对「合法交配之感官隐蔽是否广泛存在、以及何种选择压力可能塑造这一偏好」所作的系统处理：它提供了基于 eHRAF 的编码结果，检讨既有人类学解释的不足，并把最初为阿拉伯噪鹛（Arabian babbler）提出的思路扩展为人类与部分非人物种的比较假说及预测。[1]
+    views:
+    - position: 在有民族志记录的样本中，对合法交配做至少部分的感官隐蔽，是跨文化极为广泛的偏好；但这不是毫无例外的定律，也不等于日常生活里总能获得完全隐私
+      consensus_role: 目前所见最系统的跨文化描述性结论；其普遍程度取决于可编码资料的覆盖与民族志的可信度，作者本人已写下限制
+      evidence:
+        label: 对大型民族志数据库的文献编码，属于观察性、比较性证据，不是实验
+        note: >-
+          调查数据集涵盖 249 个文化中的全部相关 eHRAF 民族志，SCCS/EA 数据集则限制在标准跨文化样本与民族志图集中较可靠、并对应特定历史时期与社区的材料，以控制文化不独立与文化内变异。关于合法交配隐私的足够资料分别出现在 131 与 82 个文化中；编码结果为 130/131 与 81/82。[1]
+          作者指出性生活常被报告人回避，相关记载往往贫乏。例外方面，传统瓜希罗人被记为公开进行夫妻性关系，但接触传教士前的资料差，接触后则出现严厉的性体面规范；另有 20 个文化在特殊情形下有公开性习俗。因此，「极为广泛」可核对，「全人类普遍且自古如此」则超出了这些数据所能支持的范围。[1]
+      holders:
+      - name: Yitzchak Ben Mocha
+        identity: >-
+          2020 年这篇综述的唯一作者。文中单位为苏黎世大学人类学系（Department of Anthropology, Zürich University），并同时列出马克斯·普朗克进化人类学研究所灵长类学部、马克斯·普朗克鸟类学研究所与马克斯·普朗克动物行为研究所集体行为学部。[1]
+      argument: >-
+        把「人类为什么通常在私密处性交」首先当成一个经验问题，比直接跳到演化故事更稳妥。Ben Mocha 的编码表明：在能够判断的文化里，伴侣几乎都被报告会采取措施，使合法交配至少部分避开其他成人的感官知觉——例如在夜间营地中进行、用席隔开、或到丛林中避开棚屋的拥挤。[1]
+        与此同时，文章并不把这一偏好写成铁板一块的禁忌。居住条件常常使彻底隐私不可能；一些文化并不把隐私维持到最严格的程度；宗教仪式或性教育等场合下，公开性行为被单独记录。[1]
+        对原问题而言，这一层回答是：私密性交在跨文化记录里确实是常态或至少是强烈倾向，因而很难把它只写成近代西方的偶然礼俗；但「大多数物种都公开、唯独人类隐蔽」需要更谨慎的比较，而且民族志沉默、观察者效应和例外习俗，都警告我们不要把「通常」说成「一律」。[1]
+      quotes:
+      - text: >-
+          These results show that the preference to conceal legitimate mating from
+          the sensory perception of conspecifics is, at the very least, widespread
+          across human cultures. Nonetheless, conclusions from ethnographic analyses
+          of sexual norms should be viewed cautiously.
+        text_zh: 这些结果表明，将合法交配对同类的感官知觉加以隐蔽的偏好，至少在人类文化中是广泛存在的。尽管如此，对性规范所作的民族志分析，其结论仍应谨慎看待。
+        attribution: Yitzchak Ben Mocha，Why do human and non-human species conceal mating?
+        locator: 第2节末段，Proc. R. Soc. B 287(1932):20201330, 2020（本次依据 PMC 全文，按章节定位）
+        ref: 1
+    - position: 较早的功能解释多把隐蔽归因于避免公开交配所激起的嫉妒与生殖竞争，有的还强调这对「社会和谐」或雄性合作的好处；但仅凭这些因素，尚不足以说明何以习惯性隐蔽在人类中成为常态，而在其他社会性类人猿的优势个体中却很少见到
+      consensus_role: 综述中被当作二十世纪以来的主要既有思路；本次未能打开被引的 Symons、Friedl、van Schaik 等原文，只按 Ben Mocha 的转述与批评来记录
+      evidence:
+        label: 间接证据——依赖一篇已打开综述对更早文献的概括与反驳，而非对原书原论文的独立核对
+        note: >-
+          Ben Mocha 写到，关于隐蔽交配之功能，迄今只有简短说明（往往只有几句话或一个脚注）。他概括这些解释的共同点是：避免公开的生殖竞争是人类隐蔽交配的主要功能；它们的差别在于对合作的强调程度不同。[1]
+          他的反驳是比较性的：若这些压力已足够，则应在许多其他社会物种、尤其是社会性非人类人猿中看到习惯性隐蔽；据他引用的补充材料，这些物种中群体内生殖竞争常见，群体凝聚对群间竞争重要，黑猩猩中雄性合作也关键，但优势个体很少对同类主动隐蔽交配。[1]
+          本次未打开其所引的 Symons（1979）、Friedl（1994）、van Schaik（2016）等原著，因此不把那些书中的原句或页码当作已核对引文，也不把「嫉妒假说已被证伪」写成定论——作者本人也承认，这些选择压力仍可能起过作用。[1]
+      holders:
+      - name: Yitzchak Ben Mocha（综述既有假说）
+        identity: >-
+          其文第3节检讨了他所称的既有人类学解释。被点名的文献包括 Symons《The evolution of human sexuality》（1979）、Friedl「Sex the invisible」（1994）以及 van Schaik《The primate origins of human nature》（2016）等；这些原著本次未能打开，身份与精确表述须以原书为准。[1]
+      argument: >-
+        把私密性交解释成「免得别人眼红、免得打起来」，直观上很好懂，也与日常对嫉妒的观察相容。Ben Mocha 并不否认嫉妒、竞争与和谐可能相关，但他要求任何功能假说先通过一项比较测试：它必须说明，为什么习惯性隐蔽会在人类中演化出来，却只很少出现在社会性的非人类人猿中。[1]
+        按他的阅读，若解释只停在「避免公开竞争」，这一测试就没有通过。因此，在更完整的证据出现之前，审慎的表述是：竞争与嫉妒假说仍是历史上重要的思路，也可能抓住了部分选择压力，但还不能单独充当对人类这一物种模式的充分说明。[1]
+      quotes:
+      - text: >-
+          In conclusion, although the selective pressures proposed by current
+          explanations may have played a role in the evolution of concealed mating,
+          in my opinion, these explanations do not sufficiently explain why habitual
+          concealment evolved in humans but is rarely exhibited in other social
+          great apes.
+        text_zh: 总之，尽管现有解释所提出的选择压力可能在隐蔽交配的演化中起过作用，但在我看来，这些解释并不足以说明：为什么习惯性隐蔽在人类中演化出来，却很少表现在其他社会性类人猿中。
+        attribution: Yitzchak Ben Mocha，Why do human and non-human species conceal mating?
+        locator: 第3节末段，Proc. R. Soc. B 287(1932):20201330, 2020（本次依据 PMC 全文，按章节定位）
+        ref: 1
+    - position: 合作维持假说提供了一种更具体的候选机制——隐蔽是为了避免在目击者中诱发性唤起，从而同时保住对伴侣的交配控制与对合作者的依赖；它目前是可检验的假说，而不是已证实的人类演化事实
+      consensus_role: 2020 年由同一作者系统陈述的新假说，有比较框架和预测，但尚未在文中完成决定性的跨物种或跨文化检验
+      evidence:
+        label: 概念论证加比较性、观察性材料；作者明确将其称为事后假说
+        note: >-
+          假说建立在三条前提上：交配的感官刺激会在目击者中唤起性兴奋并触发交配行为；某个体试图控制对伴侣的交配机会；该个体又依赖那些被其阻止接近该伴侣的群体成员的合作。若三条同时成立，公开交配会被预期同时破坏控制与合作。[1]
+          支持人类一侧前提的材料，是作者对既有文献与其民族志数据集的阅读（例如各文化中配偶被赋予某种程度的性控制规范、人类依赖合作与异亲抚育等）；其中关于视觉/听觉刺激如何在人脑中起作用的具体神经机制，本次未打开其所引实验原文，故不转述为已核对的发现。[1]
+          在非人物种方面，作者称：就「交配并不受同类肢体打断的个体仍习惯性隐蔽」而言，当时文献中只系统记录了人类与阿拉伯噪鹛。狮尾狒等物种中的情境性隐蔽，被他用来讨论「中等程度的控制与合作」预测，但 le Roux 等人的直接数据针对的是婚外交配。[1][2]
+      holders:
+      - name: Yitzchak Ben Mocha
+        identity: 同上；合作维持假说在此文中被完整陈述，并追溯到他与同事关于野生阿拉伯噪鹛优势个体隐蔽交配的较早工作。[1]
+      argument: >-
+        这一假说的要点，不是「人类比别的动物更害羞」，而是指出一种特殊的利益冲突：既不许（或不全许）群体里的其他人与自己的伴侣交配，又还需要这些人继续帮忙——觅食、育幼、防御等等。[1]
+        若目击交配会提高这些人随即尝试求偶的可能性，那么公开进行合法交配，就可能把控制变成公开冲突，并伤害日后的合作。感官上的隐蔽并不要求他人不知道配偶关系的存在，它只是去掉当场的强刺激。[1]
+        作者还给出了清晰的预测，例如：只有同时满足「交配控制」与「合作依赖」的物种，优势个体才会习惯性隐蔽；在人类中，婚外性限制更严的文化应更严格地维持隐私，而双方都被允许有限度婚外性的文化则隐私要求较松——他列举了若干与此方向相符的民族志例子，但写明系统的跨文化检验超出该文范围。[1]
+        对原问题而言，这是目前表述最完整的演化候选答案之一，可是它仍然是候选。作者自己把它叫做事后假说，并呼吁收集更多物种与民族志数据来检验；若被证伪，应据此产生新的、由数据驱动的替代假说。[1]
+        另外，把狮尾狒婚外交配时的悄声与远离，直接说成「所以人类夫妻也要关上门」，是类别错误：那是躲避可能的惩罚与干扰；Ben Mocha 恰恰强调，人类合法交配的隐蔽不能用惩罚规避来解释，而且在不少文化中，他人还会帮助一对伴侣获得隐私，而不是去打断他们。[1][2]
+      quotes:
+      - text: >-
+          As a post hoc hypothesis, the CMH was developed to explain the currently
+          known taxonomic distribution of concealed mating in humans and non-human
+          species (presence and absence). Its scientific strength thus lies in its
+          ability to generate testable predictions for species with unknown mating
+          behaviours.
+        text_zh: 作为一个事后提出的假说，合作维持假说是为了解释目前已知的、人类与非人物种中隐蔽交配的分类学分布（存在与缺失）而发展出来的。因此，它的科学力量在于：能够为交配行为尚属未知的物种产生可检验的预测。
+        attribution: Yitzchak Ben Mocha，Why do human and non-human species conceal mating?
+        locator: 第4节(d)段首，Proc. R. Soc. B 287(1932):20201330, 2020（本次依据 PMC 全文，按章节定位）
+        ref: 1
+      - text: >-
+          The cooperation maintenance hypothesis postulates that concealed mating in
+          distantly related species, such as humans and Arabian babblers, is a
+          behavioural strategy to prevent sexual arousal in group members (proximate
+          explanation), and that it has evolved by convergent evolution driven by
+          the need to manoeuvre between two conflicting pressures: maintaining mating
+          control over partner(s) while relying on cooperation with group members who
+          are prevented from mating with these partner(s) (ultimate explanations).
+        text_zh: 合作维持假说主张：在人类与阿拉伯噪鹛这样亲缘较远的物种中，隐蔽交配是一种防止群体成员被性唤起的行为策略（近端解释）；它通过趋同演化产生，其驱动力是必须在两种相互冲突的压力之间周旋：既要维持对伴侣交配机会的控制，又要依赖那些被阻止与这些伴侣交配的群体成员的合作（远端解释）。
+        attribution: Yitzchak Ben Mocha，Why do human and non-human species conceal mating?
+        locator: 第6节结论第(3)点，Proc. R. Soc. B 287(1932):20201330, 2020（本次依据 PMC 全文，按章节定位）
+        ref: 1
+    open_parts: >-
+      跨文化的「广泛存在」仍然受制于民族志的沉默、观察者效应，以及可编码样本只占人类文化的一部分；特殊仪式中的公开性行为、以及少数被记为不严格追求隐私的社会，都还需要更细的历史与田野材料，才能判断它们是规范的暂时放松、记录偏差，还是真的构成反例。[1]
+      合作维持假说的三条前提，尤其是「目击者会被感官刺激唤起并付诸行动」在不同社会与不同物种中是否普遍成立，以及「合法交配」与「优势个体交配」是否真能跨物种类比，都还有待直接检验。作者列出的许多合作繁殖物种，被他称为检验该预测的有力候选，但文中并没有提供这些物种优势配对交配行为的新的系统观测。[1]
+      人类一侧也缺少能够区分「文化规范习得」与「演化适应」的决定性设计；即使隐蔽偏好广泛存在，它仍可能由羞耻、礼貌、宗教、法律与儿童在场等多种近端机制共同维持，而不必只有一种远端功能。[1]
+      最后，把非人物种中从属性或婚外交配的躲避行为，外推为人类合法私密性交的起源，是尤其需要避免的跳跃：两类行为在有无惩罚风险这一点上并不相同。[1][2]
+    references:
+    - id: 1
+      citation: 'Ben Mocha, Y. (2020). Why do human and non-human species conceal mating? The cooperation maintenance hypothesis. Proceedings of the Royal Society B: Biological Sciences, 287(1932), 20201330. https://doi.org/10.1098/rspb.2020.1330'
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC7575526/
+    - id: 2
+      citation: 'le Roux, A., Snyder-Mackler, N., Roberts, E. K., Beehner, J. C., & Bergman, T. J. (2013). Evidence for tactical concealment in a wild primate. Nature Communications, 4, 1462. https://doi.org/10.1038/ncomms2468'
+      url: https://www.nature.com/articles/ncomms2468
+
+- id: 2026-11-23-psych-trolling
+  date: '2026-11-23'
+  category: psychology
+  title_zh: 网络喷子/出言挑衅（trolling）背后的心理学是什么？
+  title_en: What is the psychology behind trolling?
+  commentary: >-
+    「喷子」常被说成一小撮反社会者，或被直接归因于匿名；把人格倾向与情境诱发分开看，才能避免把所有出言挑衅都写成精神病，也不至于把责任全部推给技术。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/78/what-is-the-psychology-behind-trolling
+  author: zergylord
+  source_type: stackexchange
+  tags:
+  - 网络喷子
+  - 黑暗人格
+  - 日常施虐倾向
+  - 情境效应
+  - 在线社区
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-23'
+    consensus:
+      label: 目前没有单一、已被普遍接受的「trolling 心理学」；较扎实的研究至少分成两条相互补充的线索——稳定的人格倾向（尤其是日常施虐倾向）与可变的情境因素（心情、讨论氛围）；证据并不支持「所有喷子都是精神病患者」这样的结论
+      note: >-
+        首先，学术文献对 trolling 的定义并不统一。Hardaker 从用户讨论中提炼的工作定义，强调伪装成真诚成员、实则意图制造破坏或冲突以自娱；Cheng 等人的操作定义更宽，把谩骂、人身攻击、以及社区准则以外的行为都算进去，实验里甚至包括「无论是否出于故意」的冒犯或离题言论。[1][3]
+        Buckels、Trapnell 与 Paulhus 在两项在线问卷研究（合计 N = 1215）中发现，自陈的 trolling 享受、评论频率与「喷子」认同，与黑暗四边形（Dark Tetrad）中的施虐倾向、精神病态与马基雅维利主义正相关，其中施虐倾向的关联最稳定，且对聊天、辩论等其他活动的享受与施虐倾向无关；这是相关与自陈证据，不是临床诊断。[2]
+        Cheng、Bernstein、Danescu-Niculescu-Mizil 与 Leskovec 用模拟在线讨论的实验表明，负性心情和看到他人的挑衅帖，都会提高随后写出被编码为 troll-like 评论的概率，两者合在一起大约把基线概率加倍；对 CNN.com 大规模帖子的观察分析，也显示许多被举报的帖来自并无既往记录的用户。他们的结论是：普通人也可能在特定条件下做出类似喷子的行为。[3]
+        匿名、去抑制等机制在这些论文中被讨论或作为背景，但本次解答不以未打开的早期实验作为主要证据。
+    summary: >-
+      原问题把 trolling 理解成有人故意在同一社区里惹怒他人、多半为了取乐，并追问：研究是否支持「互联网的匿名导致更极端行为」？人们为何会从他人的愤怒中得到快感？这种行为是否为网络时代所独有？这些问题里，其实叠了定义、人格、情境和历史好几层，不宜并成一句答语。[1][2][3]
+      定义层首先就有分歧。Hardaker 认为，既有的「不礼貌」「粗鲁」等术语并不能恰当抓住 trolling：典型的喷子会把真实的捣乱意图掩藏在假装真诚的身份之后，其成败取决于是否骗过并激怒了对方。[1] Cheng 等人则采用更宽的社区规范标准，把辱骂、骚扰式攻击、以及被站点准则视为不可接受的行为都包括进来；在他们的实验编码里，冒犯、无关或意在激起愤怒的帖子——不论是否故意——都可被标为 trolling。[3]
+      因而，「谁在 troll」很大程度上取决于研究者量的是哪一种行为：一种接近有预谋的伪装挑衅，另一种更接近讨论区里各类出格或攻击性发言。后面的人格研究与情境研究，并不总是在测量同一件事。[1][3]
+      在人格线索上，Buckels 等人把网络 trolling 定义为在互联网社交情境中以欺骗、破坏或扰乱的方式行事，且看不出明显的工具性目的。他们的问卷显示，把「捉弄其他用户」选为最享受之事的人，在黑暗四边形各量表上分数更高；在更精细的连续评分中，施虐倾向与 trolling 享受及简短的网络 trolling 综合指标（GAIT）关联最强，并且这种关联不能用总体上网时间来解释。作者的解读是：网络 trolling 看来是日常施虐倾向在互联网上的一种表现。[2]
+      这条线索不能被改写成「喷子=精神病人」。黑暗四边形在这些研究里是针对普通样本的人格维度，使用的是亚临床量表；第一项研究中只有 5.6% 的人把 trolling 选为评论时最享受的活动，绝大多数人更喜欢辩论或聊天，或根本不评论。[2]
+      在情境线索上，Cheng 等人直接挑战「喷子天生如此、只是少数反社会者」的流行叙述。实验里，事先用难测验诱发负性心情，或让人先看到带有挑衅性的种子评论，都会提高随后写出 troll-like 评论的比例；在心情较好、先前评论也较温和的条件下，该比例最低（35%），在心情差且先看到挑衅帖时最高（68%）。对新闻网站讨论的观察则显示，被举报的帖并不都来自「惯犯」，心情与讨论上下文也能预测随后的出格发言。[3]
+      把两条线索合在一起，更审慎的画面是：一部分人可能更稳定地以制造混乱为乐；与此同时，心情、先前出现的攻击性言论、以及社区规范，也可以让更多平时并不会被贴上「喷子」标签的人，在当下写出类似的话。匿名也许降低了顾忌，但它既不是 Hardaker、Buckels 或 Cheng 单独证实的唯一原因，也不是所有出言挑衅的充分条件。[1][2][3]
+    definitions:
+    - term: trolling / troller（出言挑衅 / 喷子）
+      text: >-
+        词义在文献中并不统一。Hardaker 的工作定义是：troller 是计算机中介传播中的用户，表面上建构出真诚希望加入该群体的身份（包括宣称或传达假装真诚的意图），真实意图却是制造扰乱，或触发、加剧冲突，以供自己取乐。[1]
+        Cheng 等人采用更宽的用法，把骂战、恶作剧式骚扰、咒骂或人身攻击，以及若干讨论区准则所不允许的行为都算作 trolling；其大规模分析还用「被其他用户举报的帖」作为代理指标。[3]
+        Buckels 等人的工作定义强调欺骗性、破坏性或扰乱性、且没有明显工具目的的在线行为，并把它与身份通常更清楚、意图更直截的网络欺凌相区别。[2]
+    - term: 黑暗四边形与日常施虐倾向（Dark Tetrad; everyday sadism）
+      text: >-
+        Buckels 等人所考察的一组「有害」人格变量：自恋、马基雅维利主义、精神病态，再加上施虐人格。此处的精神病态与施虐倾向指的是普通样本中的亚临床特质（例如以享受伤害他人为倾向），不是对某个评论者做出精神障碍诊断。作者预期，与 trolling 文化中的「lulz」（拿别人的窘况取乐）最接近的，是日常施虐倾向。[2]
+    - term: 情境性 trolling（situational trolling）
+      text: >-
+        Cheng 等人用来与「天生的、由稳定反社会特质驱动的 trolling」相对的说法：在负性心情或已经出现挑衅言论的讨论中，普通用户也可能暂时写出类似喷子的帖子。他们在讨论中还区分了两类曾被封禁的用户——发言一向被删的人，与只在被封前不久才开始被删的人——并猜测前者可能更接近稳定倾向，后者更接近情境诱发。[3]
+    milestones:
+    - year: 2010
+      name: Hardaker 从用户讨论出发给出 trolling 的工作定义
+      explanation: >-
+        她分析一个约 1.72 亿词、来自未审核 Usenet 新闻组的异步交流语料，从用户对 troll / trolling 等词的讨论中归纳出攻击、欺骗、扰乱与成功四个相互关联的条件，并据此提出强调「伪装真诚、实则求乱以自娱」的工作定义。[1]
+    - year: 2014
+      name: Buckels、Trapnell 与 Paulhus 将 trolling 与黑暗四边形、尤其是日常施虐倾向联系起来
+      explanation: >-
+        在《Personality and Individual Differences》发表的两项在线研究中，他们用评论偏好、活动享受评分和自编的 GAIT 量表，报告 trolling 与施虐倾向、精神病态、马基雅维利主义的正相关，并认为施虐倾向的关联最强且具有活动特异性。[2]
+    - year: 2017
+      name: Cheng 等人用实验与大规模观察检验心情和讨论情境的作用
+      explanation: >-
+        在 CSCW 2017 的论文中，他们结合 Mechanical Turk 上的 2×2 实验与对 CNN.com 逾 1600 万条帖子的分析，主张 trolling 既可能来自较稳定的倾向，也可能由心情和讨论上下文在普通人中被诱发。[3]
+    views:
+    - position: trolling 在严格意义上更接近一种带有伪装的、以扰乱或冲突为目的的沟通行为，而不是任何网上的粗鲁或不同意见；但经验研究实际测量的范围往往更宽，阅读结果时必须先看定义
+      consensus_role: 语用学与礼貌研究中较有影响的概念澄清；并不排斥社会计算研究使用更宽的操作定义，但两者不能直接混用
+      evidence:
+        label: 基于单一未审核论坛语料的定性/语料分析，提供的是工作定义而非流行率或因果效应
+        note: >-
+          Hardaker 的材料来自公共、未审核的 Usenet 组 rec.equestrian，约九年、186,470 帖；检索 troll* 后排除少量误击，对余下例子按用户讨论的要点分类。这能说明该社区里人们如何识别「喷子」，但不能自动推广到当代社交媒体的全部冲突。[1]
+          她也强调：一个群体的性质将决定某人是否会被视为 troller，以及其行为对个人或社区是否有害——「一个人的积极辩论，在另一个人看来就是 troll」。[1]
+          Cheng 等人明确采用了更宽的定义，并在实验中把「无论是否故意」的冒犯或离题言论也标为 trolling，还用被举报帖作为野外代理；这提高了可编码性，却可能把发泄、讽刺、政治立场冲突与有预谋的伪装挑衅混在同一指标里。[3]
+      holders:
+      - name: Claire Hardaker
+        identity: >-
+          《Trolling in asynchronous computer-mediated communication: From user discussions to academic definitions》（Journal of Politeness Research, 2010）作者。文末简介为英国中央兰开夏大学（University of Central Lancashire）新闻、媒体与传播学院的英语语言学讲师。[1]
+      argument: >-
+        若把原问题里的 trolling 只理解成「网上说难听话」，后面的人格相关和实验效应都会被放大。Hardaker 的分析把关键放在意图结构上：喷子通常并不公开宣布「我来捣乱」，而是先扮演合格成员，把真实意图藏在假装真诚背后；成功与否，取决于别人是否上当并认真回应。[1]
+        她还区分了几种结局：意图被识破却无人上钩（受挫）、被识破并被反制（被挫败）、没被识破也没激怒别人（失败），以及骗过对方并激起真诚回应（成功）。社区若把这种行为当成游戏，有时还会出现「装作在 troll」以增强群体亲密度的 mock troll，但这与被识别后常遭排斥的典型喷子并不相同。[1]
+        这一澄清并不取消 Cheng 等人的发现，它只是要求读者在看到「35% 或 68% 的帖是 trolling」时，先问一句：这里的 trolling 包不包括无意的冒犯、离题和被举报的发泄。定义越宽，越容易得出「普通人也会 troll」；定义越窄，越接近有预谋的取乐型挑衅。[1][3]
+      quotes:
+      - text: >-
+          A troller is a CMC user who constructs the identity of sincerely wishing
+          to be part of the group in question, including professing, or conveying
+          pseudo-sincere intentions, but whose real intention(s) is/are to cause
+          disruption and/or to trigger or exacerbate conflict for the purposes of
+          their own amusement.
+        text_zh: 所谓 troller，是计算机中介传播中的用户：其建构出真诚希望成为该群体一员的身份，包括宣称或传达假装真诚的意图，但其真实意图是制造扰乱，和/或触发、加剧冲突，以供自己取乐。
+        attribution: Claire Hardaker，Trolling in asynchronous computer-mediated communication
+        locator: 第5节工作定义，Journal of Politeness Research 6(2), 2010, 第 237 页
+        ref: 1
+    - position: 在自陈问卷中，把网络 trolling 当作乐事或自我认同的人，更可能在日常施虐倾向以及部分其他「黑暗」人格维度上得分更高；这是倾向性关联，不是「喷子都是精神病」的诊断
+      consensus_role: 人格心理学中被广泛引用的实证立场之一，针对的是稳定特质与自我报告的行为偏好，而不是全部网上冲突
+      evidence:
+        label: 两项在线自陈研究，相关与回归证据较强，但无行为观察，也不能做因果断言
+        note: >-
+          研究 1 为 418 名美国 Mechanical Turk 参与者，把「捉弄其他用户」列为最享受之评论活动的占 5.6%；选择此项者在黑暗四边形各量表上高于他人，外向性较高、宜人性较低，效应量约在 d = .24–.28。[2]
+          研究 2 包括 188 名加拿大心理学本科生与 609 名美国 MTurk 参与者；在评论者子样本中，施虐倾向、精神病态与马基雅维利主义与 trolling 享受正相关（文中称皆 r > .37），自恋与 trolling 享受无显著相关；GAIT 与施虐倾向的相关尤其高（文中称 r’s > .55）。在同时进入回归时，施虐倾向对 trolling 享受与 GAIT 都保持独特贡献；控制总上网时间后模式基本不变。[2]
+          作者还报告，trolling 享受部分中介了施虐倾向与 GAIT 的关系。全部测量均为自陈，样本为学生与众包，存在社会赞许性与自我选择问题；「精神病态」在此是亚临床量表，不能读成临床精神病诊断。[2]
+      holders:
+      - name: Erin E. Buckels、Paul D. Trapnell、Delroy L. Paulhus
+        identity: >-
+          《Trolls just want to have fun》（Personality and Individual Differences, 2014）作者。通讯作者 Buckels 当时在加拿大曼尼托巴大学心理学系；Trapnell 在温尼伯大学；Paulhus 在不列颠哥伦比亚大学。[2]
+      argument: >-
+        这条研究路线要回答的，正是原问题里「为何有人会从激怒他人中得到快乐」的那一半。Buckels 等人指出，trolling 文化本身就有一个与施虐快感几乎同义的词：lulz。[2]
+        数据上，这种快乐并没有均匀地连到所有网上活动：与施虐倾向稳定相关的，是 trolling 的享受，而不是聊天或辩论的享受。作者据此认为，关系具有特异性，不能用「就是喜欢上网、喜欢发言」来解释。[2]
+        他们的讨论写道，就施虐倾向与 GAIT 的关联之强而言，甚至可以说网上喷子是日常施虐者的原型；并在调解分析后写下那句经常被转述的话：施虐者只是想找乐子，而互联网是他们的游乐场。[2]
+        即便如此，本文必须把结论限制在研究实际测量的范围内：这是匿名问卷里的自我认同与偏好，不是对真实评论的盲评，更不是流行病学调查。第一项研究里，最享受 trolling 的只是少数人。把「相关」写成「所有出言不逊者都有人格障碍」，既超出数据，也与下文的情境研究相冲突。[2][3]
+      quotes:
+      - text: >-
+          Online trolling is the practice of behaving in a deceptive, destructive,
+          or disruptive manner in a social setting on the Internet with no apparent
+          instrumental purpose.
+        text_zh: 所谓网络 trolling，是指在互联网的社交情境中，以欺骗、破坏或扰乱的方式行事，并且看不出明显的工具性目的。
+        attribution: Erin E. Buckels、Paul D. Trapnell 与 Delroy L. Paulhus，Trolls just want to have fun
+        locator: 引言首句，Personality and Individual Differences 67, 2014, 第 97 页
+        ref: 2
+      - text: >-
+          Thus cyber-trolling appears to be an Internet manifestation of everyday
+          sadism.
+        text_zh: 因此，网络 trolling 看来是日常施虐倾向在互联网上的一种表现。
+        attribution: Erin E. Buckels、Paul D. Trapnell 与 Delroy L. Paulhus，Trolls just want to have fun
+        locator: 摘要末句，Personality and Individual Differences 67, 2014, 第 97 页
+        ref: 2
+      - text: >-
+          Both trolls and sadists feel sadistic glee at the distress of others.
+          Sadists just want to have fun . . . and the Internet is their playground!
+        text_zh: 喷子与施虐者都会对他人的痛苦感到施虐式的快意。施虐者不过是想找乐子……而互联网就是他们的游乐场！
+        attribution: Erin E. Buckels、Paul D. Trapnell 与 Delroy L. Paulhus，Trolls just want to have fun
+        locator: 第4节 General discussion，Personality and Individual Differences 67, 2014, 第 101 页
+        ref: 2
+    - position: 心情和讨论情境也可以提高普通人写出类似喷子言论的可能性；因此不能把网上的攻击性发言全部归因于一小撮「天生的」反社会者
+      consensus_role: 社会计算与计算机支持的协作研究中的主要情境论立场，用来补足（而不是简单取消）人格解释
+      evidence:
+        label: 一项有随机分配的在线实验，加上对单一新闻网站讨论的大规模观察分析
+        note: >-
+          实验为 2×2 被试间设计，667 名美国 Mechanical Turk 参与者先做测验（诱发正性或负性心情），再进入模拟新闻评论区（先前帖为温和或挑衅）。被编码为 troll 的帖子比例在「心情好 + 温和上下文」时为 35%，在「心情差 + 挑衅上下文」时为 68%；混合效应逻辑回归中，负性心情使 trolling 的发生比提高 89%，先前的挑衅帖使之提高 68%。[3]
+          限制是明确的：参与者被要求至少发一帖并获得报酬；使用随机生成的化名，可能整体降低评论质量；编码标准宽于 Hardaker 的定义，包含非故意的冒犯与离题。[3]
+          观察部分分析 CNN.com 的 16,500,603 帖，其中 3.5% 被举报；在被举报的帖中，26% 出自此前在其他讨论中没有被举报记录的用户。作者还报告，被举报率随已知的人群心情日节律而起伏，且讨论开头的被举报帖与随后他人被举报的概率升高相关。这些观察能与实验方向一致，但心情在野外是用代理指标推断的，不能等同于实验操纵。[3]
+      holders:
+      - name: Justin Cheng、Michael Bernstein、Cristian Danescu-Niculescu-Mizil、Jure Leskovec
+        identity: >-
+          《Anyone Can Become a Troll: Causes of Trolling Behavior in Online Discussions》（CSCW 2017）作者。Cheng、Bernstein 与 Leskovec 当时在斯坦福大学，Danescu-Niculescu-Mizil 在康奈尔大学。[3]
+      argument: >-
+        Cheng 等人把问题写成：trolling 究竟是「天生的」少数人的行为，还是普通人在一定条件下也会做的事？他们的实验给出的答案是：至少就他们所编码的 troll-like 评论而言，负性心情和「别人已经在骂」的现场气氛，都会把这种行为推高，合在一起大约使基线概率加倍。[3]
+        若只有一小撮稳定的反社会者才会写出这类帖，如此大的条件差异很难出现。作者因此认为，相当一部分人必须是可被诱发的。CNN.com 上约四分之一被举报帖来自「没有案底」的用户，也指向同一方向。[3]
+        他们在结论里写得比较平衡：trolling 既源于先天/稳定因素，也源于情境因素；先前文献较多讨论前者，他们则聚焦后者。设计含义是：只封禁「确认的喷子」，既可能误伤只是一天心情不好的普通用户，也无法处理这种会被气氛放大的出格发言。[3]
+        与 Buckels 等人合看，更合理的表述不是二选一，而是分层：有人可能更经常、更享受地扮演制造混乱的角色；但同一社区里，坏心情和已经变味的讨论，也可以让更多人在当下加入攻击或胡搅。匿名在 Cheng 文中被当作可能降低质量与责任约束的背景因素来讨论，实验本身并没有单独操纵「有名/匿名」，因而不能把匿名写成已被该项实验证实的唯一开关。[2][3]
+      quotes:
+      - text: >-
+          These results combine to suggest that ordinary people can, under the
+          right circumstances, behave like trolls.
+        text_zh: 这些结果合在一起表明：普通人在适当的情境下，也可能表现得像喷子一样。
+        attribution: Justin Cheng、Michael Bernstein、Cristian Danescu-Niculescu-Mizil 与 Jure Leskovec，Anyone Can Become a Troll
+        locator: 摘要末句，CSCW 2017 会议论文（作者 PDF 无学报页码）
+        ref: 3
+      - text: >-
+          Trolling stems from both innate and situational factors – where prior
+          work has discussed the former, this work focuses on the latter, and
+          reveals that both mood and discussion context affect trolling behavior.
+        text_zh: trolling 既源于先天（稳定）因素，也源于情境因素——先前研究讨论了前者，本文则聚焦后者，并表明心情与讨论情境都会影响 trolling 行为。
+        attribution: Justin Cheng、Michael Bernstein、Cristian Danescu-Niculescu-Mizil 与 Jure Leskovec，Anyone Can Become a Troll
+        locator: 结论首句，CSCW 2017 会议论文（作者 PDF 无学报页码）
+        ref: 3
+    open_parts: >-
+      定义尚未统一，这直接影响流行率、人格相关和「普通人会不会 troll」的估计：窄定义下的有预谋伪装挑衅，与宽定义下的骂战、讽刺、离题或被举报发言，可能对应不同的心理机制。[1][3]
+      Buckels 等人的发现来自自陈，尚未与真实评论区中经过独立编码的行为完全对接；相关不能确定是「施虐倾向使人去 troll」，还是喜欢 troll 的人更愿意在问卷上承认某些想法，或两者循环加强。作者自己也写明，反社会倾向与过度使用技术之间的因果方向仍不清楚。[2]
+      Cheng 等人的实验证明的是短期、可诱发的 troll-like 发言，使用的是报酬任务和化名，外推到长期社区中的骚扰、霸凌或有组织的搅局，需要更多区分。他们也承认，不同策略（无指向咒骂对针对性骚扰）的严重程度不同，而区分「存心伤害」与「只是没把观点说好」，仍是未完成的工作。观察数据里的「心情」多是间接推断。[3]
+      匿名与去抑制常常被当作常识机制，但要回答原问题里「研究是否支持匿名就是主因、以及它如何使能」，还需要直接操纵身份可识别性、或比较不同平台规则的设计；本次所打开的三篇核心文献并未单独把匿名实验成唯一自变量。至于网络出现之前是否已有功能相似的历史前驱（戏弄、公开羞辱、墙报涂鸦等），这三篇也没有提供系统的历史比较，不宜在此断言。[1][2][3]
+    references:
+    - id: 1
+      citation: 'Hardaker, C. (2010). Trolling in asynchronous computer-mediated communication: From user discussions to academic definitions. Journal of Politeness Research, 6(2), 215–242. https://doi.org/10.1515/jplr.2010.011'
+      url: https://knowledge.lancashire.ac.uk/id/eprint/4980/2/Hardaker%2C%20C.%202010.%20Trolling%20in%20ACMC.pdf
+    - id: 2
+      citation: 'Buckels, E. E., Trapnell, P. D., & Paulhus, D. L. (2014). Trolls just want to have fun. Personality and Individual Differences, 67, 97–102. https://doi.org/10.1016/j.paid.2014.01.016'
+      url: https://www2.psych.ubc.ca/~dpaulhus/research/DARK_TRAITS/ARTICLES/PAID.2014.with.Buckels-Trapnell.pdf
+    - id: 3
+      citation: 'Cheng, J., Bernstein, M., Danescu-Niculescu-Mizil, C., & Leskovec, J. (2017). Anyone can become a troll: Causes of trolling behavior in online discussions. In Proceedings of the 2017 ACM Conference on Computer Supported Cooperative Work and Social Computing (CSCW ’17). ACM. https://doi.org/10.1145/2998181.2998213'
+      url: https://www.cs.cornell.edu/~cristian/pdfs/anyone_can_become_a_troll.pdf
