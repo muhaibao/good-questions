@@ -9350,3 +9350,1751 @@
     - id: 3
       citation: 'Cheng, J., Bernstein, M., Danescu-Niculescu-Mizil, C., & Leskovec, J. (2017). Anyone can become a troll: Causes of trolling behavior in online discussions. In Proceedings of the 2017 ACM Conference on Computer Supported Cooperative Work and Social Computing (CSCW ’17). ACM. https://doi.org/10.1145/2998181.2998213'
       url: https://www.cs.cornell.edu/~cristian/pdfs/anyone_can_become_a_troll.pdf
+- id: 2026-11-24-ai-ml
+  date: '2026-11-24'
+  category: ai
+  title_zh: 人工智能和机器学习有什么区别？
+  title_en: What is the difference between artificial intelligence and machine learning?
+  commentary: >-
+    这两个词在日常和产业话语里几乎被当成同义词，但它们的历史外延并不重合。把「从经验中改进的程序」和「更广的智能机制」分开，才能看清搜索、逻辑与专家系统为什么也曾是人工智能的中心，以及为什么今天的成功路径又高度集中在从数据中学习。
+  source_name: AI Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/35/what-is-the-difference-between-artificial-intelligence-and-machine-learning
+  author: interlucid
+  source_type: stackexchange
+  tags:
+  - 人工智能
+  - 机器学习
+  - 定义
+  - 学科史
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        主流教材和代表学者通常把机器学习视为人工智能的一个子领域：它研究如何让程序凭借经验改进在某类任务上的表现；人工智能则是更广的、旨在理解并建造智能体或智能机器的领域。与此同时，人工智能本身没有单一的官方或法律定义，定义沿「人类表现 vs 理性」「思考 vs 行为」等维度分化，边界是模糊的
+      note: >-
+        McCarthy 把人工智能说成「制造智能机器、尤其是智能计算机程序的科学与工程」，并明确它不必局限于生物学上可观察的方法。[2]
+        Mitchell 给出了至今仍被广泛转述的机器学习定义：若程序在经验 E 下，于任务类 T 上按指标 P 衡量的表现有所改进，则称它在学习。[4]
+        Russell 与 Norvig 把机器学习列为图灵测试所需能力之一，并强调人工智能还包括知识表示、自动推理、自然语言、视觉与机器人等；他们同时用一张四分表说明「人工智能是什么」在教科书里本就没有统一定义。[5]
+        达特茅斯建议书在 1955 年已把「学习」和其他智能特征并列写入同一项研究构想，说明二者的重叠是原初的，而不是后来才出现的营销用法。[1]
+        本次试图打开 AAAI 的「What is AI」页面，得到 HTTP 404，也未打开可核对的 ISO 或 IEEE 正式定义页，因此不把任何一条表述写成「官方法定定义」。
+    summary: >-
+      问题的关键不是找出一句可以写入词典的对照表，而是看清两套用法如何叠在一起。1955 年 8 月 31 日，McCarthy、Minsky、Rochester 与 Shannon 提交的达特茅斯夏季研究计划建议书，已经以「artificial intelligence」为题，并把研究建立在这样一条猜想上：学习或智能的任何其他特征，原则上都可以被精确描述，从而使机器能够模拟它。[1]
+      Russell 与 Norvig 在《Artificial Intelligence: A Modern Approach》第四版中写道，这一名称本身是在 1956 年被创造的；他们把人工智能说成一门不仅试图理解、而且试图建造智能实体的领域，并指出它涵盖学习、感知，以及下棋、证明定理、写诗、诊断疾病等具体任务。[5]
+      机器学习则把焦点收窄到「经验如何改进表现」。Mitchell 在 1997 年的教科书里把学习问题写成任务 T、表现度量 P 与经验 E 的三元组；同一书的序言把这个领域概括为如何构造会随经验自动改进的计算机程序。[4]
+      早在 1959 年，Samuel 已经以「machine learning」为题，用跳棋程序展示：计算机可以被编写成学得比程序作者本人下得更好，并认为「让计算机从经验中学习，最终应能省去大量逐条编写的细节」。[3]
+      因此，一个审慎的对照是：人工智能是更宽的目标与问题域；机器学习是其中一条、如今最为显赫的路径，即从数据或经验中改进。这条路径并不能穷尽历史上和今天仍然存在的其他人工智能路径，例如逻辑推理、搜索与基于规则的专家系统；反过来，达特茅斯建议书也提醒我们，学习从来就在人工智能的问题清单里，而不是后来从外面贴上去的标签。[1][2][5]
+    definitions:
+    - term: 人工智能（artificial intelligence, AI）
+      text: >-
+        McCarthy 的表述是「制造智能机器、尤其是智能计算机程序的科学与工程」；它与用计算机理解人类智能相关，但不必局限于生物学上可观察的方法。[2]
+        Russell 与 Norvig 则强调，这一领域不仅试图理解、而且试图建造智能实体，并同时列出多种彼此并不等价的教科书定义。[5]
+    - term: 机器学习（machine learning, ML）
+      text: >-
+        Mitchell 的标准定义：若一个计算机程序从经验 E 中学习，是相对于某类任务 T 和表现度量 P 而言的，则当它在 T 上按 P 衡量的表现随经验 E 改进时，就称它在学习。[4]
+        用更日常的话说：不把正确行为全部预先写死，而是让程序在数据或与环境的互动中把自己做得更好。
+    - term: 理性智能体（rational agent）
+      text: >-
+        Russell 与 Norvig 用来组织当代人工智能定义的一个理想标准：理性智能体是这样行动的系统——追求最好的结果，在不确定时则追求最好的期望结果。「理性」在这里对照的是理想化标准，而不是「是否像人」。[5]
+    milestones:
+    - year: 1955–1956
+      name: 达特茅斯建议书与夏季研究计划
+      explanation: >-
+        建议书日期为 1955 年 8 月 31 日，作者为当时任职于 Dartmouth College 的 J. McCarthy、Harvard University 的 M. L. Minsky、I.B.M. Corporation 的 N. Rochester，以及 Bell Telephone Laboratories 的 C. E. Shannon。1956 年夏季的研讨会被 Russell 与 Norvig 称为这一领域的正式诞生地；建议书已把学习与其他智能特征并列写入同一猜想。[1][5]
+    - year: 1959
+      name: Samuel 的跳棋机器学习研究
+      explanation: >-
+        Arthur L. Samuel 发表《Some Studies in Machine Learning Using the Game of Checkers》，以跳棋为载体检验机器学习程序，并在摘要中声称程序可以学得比编写它的人下得更好。本次打开的是一篇公开转载，文末注明原载 IBM Journal, Vol. 3, No. 3, July, 1959；未能打开原刊页码。[3]
+    - year: 1997
+      name: Mitchell《Machine Learning》中的学习定义
+      explanation: >-
+        Tom M. Mitchell 的教科书把机器学习问题写成任务、表现与经验的三元组，成为此后教材与课程中最常被引用的形式化定义之一。[4]
+    views:
+    - position: 机器学习是人工智能的一个子领域，研究如何让程序凭借经验改进在指定任务上的表现；人工智能的目标与方法比「从数据中学习」更宽
+      consensus_role: 教科书和经典文献中最常见的层级关系
+      evidence:
+        label: 一手定义与教材陈述，而非抽样调查
+        note: >-
+          判断依据是 McCarthy 对人工智能的界定、Mitchell 对机器学习的界定，以及 Russell 与 Norvig 把机器学习列为人工智能诸能力之一的教材结构。[2][4][5]
+          这是概念上的包含关系，不是对产业用语或课程设置的统计。Samuel 的 1959 年论文表明，「机器学习」这一用语在人工智能的早期工作中已经出现。[3]
+      holders:
+      - name: John McCarthy
+        identity: >-
+          1955 年达特茅斯建议书署名作者（当时写明任职于 Dartmouth College）。本次打开的《What is Artificial Intelligence?》修订于 2007 年 11 月 12 日，文首署名为 Computer Science Department, Stanford University；同一站点 1998 年 7 月 12 日的导言页称其为 Professor of Computer Science, Stanford University。[1][2]
+      - name: Tom M. Mitchell
+        identity: >-
+          《Machine Learning》（McGraw-Hill, 1997）作者。本次打开的是作者卡内基梅隆大学页面上公开的全书 PDF；序言中他写到自己所在的智识环境是 Carnegie Mellon，但未在本次打开的序言与第 1 章中另写正式职衔，故不以未核对的头衔称呼。[4]
+      - name: Stuart J. Russell、Peter Norvig
+        identity: >-
+          《Artificial Intelligence: A Modern Approach》第四版（Pearson, 2021）作者。本次打开并核对的是作者在 Berkeley 站点公开的第 1 章与书前页，未在这些页上另行引用其当时任职机构。[5]
+      argument: >-
+        若采用 McCarthy 的说法，人工智能要回答的是如何制造智能机器，尤其是智能程序；方法不必模仿生物可观察的机制。[2]
+        机器学习把其中一条路径写精确：先指定任务和衡量好坏的尺度，再问经验是否让这项尺度上升。Mitchell 的定义故意不预先规定「经验」必须是带标签的数据集，因此监督学习、强化学习等都可以落在同一格式里；但它确实把问题收窄到「表现是否随经验改进」，而不是「系统是否在任何意义上都可被称为智能」。[4]
+        Russell 与 Norvig 的教材结构把这一收窄说得很清楚。在他们讨论图灵测试时，机器学习与自然语言处理、知识表示、自动推理并列，是让计算机通过测试所需的能力之一，而不是人工智能的全部；总测试还要再加上计算机视觉与机器人。[5]
+        历史材料也支持「包含而非等同」。Samuel 的跳棋研究已经使用「machine learning」这一标题，讨论的是编程计算机使之从经验中学习，从而减少逐条编写；这正是后来 Mitchell 所形式化的那类问题，但它出现在人工智能的早期文献传统里，而不是在一个与人工智能无关的独立学科里。[3]
+      quotes:
+      - text: >-
+          It is the science and engineering of making intelligent machines,
+          especially intelligent computer programs.  It is related to the
+          similar task of using computers to understand human intelligence,
+          but AI does not have to confine itself to methods that are
+          biologically observable.
+        text_zh: 它是制造智能机器、尤其是智能计算机程序的科学与工程。它与用计算机理解人类智能这一相近任务有关，但人工智能不必把自己局限于生物学上可观察的方法。
+        attribution: John McCarthy, What is Artificial Intelligence?
+        locator: 2007 年 11 月 12 日修订版，「Basic Questions」一节对 “What is artificial intelligence?” 的回答，https://www-formal.stanford.edu/jmc/whatisai/node1.html
+        ref: 2
+      - text: >-
+          Definition: A computer program is said to learn from experience E with respect
+          to some class of tasks T and performance measure P, if its performance at tasks in
+          T, as measured by P, improves with experience E.
+        text_zh: 定义：一个计算机程序被称为从经验 E 中学习，是相对于某类任务 T 和表现度量 P 而言的；若它在任务类 T 上按 P 衡量的表现随经验 E 而改进，则称它在学习。
+        attribution: Tom M. Mitchell, Machine Learning
+        locator: 第 1 章第 1.1 节，第 2 页（McGraw-Hill, 1997）。本次打开并核对的是作者页面上的全书 PDF。
+        ref: 4
+      - text: >-
+          A rational agent is one that acts so as to achieve the best outcome or, when there is uncertainty,
+          the best expected outcome.
+        text_zh: 理性智能体是这样行动的系统：追求最好的结果，在存在不确定性时，则追求最好的期望结果。
+        attribution: 'Stuart J. Russell 与 Peter Norvig, Artificial Intelligence: A Modern Approach, 第 4 版'
+        locator: '第 1 章第 4 页，「Acting rationally: The rational agent approach」'
+        ref: 5
+    - position: 人工智能没有单一官方定义，历史上也包含大量不以「从数据中学习」为中心的路径；学习与其他智能特征从一开始就被写在同一项研究计划里，因此二者的重叠是原初的，边界则始终模糊
+      consensus_role: 与「机器学习是子领域」并行的补充判断，用来防止把包含关系误写成一条法定界限
+      evidence:
+        label: 原始建议书、教材中的定义分类，以及作者对「尚无坚实的智能定义」的直接陈述
+        note: >-
+          McCarthy 在同一篇面向外行的问答里写明：目前还没有一种不依赖与人类智能对照的、坚实的智能定义；智能也不是一个可以简单地用是否来回答的单一事物。[2]
+          Russell 与 Norvig 用四类、八条教科书定义说明「人工智能是什么」本身就沿着思考/行为、人类/理性两条轴变化。[5]
+          达特茅斯建议书把学习与语言、抽象、解题、自我改进并列，说明学习被当作人工智能问题的一个方面，而不是后来才并入的外部标签。[1]
+          本次未能打开 AAAI、ISO 或 IEEE 的正式定义页，故不把任何一条表述升级为行业或法律标准。
+      holders:
+      - name: John McCarthy、Marvin L. Minsky、Nathaniel Rochester、Claude E. Shannon
+        identity: >-
+          《A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence》（1955 年 8 月 31 日）的署名作者；建议书分别写明其当时所属为 Dartmouth College、Harvard University、I.B.M. Corporation、Bell Telephone Laboratories。[1]
+      - name: Stuart J. Russell、Peter Norvig
+        identity: 同上，第四版第 1 章对既有教科书定义的整理。[5]
+      argument: >-
+        若只说「机器学习是人工智能的子集」，容易让人以为存在一份大家都签字的官方清单。打开的文本并不支持这一点。McCarthy 承认，我们还不能一般地刻画哪些计算过程应当被称为智能；机器能否被称为智能，也不是一个单一的是非题。[2]
+        Russell 与 Norvig 把这一点写成教材的起点：他们并没有给出唯一正确的定义，而是展示八条已有定义如何沿两个维度排列——上方关心思维与推理，下方关心行为；左侧以人类表现为成败标准，右侧以他们称为「理性」的理想智能为标准。[5]
+        在这样的地图上，机器学习可以出现在不止一个格子里：它既是 Bellman 那种「与人类思维相关的活动」（其中包括学习）的一部分，也可以是理性智能体用来改进策略的手段。把人工智能等同于机器学习，会抹掉图中其余的格子，例如逻辑主义传统、搜索、知识表示，以及不以学习为核心的专家系统路线。[2][5]
+        与此同时，也不宜把机器学习说成后来才出现的、与人工智能平行的另一门学科。达特茅斯建议书的开篇猜想已经把「learning or any other feature of intelligence」写在同一句话里；Russell 与 Norvig 叙述 1956 年夏季研讨班时，也把 Arthur Samuel 列为与会者之一。[1][5]
+        更准确的说法是：包含关系是当前最稳妥的学术用法，但被包含的双方，其外延都随方法和时代而移动，并且从来没有一份可引用的法定定义把边界划死。
+      quotes:
+      - text: >-
+          The study is to proceed on the basis of the conjecture
+          that every aspect of learning or any other feature of intelligence can
+          in principle be so precisely described that a machine can be made to
+          simulate it.
+        text_zh: 这项研究将基于如下猜想进行：学习或智能的任何其他特征，原则上都可以被如此精确地描述，以至于可以让机器来模拟它。
+        attribution: J. McCarthy、M. L. Minsky、N. Rochester、C. E. Shannon，达特茅斯夏季研究计划建议书
+        locator: 开篇第二句，日期为 August 31, 1955。本次打开并核对的是 McCarthy 在 Stanford 形式化方法站点上发布的 HTML 文本。
+        ref: 1
+      - text: >-
+          We have claimed that AI is exciting, but we have not said what it is. Definitions of artificial
+          intelligence according to eight textbooks are shown in Figure 1.1. These definitions vary
+          along two main dimensions.
+        text_zh: 我们声称人工智能令人兴奋，但还没有说它是什么。图 1.1 列出了八本教科书中的人工智能定义。这些定义沿两个主要维度变化。
+        attribution: 'Stuart J. Russell 与 Peter Norvig, Artificial Intelligence: A Modern Approach, 第 4 版'
+        locator: 第 1 章第 1 节，第 1 页；图 1.1 在第 2 页
+        ref: 5
+    open_parts: >-
+      「机器学习是人工智能的子领域」是对打开的经典文献与教材最为吻合的层级关系，但它不是一份官方标准，也不能自动翻译成今天所有产品宣传、课程名称或招聘启事里的用法。产业话语里两者经常互换，这种用法上的混淆本身需要专门的语言调查，不在本次打开的一手文献范围内。
+      McCarthy 已写明：尚不存在一种不依赖与人类智能对照的坚实智能定义。[2] 只要「智能」本身没有统一定义，人工智能与机器学习的边界就只能是工作约定，而不是已关闭的定理。
+      本次未能打开 AAAI、ISO 或 IEEE 的正式定义页；若那些文件给出了不同的工作定义，需要直接核对原文，而不能由本文代为断言。
+    references:
+    - id: 1
+      citation: >-
+        McCarthy, J., Minsky, M. L., Rochester, N., & Shannon, C. E. (1955, August 31). A proposal for the Dartmouth summer research project on artificial intelligence. 本次打开并核对的是 John McCarthy 在 Stanford 站点发布的 HTML 文本：https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html 。另下载了 Computer History Museum 对原件的扫描件（19 页，HTTP 200），但引文以该 HTML 文本为准。
+      url: https://www-formal.stanford.edu/jmc/history/dartmouth/dartmouth.html
+    - id: 2
+      citation: >-
+        McCarthy, J. (2007, November 12). What is artificial intelligence? 文首署名为 Computer Science Department, Stanford University。定义句取自「Basic Questions」分页；同一站点的导言页（标注 12-Jul-1998）称作者为 Professor of Computer Science, Stanford University。
+      url: https://www-formal.stanford.edu/jmc/whatisai/node1.html
+    - id: 3
+      citation: >-
+        Samuel, A. L. (1959). Some studies in machine learning using the game of checkers. 本次打开的是一篇公开转载 PDF（https://www.cs.virginia.edu/~evans/greatworks/samuel1959.pdf），首页页码为转载本第 535 页，页脚写明 Originally published in IBM Journal, Vol. 3, No. 3, July, 1959。未能打开 IBM Journal 原刊，故不以原刊页码作为 locator。
+      url: https://www.cs.virginia.edu/~evans/greatworks/samuel1959.pdf
+    - id: 4
+      citation: >-
+        Mitchell, T. M. (1997). Machine Learning. New York: McGraw-Hill. 本次打开并核对的是作者页面上的全书 PDF：https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf ；定义在第 1 章第 2 页。
+      url: https://www.cs.cmu.edu/~tom/files/MachineLearningTomMitchell.pdf
+    - id: 5
+      citation: >-
+        Russell, S. J., & Norvig, P. (2021). Artificial Intelligence: A Modern Approach (4th ed.). Hoboken, NJ: Pearson. 本次打开并核对的是作者站点公开的第 1 章 PDF（https://aima.cs.berkeley.edu/4th-ed/pdfs/newchap01.pdf）以及书前页（https://aima.cs.berkeley.edu/~russell/aima/newchap00.pdf）。书前页标明 Fourth Edition、版权年为 2021，ISBN 9780134610993。
+      url: https://aima.cs.berkeley.edu/4th-ed/pdfs/newchap01.pdf
+- id: 2026-11-24-ai-variable-input
+  date: '2026-11-24'
+  category: ai
+  title_zh: 神经网络如何处理长度或尺寸不固定的输入？
+  title_en: How can neural networks deal with varying input sizes?
+  commentary: >-
+    许多重要问题的输入天然没有固定长度或尺寸。若把神经网络理解成「第一层必须是固定宽度的向量」，就很难解释它如何处理一句话、一张任意大小的图，或一个元素个数不预先给定的集合——这不是实现细节，而是架构本身要回答的问题。
+  source_name: AI Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/2008/how-can-neural-networks-deal-with-varying-input-sizes
+  author: Asciiom
+  source_type: stackexchange
+  tags:
+  - 神经网络
+  - 可变长度输入
+  - 循环网络
+  - 卷积网络
+  - 集合模型
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        不存在单一技巧，但有几类已被论文明确写出的机制：用递归/循环按时间一步一步吃进序列，从而使权重不依赖于序列长度；用全卷积网络处理任意空间尺寸的图像并输出相应尺寸的结果；用对集合元素先逐个变换再求和的架构处理元素个数可变、且应与排列无关的输入。注意力模型则对序列中的位置做运算，序列长度不必等于某个固定的第一层宽度
+      note: >-
+        原问题（2016 年由 Asciiom 提出）的直觉是对的：若输入层神经元数目固定，变长文本不能靠简单地增删文字来「缩放」成固定向量，否则会改变原意。本次解答不以该问答中的技术细节为证据，而只依据实际打开的论文。
+        Elman 批评把时间展开成固定长度向量的做法，并给出一步一输入的简单循环网络。[1]
+        Sutskever、Vinyals 与 Le 明确指出，普通深度网络只能用于能被编码成固定维向量的输入与目标，并给出用 LSTM 把变长序列映射到固定维向量、再解码出目标序列的方法。[3]
+        Long、Shelhamer 与 Darrell 把「接受任意尺寸输入并产生相应尺寸输出」写成全卷积网络的关键洞见。[5]
+        Zaheer 等人给出在可数论域上、对排列不变的集合函数的分解定理，并由此设计可在集合上运算的网络。[4]
+        Vaswani 等人的 Transformer 以注意力取代循环与卷积，编码器中每个位置可以关注输入序列的所有位置；文中写到的「masking」是为了保持解码器的自回归性质，本次打开的文本并未把 padding mask 写成处理变长输入的正式方法，故不把后者算作该文的结果。[6]
+    summary: >-
+      若一种网络的第一层是「固定长度向量乘以固定大小的权重矩阵」，那么输入长度一变，这个矩阵就对不上。许多任务却正是这种情形：句子可长可短，图像可大可小，集合的元素个数也可以事先未知。Sutskever、Vinyals 与 Le 把这一限制写得很直白：尽管深度网络灵活而强大，它们只能被用在输入和目标都能被合理地编码成固定维向量的问题上；语音识别、机器翻译和问答，都是长度事先未知的序列问题。[3]
+      一条历史更早的出路，是不再把整段时间「摊开」成一个超长向量，而是让网络在时间中运行。Elman 指出，用输入层为最长可能模式预留位置的做法，既强加了时长上限，又暗示所有输入向量应同样长，这在语言这类希望对可变长度模式有可比表示的领域尤其麻烦。他给出的替代是让时间通过它对加工过程的影响被表示出来，也就是给系统以动态记忆：隐层模式被反馈给自己，当前内部表示因而处在先前内部状态的语境之中。[1]
+      Hochreiter 与 Schmidhuber 的 LSTM 把这类循环网络推进到可以跨越很长的时间间隔；Sutskever 等人则把它做成编码器–解码器：一只 LSTM 按时间步读入输入序列，得到一个大的固定维向量，另一只 LSTM 再从该向量抽出输出序列。输入和输出的长度因此都不必在架构里被写成一个固定数字。[2][3]
+      图像上的对应想法是卷积。Long、Shelhamer 与 Darrell 表明，把分类网络改写成全卷积网络后，它们可以从任意尺寸的输入预测密集输出，从而不必先把图像强制重采样到某个固定边长再送进全连接层。[5]
+      若输入根本不是有序序列，而是一个集合，关键约束就变成排列不变性。Zaheer 等人证明：在可数论域上，一个作用在集合上的函数是排列不变的，当且仅当它可以写成 ρ（对集合中每个元素的 φ 再求和）的形式；把 φ 和 ρ 换成神经网络，就得到可以对可变基数集合运算的 Deep Sets。[4]
+      Transformer 不再依赖循环，但对序列位置做自注意力，编码器中每个位置可以关注输入序列的所有位置；位置信息则由位置编码提供。序列长度因此仍然可以变化，只是计算方式与循环不同。需要分清的是：该文中明确写出的 mask，是为了阻止解码器看到未来位置，以保持自回归性质，而不是一篇关于批处理补零的说明书。[6]
+    definitions:
+    - term: 循环 / 递归加工（recurrent processing）
+      text: >-
+        不把整段输入一次展开成固定长度的向量，而是按时间步读入，并用反馈连接把近期输入的表示保存在激活之中。Elman 称之为动态记忆；Hochreiter 与 Schmidhuber 把这种「短期记忆」与缓慢变化的权重所体现的「长期记忆」相对照。[1][2]
+    - term: 序列到序列学习（sequence to sequence learning）
+      text: >-
+        Sutskever、Vinyals 与 Le 给出的端到端方法：用一层或多层 LSTM 把输入序列映射为固定维向量，再用另一只深度 LSTM 从该向量解码出目标序列，从而对输入和输出的长度都只做很少的先验假定。[3]
+    - term: 全卷积网络（fully convolutional network, FCN）
+      text: >-
+        Long、Shelhamer 与 Darrell 所说的、由卷积层组成、不依赖固定尺寸全连接输入层的网络：它接受任意尺寸的输入，并产生相应尺寸的输出，用于像素级预测等空间密集型任务。[5]
+    - term: 排列不变的集合函数（permutation-invariant function on sets）
+      text: >-
+        对集合元素的次序不敏感的函数。Zaheer 等人在可数论域上证明，这类函数可以分解为「先对每个元素做变换 φ，再求和，最后用 ρ 读出」；这一结构使同一个网络可以处理元素个数不同的集合。[4]
+    milestones:
+    - year: 1990
+      name: Elman 的简单循环网络
+      explanation: >-
+        Jeffrey L. Elman 在 Cognitive Science 发表《Finding Structure in Time》，批评把时间展开为固定长度向量的做法，并发展以隐状态反馈为动态记忆的循环架构，用于加工时间序列。[1]
+    - year: 1997
+      name: LSTM
+      explanation: >-
+        Sepp Hochreiter 与 Jürgen Schmidhuber 提出 Long Short-Term Memory，用恒定误差流和门控来缓解常规循环反向传播中误差消失或爆炸的问题，使网络能够跨越很长的时间间隔。[2]
+    - year: 2014–2015
+      name: 序列到序列学习与全卷积网络
+      explanation: >-
+        Sutskever、Vinyals 与 Le 给出用 LSTM 做一般序列到序列学习的方法（arXiv:1409.3215v3，2014 年 12 月）。Long、Shelhamer 与 Darrell 则给出接受任意尺寸输入的全卷积语义分割网络（arXiv:1411.4038v2，2015 年 3 月）。[3][5]
+    - year: 2017
+      name: Deep Sets 与 Transformer
+      explanation: >-
+        Zaheer 等人给出排列不变集合函数的结构和相应网络（NIPS 2017；本次打开 arXiv:1703.06114v3）。Vaswani 等人提出完全基于注意力、不再使用循环与卷积的 Transformer（本次打开 arXiv:1706.03762v7）。[4][6]
+    views:
+    - position: 对有序、长度不固定的序列，循环网络按时间步共享同一组权重，用隐状态（以及后来的编码器–解码器）吸收可变长度
+      consensus_role: 处理变长语言和序列的经典路径，也被后来的序列到序列学习直接继承
+      evidence:
+        label: 原论文中的问题陈述与方法描述
+        note: >-
+          Elman 明确把「输入层必须为最长模式预留位置、并暗示所有向量等长」列为空间化时间的缺陷，并针对可变长度的语言单位给出替代架构。[1]
+          Sutskever 等人把「DNN 只能用于固定维输入和输出」写成要克服的限制，并给出 LSTM 编码器–解码器。[3]
+          LSTM 原文的重点是长时程误差流，而不是「变长」这一命题本身，但它把循环网写成对时间变化输入与输入序列的加工，是后文能够处理任意长度序列的前提。[2]
+      holders:
+      - name: Jeffrey L. Elman
+        identity: >-
+          《Finding Structure in Time》（Cognitive Science, 14, 179–211, 1990）作者。本次打开的公开转载首页将作者写作 Jeffrey L. Elman；通信地址为 Center for Research in Language, C-008, University of California, La Jolla, CA 92093。作者页列出的官方 PDF 地址本次未能打开（HTTP 500/404），引文取自实际打开的公开转载。[1]
+      - name: Sepp Hochreiter、Jürgen Schmidhuber
+        identity: >-
+          《Long Short-Term Memory》（Neural Computation 9(8):1735–1780, 1997）作者。本次打开的作者机构副本写明：Hochreiter 当时在 Technische Universität München 的 Fakultät für Informatik；Schmidhuber 当时在瑞士卢加诺的 IDSIA。[2]
+      - name: Ilya Sutskever、Oriol Vinyals、Quoc V. Le
+        identity: >-
+          《Sequence to Sequence Learning with Neural Networks》（arXiv:1409.3215v3, 14 Dec 2014）作者。文首三人所属均署为 Google。[3]
+      argument: >-
+        Elman 的出发点，正是原问题里那种「固定输入层」的困难。若把时间写成向量的下标，第一个事件占据第一个分量，第二个事件占据第二个分量，整个向量再被模型并行加工，那么输入层必须按可能出现的最长模式来设计，并且会暗示所有输入应一样长。对语音中的音段和句子来说，人们恰恰希望可变长度的模式仍有可比的表示。Elman 的替代是让时间通过它对加工的影响被表示：在每个时刻读入当前输入，并把隐层模式反馈给自己，从而使内部表示处在先前状态的语境里。长度于是不再是第一层的宽度，而是运行了多少步。[1]
+        LSTM 保留了「按时间步运行、权重在时间上共享」这一前提，并处理常规循环反向传播中误差沿时间指数吹大或消失的问题。它被设计成即使在有噪声、不可压缩的输入序列上，也能跨越超过 1000 步的时间间隔。[2]
+        Sutskever 等人把这一能力用到输入和输出长度都可以变的任务上。他们的方法几乎不对序列结构做假定：一只多层 LSTM 逐步读完输入，得到固定维向量，另一只深度 LSTM 再从该向量生成目标序列。这样，变长对变长被分解成「变长到固定维」再「固定维到变长」，而两端的长度都不必在权重矩阵的形状里被写死。[3]
+      quotes:
+      - text: >-
+          Second, the shift register imposes a rigid limit on the duration of patterns
+          (since the input layer must provide for the longest possible pattern), and
+          furthermore, suggests that all input vectors be the same length. These problems
+          are particularly troublesome in domains such as language, where one
+          would like comparable representations for patterns that are of variable
+          length.
+        text_zh: 其次，移位寄存器对模式的持续时间施加了刚性限制（因为输入层必须为可能的最长模式预留位置），并且还暗示所有输入向量应具有相同长度。这些问题在语言这类领域尤其麻烦：人们希望对可变长度的模式仍有可比的表示。
+        attribution: Jeffrey L. Elman, Finding Structure in Time
+        locator: 第 181 页，「The Problem with Time」一节。本次打开的是公开转载，页码与 Cognitive Science 14 (1990) 的期刊页码一致。
+        ref: 1
+      - text: >-
+          Despite their flexibility and power, DNNs can only be applied to problems whose inputs and targets
+          can be sensibly encoded with vectors of fixed dimensionality. It is a significant limitation, since
+          many important problems are best expressed with sequences whose lengths are not known a-priori.
+        text_zh: 尽管深度神经网络灵活而强大，它们却只能被用于输入和目标都能被合理地编码成固定维向量的问题。这是一个重要限制，因为许多重要问题最好被表达为长度事先未知的序列。
+        attribution: Ilya Sutskever、Oriol Vinyals 与 Quoc V. Le, Sequence to Sequence Learning with Neural Networks
+        locator: 第 1 节，第 1 页，arXiv:1409.3215v3
+        ref: 3
+      - text: >-
+          Our method uses a multilayered Long Short-Term Memory (LSTM) to map the input sequence
+          to a vector of a fixed dimensionality, and then another deep LSTM to decode the target sequence from the vector.
+        text_zh: 我们的方法用一个多层长短期记忆网络（LSTM）把输入序列映射到一个固定维的向量，然后再用另一个深度 LSTM 从该向量解码出目标序列。
+        attribution: Ilya Sutskever、Oriol Vinyals 与 Quoc V. Le, Sequence to Sequence Learning with Neural Networks
+        locator: 摘要，arXiv:1409.3215v3
+        ref: 3
+    - position: 对空间尺寸不固定的图像，卷积核可以按输入大小被反复施用；全卷积网络因此能接受任意尺寸输入并给出相应尺寸的输出
+      consensus_role: 计算机视觉里处理可变分辨率与密集预测的标准架构思路
+      evidence:
+        label: 打开的全卷积网络论文中的明确陈述
+        note: >-
+          Long、Shelhamer 与 Darrell 在摘要和后文中反复写明「任意尺寸输入 / 相应尺寸输出」这一性质，并把它作为把既有分类网络改写成全卷积形式的要点。[5]
+          本次未能打开 Goodfellow、Bengio 与 Courville《Deep Learning》第 9 章的独立 PDF（官方 PDF 链接返回 404）；官方 HTML 虽已下载，但为便于核对的精确页码引文，本文不以该书为引用来源。
+      holders:
+      - name: Jonathan Long、Evan Shelhamer、Trevor Darrell
+        identity: >-
+          《Fully Convolutional Networks for Semantic Segmentation》（arXiv:1411.4038v2, 8 Mar 2015）作者。文首所属署为 UC Berkeley；文内标注 Long 与 Shelhamer 贡献相等。[5]
+      argument: >-
+        图像的宽和高常常不固定。若网络末端是按某一固定边长设计的全连接层，实践中往往先把图像重采样到这个尺寸，而这正是原问题里对文本不可行、对图像也并不总是无害的做法。全卷积网络的想法是：卷积本身并不要求输入具有预先规定的宽高——核在空间上被施用的次数可以随输入而变，输出的空间尺寸随之缩放。[5]
+        Long 等人把既有分类网络「卷积化」：全连接层被改写成卷积，从而使同一个网络既能在任意尺寸的输入上做前向计算，又能输出空间对应的类别图。他们的关键洞见被直接写在摘要里：建造接受任意尺寸输入、并产生相应尺寸输出的全卷积网络，以便高效地进行推断和学习。[5]
+        这一机制与循环网络处理变长序列是平行的：共享的是局部运算（卷积核或循环权重），变化的是运算被重复的次数，而不是第一层权重矩阵的形状。
+      quotes:
+      - text: >-
+          Our key insight is to build “fully convolutional” networks that take input of arbitrary size and produce
+          correspondingly-sized output with efficient inference and learning.
+        text_zh: 我们的关键洞见是建造「全卷积」网络：它们接受任意尺寸的输入，并产生相应尺寸的输出，同时进行高效的推断与学习。
+        attribution: Jonathan Long、Evan Shelhamer 与 Trevor Darrell, Fully Convolutional Networks for Semantic Segmentation
+        locator: 摘要，第 1 页，arXiv:1411.4038v2
+        ref: 5
+    - position: 对无固定次序、元素个数也可变的输入，应当使用排列不变（或等变）的集合架构，而不是假装它们是某个固定长度的向量
+      consensus_role: 针对「变长且无自然顺序」这一情形的代表性理论结果
+      evidence:
+        label: 带有明确定理陈述的会议论文（NIPS 2017 / 打开的 arXiv v3）
+        note: >-
+          主定理（Theorem 2）在可数论域上给出充分必要条件；对不可数论域（如实数集合），作者只证明了固定大小集合上的分解，并猜想一般情形仍成立。引用时需要保持这一限定，不能把定理说成已对任意不可数集合、任意基数完成证明。[4]
+      holders:
+      - name: Manzil Zaheer、Satwik Kottur、Siamak Ravanbakhsh、Barnabás Póczos、Ruslan Salakhutdinov、Alexander J. Smola
+        identity: >-
+          《Deep Sets》（arXiv:1703.06114v3, 14 Apr 2018；文首标明 31st Conference on Neural Information Processing Systems, NIPS 2017）作者。文首所属署为 Carnegie Mellon University，其中 Zaheer 与 Smola 同时署 Amazon Web Services。[4]
+      argument: >-
+        并非所有可变大小的输入都是序列。一组标签、一朵点云、一个顾客集合，往往不具有应被网络利用的次序；这时，正确的不变性不是「对长度变化保持可运行」，而是「对元素的排列保持不变」。Zaheer 等人把传统机器学习算法写成针对固定维实例而设计，并指出把它们扩展到排列不变的集合上并不平凡。[4]
+        在可数论域上，他们证明：一个作用在集合 X 上的函数是排列不变的，当且仅当它可以分解为 ρ（∑_{x∈X} φ(x)）。含义很具体：先用同一个变换 φ 处理每一个元素，再把结果加起来（求和与次序无关，也与有多少个元素无关），最后用 ρ 读出集合级的结果。把 φ 和 ρ 换成恰当的网络，就得到 Deep Sets。[4]
+        需要同时记下限定：对不可数的 X（例如 X = ℝ），他们只证明了这一分解在固定大小的集合上成立，并猜想一般情形仍为等式。因此，把 Deep Sets 写成「已彻底解决任意连续域上任意基数集合的表示」，超过了本文打开的定理范围。[4]
+      quotes:
+      - text: >-
+          In contrast to traditional approach of operating on fixed dimensional vectors,
+          we consider objective functions defined on sets that are invariant to permutations.
+        text_zh: 与在固定维向量上运算的传统路径相对，我们考虑定义在集合上、且对排列保持不变的目标函数。
+        attribution: Manzil Zaheer 等, Deep Sets
+        locator: 摘要，arXiv:1703.06114v3，第 1 页
+        ref: 4
+      - text: >-
+          Property 1 A function f : 2^X → Y acting on sets must be permutation invariant to the order of
+          objects in the set, i.e. for any permutation π : f ({x1 , . . . , xM }) = f ({xπ(1) , . . . , xπ(M) }).
+        text_zh: '性质 1：一个作用在集合上的函数 f : 2^X → Y 必须对集合中对象的次序保持排列不变，亦即对任意排列 π，有 f({x1, …, xM}) = f({xπ(1), …, xπ(M)})。'
+        attribution: Manzil Zaheer 等, Deep Sets
+        locator: 第 2 节 Property 1，第 2 页，arXiv:1703.06114v3。公式中的指数与下标按原文写出；2^X 对应原文的 2X。
+        ref: 4
+    open_parts: >-
+      这几类机制回答的是不同的结构假定：序列有次序，图像有空间网格，集合没有应被尊重的次序。把其中任何一种说成「神经网络处理变长输入的方法」，都会掩盖这种差别。
+      原问答里常被提到的零填充（zero-padding），是一种常见的工程做法，用来把不同长度的例子补齐以便成批计算；本次打开的上述论文并未把「补零加 mask」写成一条被证明的一般方法。Vaswani 等人文中的 masking，明确是为了阻止解码器关注后续位置、以保持自回归性质，不应被改写成变长批处理的补零说明书。[6]
+      Transformer 能够处理不同长度的序列，是因为它对位置做注意力和按位置共享的前馈运算，而不是因为第一层具有固定宽度；但原文并没有单独给出一条「变长输入定理」，对位置编码在极长序列上的外推等问题，需要另找专门文献，不能由本文代为断言。
+      递归神经网络（把树或句子按句法递归地归约）在原问答中也被提及，但本次未打开相关原论文，故不转述其技术细节。
+    references:
+    - id: 1
+      citation: >-
+        Elman, J. L. (1990). Finding structure in time. Cognitive Science, 14, 179–211. 作者页列出的官方 PDF（http://crl.ucsd.edu/~elman/Papers/fsit.pdf）本次请求失败。实际打开并据以核对引文的是公开转载 https://papers.baulab.info/papers/Elman-1990.pdf （亦下载了 https://jontallen.ece.illinois.edu/Public/Elman-FindingStructureinTime.90.pdf 作为对照）。
+      url: https://papers.baulab.info/papers/Elman-1990.pdf
+    - id: 2
+      citation: >-
+        Hochreiter, S., & Schmidhuber, J. (1997). Long short-term memory. Neural Computation, 9(8), 1735–1780. 本次打开的是作者机构提供的 PDF：https://ml.jku.at/publications/older/2604.pdf 。
+      url: https://ml.jku.at/publications/older/2604.pdf
+    - id: 3
+      citation: >-
+        Sutskever, I., Vinyals, O., & Le, Q. V. (2014). Sequence to sequence learning with neural networks. arXiv:1409.3215v3 [cs.CL].
+      url: https://arxiv.org/pdf/1409.3215
+    - id: 4
+      citation: >-
+        Zaheer, M., Kottur, S., Ravanbakhsh, S., Póczos, B., Salakhutdinov, R., & Smola, A. J. (2017). Deep sets. arXiv:1703.06114v3 [cs.LG]. 文首标明 31st Conference on Neural Information Processing Systems (NIPS 2017)。本次未打开会议正式版的单独页码，故页码以打开的 arXiv v3 为准。
+      url: https://arxiv.org/pdf/1703.06114
+    - id: 5
+      citation: >-
+        Long, J., Shelhamer, E., & Darrell, T. (2015). Fully convolutional networks for semantic segmentation. arXiv:1411.4038v2 [cs.CV].
+      url: https://arxiv.org/pdf/1411.4038
+    - id: 6
+      citation: >-
+        Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017/2023). Attention is all you need. arXiv:1706.03762v7 [cs.CL] (2 Aug 2023). 用于说明注意力对序列位置运算以及文中 masking 的含义；不以该文未写出的 padding 方案为据。
+      url: https://arxiv.org/pdf/1706.03762
+- id: 2026-11-24-biz-infrastructure
+  date: '2026-11-24'
+  category: business
+  title_zh: 基础设施到底怎么了？为什么现在造得又慢又贵？
+  title_en: What's going on with infrastructure?
+  commentary: >-
+    同一座城市，百年前用几年开通几十座地铁站，如今三条车站就要耗去数十亿美元——问题把「单位造价为何上升」从印象变成可核对的经验问题，并且迫使我们分清：超支相对预算，与造价相对历史，并不是同一件事。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 基础设施
+  - 建设成本
+  - 巨型项目
+  - 公共交通
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        美国若干标志性交通基础设施的单位造价在过去半个多世纪里确实大幅上升，这一现象有官方历史数据和专项研究支持；但对「为什么」，文献给出的是互补而非已经统一的解释——巨型项目系统性超支、制度与采购能力、以及 1970 年代前后公路造价拐点——而「改造物理世界的有效技术已经恶化」仍是有待检验的假说，不是既成结论
+      note: >-
+        Flyvbjerg 把巨型项目的表现概括为「铁律」：超预算、超工期，一次又一次；他所依据的是相对批准预算与计划工期的超支、超时，以及效益短收，而不是一条已经过通货膨胀调整的百年单位造价曲线。[2]
+        Transit Costs Project 的终期报告则做跨国、按项目的比较，认为纽约第二大道地铁一期相对其合成的低成本基线贵 8 到 12 倍，并把溢价分解为车站体量与系统设计、劳动力使用，以及采购与软成本等制度因素；作者同时认为高成本城市可以转向低成本国家的做法。[3]
+        Brooks 与 Liscow 利用他们整理的州际公路建设支出数据，发现实际每英里支出从 1960 年代到 1980 年代上升了三倍以上，并把拐点定在 1970 年代初；他们排除了可观察地理条件和单位劳动力、材料价格作为主要解释，同时给出与「公民发声」制度变化以及收入、房价相关的提示性证据。[4]
+        本次未找到可引用的系统专家调查，因此不把「学界已就单一原因达成共识」写成事实。Collison 把上述对照表述为一个问题，并写下「我们改造物理世界的有效技术似乎已大幅恶化」这一判断；它应作为有待解释的假说阅读，其页中若干美元数字也须与他所引原始出处分开核对。[1]
+    summary: >-
+      Collison 提出的问题，核心不是「个别工程是否延期」，而是：在施工技术按理应当进步的一个世纪里，为什么美国建造同类基础设施的代价和速度看起来急剧恶化。[1]
+      他给出两组对照。纽约地铁首份合同于 1900 年 2 月 21 日授予，28 座车站在 1904 年 10 月 27 日开通，历时约 4.7 年；他写总成本约为 11 亿美元（2019 年美元）。2000 年 4 月，大都会交通署（MTA）决定修建第二大道地铁，一期三条车站于 2017 年 1 月 1 日开通，他写造价为 44.5 亿美元，按每站计算约为前者的 37 倍。另一组对照是：州际公路系统早期造价约为每英里 150 万美元（2019 年美元），而旧金山一条公交道当时预计 2.2 英里花费 3.093 亿美元，即每英里约 1.4 亿美元。他承认后一组并非同类比较（旧金山是在既有城市环境中做改善，而不是新建公路），但仍称之为每英里多付约 93 倍。[1]
+      这些美元数字首先是 Collison 的表述。他所注的州际公路出处，是联邦公路管理局局长 J. Richard Capka 2006 年在国会的证词；本次打开的证词文本写的是：艾森豪威尔 1953 年就任时，已完工 6,000 英里，花费 9.55 亿美元——这是当时美元，证词中并未出现「2019 年美元计每英里约 150 万美元」这一换算。[1][5]
+      第二大道地铁一期的造价，本次打开的 MTA 项目页确认了 2017 年 1 月开通，但未给出总造价。[6] Transit Costs Project 终期报告写：这段约 2.7 公里、三座车站的延期线于 2017 年开通，造价为 46 亿美元（支出年度美元），或按他们的换算为 53 亿美元（2020 年美元）；其中十份施工合同的「硬成本」为 31.6 亿美元。该报告并称，按他们收录的九百余个快速轨道交通项目看，一期是全球每公里最贵的地铁之一。[3]
+      旧金山 Van Ness 公交优先走廊的官方项目页，在本次打开时把「成本估算」写作 3.459 亿美元，并注明其中包含公用设施更换、重铺路面和接触网系统等不仅限于公交提升的范围；页面标注预测完工时间为 2022 年 4 月，状态为已完成。Collison 当时所用的 3.093 亿美元是更早的预测数字，且本次打开的官方页未核对「2.2 英里」这一长度。[1][7]
+      把对照从「例子」推进到「机制」，已有文献至少做了三件不同的事。Flyvbjerg 讨论的是巨型项目相对于自身预算与工期的系统性失败。[2] Transit Costs Project 讨论的是同时期不同城市、不同制度下单位造价的巨大差异。[3] Brooks 与 Liscow 讨论的是美国州际公路这一相对同质产品在时间上的实际每英里支出上升。[4] 三者都支持「美国现在造得更贵」这一现象的某些面向，但它们解释的并不是同一个统计量；也不自动等于「工程技术本身退步了」。
+    definitions:
+    - term: 巨型项目（megaproject）
+      text: >-
+        Flyvbjerg 将其概括为通常造价十亿美元或以上、耗时多年、涉及众多公私利益相关方、具有转型性并影响数百万人的大型复杂事业；他强调它们在 Aspiration、周期、复杂性和利益相关方上不同于把常规项目简单放大。[2]
+    - term: 造价超支与单位造价上升
+      text: >-
+        超支比较的是决算（或实施中的成本）与最初批准的预算；单位造价上升比较的是不同时期或不同地方建成每一英里、每一公里或每一座车站的实际支出。前者可以在单位造价并不更高的情况下发生（预算订得过低），后者即使项目「按预算完成」也可能很高。Flyvbjerg 的「铁律」主要针对前者；Brooks 与 Liscow 以及 Transit Costs Project 的国际比较主要针对后者。[2][3][4]
+    - term: 软成本（soft costs）
+      text: >-
+        Transit Costs Project 将其包括设计、规划、强制账户（force account）、保险、施工管理和预备费等；他们为了跨国比较，把第三方设计、规划和项目管理成本做了口径对齐。在其对照案例中，这类费用通常在硬合同成本之上再加 5%–10%（最常见为 7%–8%），而第二大道地铁一期达到 21%。[3]
+    milestones:
+    - year: 1953–1956
+      name: 州际公路系统的早期完工规模与 1956 年法案
+      explanation: >-
+        Capka 在 2006 年证词中写道，艾森豪威尔 1953 年就任时，已完成 6,000 英里、花费 9.55 亿美元；1956 年 6 月 29 日签署的《1956 年联邦援助公路法》把州际系统扩大到 41,000 英里，并确立了新的融资安排。[5]
+    - year: 1970s
+      name: 州际公路每英里支出的拐点
+      explanation: >-
+        Brooks 与 Liscow 发现，实际每英里建设支出从 1960 年代到 1980 年代上升三倍以上，并把上升的拐点定在 1970 年代初；他们指出这一时间与「公民发声」进入政府决策的制度变化重合，且收入与房价在统计上几乎完全解释了成本上升，而单位劳动力和材料价格不能。[4]
+    - year: 2017
+      name: 纽约第二大道地铁一期开通
+      explanation: >-
+        MTA 官方项目页写明，一期于 2017 年 1 月 1 日开通运营，将 Q 线从 63 街延伸至 96 街，并新增 72 街与 86 街车站。[6] Transit Costs Project 将其造价记为 46 亿美元（支出年度美元），并作为美国高成本案例的核心解剖对象。[3]
+    views:
+    - position: 巨型项目系统性超预算、超工期，根源在于激励、乐观偏差与「最不适者得以建成」，而不是偶然的管理失手
+      consensus_role: 工程与项目管理文献中被广泛引用的概括；它说明「当代巨型项目平均表现很差」，但直接回答的是相对预算的超支，而不是百年单位造价为何上升
+      evidence:
+        label: 对既有巨型项目绩效数据的综述，而非对单一城市地铁造价的历史重建
+        note: >-
+          本次打开的是 2014 年 Project Management Journal 论文的作者稿（arXiv:1409.0003，Draft 9.2）。作者给出「十项中有九项超支」、50% 以上的超支并不罕见等概括，并列举英法海峡隧道、丹佛机场、波士顿 Big Dig 等例子；这些比例与案例来自他及其合作者此前的数据库与论文，本文按其在该综述中的表述使用，不另充作本次独立复算。[2]
+      holders:
+      - name: Bent Flyvbjerg
+        identity: >-
+          本次打开的作者稿署名为牛津大学赛德商学院 Major Programme Management 讲席教授及创始主任（Professor and Founding Chair）。[2]
+      argument: >-
+        Flyvbjerg 把巨型项目写成一种与常规项目不同的类型，并认为政治、技术、经济与美学四种「崇高」共同推高了这类项目的规模与频率。[2]
+        在「铁律」一节，他根据绩效数据写道：十个这类项目中有九个发生成本超支；实际超支达 50% 很常见，超过 50% 也不罕见。效益短收同样常见，并且在他看来，在可比较数据覆盖的约七十年里，超支幅度并未随时间或地理而明显改善。[2]
+        他把成功定义为同时达到预算、工期与效益目标，并估计若这三项各自大约只有十分之一达标，则三项同时达标大约是千分之一；即便这些比例错了一倍，成功率仍极低。他用这句话来说明所谓「巨型项目的铁律」：超预算、超工期，一次又一次。「最佳实践是离群值，平均实践则是灾难。」[2]
+        在解释上，他后来把乐观偏差（optimism bias）与策略性误报（strategic misrepresentation）视为比 Hirschman「隐藏的手」更好的原因说明，并讨论「最不适者得以生存」：被建成的往往不是最好的项目。[2]
+        对原问题而言，这一传统有力地说明：当代巨型项目经常比承诺的更贵、更慢。但它比较的是项目与其自己的预算，不能单独证明 1904 年的地铁或 1960 年代的州际公路在单位产出上必然更便宜，也不等于已经证明「施工技术退化了」。
+      quotes:
+      - text: >-
+          Nine out of ten such projects have cost overruns. Overruns of up to 50 percent in real terms are common, over 50 percent not uncommon.
+        text_zh: 这类项目十项中有九项出现成本超支。按实际值计，高达 50% 的超支很常见，超过 50% 也不罕见。
+        attribution: Bent Flyvbjerg，What You Should Know About Megaprojects and Why
+        locator: arXiv:1409.0003 作者稿 Draft 9.2，PDF 第 9 页（文内页码 9），“The Iron Law of Megaprojects”一节
+        ref: 2
+      - text: >-
+          This serves to illustrate what may be called the "iron law of megaprojects": Over budget, over time, over and over again (Flyvbjerg, 2011). Best practice is an outlier, average practice a disaster in this interesting and very costly area of management.
+        text_zh: 这可以用来说明所谓「巨型项目的铁律」：超预算、超工期，一次又一次。在这一既有趣又代价高昂的管理领域里，最佳实践是离群值，平均实践则是灾难。
+        attribution: Bent Flyvbjerg，What You Should Know About Megaprojects and Why
+        locator: 同一作者稿 PDF 第 11 页（文内页码 11）
+        ref: 2
+    - position: 纽约等地的超高地铁造价，主要来自车站过度建设、劳动力使用方式和采购—软成本等制度因素，而不是「原子变重了」；高成本城市可以通过改制度向低成本国家看齐
+      consensus_role: 近年来对美国轨道交通造价国际差异最系统的专项研究之一；证据来自案例解剖与成本数据库，不是随机实验，作者自己对乘数的精确性有保留
+      evidence:
+        label: 多国案例研究与自建的快速轨道交通造价数据库
+        note: >-
+          终期报告作者为 Eric Goldwyn、Alon Levy、Elif Ensari 与 Marco Chitti，PDF 创建于 2023 年 2 月；项目站点页脚标明 Marron Institute。报告把第二大道地铁一期相对合成基线的溢价写作 8 到 12 倍，并说明各因子是相乘的，看上去精确到 9.34 的计算，最好只读作 8–12 的区间。比较依赖于会计口径、项目范围和数据可得性，作者承认精确比较困难。[3]
+      holders:
+      - name: Eric Goldwyn、Alon Levy、Elif Ensari、Marco Chitti
+        identity: >-
+          Transit Costs Project 终期报告《Understanding Transit Infrastructure Costs in American Cities》作者；报告致谢感谢 NYU Marron 在项目进行期间的支持，项目站点页脚版权为 Marron Institute。[3]
+      argument: >-
+        报告开篇即提出：美国的轨道交通基础设施造价属于世界最高之列；但若能把制度实践调整到与瑞典、意大利、土耳其等高效率、低成本国家一致，造价可以下降。[3]
+        在「成本溢价」一节，他们把第二大道地铁一期相对合成基线（主要依据意大利、伊斯坦布尔和瑞典，并参考巴黎、柏林以及赫尔辛基、西班牙等）贵出 8 到 12 倍，归因于三项一次乘数：实体结构（车站与隧道，以及系统与标准化）、劳动力、以及采购与软成本。[3]
+        就车站而言，他们认为纽约的车站施工方法本身就使车站成本增至三倍：96 街车站的开挖长度是 187 米站台的 2.6 倍，另外两座车站约是站台的两倍长，且因采用更昂贵的深挖技术，每立方米成本更高；对照案例中，车站开挖通常只比站台长 3%–20%。一期硬成本中 77% 是车站。他们估计，仅车站过大一项就把项目成本提高约 2.06 倍。[3]
+        劳动力方面，美国东北部劳动力约占硬成本的 40%–60%，低成本案例为 19%–30%；若劳动力份额从 25% 升至 50%、其余不变，总体项目成本约为 1.5 倍。他们判断，差异至多只有四分之一来自薪酬水平，更多来自蓝领冗余和白领过度配备。[3]
+        采购规范（对立关系、机构内部能力不足、竞争不足、把风险转移给承包商从而导致加价）据他们估计使成本提高约 1.85 倍；第二大道地铁的软成本为硬成本之上再加 21%，高于对照案例常见的 7%–8%。[3]
+        第一章给出的硬成本总额是 31.6 亿美元（他们在计算中排除了 2.29 亿美元的 63 街车站改造，因为无法拆分土建与装修）。第七章写一期于 2017 年开通，造价 46 亿美元（支出年度美元）。[3]
+        这一解释与 Collison 的问题直接相关：如果同时期的意大利或瑞典能够以低得多的单位造价建地铁，那么主要约束就不像是「施工技术整体退化」，而更像是可改革的设计标准、用工和采购制度。报告自己也把这一点写成「好消息」。[3]
+      quotes:
+      - text: >-
+          Based on our detailed case studies and data collection, we identified three primary factors that comprise total project costs and explain why Phase 1 of New York’s Second Avenue Subway is 8 to 12 times more expensive than our composite baseline case.
+        text_zh: 基于详细的案例研究和数据收集，我们识别出构成项目总成本的三项主要因素，并以此来解释：为什么纽约第二大道地铁一期比我们的合成基线案例贵 8 到 12 倍。
+        attribution: Eric Goldwyn、Alon Levy、Elif Ensari 与 Marco Chitti，Transit Costs Project 终期报告
+        locator: 终期报告第 1.4 节 “The cost premium, in brief”，文内第 13 页
+        ref: 3
+      - text: >-
+          This short extension opened for revenue service in 2017 and cost $4.6 billion in current year-of-expenditure dollars, or $5.3 billion in 2020 dollars.
+        text_zh: 这段短延伸线于 2017 年开通运营，造价为 46 亿美元（按支出年度美元计），或 53 亿美元（2020 年美元）。
+        attribution: 同上
+        locator: 第 7 章引言，文内第 326 页；脚注说明换算以施工中点 2011 年为准、按 CPI 把 46 亿调至 2020 年美元
+        ref: 3
+    - position: 美国州际公路的实际每英里建设支出在 1960–1980 年代上升了三倍以上，主要不像是单位投入品价格或「把最难路段留到最后」，而与 1970 年代初的制度变化以及收入、房价上升相伴随
+      consensus_role: 针对相对同质的公路产品、跨越数十年州级支出数据的重要经验研究；作者把因果分解称为提示性证据
+      evidence:
+        label: 数字化的州际公路州级支出与完工里程面板（1956 年以降），以及与地理、政治、法律变量的合并分析
+        note: >-
+          本次打开的是 Brookings Hutchins Center Working Paper #54（2019 年 8 月），不是其后可能存在的期刊正式发表本；页码与可能的修订不以期刊版为准。作者明确区分「记录时间趋势」与「对原因给出提示性证据」，并写明若干常见解释（单位劳动力或材料价格、可观察的地理难度）与数据不符。[4]
+      holders:
+      - name: Leah Brooks、Zachary Liscow
+        identity: >-
+          工作论文署名分别为乔治·华盛顿大学 Trachtenberg 公共政策与公共管理学院、耶鲁法学院。[4]
+      argument: >-
+        与地铁项目的国际横截面不同，Brooks 与 Liscow 选择州际公路，正是因为它在空间和时间上相对同质，并且总里程大体固定，从而有可能追踪「每一英里花了多少钱」的长期变化。[4]
+        他们的两项主要贡献是：第一，记录实际每英里建设支出从 1960 年代到 1980 年代上升三倍以上，拐点在 1970 年代初；即使控制预先存在的地理条件，这一上升仍然存在，因此不能主要归因于规划者把「最难修的路段」留到最后（至少在可观察的地理变量意义上）。[4]
+        第二，他们利用后期各州成本的巨大离散来检视常见假说。单位劳动力和材料的实际价格在此期间变动很小，因而不能驱动大部分上升；他们把这一点类比于医疗文献中「价格对数量」的区分，认为更像是数量（做了更多、或不同的事情）而非单价。对时间不变的因素，以及加入州固定效应，也几乎不改变这一时间趋势。[4]
+        在提示性解释里，支出上升的时间与 1970 年代初「公民发声」进入政府决策相重合；并且上升的收入与房价在统计上几乎完全解释了成本增加。[4]
+        这一结果直接支撑 Collison「大多数人已经知道基础设施越来越贵，但幅度令人吃惊」的观察中，关于公路的那一半：至少就州际公路新建设而言，实际单位支出的大幅上升是可以在官方支出与完工里程中读到的。但它并不自动外推到地铁或高铁，也不把「公民发声」或房价写成已被识别的唯一因果机制；作者自己用了「suggestive evidence」。[1][4]
+      quotes:
+      - text: >-
+          First, we find that spending per mile on Interstate construction increased more than three-fold (in real terms) from the 1960s to the 1980s. We date the inflection point of increase to the early 1970s.
+        text_zh: 第一，我们发现州际公路建设的每英里支出（按实际值计）从 1960 年代到 1980 年代上升了三倍以上。我们把这一上升的拐点定在 1970 年代初。
+        attribution: Leah Brooks 与 Zachary Liscow，Infrastructure Costs
+        locator: Brookings Hutchins Center Working Paper #54（2019 年 8 月）摘要
+        ref: 4
+      - text: >-
+          In particular, the increased spending per mile coincides with the rise of “citizen voice” in government decision-making in the early 1970s. And rising incomes and housing prices nearly completely statistically explain the increase in costs. We also largely rule out several common explanations for rising costs, such as increases in per-unit labor or materials prices.
+        text_zh: 具体而言，每英里支出的上升与 1970 年代初「公民发声」进入政府决策相重合。而且，收入与房价的上升在统计上几乎完全解释了成本的增加。我们也在很大程度上排除了若干常见解释，例如单位劳动力或材料价格的上涨。
+        attribution: 同上
+        locator: 同一摘要
+        ref: 4
+    open_parts: >-
+      Collison 把对照的幅度写成一个更强的判断：「如果技术意味着用更少做更多，那么我们改造物理世界的有效技术似乎已大幅恶化。」[1] 已打开的研究更支持把现象读作制度、激励、设计标准和投入数量的变化，而不是物理学或施工机械本身退步；Transit Costs Project 甚至明确认为纽约可以学到意大利或斯堪的纳维亚的造价水平。[3] 但这仍是一项关于「有效技术」的假说，尚未被单一因果识别所关闭。
+      历史对照本身也不完全同类。1904 年的地铁与 2017 年的第二大道地铁在安全、无障碍、劳工、环保和城市密集度上的标准不同；Collison 对公交道与州际公路的比较，他自己已标明不是 like-for-like。[1] 他所引 11 亿美元（2019 年美元）的早期地铁总造价，出处是一本本次未能打开的专著，本文只作为他的表述记录，不以官方统计复核。
+      「相对预算超支」与「单位造价的长期上升」仍需要被分开追踪：一个按预算完成、但预算已经极高的项目，不会出现在 Flyvbjerg 的超支统计里，却正是 Brooks–Liscow 与 Transit Costs Project 所关心的对象。[2][3][4]
+      趋势是否会持续、维护现有存量是否也会失去能力、哪些国家是例外，仍是 Collison 原问题中未决的部分。[1] 本次没有打开一份已完成的全球「例外国家」清单的独立评估，因此不把个别低成本案例写成已经完成的国际排名。
+    references:
+    - id: 1
+      citation: >-
+        Collison, P. Questions. 个人站点页面中 “What's going on with infrastructure?” 一条。本次按 2026-11-24 打开的页面核对，地址为 https://patrickcollison.com/questions 。
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: >-
+        Flyvbjerg, B. (2014). What You Should Know about Megaprojects and Why: An Overview. Project Management Journal, 45(2), 6–19. https://doi.org/10.1002/pmj.21409 。本次打开并核对的是作者稿 arXiv:1409.0003，Draft 9.2；文内页码与引语均以该 PDF 为准，不以期刊印刷页码为准。
+      url: https://arxiv.org/pdf/1409.0003
+    - id: 3
+      citation: >-
+        Goldwyn, E., Levy, A., Ensari, E., & Chitti, M. (2023). Transit Costs Project: Understanding Transit Infrastructure Costs in American Cities. 终期报告 PDF 署名为上述四位作者，创建时间为 2023 年 2 月；项目页注明报告最近更新于 2023-02-11。
+      url: https://transitcosts.com/wp-content/uploads/TCP_Final_Report.pdf
+    - id: 4
+      citation: >-
+        Brooks, L., & Liscow, Z. (2019). Infrastructure Costs. Hutchins Center Working Paper #54, Brookings Institution, August 2019. 本次打开的是 https://www.brookings.edu/wp-content/uploads/2019/08/WP54_Brooks-Liscow_updated.pdf ；检索可见其后或有期刊版本，但本次未打开期刊 PDF，不以期刊版页码或可能的修订为准。
+      url: https://www.brookings.edu/wp-content/uploads/2019/08/WP54_Brooks-Liscow_updated.pdf
+    - id: 5
+      citation: >-
+        Capka, J. R. (2006, June 27). Celebrating 50 Years: The Eisenhower Interstate Highway System. 美国联邦公路管理局局长在众议院交通运输与基础设施委员会公路、公交与管道小组委员会的证词。本次因 transportation.gov 对自动抓取返回 403，打开并核对的是 Internet Archive 快照 https://web.archive.org/web/20200924153046/https://www.transportation.gov/testimony/celebrating-50-years-eisenhower-interstate-highway-system 。
+      url: https://web.archive.org/web/20200924153046/https://www.transportation.gov/testimony/celebrating-50-years-eisenhower-interstate-highway-system
+    - id: 6
+      citation: >-
+        Metropolitan Transportation Authority. Second Avenue Subway Phase 1. 官方项目页，本次按 2026-11-24 打开；页面写明一期于 2017 年 1 月开通，但未给出总造价数字。
+      url: https://www.mta.info/project/second-avenue-subway-phase-1
+    - id: 7
+      citation: >-
+        San Francisco Municipal Transportation Agency. Van Ness Bus Rapid Transit / Van Ness Improvement Project. 官方项目页，本次按 2026-11-24 打开，地址为 https://www.sfmta.com/projects/van-ness-improvement-project ；页内「Cost Estimate」为 3.459 亿美元。
+      url: https://www.sfmta.com/projects/van-ness-improvement-project
+- id: 2026-11-24-biz-real-incomes
+  date: '2026-11-24'
+  category: business
+  title_zh: 自 1950 年代以来，实际收入是否大幅下降了？
+  title_en: Did real incomes drop significantly since the 1950s?
+  commentary: >-
+    「以前一个工人就能养家买房」是很强的记忆，但记忆不是序列。把中位数与平均数、工资与家庭总资源、税前市场收入与税后加转移支付、以及所用价格指数逐一摊开，答案会从「是或否」变成「取决于你在测量什么」。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/39251/did-real-incomes-drop-significantly-since-the-1950s
+  author: MWB
+  source_type: stackexchange
+  tags:
+  - 实际收入
+  - 工资
+  - 不平等
+  - 收入分配
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        就美国官方住户与全职全年工作者的普查序列而言，自 1950 年代中期或 1960 年代以来，实际中位收入并没有「大幅下降」，而是有明显上升；但 1970 年代之后男性全职收入增长显著放缓，平均数快于中位数，且不同研究因收入定义和价格指数，对 1980 年前后下半部分人群的判断存在实质性分歧
+      note: >-
+        原问题明确针对 1950 年代以来的美国，并询问实际收入是否显著下降。美国普查局历史收入表 H-5、P-36、P-38 提供了可核对的官方水平（以 2025 年美元计，2000 年起用 C-CPI-U，2000 年前用 R-CPI-U-RS）。这些序列的起点并不都是 1950 年：住户中位数自 1967 年，全职全年工作者的中位个人收入自 1955 年，中位个人劳动所得自 1960 年。[2][3][4]
+        国会预算办公室把分析起点放在 1979 年，并同时报告税前（含社会保险）与税后加转移支付的住户收入；其 2024 年趋势文件的文字结论是：1979–2021 年各五等分的平均收入在两种口径下都增长了，但最高五等分增长最多，不平等上升，转移支付和联邦税对不平等的抑制程度也在增强。具体累计增长率印在图表中，本次未能从该 PDF 的文字层读出数字，故不转写图中未见诸文字的百分比。[5]
+        Piketty、Saez 与 Zucman 的分配性国民账户把焦点放在 1980–2014 年的税前国民收入：人均实际税前国民收入上升约 60%，但底部 50% 成年人大体停滞在约 16,000 美元（2014 年美元）；即使在税后，工作年龄的底部 50% 自 1980 年以来也接近零增长。这是另一组定义、另一个时期，不能直接改写成「自 1950 年代以来实际收入大幅下降」。[6]
+        Auten 与 Splinter 使用税收数据做了不同的国民收入分配，认为 1979–2019 年底部一半的实际税前收入上升超过三分之一、税后上升三分之二；自 1962 年以来，底部、中间和顶部五等分的人均实际税后收入都增加了两倍以上。测量方法之争本身说明：文献并没有一个已经关闭的「是/否」。[7]
+    summary: >-
+      原问题来自 Economics Stack Exchange，提问者显示名为 MWB（2020 年 8 月 17 日）。问题把 1950 年代的美国记忆——不必上大学也能养活一大家和一位全职主妇、容易买房、开大型汽车且不担心油价——对照为「实际收入是否自此显著下降」，并附带提及一位历史教授关于二战黄金储备的私人理论。[1]
+      这首先是一个测量问题，而且「自 1950 年代以来」往往不是文献最常用的起算点。普查住户中位收入从 1967 年才有连续的官方历史表；国会预算办公室的分配序列从 1979 年开始；Piketty、Saez 与 Zucman 关于底部 50%「停滞」的核心陈述，针对的是 1980 年以后的税前国民收入。把 1970 或 1980 年以后某个子群体的停滞，说成 1950 年代以来整体实际收入大幅下降，会混淆时期和口径。[2][5][6]
+      就普查局当期发布的、按 2025 年美元调整的序列看：全种族住户中位收入从 1967 年的 56,230 美元升至 2025 年的 87,460 美元，平均收入从 62,890 美元升至 126,700 美元；后者大约翻了一倍，前者升幅较小，符合平均数被顶端拉高的形态。1973 年和 1979 年的住户中位数分别为 63,680 美元和 63,670 美元，此后有过停滞和回撤（例如 2010 年为 70,110 美元），但 2025 年仍明显高于 1960 年代末。[2]
+      若改看全职、全年工作者的中位个人劳动所得（表 P-38）：男性从 1960 年的 47,720 美元升至 1973 年的 67,760 美元，1990 年代中期一度回落到约 61,920 美元（1995 年），其后再次上升，2025 年为 72,380 美元，高于 1960 年，也略高于 1973 年；女性则从 1960 年的 28,960 美元升至 2025 年的 60,760 美元，升幅更大。表 P-36 的中位个人收入可回溯到 1955 年：男性从 41,640 美元升至 2025 年的 77,340 美元，女性从 26,850 美元升至 62,730 美元。按这些官方序列，答案不是「大幅下降」。[3][4]
+      这并不意味着「人人都过得像记忆中的 1950 年代那样宽裕」。住户中位数会随住户人数和双职工比例变化；劳动所得只覆盖全职全年工作者，不含福利（如雇主医疗保险）的货币化；普查的价格指数（表注为 2000 年起的 C-CPI-U 与此前的 R-CPI-U-RS）与国会预算办公室所用的个人消费支出（PCE）价格指数、以及 Piketty–Saez–Zucman 所用的国民收入平减指数都不同。选择哪一条序列，会改变「中间位置涨了多少」，尤其会改变对 1980 年以后下半部分人群的判断。[2][5][6][7]
+      至于提问中的黄金储备假说，本次没有打开专门检验该说法的一手文献，因此不予评述。
+    definitions:
+    - term: 实际收入（real income）
+      text: >-
+        用某一价格指数剔除通货膨胀后的收入。同一名义序列，用消费者价格指数（如普查表使用的 C-CPI-U / R-CPI-U-RS）、个人消费支出价格指数（国会预算办公室趋势文件明确采用 BEA 的 PCE）或国民收入平减指数（Piketty、Saez 与 Zucman 在底部 50% 陈述中注明），会得到不同的「实际」水平与增速。[2][5][6]
+    - term: 中位数与平均数（median vs mean）
+      text: >-
+        中位数是排序后处于正中位置的住户或个人的收入；平均数是全部收入除以单位数，对顶端更敏感。普查表 H-5 在 1967–2025 年间，全种族住户平均数的上升明显快于中位数，这本身就是分布上端相对更快增长的一种表现。[2]
+    - term: 税前市场收入与税后加转移支付
+      text: >-
+        国会预算办公室把「税前收入」定义为市场收入加上社会保险（社会保障、联邦医疗保险、失业保险和工伤保险等），「税后收入」再加核定的低收入转移、减去联邦税；Piketty、Saez 与 Zucman 的税后国民收入则扣除全部税收并加回全部转移与公共支出，使税前、税后都加总到国民收入。Auten 与 Splinter 同样区分税前国民收入与含转移的税后收入。不同「税后」并不完全同义。[5][6][7]
+    - term: 全职全年工作者（full-time, year-round workers）
+      text: >-
+        普查表 P-36、P-38 的观察单位是有全年全职工作的人（1980 年 3 月起为 15 岁及以上；更早年份为次年 3 月时 14 岁及以上），不是所有成年人口，也不是住户。它更接近「一份全职工作的报酬」，不能直接回答「一个家庭需要几份收入」。[3][4]
+    milestones:
+    - year: 1955–1967
+      name: 美国普查局个人与住户收入历史表的起点
+      explanation: >-
+        表 P-36（全职全年工作者中位个人收入）自 1955 年，表 P-38（中位个人劳动所得）自 1960 年，表 H-5（住户中位与平均收入）自 1967 年。它们是回答「自 1950 年代以来」时最接近的一套官方连续水平，但没有一条正好从 1950 年的住户中位数开始。[2][3][4]
+    - year: 1979–1980
+      name: 两条常被用来讨论「中下层停滞」的研究起点
+      explanation: >-
+        国会预算办公室分配序列从 1979 年开始；Piketty、Saez 与 Zucman 关于底部 50% 税前收入停滞的核心陈述，针对 1980–2014 年。这两条线都晚于 1950 年代，不宜直接替代原问题的时期。[5][6]
+    - year: 2018–2024
+      name: 分配性国民账户的两种对立估计公开发表
+      explanation: >-
+        Piketty、Saez 与 Zucman 的方法论文章 2018 年发表于 Quarterly Journal of Economics；Auten 与 Splinter 对税收数据的长期估计 2024 年发表于 Journal of Political Economy，并直接反驳前一组对底部 50% 实际收入几乎不变的判断。[6][7]
+    views:
+    - position: 按美国普查局官方的住户中位数和全职全年工作者中位数，自 1950 年代中期或 1960 年代以来实际收入没有大幅下降，而是上升；1970 年代之后男性全职劳动所得的增长明显放慢
+      consensus_role: 讨论这一问题时最接近「官方、可复核水平」的出发点；它不解决福利、税收、住户结构以及顶端不平等
+      evidence:
+        label: 普查局 CPS ASEC 历史收入表，本次直接打开 xlsx 读取水平
+        note: >-
+          表 H-5、P-36、P-38 由本次打开的官方 xlsx 读取。美元为 2025 年美元，表注写明 2000–2025 年使用 C-CPI-U、此前使用 R-CPI-U-RS。序列有多次调查设计与处理修订（表中以年份脚注标出，如 2013、2017、2020、2024），不同断点之间的水平不能当成完全同质的微观定义。住户收入未按住户人数等价调整。[2][3][4]
+      holders:
+      - name: 美国普查局（U.S. Census Bureau）
+        identity: >-
+          Current Population Survey 年度社会与经济补充调查（CPS ASEC）历史收入表的发布机构；表 H-5 注明资料来源为 1968–2026 年 ASEC，表 P-36 为 1956–2026 年，表 P-38 为 1961–2026 年。[2][3][4]
+      argument: >-
+        若把原问题理解为「一个典型美国住户或一份全职工作的实际货币收入，是否明显低于 1950 或 1960 年代」，普查表给出的回答是否定的。[2][3][4]
+        全种族住户中位收入（H-5，2025 年美元）1967 年为 56,230 美元，2025 年为 87,460 美元；同期平均收入从 62,890 美元升至 126,700 美元。中位数在 1970 年代后期到 1980 年代初几乎没有再升（1973 年 63,680 美元，1979 年 63,670 美元，1982 年 60,480 美元），2010 年也只有 70,110 美元，但这些波动是从已经高于 1967 年的水平上发生的，而不是跌回 1960 年代末之下。[2]
+        男性全职全年劳动所得的中位数（P-38）是最接近「一份全职男工的工资」的官方序列之一。它在 1960–1973 年从 47,720 美元升至 67,760 美元，随后到 1995 年回落至 61,920 美元，再升至 2025 年的 72,380 美元。因此，相对于 1960 年是明显上升；相对于 1973 年的局部高点，中间有过约二十年的停滞和回撤，到 2020 年代才再次超过该高点。女性同一序列则持续上升，1960 年为 28,960 美元，2025 年为 60,760 美元。[4]
+        表 P-36 把观察延伸到 1955 年（中位个人收入，口径与劳动所得不完全相同）：男性从 41,640 美元升至 2025 年的 77,340 美元，女性从 26,850 美元升至 62,730 美元。这是本次打开的官方表里，最接近「自 1950 年代」这一提问起点的一条。[3]
+        这些数字不能直接验证「那时一份收入就够买房养家」的记忆：它们没有计入住房相对价格的特殊变化，也没有把一个住户里有几个挣钱的人摊开来。它们只说明：把「实际收入」理解成普查意义上的中位货币收入时，并没有出现自 1950 年代或 1960 年代以来的大幅下降。
+      quotes: []
+    - position: 若把目光转到 1980 年以后的税前国民收入，底部 50% 成年人几乎没有增长，政府再分配只抵消了不平等上升的一小部分——但这是另一段时期、另一套定义，不能代替「自 1950 年代以来」的判断
+      consensus_role: 分配性国民账户中最有影响的一组估计之一，常被用来讨论「增长没有到下半部分」；其时期和口径与原问题并不重合
+      evidence:
+        label: 将税收、调查与国民账户对齐、覆盖全部国民收入的估计
+        note: >-
+          本次打开的是 2018 年 Quarterly Journal of Economics 正式发表 PDF（作者稿站点副本 https://gabriel-zucman.eu/files/PSZ2018QJE.pdf ）。核心数字针对 1980–2014 年，使用国民收入平减指数和成年个人（配偶之间平分收入）作为单位。文中机构署名在本次打开的PDF首页未见单独的作者单位行，因此身份只按其作为该文作者来写。[6]
+      holders:
+      - name: Thomas Piketty、Emmanuel Saez、Gabriel Zucman
+        identity: >-
+          《Distributional National Accounts: Methods and Estimates for the United States》（Quarterly Journal of Economics, 2018）作者。[6]
+      argument: >-
+        这三位作者要解决的问题，是税收和调查数据通常覆盖不了全部国民收入，从而难以回答「宏观增长的多大份额落到了底部 50%、中间 40% 和顶部 10%」。他们的序列同时给出税前与税后国民收入。[6]
+        摘要中的关键句是：1980 至 2014 年，成年人均实际税前国民收入上升了 60%，但底部 50% 停滞在大约每年 16,000 美元。中间阶层（中位数到第 90 百分位）自 1980 年以来增长了 40%，部分因为免税的附加福利上升；顶端则大幅上涨。[6]
+        在引言的发现综述里，他们把同一事实写得更完整：底部 50% 成年人的平均税前收入自 1980 年以来停滞在约 16,000 美元（2014 年美元，使用国民收入平减指数），而人均国民收入增长 60%，达到 2014 年的 64,500 美元；底部 50% 的收入份额从 1980 年约 20% 降到 2014 年的 12%。顶部 1% 成年人的平均税前收入从 42 万美元升至约 130 万美元，份额从 1980 年代初约 12% 升至 2014 年的 20%。两个群体几乎交换了份额。[6]
+        关于税后，他们的判断是：政府再分配只抵消了税前不平等上升的一小部分；即使在税收和转移之后，自 1980 年以来，分布底部 50% 中的工作年龄成年人也接近零增长。增加的个性化转移支付很大程度上指向老年人和中产，落到底部 50% 挣钱者头上的部分不足以显著抬高他们的收入。[6]
+        把这一研究放回原问题：它有力说明，自 1980 年以来，增长在他们的税前国民收入核算中高度偏向顶端，底部 50% 的税前水平几乎没有上升。它并不声称 1950 年代到 1980 年也是下降的，更不能单独改写普查中位数在 1955 或 1967 年以来上升这一事实。时期、单位（成年个人对住户）、收入概念和平减指数都不同。[2][6]
+      quotes:
+      - text: >-
+          Average pretax real national income per adult has increased 60% from 1980 to 2014, but we find that it has stagnated for the bottom 50% of the distribution at about $16,000 a year.
+        text_zh: 成年人均实际税前国民收入在 1980 至 2014 年间上升了 60%，但我们发现，分布底部 50% 停滞在大约每年 16,000 美元。
+        attribution: Thomas Piketty、Emmanuel Saez 与 Gabriel Zucman，Distributional National Accounts
+        locator: 摘要，Quarterly Journal of Economics 133(2), 2018, 第 553 页
+        ref: 6
+      - text: >-
+          Even after taxes and transfers, there has been close to zero growth for working-age adults in the bottom 50% of the distribution since 1980.
+        text_zh: 即使在税收和转移支付之后，自 1980 年以来，分布底部 50% 中的工作年龄成年人也接近零增长。
+        attribution: 同上
+        locator: 第 557 页，引言中第二条主要发现
+        ref: 6
+    - position: 改用另一套把缺报收入、家庭结构与转移支付处理不同的税收数据估计，底部一半自 1979 年以来的实际收入明显上升，自 1960 年代初以来各五等分的人均实际税后收入都增加了两倍以上
+      consensus_role: 对 Piketty–Saez–Zucman 序列最重要的系统性反估计之一；结论依赖如何分配税表上看不到的国民收入，并非没有争议
+      evidence:
+        label: 以税表为起点、逐步补齐国民收入并调整税收改革与社会变迁的长期估计
+        note: >-
+          本次打开的是 2024 年 Journal of Political Economy 正式发表 PDF（作者站点 https://www.davidsplinter.com/AutenSplinter-Tax_Data_and_Inequality.pdf ）。作者写明观点不代表美国财政部或国会税收联合委员会。他们把自己与 Piketty、Saez、Zucman 的差异，主要归因于如何分配税表上未出现的收入。[7]
+      holders:
+      - name: Gerald Auten、David Splinter
+        identity: >-
+          论文署名分别为美国财政部税收分析办公室（Office of Tax Analysis, US Treasury Department）、美国国会税收联合委员会（Joint Committee on Taxation）。文内声明结论仅代表作者本人。[7]
+      argument: >-
+        Auten 与 Splinter 从税表收入出发，校正税基变化、申报行为、婚姻率下降等社会变迁，并补上税表遗漏的收入，以估计 1960 年以来的国民收入分配。摘要即给出与「顶端份额急剧上升、中下层停滞」叙事相反的判断：税前顶端份额更低、1980 年以来升幅更小；不断增加的政府转移和税收累进性，使所有收入组的实际收入都在上升，税后顶端份额几乎没有什么变化。[7]
+        在正文中，他们直接对照 Piketty、Saez 与 Zucman：后者估计底部 50% 的平均实际税前收入在 1979–2019 年间几乎不变；而他们的分析显示，底部一半的实际税前收入上升超过三分之一，实际税后收入上升三分之二。底部 50% 的税前份额下降 5.1 个百分点，税后份额只下降 3.1 个百分点，即税收和转移抵消了该份额下降的 40%。[7]
+        把窗口拉回到 1960 年代初，他们估计税前顶部 1% 份额从 1962 年的 11.1% 降至 1979 年的 9.4%，再升至 2019 年的 13.8%，整个时期大约只上升 3 个百分点；税后顶部 1% 份额自 1979 年以来只升 1.4 个百分点，自 1962 年以来只升 0.2 个百分点。更关键的是针对原问题的一句：自 1962 年以来，底部、中间和顶部五等分的人均实际税后收入都增加了两倍以上。[7]
+        如果接受这组估计，那么即使不看普查中位数，仅就「人均实际税后资源」而言，自 1960 年代初以来也不是下降，而是各段都有大幅度上升；与 Piketty–Saez–Zucman 的分歧，集中在 1979 年以后底部一半的税前是否停滞，以及税后增长有多少。这一分歧本身就是当前文献的一部分，不宜用其中一方去宣布另一方已被否定，但足以阻止把「自 1950 年代以来实际收入大幅下降」写成已有共识的事实。[6][7]
+      quotes:
+      - text: >-
+          PSZ estimated that average real pretax incomes of the bottom 50% remained virtually unchanged between 1979 and 2019. In contrast, our analysis shows that real pretax incomes increased by more than one-third and real aftertax income increased by two-thirds for the bottom half of the distribution.
+        text_zh: Piketty、Saez 与 Zucman 估计，底部 50% 的平均实际税前收入在 1979 至 2019 年间几乎没有变化。相比之下，我们的分析显示，分布下半部分的实际税前收入上升了超过三分之一，实际税后收入上升了三分之二。
+        attribution: Gerald Auten 与 David Splinter，Income Inequality in the United States
+        locator: Journal of Political Economy 132(7), 2024, 第 2182 页
+        ref: 7
+      - text: >-
+          Furthermore, since 1962 average real per capita aftertax incomes more than tripled for the bottom, middle, and top income quintiles.
+        text_zh: 此外，自 1962 年以来，底部、中间和顶部收入五等分的人均实际税后收入都增加了两倍以上。
+        attribution: 同上
+        locator: 结论段，同一论文（本次按打开的 PDF 正文核对，未另标可能的附录页码）
+        ref: 7
+    - position: 国会预算办公室从 1979 年算起的住户分配显示，所有五等分的平均收入在税前和税后都增长了，但最高五等分增长最多，不平等仍然上升
+      consensus_role: 美国联邦立法机构的官方分配统计，口径与时期都写得清楚；它不覆盖 1950 年代，却是讨论「1970 年代末以来」时最常用的官方参照之一
+      evidence:
+        label: CBO 2024 年发布的 1979–2021 年趋势说明，以及关于 2021 年水平的配套报告
+        note: >-
+          趋势文件的文字层给出了定性结论，但各五等分的具体累计增长率印在图中，本次未能从 PDF 文本中读出这些百分比，因此不引用图中数字。所有金额按 2021 年美元、用 BEA 的 PCE 价格指数调整。2020–2021 年受疫情及大规模财政应对影响，CBO 在 2021 年报告中提醒这两年不寻常。[5]
+      holders:
+      - name: 美国国会预算办公室（Congressional Budget Office）
+        identity: >-
+          2024 年 9 月报告与趋势幻灯的发布机构。趋势文件写明由税务分析司的 Ellen Steele 与 Bilal Habib 在 Edward Harris、John McClelland 等人指导下撰写，但结论以机构名义发布，并声明不做政策建议。[5]
+      argument: >-
+        CBO 的窗口从 1979 年到 2021 年，使用的是住户（而不是成年个人），并把「税前」定义为市场收入加社会保险，「税后」再加入以收入核定的转移、减去联邦税。[5]
+        趋势文件「主要发现」的第一段写：在此期间，顶端住户的收入显著高于底端；平均收入无论在税前还是在税后加转移之后，对所有五等分都增长了，但在最高五等分中增长最多。以收入核定的转移主要流向底部附近，并且相对税前收入的比重上升，主要受 Medicaid 支出推动。较高收入住户的平均联邦税率通常更高，但各段平均税率都有所下降，降幅在最低五等分最大。用基尼系数衡量，税前和税后的不平等都上升了，不过转移和税收对不平等的抑制程度也增强了。[5]
+        因此，在 CBO 的口径里，1979 年以来同样不是「各段实际收入都在下降」；争论的是增长如何分布，以及税和转移改变了多少。把这一结论接到原问题上，需要重复那句限制：它不回答 1950 年代到 1979 年发生了什么，那一段仍然主要依赖普查表。[2][5]
+      quotes:
+      - text: >-
+          Over that period, average income, both before and after means-tested transfers and federal taxes, grew for all quintiles (or fifths) of the income distribution, but it increased most among households in the highest quintile.
+        text_zh: 在那一时期，无论在核定转移和联邦税之前还是之后，平均收入对收入分布的所有五等分都增长了，但在最高五等分的住户中增长最多。
+        attribution: Congressional Budget Office，Trends in the Distribution of Household Income From 1979 to 2021
+        locator: 2024 年 9 月趋势文件 “Summary of CBO’s Main Findings”，文内第 2 页；“that period” 指 1979–2021 年
+        ref: 5
+    open_parts: >-
+      「自 1950 年代以来实际收入是否大幅下降」在普查中位数上可以得到一个相当清楚的「否」；一旦问题被改写成「底部一半在 1980 年以后有没有分享增长」，答案就取决于税前还是税后、单位是成年个人还是住户、以及如何分配税表上看不到的国民收入。Piketty–Saez–Zucman 与 Auten–Splinter 的分歧仍是活跃的方法之争，本文只报告双方已打开文本中的判断，不裁定哪一套调整「正确」。[6][7]
+      住房是原问题记忆里的关键商品。Elizabeth Warren 与 Amelia Warren Tyagi 的《The Two Income Trap》在原帖回答中被提及，但本次未打开该书，因此不转述其家庭预算分解，只指出：普查和国民账户中的「实际收入」使用一般价格指数，并不等于「相对于房价的购买力」。
+      工资与总薪酬（含雇主缴纳的医疗保险等）的差别，会改变对「停滞」的判断；Piketty、Saez 与 Zucman 已强调免税附加福利抬高了中间阶层的增长，但本次没有另外打开一套可引用的官方总薪酬中位数长期表（BLS 实时收入新闻稿的历史序列本次未能取得），故不补充未核对的薪酬数字。[6]
+      原问题中关于二战黄金储备的假说，本次没有打开专门文献，不予评述。
+    references:
+    - id: 1
+      citation: >-
+        MWB. (2020, August 17). Did real incomes drop significantly since the 1950s? Economics Stack Exchange. 提问者显示名与标题经官方 API（https://api.stackexchange.com/2.3/questions/39251?site=economics&filter=withbody）于 2026-11-24 核对；对页面 HTML 的直接抓取返回 HTTP 403。规范页面为下列 URL。
+      url: https://economics.stackexchange.com/questions/39251/did-real-incomes-drop-significantly-since-the-1950s
+    - id: 2
+      citation: >-
+        U.S. Census Bureau. Table H-5. Median and Mean Household Income by Race and Hispanic Origin of Householder: 1967 to 2025. Current Population Survey, 1968 to 2026 Annual Social and Economic Supplements. 本次打开并读取的文件为 https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-households/h05.xlsx ；表注写明金额为当期美元及 2025 年美元（2000–2025 年用 C-CPI-U，此前用 R-CPI-U-RS）。登录页为 https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-households.html 。
+      url: https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-households/h05.xlsx
+    - id: 3
+      citation: >-
+        U.S. Census Bureau. Table P-36. Median Personal Income of All Full-Time, Year-Round Workers by Sex: 1955 to 2025. Current Population Survey, 1956 to 2026 Annual Social and Economic Supplements. 本次打开并读取的文件为 https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-people/p36ar.xlsx 。
+      url: https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-people/p36ar.xlsx
+    - id: 4
+      citation: >-
+        U.S. Census Bureau. Table P-38. Median Personal Earnings of All Full-Time, Year-Round Workers by Sex: 1960 to 2025. Current Population Survey, 1961 to 2026 Annual Social and Economic Supplements. 本次打开并读取的文件为 https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-people/p38ar.xlsx 。个人收入表登录页为 https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-people.html 。
+      url: https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-people/p38ar.xlsx
+    - id: 5
+      citation: >-
+        Congressional Budget Office. (2024, September). Trends in the Distribution of Household Income From 1979 to 2021; 以及配套报告 The Distribution of Household Income in 2021（出版页 https://www.cbo.gov/publication/60341 与 https://www.cbo.gov/publication/60342）。本次因 cbo.gov 对自动抓取返回 403，打开并核对的是 Internet Archive 快照：https://web.archive.org/web/20241128004604/https://www.cbo.gov/system/files/2024-09/60342-Trends-Income.pdf 与 https://web.archive.org/web/20241007194149/https://www.cbo.gov/system/files/2024-09/60341-income.pdf 。
+      url: https://web.archive.org/web/20241128004604/https://www.cbo.gov/system/files/2024-09/60342-Trends-Income.pdf
+    - id: 6
+      citation: >-
+        Piketty, T., Saez, E., & Zucman, G. (2018). Distributional National Accounts: Methods and Estimates for the United States. Quarterly Journal of Economics, 133(2), 553–609. https://doi.org/10.1093/qje/qjx043 。本次打开并核对的是作者提供的期刊 PDF：https://gabriel-zucman.eu/files/PSZ2018QJE.pdf 。
+      url: https://gabriel-zucman.eu/files/PSZ2018QJE.pdf
+    - id: 7
+      citation: >-
+        Auten, G., & Splinter, D. (2024). Income Inequality in the United States: Using Tax Data to Measure Long-Term Trends. Journal of Political Economy, 132(7), 2179–2227. https://doi.org/10.1086/728741 。本次打开并核对的是作者提供的期刊 PDF：https://www.davidsplinter.com/AutenSplinter-Tax_Data_and_Inequality.pdf 。
+      url: https://www.davidsplinter.com/AutenSplinter-Tax_Data_and_Inequality.pdf
+- id: 2026-11-24-sci-yang-mills
+  date: '2026-11-24'
+  category: science
+  title_zh: 杨–米尔斯理论是否存在质量间隙？
+  title_en: Yang–Mills Existence and Mass Gap
+  commentary: >-
+    经典杨–米尔斯方程描述的是以光速传播的无质量波，强相互作用却是短程的、粒子带有正质量。把这个「质量间隙」从实验与模拟写成四维量子规范理论的数学存在性定理，既是量子场论的基础问题，也是千禧年难题所要的那一跃。
+  source_name: Clay Mathematics Institute — Millennium Problems
+  source_url: https://www.claymath.org/millennium/yang-mills-the-maths-gap/
+  author: Clay Mathematics Institute
+  source_type: curated
+  tags:
+  - 杨–米尔斯
+  - 质量间隙
+  - 千禧年难题
+  - 量子场论
+  - 规范理论
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        这是一个尚未被证明的数学问题，也是 Clay 数学研究所千禧年七题之一。官方条目页写明：实验和计算机模拟暗示量子杨–米尔斯方程的解中存在「质量间隙」，但这一性质尚无证明。官方问题陈述要求证明：对任意紧致单规范群 G，在四维欧氏/闵氏时空 R^4 上存在非平凡的量子杨–米尔斯理论，并且具有质量间隙 Δ > 0。物理上的成功与格点模拟不能替代这一数学存在性证明。本次未找到可核对的系统民意调查数字，因此不虚构「百分之多少的数学物理学家相信它可被证明」的比例
+      note: >-
+        Clay 官方页面把问题概括为：量子杨–米尔斯理论已是多数基本粒子理论的基础，其预言在许多实验中得到检验，但数学基础仍不清楚；它在强相互作用上的成功依赖于一种微妙的量子性质，即「质量间隙」——量子粒子具有正质量，尽管经典波以光速传播。这一性质由物理学家从实验中发现、并由计算机模拟确认，但尚未从理论的角度被理解；要确立杨–米尔斯理论与质量间隙的存在，需要在物理和数学中引入根本性的新思想。[1]
+        Jaffe 与 Witten 撰写的官方问题陈述把「质量间隙」写成精确的谱条件，并给出上述存在性命题；他们同时写明：目前还不知道任何满足 Wightman（或任何其他合理）公理的非平凡四维相对论性场论。[2]
+        这些都是官方陈述中的定性判断，不是抽样调查。格点规范理论和实验对量子色动力学（QCD）的支持，被作者用作物理动机，而不是已经完成的数学证明。[1][2]
+    summary: >-
+      Clay 数学研究所把「杨–米尔斯存在性与质量间隙」列为千禧年难题。官方条目的现行地址是 https://www.claymath.org/millennium/yang-mills-the-maths-gap/ （短地址 /millennium/yang-mills/ 会重定向至此；建议书中的 …/yang-mills-the-mass-gap/ 本次返回 HTTP 404）。页面把问题标为未解决，并指出：实验和计算机模拟暗示量子杨–米尔斯方程的解中存在质量间隙，但尚无证明。[1]
+      所谓经典杨–米尔斯理论，是把电磁学中的阿贝尔规范群 U(1) 换成一个紧致规范群 G 之后得到的非阿贝尔规范理论。Jaffe 与 Witten 写出，曲率成为 F = dA + A ∧ A，运动方程由杨–米尔斯拉氏量导出；与麦克斯韦方程不同，这些方程是非线性的，但它们同样给出以光速传播的无质量波的经典描述。[2]
+      把这一经典理论量子化之后，情况会发生变化。对弱相互作用，人们借助 Higgs 场等额外结构来避免经典波的无质量性；对强相互作用，关键则被归于量子杨–米尔斯理论自身的性质，尤其是渐近自由，以及在长距离上与经典图像截然不同的量子行为。若要用量子色动力学（规范群为 SU(3) 的非阿贝尔规范理论，再加上夸克场）成功地描述强力，Jaffe 与 Witten 要求它在量子层面具备三项与经典理论迥异的性质：质量间隙、夸克禁闭，以及手征对称性破缺。其中第一项被用来解释核力为何既强又短程：真空的每个激发都应具有某个正的最低能量 Δ。[2]
+      千禧年问题所要的，不只是把这幅物理图像说圆，而是给出四维量子规范理论的一个数学上完备的例子。作者写明：经典规范理论已在数学可达的范围内，并在三、四维流形的研究中起过重要作用；但人们还没有一个四维时空中数学上完备的量子规范理论例子，甚至还没有四维量子规范理论的精确定义。[2]
+      官方命题因而有两个彼此扣在一起的部分。存在性：定义一个满足至少与 Wightman 以及 Osterwalder–Schrader 公理同样强的公理性质的量子场论，其局域算子与曲率及其协变导数的规范不变多项式相对应，并且短距离上的关联函数应与渐近自由和微扰重整化的预言一致。质量间隙：哈密顿量 H 的谱在区间 (0, Δ) 中为空，对某个 Δ > 0；真空是零能量的、庞加莱不变的本征态，并且要求质量有限。[2]
+      「构造性量子场论」（constructive quantum field theory, CQFT）正是为把这类存在性从物理论证变成数学定理而发展起来的工作整体。它在二、三维的标量场和其他模型上取得了大量成果，也对圆周率化的四维杨–米尔斯给出过部分估计；但官方陈述的判断是：这些答案仍是部分的，现有方法既没有指出如何建立对体积一致的质量间隙，也没有指出如何得到从四维环面到 R^4 的无限体积极限。需要新的思想。[2]
+    definitions:
+    - term: 经典杨–米尔斯理论（classical Yang–Mills theory）
+      text: >-
+        把电磁学的规范群 U(1) 换成紧致规范群 G 后得到的非阿贝尔规范理论。曲率取 F = dA + A ∧ A，场方程由杨–米尔斯拉氏量的变分得到。Jaffe 与 Witten 强调：这些方程是非线性的，但在经典层面上仍然描述以光速传播的无质量波。[2]
+    - term: 质量间隙（mass gap）
+      text: >-
+        在官方陈述中有两层紧密相关的说法。对 QCD 的物理要求是：存在常数 Δ > 0，使真空的每个激发都至少具有能量 Δ，用以解释核力的短程性。[2]
+        写成量子场论的谱条件则是：哈密顿量 H 在区间 (0, Δ) 中没有谱；这类 Δ 的上确界是质量 m，并要求 m 有限。有质量间隙的一个重要推论是聚类（clustering）：适当中心化的局域算子的关联在空间中以指数速度衰减。[2]
+    - term: 构造性量子场论（constructive quantum field theory, CQFT）
+      text: >-
+        Jaffe 与 Witten 用来统称如下工作传统的名称：不满足于形式微扰，而是通过求解一列近似问题并证明其收敛，在数学上构造满足公理的非线性量子场论。其已知成果多在较低维时空或紧致近似（如环面）上；官方陈述认为，它为千禧年问题提供了部分答案，但还不是四维杨–米尔斯在 R^4 上带一致质量间隙的完整构造。[2]
+    milestones:
+    - year: 1954
+      name: Yang 与 Mills 提出非阿贝尔规范理论
+      explanation: >-
+        Jaffe 与 Witten 将杨–米尔斯理论的发现指向 C. N. Yang 与 R. L. Mills, Physical Review 96 (1954) 191–195。本次未打开该原文，年份与出处仅按官方陈述文末文献表第 50 项记录，不转述其原文句子。[2]
+    - year: 1960s–1970s
+      name: 渐近自由与量子色动力学
+      explanation: >-
+        官方陈述把强相互作用中「经典杨–米尔斯波无质量」这一障碍的解决，归于量子杨–米尔斯理论本身的渐近自由等性质，以及随后以 SU(3) 为规范群的量子色动力学。本次未打开渐近自由的原始论文，叙述仅依据 Jaffe 与 Witten 的综述性说明。[2]
+    - year: 2000
+      name: Clay 千禧年问题正式提出
+      explanation: >-
+        Clay 数学研究所将「杨–米尔斯存在性与质量间隙」列为七道千禧年难题之一。官方问题陈述由 Arthur Jaffe 与 Edward Witten 撰写，现行官方 PDF 由条目页以 Official Problem Description 为题给出。[1][2]
+    views:
+    - position: 需要证明的是一个精确的数学命题：对任意紧致单规范群 G，R^4 上存在非平凡的量子杨–米尔斯理论，并且具有质量间隙 Δ > 0；存在性须达到至少与既有公理体系同样强的标准
+      consensus_role: Clay 官方问题陈述，是讨论该问题的基准表述
+      evidence:
+        label: 官方条目页与官方问题陈述 PDF
+        note: >-
+          命题的精确措辞、公理要求、质量间隙的谱定义以及「非平凡」的短距离渐近自由条件，均以打开的官方 PDF 为准。[2]
+          条目页提供物理动机与「尚无证明」的公开表述，但不替代 PDF 中的形式命题。[1]
+          PDF 文件元数据中的 CreationDate 为 2006 年 8 月 5 日；它由现行官方条目页以 Official Problem Description by Arthur Jaffe and Edward Witten 为链接给出。
+      holders:
+      - name: Arthur Jaffe、Edward Witten
+        identity: >-
+          Clay 官方条目页将现行问题说明书标注为 Official Problem Description by Arthur Jaffe and Edward Witten。本次打开的 PDF 题为 QUANTUM YANG–MILLS THEORY，署名为这两位作者。打开的官方页面与 PDF 正文均未写明其当时所属机构，故不以未核对的职衔或单位称呼。[1][2]
+      argument: >-
+        官方陈述首先把「何谓四维量子规范理论存在」写具体。人们应定义一个量子场论，其局域场算子与曲率 F 及其协变导数的规范不变局域多项式相对应；这些算子的关联函数在短距离上应与渐近自由和教科书中的微扰重整化预言一致，其中包括应力张量和算子乘积展开，以及由渐近自由所规定的局域奇性。[2]
+        在此之上再加质量间隙。真空向量 Ω 是庞加莱不变的，因而 HΩ = 0。正能量公理说 H 的谱落在 [0, ∞) 中。若对某个 Δ > 0，H 在 (0, Δ) 中没有谱，就称该理论具有质量间隙 Δ；这类 Δ 的上确界是质量 m，并要求 m < ∞。[2]
+        形式命题只有一句：证明对任意紧致单规范群 G，R^4 上存在非平凡的量子杨–米尔斯理论，并且具有质量间隙 Δ > 0。所谓存在，包括建立至少与 Streater–Wightman 以及 Osterwalder–Schrader 所引公理同样强的公理性质。[2]
+        作者还指出一些自然的延伸（孤立的单粒子态、禁闭、把存在定理从 R^4 推到任意四维流形等），但明确说：即使只解决上面这一陈述，也会成为数学上理解量子场论的一个转折点。[2]
+      quotes:
+      - text: >-
+          Yang–Mills Existence and Mass Gap. Prove that for any compact simple gauge
+          group G, a non-trivial quantum Yang–Mills theory exists on R^4 and has a mass gap
+          Δ > 0. Existence includes establishing axiomatic properties at least as strong as
+          those cited in [45, 35].
+        text_zh: 杨–米尔斯存在性与质量间隙。证明：对任意紧致单规范群 G，R^4 上存在非平凡的量子杨–米尔斯理论，并且具有质量间隙 Δ > 0。所谓存在，包括建立至少与所引文献 [45, 35] 中公理同样强的公理性质。
+        attribution: Arthur Jaffe 与 Edward Witten, Quantum Yang–Mills Theory（Clay 官方问题陈述）
+        locator: 第 4 节 “The Problem”，第 6 页。公式中的 R^4、Δ 按原文写出；原文所标文献 45 为 Streater 与 Wightman (1964)，文献 35 为 Osterwalder 与 Schrader 的公理体系。
+        ref: 2
+      - text: >-
+          A quantum field theory has a mass gap Δ if H has no spectrum in the interval (0, Δ) for some Δ > 0.
+          The supremum of such Δ is the mass m, and we require m < ∞.
+        text_zh: 若对某个 Δ > 0，哈密顿量 H 在区间 (0, Δ) 中没有谱，则称该量子场论具有质量间隙 Δ。这类 Δ 的上确界是质量 m，并且我们要求 m < ∞。
+        attribution: Arthur Jaffe 与 Edward Witten, Quantum Yang–Mills Theory
+        locator: 第 4 节，第 6 页
+        ref: 2
+    - position: 实验与计算机模拟为量子色动力学中的质量间隙提供了物理上的鼓励，但这不等于已经有一个令人信服的、更不必说数学上完备的理论计算；经典无质量波与量子带质量粒子之间的差别，正是问题的物理核心
+      consensus_role: 官方陈述给出的物理动机，也是条目页对公众的概括
+      evidence:
+        label: 官方条目页与官方陈述中对实验、模拟和「尚未被理论理解」的判断
+        note: >-
+          条目页与 PDF 都把质量间隙说成已由实验发现、并由计算机模拟确认，但尚未从理论观点上被理解。[1][2]
+          PDF 对 QCD 三项性质的判断更审慎：它们在某种程度上可以在高度简化的模型（如强耦合格点规范理论）中被看到，但并不存在一个令人信服的——无论是否数学上完备的——理论计算，在 QCD 本身而非其严重简化的截断中证明其中任何一项。[2]
+          具体实验数字、格点论文的数据，本次均未打开，故不转述。
+      holders:
+      - name: Clay Mathematics Institute
+        identity: 千禧年难题官方条目页的发布者；页面将问题标为 Unsolved。[1]
+      - name: Arthur Jaffe、Edward Witten
+        identity: 同上，官方问题陈述第 1 节对 QCD 三项性质的讨论。[2]
+      argument: >-
+        经典杨–米尔斯波以光速传播、因而是无质量的，这曾经是把该理论用于弱力和核力的严重障碍：这两种力是短程的，而且许多粒子是有质量的。[2]
+        官方条目用一句话抓住后来的转折：杨–米尔斯理论能够成功描述基本粒子的强相互作用，依赖于一种微妙的量子力学性质，即「质量间隙」——量子粒子具有正质量，尽管经典波以光速传播。[1]
+        对 QCD，Jaffe 与 Witten 把质量间隙列为三项必需的量子性质之首，并解释其物理功能：它是为了说明核力为何既强又短程。他们承认，实验——因为 QCD 在与实验的对照中有许多成功——以及自 1970 年代末以来的计算机模拟，都强烈鼓励人们相信 QCD 具备这些性质；但他们紧接着写明，这些性质尚未被充分从理论上理解，也不存在一个令人信服的理论计算，在 QCD 本身中证明其中任何一项。[2]
+        因此，把「质量间隙是否存在」理解成一个已经由对撞机或格点计算关闭的物理问题，并不符合官方陈述的层次：物理图像可以很有说服力，千禧年问题要的却是数学上的存在性与谱间隙。
+      quotes:
+      - text: >-
+          Experiment and computer simulations suggest the existence of a “mass gap” in the solution to the quantum versions of the Yang-Mills equations. But no proof of this property is known.
+        text_zh: 实验和计算机模拟暗示，量子版本的杨–米尔斯方程的解中存在「质量间隙」。但这一性质尚无证明。
+        attribution: Clay Mathematics Institute, Yang-Mills & the Mass Gap 官方条目
+        locator: 条目页开篇导语，https://www.claymath.org/millennium/yang-mills-the-maths-gap/ ，本次按 2026-11-24 打开的页面核对
+        ref: 1
+      - text: >-
+          The successful use of Yang-Mills theory to describe the strong interactions of elementary particles depends on a subtle quantum mechanical property called the “mass gap”: the quantum particles have positive masses, even though the classical waves travel at the speed of light.
+        text_zh: 杨–米尔斯理论能够成功描述基本粒子的强相互作用，依赖于一种微妙的量子力学性质，即所谓「质量间隙」：量子粒子具有正质量，尽管经典波以光速传播。
+        attribution: Clay Mathematics Institute, Yang-Mills & the Mass Gap 官方条目
+        locator: 条目页概述正文，同上 URL
+        ref: 1
+      - text: >-
+          It must have a “mass gap;” namely there must be some constant Δ > 0
+          such that every excitation of the vacuum has energy at least Δ.
+        text_zh: 它必须具有「质量间隙」；也就是说，必须存在某个常数 Δ > 0，使得真空的每个激发都至少具有能量 Δ。
+        attribution: Arthur Jaffe 与 Edward Witten, Quantum Yang–Mills Theory
+        locator: 第 1 节对 QCD 三项量子性质的第 (1) 条，第 3 页
+        ref: 2
+    - position: 构造性量子场论已经在较低维和某些简化模型中证明了非线性量子场的存在与质量间隙，但对四维杨–米尔斯在 R^4 上给出带一致质量间隙的完整构造，现有方法尚未指出道路
+      consensus_role: 官方陈述对二十世纪数学进展的自我估价，也是「为何问题仍然开放」的直接说明
+      evidence:
+        label: 官方问题陈述第 6 节对 CQFT 的综述
+        note: >-
+          有关二维、三维标量场、二维 Higgs 模型以及 Balaban 在三、四维格点上的工作，均按 Jaffe 与 Witten 的转述记录；本次未打开这些原始论文，因而不引用其定理编号或页码，也不把官方综述写成对这些工作的独立复核。[2]
+          官方陈述对「尚未有非平凡四维 Wightman 理论」「对体积一致的质量间隙尚无现成思路」的判断，是本文关于未解部分的直接依据。[2]
+      holders:
+      - name: Arthur Jaffe、Edward Witten
+        identity: 同上；第 6 节 “Mathematical Perspective” 及第 6.5 节对杨–米尔斯构造的讨论。[2]
+      argument: >-
+        Jaffe 与 Witten 把 Wightman 等人约五十年来的追问写成：数学上定义良好的相对论性非线性量子场论究竟是否存在。他们给出的部分答案是：随着构造性量子场论这一整套工作的出现，非线性量子场论的存在性与物理性质已经被大量证明。[2]
+        说「部分」，是因为这些理论多半把四维闵氏时空换成了二维或三维，或换成环面之类的紧致近似。作者提到，关于四维环面 T^4 上的杨–米尔斯已有一些结果，并且有充分迹象表明已知方法可以延伸到在 T^4 上构造该理论；但即便如此，他们接着写的是一个更强的否定：目前还不知道任何满足 Wightman（或任何其他合理）公理的非平凡四维相对论性场论。即便完成紧致空间上杨–米尔斯的详细数学构造，也会是重大突破；可即便做到了，也还没有现成的想法指出如何建立对体积一致的质量间隙，或如何得到 T^4 → R^4 的无限体积极限。[2]
+        在方法上，CQFT 被描述为通过一列近似问题的收敛来得到非线性问题的精确解，其分析工具包括关联不等式、对称性和所谓集团展开。官方陈述回顾了 1970 年代起在 R^2 上带小多项式非线性的场论（先有限体积，再无限体积极限）如何被证明满足 Wightman 公理并给出非平凡散射，以及后来在三维和其他相互作用上的延伸；也提到二维阿贝尔 Higgs 模型是当时唯一被完整构造、满足公理且具有质量间隙的相互作用规范理论例子。把这些结论推到哪怕是二维的非阿贝尔 Higgs 模型，在他们看来也已是定性上的进展。[2]
+        针对杨–米尔斯，Wilson 的格点方案被写成一条重要路径：在紧致规范群和紧致时空上，泛函积分变成有限维积分，然后必须证明格距趋于零、体积趋于无穷时，规范不变观测量的期望存在极限。Balaban 在三维周期格点以及随后在四维上的工作，被作者视为朝向紧致时空上连续极限的重要步骤，尤其是对渐近自由的分析；但这些结果仍有待延伸到规范不变函数的期望。官方陈述的结语是：要证明对时空体积一致的质量间隙，需要新的思想；而这样的结果大概才能使人着手研究 T^4 → R^4 的极限。[2]
+      quotes:
+      - text: >-
+          In fact, at present we do not know any non-trivial relativistic field theory that
+          satisfies the Wightman (or any other reasonable) axioms in four dimensions.
+        text_zh: 事实上，目前我们还不知道任何在四维中满足 Wightman（或任何其他合理）公理的非平凡相对论性场论。
+        attribution: Arthur Jaffe 与 Edward Witten, Quantum Yang–Mills Theory
+        locator: 第 6 节开篇，第 7 页
+        ref: 2
+      - text: >-
+          New ideas are needed to prove the existence of a mass gap that is uniform in
+          the volume of space-time.
+        text_zh: 要证明存在一个对时空体积一致的质量间隙，需要新的思想。
+        attribution: Arthur Jaffe 与 Edward Witten, Quantum Yang–Mills Theory
+        locator: 第 6.5 节末尾，第 12 页
+        ref: 2
+    open_parts: >-
+      官方命题至今仍是开放的：它要求的是 R^4 上非平凡量子杨–米尔斯理论的数学存在，加上质量间隙，而不是对简化模型或有限体积近似的部分结果。[1][2]
+      Jaffe 与 Witten 自己列出了若干未被本题正式要求、但自然相关的延伸：孤立单粒子态（在质量间隙之上再要一个上间隙）、禁闭、手征对称性破缺、以及其他保持渐近自由的四维规范理论中的动力学问题，并把存在定理从 R^4 推到任意四维流形。[2] 这些都比原命题更强，不能把其中任何一项的进展自动算成对千禧年问题的解答。
+      官方陈述还提到一些可能的思路——例如非经典的变量替换或对偶、大 N 展开与弦论描述、以及超对称理论中的质量间隙——但均被写成推测或仅在带物质场的特定系统中有进展，而不是对无费米子纯规范理论的现成证明。[2] 本次未打开这些被引文献，故不转述其具体结果。
+      自该官方陈述（现行 PDF 元数据时间为 2006 年）以来是否出现了改变问题地位的新证明，需要另以此后经过同行评议的文献为准；本文只依据 2026-11-24 打开的官方条目（仍标为 Unsolved）和官方问题陈述，不把未被打开的后续主张写进结论。
+    references:
+    - id: 1
+      citation: >-
+        Clay Mathematics Institute. Yang-Mills & the Mass Gap. Millennium Problems. 本次按 2026-11-24 打开的官方条目页核对，现行 URL 为 https://www.claymath.org/millennium/yang-mills-the-maths-gap/ （注意 slug 中为 maths，页面标题为 Yang-Mills & the Mass Gap）。短地址 https://www.claymath.org/millennium/yang-mills/ 会 301 重定向至上述页面；https://www.claymath.org/millennium/yang-mills-the-mass-gap/ 本次返回 HTTP 404。
+      url: https://www.claymath.org/millennium/yang-mills-the-maths-gap/
+    - id: 2
+      citation: >-
+        Jaffe, A., & Witten, E. Quantum Yang–Mills Theory. Official problem description, Clay Mathematics Institute. 由官方条目页以 Official Problem Description by Arthur Jaffe and Edward Witten 为题链接。本次打开的 PDF 为 https://www.claymath.org/wp-content/uploads/2022/06/yangmills.pdf （HTTP 200，application/pdf，14 页，195,976 字节；PDF 元数据 CreationDate 为 2006 年 8 月 5 日）。
+      url: https://www.claymath.org/wp-content/uploads/2022/06/yangmills.pdf
+- id: 2026-11-24-phil-demarcation
+  date: '2026-11-24'
+  category: philosophy
+  title_zh: 一个未受专业训练但理性的人，怎样区分科学与宗教？
+  title_en: How can an uneducated but rational person differentiate between science and religion?
+  commentary: >-
+    当宇宙论或进化论被说成「不过是另一种创世神话」时，外行往往既无法立刻讲清证据链，又不想只靠权威压人。这个问题把「划界」从专家内部的技术争论，拉回到一个理性但缺乏训练的人还能不能公开检验的标准上来。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/29755/how-can-an-uneducated-but-rational-person-differentiate-between-science-and-reli
+  author: Alexander S King
+  source_type: stackexchange
+  tags:
+  - 科学与宗教
+  - 划界问题
+  - 可证伪性
+  - 不相重叠教导权
+  - 知识论
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        哲学界没有一套可放进口袋的算法，能让未受专业训练的人一劳永逸地把「科学」与「宗教」切开；科学与伪科学的划界，也不等于科学与宗教的划界。仍有若干可公开使用的判准——如可否与观测冲突、是否在失败后修正、主张落在经验世界还是意义与价值——但它们既不机械，也不能覆盖所有历史与教义形态
+      note: >-
+        Stanford Encyclopedia of Philosophy（下称 SEP）条目「Science and Pseudo-Science」开篇即指出：在具体案例上的一致，远大于在一般标准上的一致；这本身说明科学与伪科学的关系仍有大量哲学工作要做。[1]
+        同一条目第 8 节把「科学与宗教」明确写成与「科学与伪科学」相关、但并不相同的另一组区分。[1]
+        Popper 把可证伪性（更精确地说，陈述系统须能与可能的观测相冲突）作为经验科学与伪科学或形而上学的划界标准，但这首先针对的是科学与伪科学／形而上学，而不是「科学对宗教」的完整定义。[1][2]
+        Gould 提出不相重叠的教导权（NOMA），把科学限于经验宇宙的事实与理论、宗教限于道德意义与价值；SEP「Religion and Science」把它归入有影响的「独立」模型，同时指出宗教似乎也会作出经验性主张，因而独立模型有明显困难。[3][4]
+        本次未找到可核对的哲学家抽样调查，因此不虚构「百分之多少的科学哲学家接受某一划界标准」。
+    summary: >-
+      原问题来自 Philosophy Stack Exchange：提问者 Alexander S King 设想一个只受过基本读写训练、却头脑清楚、心态开放的人——在他或她看来，科学论文像难懂的经文，教授与机构像有准入门槛的神职与教廷，宇宙学与进化论则像无法亲自核验的「形而上学」主张。若再加上不必轻信传闻、传统或权威的态度，似乎同样有理由怀疑科学结论与宗教教义。[本次经 Stack Exchange 官方 API 核对题名与提问者显示名；页面 HTML 对简单抓取返回 403，故身份不以未打开的实时 HTML 为准。]
+      首先需要分开两件常被混在一起的事。二十世纪科学哲学里的「划界问题」（Popper 所用德语为 Abgrenzungsproblem），主要是问：凭什么把某些主张算作经验科学，而把另一些算作伪科学或形而上学。[1][2]
+      科学与宗教如何相处，则是另一条文献传统：Barbour 的冲突、独立、对话、整合四分法，以及 Gould 的 NOMA，讨论的是两个领域是否重叠、应否彼此约束，而不是给「伪科学」下定义。[3][4]
+      对那个「未受专业训练但理性」的人，诚实的答复是：没有单一测试可以代替对具体主张的考察，也没有必要先修完相对论才能开始区分。较可用的公共问题包括：这条主张是否对经验世界作出可用观测加以冲突的判断？当观测不如预期时，主张是被修正，还是被额外假说保护起来？它主要在谈宇宙如何运作，还是在谈人应当如何生活、苦难与拯救意味着什么？提出它的共同体，是否以公开程序承认错误？这些标准来自已打开的哲学讨论，它们有用，但不构成算法，尤其当宗教也对历史或自然发出经验性命题、或科学被用于价值争论时，边界会收紧。[1][3][4]
+    definitions:
+    - term: 划界问题（demarcation problem）
+      text: >-
+        Popper 在 1933 年引入德语 Abgrenzungsproblem，要求一个标准，以区分「经验—科学的」断言与「形而上学的」断言；在《研究的逻辑》中，他又把它说成是区分经验科学与数学、逻辑以及「形而上学」体系的问题。Hansson 指出，这些较早文本并未提及「伪科学」；Popper 后来才把目的说成也包括划分经验科学与伪科学。[1]
+    - term: 可证伪性（falsifiability）
+      text: >-
+        Popper 拒绝把可证实性当作科学的标准，转而要求理论必须可证伪。Hansson 转述其更精确的表述是：陈述或陈述系统若要被列为科学的，必须能够与可能的或可设想的观测相冲突。按 Popper 后来的强调，这首先关乎句子的逻辑结构，即使实践上暂时无法完成证伪，一个陈述仍可在逻辑上是可证伪的。[1][2]
+    - term: 不相重叠的教导权（NOMA, nonoverlapping magisteria）
+      text: >-
+        Gould 借用天主教「教导权」（magisterium，即教学权威的领域）一词，主张科学与宗教各有合法的教导范围且不应重叠：科学之网覆盖经验宇宙（由什么构成、何以如此运作），宗教之网覆盖道德意义与价值问题。他把这一原则称为 NOMA。[4]
+    - term: 独立模型（independence model）
+      text: >-
+        SEP「Religion and Science」在介绍科学—宗教关系的类型学时，将独立模型概括为：科学与宗教探索分离的领域、提出不同的问题。Gould 的 NOMA 被列为其中有影响的一种；该条目同时记录了对这一模型的批评，即宗教往往也会作出经验性主张。[3]
+    milestones:
+    - year: 1933–1935
+      name: Popper 提出划界问题并在《研究的逻辑》中展开
+      explanation: >-
+        据 Hansson 的梳理，Popper 1933 年的短文引入 Abgrenzungsproblem；1935 年的 Logik der Forschung 把它表述为区分经验科学与数学、逻辑及形而上学体系的任务。本次未打开这些德文或 1959 年英译原书，上述要点仅以已打开的 SEP 条目为准。[1]
+    - year: 1962
+      name: Kuhn《科学革命的结构》出版，随后以「解谜」对抗单纯的证伪图景
+      explanation: >-
+        Hansson 转述 Kuhn 对 Popper 的批评：后者用只适用于偶尔出现的革命时期的语汇来刻画整个科学事业；Kuhn 主张，最能把科学与其他活动区分开来的，是革命之间的「常规科学」及其解谜能力。本次未打开 Kuhn 原书，仅依据 SEP 对 Kuhn 1974 年表述的转述。[1]
+    - year: 1997
+      name: Gould 发表「不相重叠的教导权」
+      explanation: >-
+        Gould 在 Natural History 1997 年 3 月号发表 Nonoverlapping Magisteria，以 NOMA 作为他认为可原则性消解科学与宗教「冲突」或「战争」的方案，并以 Pius XII 与 John Paul II 关于进化的文献为讨论线索。[4]
+    views:
+    - position: 可公开使用的划界线索是可检验性：一个经验科学的主张必须能够与可能的观测相冲突，而不能只被不断地「证实」或用辅助假说免疫
+      consensus_role: >-
+        这是二十世纪科学哲学中最广为人知的划界方案之一，但即便在科学与伪科学问题上也远非无争议；把它直接当成「科学对宗教」的定义，则超出了 Popper 问题的原初范围
+      evidence:
+        label: 权威综述对 Popper 文本史与标准本身的转述，而非本次打开的 Popper 原书
+        note: >-
+          可证伪性的准确措辞与限定，依据 Hansson 与 Thornton 两篇已打开的 SEP 条目。本次未能合法打开《研究的逻辑》或 Conjectures and Refutations 全文，因此不引用这两本书的页码或未在 SEP 中出现的原句，也不把 Popper 后来对达尔文理论等的复杂评价写进正文。[1][2]
+      holders:
+      - name: Karl Popper
+        identity: >-
+          二十世纪科学哲学家；其划界与可证伪性主张，此处仅按已打开的 SEP 条目「Science and Pseudo-Science」「Karl Popper」所转述来介绍。[1][2]
+      - name: Sven Ove Hansson
+        identity: Stanford Encyclopedia of Philosophy 条目「Science and Pseudo-Science」作者。该条目首次发布于 2008 年 9 月 3 日，本次打开的文本标明实质性修订日期为 2025 年 7 月 28 日。[1]
+      argument: >-
+        对那个无法亲自推导场方程或阅读专业期刊的人，Popper 传统提供的不是「先把物理学学会再来谈」，而是一个可以对着具体句子提问的标准：它有没有指出何种观测会与之冲突？[1][2]
+        Thornton 在 Popper 生平部分记载：Einstein 理论具有若为假便可证伪该理论的可检验推论，而 Popper 认为精神分析先驱的理论被表述得只适合于被证实；这种对比，正是提问者所需要的那种不必先成为专家也能抓住的差别。[2]
+        Hansson 也提醒，Popper 较早文本里的划界对象是经验科学与形而上学，伪科学是后来才明确进入其问题表述的；因此，即使用可证伪性来检查某些宗教的经验命题（例如对自然史的字面主张），也不能由此推出「凡宗教皆伪科学」，或「凡不可证伪的都没有意义」。[1]
+        作为实践规则，它仍然有用：若一种宇宙论或进化叙事不断指出可失败的观测，并在失败时修正自身，它就与「只许证实、不许反驳」的教义话语不同；但「有用」不等于「充分」，下文两种立场会说明单纯一条逻辑标准为什么不够。
+      quotes:
+      - text: >-
+          Instead he proposed as a criterion that the theory be
+          falsifiable, or more precisely that “statements or systems of
+          statements, in order to be ranked as scientific, must be capable of
+          conflicting with possible, or conceivable observations” (Popper
+          1962, 39).
+        text_zh: 相反，他提出的标准是理论必须可证伪，或更精确地说，「陈述或陈述系统若要被列为科学的，必须能够与可能的或可设想的观测相冲突」（Hansson 转引 Popper 1962, 39）。
+        attribution: Sven Ove Hansson，SEP 条目 Science and Pseudo-Science 转述 Popper
+        locator: 第 4.3 节 “Popper’s falsificationism”。括号内 “Popper 1962, 39” 是该条目的文献定位；本次未打开 Popper 1962 原书，故不把 39 页当作已核对的原书页码
+        ref: 1
+    - position: 历史与社会学取向表明，科学日常实践并不等于不断证伪基本理论；哲学家在一般标准上几乎无法达成一致，因此不存在一条可代替判断力的分界线
+      consensus_role: >-
+        对「单一逻辑标准即可划界」的主流批评路径之一；Hansson 把它写成当代讨论中的一个突出悖论：个案上高度一致，原则上高度分歧
+      evidence:
+        label: SEP 对 Kuhn 批评的转述，以及 Hansson 对划界共识结构的判断
+        note: >-
+          Kuhn 的「解谜」标准与对证伪主义的批评，本次仅依据 Hansson 第 4.4 节对 Kuhn 1974 年文本的转述，未打开《科学革命的结构》。第 8 节关于「具体问题上近乎全体一致、一般标准上几乎完全不同意」的判断，是综述作者的定性估计，不是抽样调查。[1]
+      holders:
+      - name: Thomas Kuhn
+        identity: >-
+          其以常规科学的解谜活动来区分科学与其他事业的主张，此处仅按 Hansson 对 Kuhn 1974 年表述的转述介绍；本次未打开 Kuhn 原书或该 1974 年文本。[1]
+      - name: Sven Ove Hansson
+        identity: 同上，SEP 条目「Science and Pseudo-Science」作者。[1]
+      argument: >-
+        若把 Popper 的标准理解成「科学家整天都在试图推翻自己的基本理论」，Kuhn 的反驳是：那种图景只适用于科学偶尔进入革命的时刻；更常见的「常规科学」是在接受当前理论的前提下解谜，失败了往往去调整测量或参数，而不是立即抛弃理论。[1]
+        他也用天文学与占星术作对比：自古以来天文学是解谜活动，因而算科学；预测失败对占星术并不构成可在理论内部着手解决的谜题。Hansson 随即指出一个令人深思的现象：Kuhn 与 Popper 的标准在理论上大不相同，却对何者算科学、何者算伪科学得出大体相同的结论。[1]
+        第 8 节把这种「理论分歧、个案收敛」推广为相当一般的现象，并列举创世论、占星术、顺势疗法、气候变迁否认等在知识共同体中被广泛视为伪科学的例子；与此同时，一般标准几乎完全无法统一。对原问题而言，这意味着：一个理性的外行可以合理依赖「这些具体主张是否会被该领域严肃对待为科学」这类公共事实，但若指望哲学家交给他一条定义，让他在遇到全新话语时自动判定，现有文献并不支持这种期待。[1]
+        同一节还把「科学与宗教」列为与伪科学识别相关、却又另外成篇的问题。换言之，即使用于科学／伪科学的判准在个案上相当齐整，也不能直接把它当成科学／宗教的同一把尺子。[1]
+      quotes:
+      - text: >-
+          It is in a sense paradoxical that so much agreement has been reached
+          in particular issues in spite of almost complete disagreement on the
+          general criteria that these judgments should presumably be based upon.
+        text_zh: 在某种意义上显得悖谬的是：尽管在这些判断本应依据的一般标准上几乎完全无法同意，人们却在具体问题上达成了如此之多的一致。
+        attribution: Sven Ove Hansson，SEP 条目 Science and Pseudo-Science
+        locator: 第 8 节 “Unity in diversity”
+        ref: 1
+    - position: 可以把科学与宗教看成两个不相重叠的教导领域，从而给外行一条简捷规则：科学管经验事实与理论，宗教管道德意义与价值
+      consensus_role: >-
+        在科学与宗教的公众讨论中影响很大的「独立」方案；在专门的科学—宗教研究领域里，它是重要类型之一，但并非没有有力批评
+      evidence:
+        label: 已打开的 1997 年原文，以及 SEP 对其在类型学中的定位与批评
+        note: >-
+          Gould 的定义与「两网」比喻来自本次打开的 Natural History 1997 年 3 月号文章的可靠转载本（原刊页码未能在该转载本上核对）。SEP 对其「既是描述性也是规范性」的概括，以及「宗教也会作经验主张」的批评，来自已打开的「Religion and Science」条目；该条目所引 Gould 2001: 739 的另一处表述，因本次未打开 2001 年文本，不予引用。[3][4]
+      holders:
+      - name: Stephen Jay Gould
+        identity: >-
+          所打开的文章文末介绍：在哈佛大学教授生物学、地质学与科学史，并为美国自然史博物馆无脊椎动物部的 Frederick P. Rose Honorary Curator。文章刊于 Natural History，1997 年 3 月。[4]
+      - name: Helen De Cruz
+        identity: Stanford Encyclopedia of Philosophy 条目「Religion and Science」作者。该条目首次发布于 2017 年 1 月 17 日，本次打开的文本标明实质性修订日期为 2022 年 9 月 3 日。[3]
+      argument: >-
+        Gould 并不否认科学与宗教的边界会「互相嵌合」，也举出既需要进化事实、又需要道德论证的问题（例如对其他物种的责任）。但他的原则性主张是：不应存在科学与宗教的「冲突」或「战争」，因为各自的合法教导范围并不重叠。[4]
+        对提问者设想的那个人，NOMA 给出一种不必先学会宇宙学就能使用的分工：若争论的是宇宙年龄、物种起源或黑洞是否存在，应问经验证据；若争论的是生命的意义、苦难如何承受或人该如何生活，那是另一套教导权。Gould 本人在文中写到，灵魂一类题目是科学触碰不到的，因而也不会被某种神学立场所威胁。[4]
+        这一方案的吸引力在于清晰。可是「独立」若被推到「宗教不得作出任何事实陈述」，SEP 指出将很难为其价值与伦理主张提供理由；更直接的反例是：宗教传统看起来确实会作出经验性主张，例如耶稣死后显现，或早期希伯来人走过分开的红海。[3]
+        因此，NOMA 作为防止范畴错误的启发式规则是有用的，但不能预先保证所有自我理解的「宗教」都不会进入科学的经验网。对于「大爆炸是否只是另一种创世神话」这种原问题里的挑衅，NOMA 与可检验性可以合用：神话若提出对宇宙历史的经验断言，它就已经离开了纯价值领域，必须接受与观测冲突的检验；若它只谈论意义，则不必也不应被当成物理理论来竞争。
+      quotes:
+      - text: >-
+          No such conflict should exist because each subject has a legitimate
+          magisterium, or domain of teaching authority— and these magisteria
+          do not overlap (the principle that I would like to designate as NOMA,
+          or “nonoverlapping magisteria”). The net of science covers the
+          empirical universe: what is it made of (fact) and why does it work
+          this way (theory). The net of religion extends over questions of
+          moral meaning and value.
+        text_zh: 不应存在这种冲突，因为每个主题都有其合法的教导权，亦即教学权威的领域——而这些教导权并不重叠（我愿将这一原则称为 NOMA，即「不相重叠的教导权」）。科学之网覆盖经验宇宙：它由什么构成（事实），以及它何以如此运作（理论）。宗教之网则延伸到道德意义与价值的问题。
+        attribution: Stephen Jay Gould，Nonoverlapping Magisteria
+        locator: >-
+          Natural History，1997 年 3 月号。本次打开并核对的是转载 PDF（文内页码为转载本第 4 页）；该转载本未印出原刊页码，故不以未核对的原刊页码定位
+        ref: 4
+    - position: 科学与宗教并非总是分治两个互不来往的领域；冲突是少数立场，但「有时重叠」是必须承认的事实，对话或整合则是另外的回应方式
+      consensus_role: >-
+        SEP 将「冲突模型」写成该研究领域中目前的少数立场，同时把独立模型的经验反例、以及对话／整合类型，作为同一类型学里的其他选项
+      evidence:
+        label: 一篇已打开的 SEP 领域综述，对类型学与文献分布作定性判断
+        note: >-
+          「该领域绝大多数作者对冲突模型持批评态度」「冲突模型目前是少数立场」是 De Cruz 条目中的定性概括，不是调查百分比。Plantinga「冲突不在科学与宗教、而在科学与自然主义」以及 McGrath 的 POMA 等，本次均未打开其原书，只按该条目的简述记录，不转述其论证细节或页码。[3]
+      holders:
+      - name: Helen De Cruz
+        identity: 同上，SEP 条目「Religion and Science」作者。[3]
+      argument: >-
+        若提问者面对的，不只是「科学像不像宗教机构」，而是某些宗教确实对宇宙年龄、物种历史或神迹作出与科学研究相竞争的经验主张，那么坚持「两个领域永不相遇」就会低估实际重叠。[3]
+        De Cruz 介绍 Barbour 仍最具影响的四分法：冲突、独立、对话、整合。冲突模型严重依赖伽利略审判与达尔文主义接受史这类叙事；该条目判断，科学与宗教研究领域的绝大多数作者认为这一模型基于对历史记录的浅薄、党派性阅读，尽管仍有少数作者以哲学论证或重新检视历史来支持它。[3]
+        条目也写明：当代公共领域中，进化论与创世论／智能设计的对峙（并提到 2005 年 Kitzmiller v. Dover 等诉讼）容易让人以为科学与宗教必然冲突；即便只看进化论的接受史，关系也更复杂，例如英国与美国的差异。[3]
+        对话模型假定双方在预设、方法或概念上有共同地基；整合则走得更远，包括自然神学、自然的神学等路径。这些方案是否成功，本身仍有争议，但它们共同反对一种对原问题有害的简化：要么科学与宗教是同一类「信仰体系」，要么它们在逻辑上永远不可能对同一命题发言。[3]
+        对那个理性的外行，更审慎的态度或许是：先问眼前这个具体主张属于哪一类——可检验的经验命题、意义与价值的教导，还是二者的混合物——再选用可证伪性、NOMA 的分工，或承认重叠后去看证据，而不是先选择一种总理论。
+      quotes:
+      - text: >-
+          One obvious problem with the independence model is that if religion were
+          barred from making any statement of fact, it would be difficult to
+          justify its claims of value and ethics. For example, one could not
+          argue that one should love one’s neighbor because it pleases the
+          creator (Worrall 2004). Moreover, religions do seem to make empirical
+          claims, for example, that Jesus appeared after his death or that the
+          early Hebrews passed through the parted waters of the Red Sea.
+        text_zh: 独立模型的一个明显问题是：如果禁止宗教作出任何事实陈述，就很难为其价值与伦理主张辩护。例如，人们将不能主张「应当爱邻人，因为这使造物主喜悦」（Worrall 2004）。此外，宗教看起来确实会作出经验性主张，例如耶稣在死后显现，或早期希伯来人走过分开的红海之水。
+        attribution: Helen De Cruz，SEP 条目 Religion and Science
+        locator: 第 1.3 节 “Taxonomies of the interaction between science and religion” 中讨论独立模型的段落
+        ref: 3
+    open_parts: >-
+      划界标准在哲学上仍未统一：Hansson 把「个案一致、原则分歧」本身视为尚待解释的问题，而不是已经关闭的争论。[1]
+      科学与宗教的关系依赖「宗教」「科学」在具体传统中如何被理解——不同宗教对经典、自然与神迹的态度差别很大，本次主要依据以基督教讨论为重要线索的已打开文献，不能外推成对一切宗教的答案。[3]
+      Gould 的 NOMA 是否成功，取决于宗教是否以及在何种程度上作出经验主张；这一点在公共争论中仍尖锐，而对话、整合与冲突模型各自如何处理重叠，也没有单一裁决。[3][4]
+      Popper 原书、Kuhn 原书以及 Plantinga、McGrath 等在 SEP 中被点名的著作，本次均未打开，他们的限定、修订与反批评不能在这里被当成已核对的原文。
+    references:
+    - id: 1
+      citation: >-
+        Hansson, S. O. Science and Pseudo-Science. The Stanford Encyclopedia of Philosophy. First published 3 September 2008; substantive revision 28 July 2025. 本次打开并核对的是 https://plato.stanford.edu/entries/pseudo-science/ 。
+      url: https://plato.stanford.edu/entries/pseudo-science/
+    - id: 2
+      citation: >-
+        Thornton, S. Karl Popper. The Stanford Encyclopedia of Philosophy. First published 13 November 1997; substantive revision 31 July 2026. 本次打开并核对的是 https://plato.stanford.edu/entries/popper/ 。
+      url: https://plato.stanford.edu/entries/popper/
+    - id: 3
+      citation: >-
+        De Cruz, H. Religion and Science. The Stanford Encyclopedia of Philosophy. First published 17 January 2017; substantive revision 3 September 2022. 本次打开并核对的是 https://plato.stanford.edu/entries/religion-science/ 。
+      url: https://plato.stanford.edu/entries/religion-science/
+    - id: 4
+      citation: >-
+        Gould, S. J. (1997). Nonoverlapping magisteria. Natural History (March 1997). 本次打开并核对的转载本为 https://jbburnett.com/resources/gould_nonoverlapping.pdf ；并以 Internet Archive 快照 https://web.archive.org/web/20170104061453/http://www.stephenjaygould.org/library/gould_noma.html 交叉核对应文。转载本未印原刊页码，引用不以未核对的原刊页码为准。
+      url: https://jbburnett.com/resources/gould_nonoverlapping.pdf
+- id: 2026-11-24-phil-omni-god
+  date: '2026-11-24'
+  category: philosophy
+  title_zh: 「全知、全能、全在」的上帝定义是自洽的吗？
+  title_en: Is the "omniscient-omnipotent-omnipresent" definition of God consistent?
+  commentary: >-
+    把「无限知识、无限能力、无处不在」捆成一个定义，会把至少四类不同的一致性问题叠在一起。先把问题拆开，比急于给出一个「自洽」或「悖论」的总判决更重要。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/300/is-the-omniscient-omnipotent-omnipresent-definition-of-god-consistent
+  author: AIB
+  source_type: stackexchange
+  tags:
+  - 全能
+  - 全知
+  - 全在
+  - 恶的问题
+  - 自由意志
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        没有单一、被普遍接受的裁决。标题里捆在一起的至少是四类不同问题：全能自身（如「石头悖论」）、全能与全善（以及全知）在恶的问题中是否逻辑相容、无误预知与自由意志、以及作为另一属性的全在。答案高度依赖于如何定义这些属性——尤其是全能究竟指「能做任何事」，还是「能做一切绝对可能的事」
+      note: >-
+        SEP「Omnipotence」把全能理解为极大的能力，并开篇提出：是否存在对全能的一致分析、这一分析对上帝本性意味着什么；若全能被发现不可理解，或与道德完美不相容，则传统西方有神论为假。[1]
+        该条目用「石头悖论」展示表面上无论怎样回答都会失去「全能」，随后给出在「本质地全能」与「偶性地全能」下的不同消解，其前提是全能者不必能实现不可能的事态。[1]
+        这一限定与 Aquinas 将全能理解为能做一切「绝对可能」之事、而不包括自相矛盾之事的经典路线一致。[2]
+        Mackie 则把恶的问题写成一个逻辑问题：在补充「善者会尽力消除恶」与「全能者的能力没有限制」之后，一个全能且全善的存在与恶的存在不相容；他认为所考察的解决方案无一站得住，除非以严重改动有神论核心命题的方式修改其中至少一项。[3]
+        预知与自由是另一条独立文献：SEP「Foreknowledge and Free Will」将神学宿命论表述为——若有存在无误地知道全部未来，则无人的行动是自由的——并记录相容论与不相容论的长期争论，同时强调该论证是否可靠并不显而易见。[5]
+        全在被同一传统列为神圣属性，但 SEP「Omnipresence」指出它所吸引的哲学注意少于全能、全知或永恒，其核心困难是非物质的上帝如何在空间中在场，而不是石头悖论那种同一形式的二难。[6]
+        本次未找到可核对的哲学家民意调查数字，因此不虚构赞成或反对「该定义自洽」的比例。
+    summary: >-
+      原问题由 AIB 于 2011 年在 Philosophy Stack Exchange 提出。提问者把上帝「通常」定义为全知（无限知识）、全能（不受限制的能力）、全在（无处不在）的存在，并举出两类悖论：一是「上帝是否知道自己明天要做什么，若知道，还能不能做别的」；二是「全能者能否造出一块自己举不起的石头」。他问：这是否意味着这个常见定义在逻辑上不一致。[本次经 Stack Exchange 官方 API 核对题名与提问者显示名；页面 HTML 对简单抓取返回 403。]
+      这四个词并不是同一个问题。石头悖论首先挑战的是「全能」这一属性单独是否可理解。[1]
+      恶的问题则把全能与「全善」（提问标题未写，但论证中常被一并引入）以及恶的存在放在一起，问它们是否逻辑相容；全知在标准表述里也会进入：若上帝知道恶的存在，又有能力并有意愿消除它，为何恶仍在。[3][4]
+      「知道明天要做什么、还能不能做别的」以及「无误预知与人的自由」，属于预知—自由意志文献，即使把石头悖论按 Aquinas 的方式消解，这一问题仍然存在。[5]
+      全在是另一项传统属性，主要困难在于：一个无身体、非物质的存在如何谈得上位于各处；它并不自动产生「举不起的石头」那种形式的矛盾，但也不应被默认为已经清楚。[6]
+      因而，对「这个定义是否自洽」的审慎答复是：在把全能限制于逻辑上可能之事的定义下，许多哲学家认为石头悖论可以被消解；恶的问题与预知问题则仍是开放且分裂的争论；全在需要单独分析。把三者写成一个已证明自相矛盾、或已证明毫无问题的模块，都不符合已打开的文献。
+    definitions:
+    - term: 全能（omnipotence）
+      text: >-
+        SEP 将全能定义为极大的能力（maximal power），并指出极大的伟大或完美包含全能；传统西方有神论因此把上帝理解为全能。[1]
+        一种有影响的限定（Aquinas）是：所谓「上帝能做一切事」，应理解为能做一切绝对可能的事；蕴含矛盾的并不在神圣全能的范围之内，最好说「这样的事不能被做」，而不是「上帝不能做它们」。[2]
+    - term: 全知（omniscience）
+      text: >-
+        SEP 将全知定义为完备或极大的知识，并把它与全能、完美的善一并列为通常意义上的核心神圣属性。[7]
+    - term: 全在（omnipresence）
+      text: >-
+        即上帝无处不在。SEP 指出，相关经文既被读成上帝真正位于诸特定处所，也被读成没有一处上帝不在；经典有神论同时主张上帝是非物质的，于是产生「无身体者如何在空间中定位」的问题。[6]
+    - term: 神学宿命论（theological fatalism）
+      text: >-
+        SEP「Foreknowledge and Free Will」的用法：宿命论是指人的行动出于必然因而并不自由；神学宿命论则是指，对一项人类行动的无误预知使该行动成为必然，因而使之不自由。若有一个存在无误地知道全部未来，则无人的行动是自由的。[5]
+    milestones:
+    - year: 1265–1274
+      name: Aquinas《神学大全》讨论「上帝是否全能」
+      explanation: >-
+        在 Prima Pars 第 25 题第 3 条，Aquinas 把「上帝能做一切事」解释为能做一切绝对可能之事，并主张蕴含词项矛盾的并不属于神圣全能的范围。本次打开并引用的是 New Advent 所刊英译。[2]
+    - year: 1955
+      name: Mackie 发表 “Evil and Omnipotence”
+      explanation: >-
+        在 Mind 新序列第 64 卷第 254 期，Mackie 把传统的恶的问题表述为有神论核心命题之间的逻辑不一致，并讨论包括全能悖论在内的相关困难。[3]
+    - year: 1965
+      name: Pike 对预知与自由之两难的表述激发大量后续文献
+      explanation: >-
+        SEP 将 Nelson Pike 1965 年的讨论，记为以清晰有力的方式提出这一两难、并引出相容论者与不相容论者大量工作的关键节点。本次未打开 Pike 原文，仅依据该条目的记述。[5]
+    views:
+    - position: 若把全能理解为「能实现一切绝对可能的事态」，而不是「能做自相矛盾的事」，则石头悖论可以被消解；但这已经放弃了「毫无限制的能力」这一字面读法
+      consensus_role: >-
+        西方有神论哲学中处理全能悖论的经典与当代主流路线之一；与「上帝也能创造或推翻逻辑必然真理」的少数更强读法相对
+      evidence:
+        label: 已打开的 Aquinas 英译，以及 SEP 对石头悖论及其两种消解的形式化讨论
+        note: >-
+          Aquinas 的关键限定来自 New Advent 所刊《神学大全》I, q. 25, a. 3 英译。SEP 对石头悖论的「是／否」二难，以及「本质地全能」与「偶性地全能」两种回应，来自 Hoffman 与 Rosenkrantz 撰写的条目；这是概念分析，不是实证研究。该条目也列出「上帝能否创造或推翻逻辑与数学的必然真理」作为另一个仍被追问的问题，说明「逻辑可能性限制」并非唯一被讨论的定义。[1][2]
+      holders:
+      - name: Thomas Aquinas
+        identity: 《神学大全》（Summa Theologiae）第一部第 25 题作者；此处依据 New Advent 所刊英译文本。[2]
+      - name: Joshua Hoffman、Gary Rosenkrantz
+        identity: Stanford Encyclopedia of Philosophy 条目「Omnipotence」作者。该条目首次发布于 2002 年 5 月 21 日，本次打开的文本标明实质性修订日期为 2026 年 5 月 21 日。[1]
+      argument: >-
+        石头悖论的表面结构是：若全能者 Jane 能造出一块她搬不动的石头，则有她不能实现的事态（那块石头移动）；若她不能造出这样的石头，则同样有她不能实现的事态（存在着一块她搬不动的石头）。无论怎样回答，似乎都有某种可能事态是全能者不能实现的，于是显得悖谬。[1]
+        SEP 给出的第一条出路适用于本质地全能的行动者：Jane 处于非全能是不可能的，而全能者必然能移动任何石头，因此「存在着一块 Jane 搬不动的石头」这一事态本身是不可能的；但全能者不被要求能够实现不可能的事态。[1]
+        若 Jane 只是偶性地全能，则她可以在某一时刻造出并移动石头，再在另一时刻使自己不再全能从而搬不动它；两个事态必须在不同时间获得。[1]
+        这两条出路都依赖于：全能不是「连逻辑不可能也做得到」。Aquinas 把这一点说得很干脆：仔细想来，「上帝能做一切事」应指能做一切可能之事；绝对的可能与不可能，取决于词项之间是否相容。蕴含同时是而又不是的，并不在神圣全能范围之内，不是因为上帝的能力有缺陷，而是因为那种对象没有「可被做成」的本性。「因此，更好的说法是：这样的事不能被做，而不是上帝不能做它们。」[2]
+        对原问题而言，这意味着：若「全能」被读成提问者括号里的「不受限制的能力」，石头悖论确实构成严重压力；若采用 Aquinas—SEP 这条限定，许多讨论者认为该悖论不再证明「全能」一词自相矛盾。但限定本身已经改变了定义，不能再被说成是对「绝对字面全能」的挽救。
+      quotes:
+      - text: >-
+          Therefore, everything that does not imply a contradiction in terms, is
+          numbered amongst those possible things, in respect of which God is
+          called omnipotent: whereas whatever implies contradiction does not
+          come within the scope of divine omnipotence, because it cannot have
+          the aspect of possibility. Hence it is better to say that such things
+          cannot be done, than that God cannot do them.
+        text_zh: 因此，凡不蕴含词项矛盾的，都被列入那些绝对可能的事物之中，上帝正是就此而被称为全能的；而凡蕴含矛盾的，并不进入神圣全能的范围，因为它不能具有可能性这一面相。所以，更好的说法是：这样的事不能被做，而不是上帝不能做它们。
+        attribution: Thomas Aquinas，Summa Theologiae I, q. 25, a. 3（New Advent 英译）
+        locator: Prima Pars, Question 25, Article 3, “I answer that…” 一段的收束部分；https://www.newadvent.org/summa/1025.htm
+        ref: 2
+      - text: >-
+          The intelligibility of the notion of omnipotence has been challenged
+          by the so-called paradox or riddle of the stone. Can an omnipotent
+          agent, Jane, bring it about that there is a stone of some mass,
+          m, which Jane cannot move? If the answer is
+          ‘yes’, then there is a state of affairs that Jane cannot
+          bring about, namely, (S1) that a stone of mass m moves. On
+          the other hand, if the answer is ‘no’, then there is
+          another state of affairs that Jane cannot bring about, namely, (S2)
+          that there is a stone of mass m which Jane cannot move. Thus,
+          it seems that whether or not Jane can make the stone in question,
+          there is some possible state of affairs that an omnipotent agent
+          cannot bring about. And this appears to be paradoxical.
+        text_zh: 所谓石头悖论或谜题，向来被用来质疑全能概念是否可理解。一个全能的行动者 Jane，能否使存在一块质量为 m、而她搬不动的石头？若答「能」，则有一种她不能实现的事态，即（S1）这块质量为 m 的石头在移动。若答「不能」，则另有一种她不能实现的事态，即（S2）存在着一块质量为 m、而 Jane 搬不动的石头。于是，无论她能否造出这块石头，似乎都有某种可能事态是全能者不能实现的。这显得悖谬。
+        attribution: Joshua Hoffman 与 Gary Rosenkrantz，SEP 条目 Omnipotence
+        locator: 第 2 节 “The Scope of Omnipotence” 开篇
+        ref: 1
+    - position: 即使把石头悖论放下，把上帝理解为全能且全善（并通常也是全知），仍会与恶的存在形成逻辑压力；要消除矛盾，往往得修改有神论的某一核心命题
+      consensus_role: >-
+        这是恶的问题的「不相容」表述中最常被引用的当代出发点之一；它并不等于已经结束的争论，因为「何为适当的修改」以及自由意志进路是否成功，仍严重分裂
+      evidence:
+        label: 已打开的 Mackie 1955 年论文，辅以 SEP「The Problem of Evil」对不相容论证与自由意志进路的综述
+        note: >-
+          Mackie 的逻辑表述与结论来自本次打开的 Mind 64(254) JSTOR 数字化转载本。Tooley 条目把 Mackie 写成不相容论证的辩护者之一，并另设专节讨论自由意志进路；该条目最近一次标明的实质性修订是 2015 年 3 月 3 日。Alvin Plantinga 的 God, Freedom, and Evil 等书本次未打开，因此不引用其页码或未在 SEP 中出现的原句，也不把 Tooley 对「自由意志进路」的三点概括直接写成已核对的 Plantinga 原文。[3][4]
+      holders:
+      - name: J. L. Mackie
+        identity: “Evil and Omnipotence”（Mind, 1955）作者。所打开文本在文末标明 University of Sydney。[3]
+      - name: Michael Tooley
+        identity: Stanford Encyclopedia of Philosophy 条目「The Problem of Evil」作者。该条目首次发布于 2002 年 9 月 16 日，本次打开的文本标明实质性修订日期为 2015 年 3 月 3 日。[4]
+      argument: >-
+        Mackie 明确把问题限定为：只对那些相信存在一位既全能又全善的上帝的人，恶才构成此处所说的问题；而且这是一个澄清并调和若干信念的逻辑问题，不是再观察或再做一个决定就能解决的科学或实践问题。[3]
+        其最简形式是：上帝全能；上帝全善；然而恶存在。任意两句为真，第三句似乎就为假。但三者又都被他称为大多数神学立场的本质部分。矛盾并非立刻出现，还需要补充前提：善与恶相对立，因而善的事物会尽其所能消除恶；以及全能者的能力没有限制。由此推出：一个全能的善者会把恶完全消除，于是「存在全能的善者」与「恶存在」不相容。[3]
+        Mackie 区分「适当的」解决方案与不适当的方案：若有人愿意说上帝并非全善、并非真正全能、恶并不存在，或全能者的能力其实有限制，则问题对这个人不再发生。他的判断是，所考察的方案无一经得起批评；这一研究强烈暗示，不存在既不修改至少一项构成命题、又不严重触及有神论核心的有效解决。[3]
+        他还说，即便撤开恶的问题，全能悖论也已经表明上帝的全能必须以某种方式受到限制，不能把不受限定的全能归给任何贯穿时间而持续的存在。[3]
+        SEP 把后来的讨论进一步分成不相容论证与证据性论证，并介绍「自由意志」作为一种重要的神义论进路：自由意志（在不受行动者之外原因决定的意义上）被认为极有价值；即连上帝也不能使一个人既自由又必然行义；因此，创造一个具有这种自由、即使可能被滥用的世界，被认为优于创造一个没有这种自由的世界。[4]
+        Tooley 随即列举强硬反驳，包括：有价值并不蕴涵永不干预；自由不必包含造成极大伤害的能力；地震与疾病一类自然恶并不显然来自道德上错误的行动。这些反驳是否决定性，本身仍在争论中；它们足以说明：Mackie 式的不一致指控并未被哲学共同体当作已经结案，但也不能被「自由意志」四个字轻易取消。[4]
+        对原问题而言，恶的问题所挑战的，已经不只是「全知—全能—全在」三个词的组合，而是这个组合在传统中几乎必然带上的全善，以及世界里可观察的恶。把标题里的三个前缀写成「已经自洽」或「已经破产」，都会漏掉这一层。
+      quotes:
+      - text: >-
+          In its simplest form the problem is this : God is omnipotent ;
+          God is wholly good ; and yet evil exists. There seems to be
+          some contradiction between these three propositions, so that if
+          any two of them were true the third would be false. But at the
+          same time all three are essential parts of most theological
+          positions : the theologian, it seems, at once must adhere and
+          cannot consistently adhere to all three.
+        text_zh: 其最简形式是这样的：上帝是全能的；上帝是全然善的；然而恶存在着。这三句命题之间似乎有某种矛盾，以致若任意两句为真，第三句便为假。但与此同时，三者又都是大多数神学立场的本质部分：神学家似乎既必须坚持这三者，又不能一致地坚持这三者。
+        attribution: J. L. Mackie，Evil and Omnipotence
+        locator: Mind, New Series, Vol. 64, No. 254 (April 1955), 第 200 页正文对问题的「最简形式」陈述；本次打开的是 JSTOR 数字化转载本
+        ref: 3
+      - text: >-
+          Of the proposed solutions of the problem of evil which we have
+          examined, none has stood up to criticism. There may be other
+          solutions which require examination, but this study strongly
+          suggests that there is no valid solution of the problem which does not
+          modify at least one of the constituent propositions in a way which
+          would seriously affect the essential core of the theistic position.
+        text_zh: 在我们所考察的、针对恶的问题而提出的解决方案中，没有一个经受住了批评。也许还有其他方案需要考察，但本研究强烈暗示：不存在这样一种有效的解决——它不必以一种将严重触及有神论立场之本质核心的方式，修改构成命题中的至少一项。
+        attribution: J. L. Mackie，Evil and Omnipotence
+        locator: 文末 “Conclusion” 一节，Mind 64(254), 1955, 第 212 页；本次打开的是 JSTOR 数字化转载本。转写时按印刷单词连续阅读，不保留扫描分词造成的异常空格
+        ref: 3
+    - position: 无误的预知与人类自由意志是否相容，是另一个未决的一致性问题，不能被石头悖论或恶的问题的结论代替
+      consensus_role: >-
+        当代分析的宗教哲学中持续活跃的专门争论；相容论者与不相容论者都有大量文献，条目作者强调其论证是否可靠并不显而易见
+      evidence:
+        label: 一篇已打开的 SEP 长条目，梳理神学宿命论论证及主要回应类型
+        note: >-
+          Pike 1965 年论文、Ockham 式「软事实」、Boethius／Aquinas 的永恒方案以及开放有神论等，本次均未打开其原始文本；下文只按 Hunt 与 Zagzebski 条目已写出的结构来介绍，不添加未在该条目中出现的论证步骤或页码。[5]
+      holders:
+      - name: David Hunt、Linda Zagzebski
+        identity: Stanford Encyclopedia of Philosophy 条目「Foreknowledge and Free Will」作者。该条目首次发布于 2004 年 7 月 6 日，本次打开的文本标明实质性修订日期为 2026 年 2 月 17 日。版权栏给出 Hunt 的联系邮箱为 dhunt@whittier.edu。[5]
+      argument: >-
+        原问题里的第一个例子——「上帝是否知道自己明天要做什么；若知道，还能不能做别的」——把全知与全能缠在一起，并且把上帝放进时间里的「明天」。SEP 所处理的标准神学宿命论，则更常以「无误预知与人的自由」为轴，但其结构十分接近：对过去信念无法现在加以改变，加上该信念无误，似乎推出你不能做与被预知者不同的事；若不能另做他事，该行动便不自由。[5]
+        条目给出的非正式推理是：对于你将要做的任何未来行动，若某存在过去无误地相信该行动会发生，你现在既不能改变他曾如此相信（无人能控制过去），也不能使他的信念为假（他是无误的）；因此你不能做与他所信不同的事；若你不能另做他事，你就不是自由地做这件事。若有一个存在无误地知道全部未来，则没有人能控制未来。[5]
+        Hunt 与 Zagzebski 强调，关于这一论证是否可靠的争论历史很长，因而其可靠性一定不是显而易见的。他们把 Pike 1965 年的表述记为激发相容论与不相容论大量后续工作的关键节点。[5]
+        相容论者必须指出前提为假，或指出结论并不由此推出；不相容论者接受无误预知与（论证所针对的那种）自由不相容，从而放弃其中一侧。条目列举的相容论回应包括：否认关于偶然未来的命题已有真值、把上帝置于时间之外（永恒方案）、把上帝过去的预知信念视为关于过去的「软事实」，以及其他关于必然性传递的质疑。[5]
+        这些策略没有一项被写成已经获胜。对原问题而言，关键是：即使采用 Aquinas 对全能的逻辑限制，从而避开石头悖论，「预知是否取消自由（或取消上帝自己的行动自由）」仍需单独回答；把上帝移出时间，或许缓解「明天祂还能否做别的」，但又会回到 Mackie 已经触及的疑问：对一个不在时间中的存在，还能不能有意义地谈论能力与行动。[3][5]
+      quotes:
+      - text: >-
+          Theological fatalism is the thesis that infallible
+          foreknowledge of a human act makes the act necessary and hence unfree.
+          If there is a being who knows the entire future infallibly, then no
+          human act is free.
+        text_zh: 神学宿命论是这样一种论题：对一项人类行动的无误预知，使该行动成为必然，因而使之不自由。若有一个存在无误地知道全部未来，则没有人的行动是自由的。
+        attribution: David Hunt 与 Linda Zagzebski，SEP 条目 Foreknowledge and Free Will
+        locator: 条目开篇定义段
+        ref: 5
+    - position: 全在是一项需要单独分析的神圣属性，其主要困难是非物质的上帝如何「在」空间之中；它通常并不与石头悖论或恶的问题构成同一个形式矛盾
+      consensus_role: >-
+        经典有神论的标准属性之一，但当代哲学对它的讨论明显少于全能与全知；文献重点在定位与「全然在场」，而不是三属性的联合不一致证明
+      evidence:
+        label: 已打开的 SEP「Omnipresence」对概念、历史线索与问题结构的概述
+        note: >-
+          条目对 Augustine、Anselm 的引述来自该文已写出的英文；本次未打开 Letter 187、Monologion 等原书去核对页码，故不以那些原书页码作为定位。该条目并不试图用全在推出「全知—全能—全在」定义整体不一致。[6]
+      holders:
+      - name: Edward Wierenga
+        identity: Stanford Encyclopedia of Philosophy 条目「Omnipresence」以及「Omniscience」作者。「Omnipresence」首次发布于 2005 年 7 月 15 日，本次打开的文本标明实质性修订日期为 2026 年 6 月 1 日。[6][7]
+      argument: >-
+        提问者把 omnipresent 解释为「无处不在」，这与 SEP 的工作定义一致。但经典有神论同时主张上帝是非物质的，于是立刻出现一个与石头、与恶都不同的问题：一个没有（或不具有）身体的东西，如何位于空间之中？[6]
+        早期讨论通常一开始就把上帝在空间中的在场，与物质身体的在场区分开。条目引 Augustine 之说：我们虽说上帝无处在场，却必须抵制肉体性的想像，不能把上帝想成像土、水、气、光那样以某种广延的大小分布在万物之中。[6]
+        该传统还强调两个进一步要点：上帝是「全然」在他所在之处，而不像有部分的物体只把部分放在空间的各部分；上帝也不被任何处所包围或限制。[6]
+        这些是关于神圣在场之方式的概念困难，它们当然可能与全知（上帝对各地的认知）或全能（上帝对各地的作用）发生关联，但并不自动生成「既全能又不能」或「既全善又允许恶」那种直接的形式矛盾。因此，即令有人认为石头悖论或恶的问题已经显示定义破裂，把「全在」当作同一破裂的第三个症状，是一种尚未被这篇文献承担起来的跳跃；反之，若有人认为前两类问题都已解决，全在仍有其自身的工作要做。[6]
+      quotes:
+      - text: >-
+          This is the claim that God is omnipresent. Divine
+          omnipresence is thus one of the traditional divine attributes, although
+          it has attracted less philosophical attention than such attributes as
+          omnipotence, omniscience, or being eternal.
+        text_zh: 这就是上帝全在的主张。因此，神圣的全在是传统神圣属性之一，尽管它所吸引的哲学注意，少于全能、全知或永恒这类属性。
+        attribution: Edward Wierenga，SEP 条目 Omnipresence
+        locator: 条目导论，在引述诗篇 139:7–8 并说明「无处不在」这一主张之后
+        ref: 6
+    open_parts: >-
+      「全能」要不要受逻辑可能性约束，本身仍是定义之争：SEP 仍把「能否创造或推翻逻辑与数学必然真理」列为开放问题；若拒绝这一约束，石头悖论与「全能者能否使 2+2=4 为假」会重新变得尖锐。[1]
+      恶的问题已从 Mackie 式的不相容论证，扩展到证据性论证、辩护（defense）与神义论（theodicy）的精细区分；自由意志进路的形而上学负担（何为自由、如何处理自然恶）仍有力地争论着。Plantinga 等关键原书本次未打开，不能在此代表其完整方案。[3][4]
+      预知与自由的各种方案（永恒、软事实、开放有神论、放弃无误预知或放弃该种自由）没有公认赢家。[5]
+      全在与时间性、知识、能力如何互相约束，以及「全知、全能、全在」加上全善是否构成一个极大且共可能的属性集，仍取决于所采用的完美存在神学，而非一个已经完成的一致性证明。[1][6][7]
+    references:
+    - id: 1
+      citation: >-
+        Hoffman, J., & Rosenkrantz, G. Omnipotence. The Stanford Encyclopedia of Philosophy. First published 21 May 2002; substantive revision 21 May 2026. 本次打开并核对的是 https://plato.stanford.edu/entries/omnipotence/ 。
+      url: https://plato.stanford.edu/entries/omnipotence/
+    - id: 2
+      citation: >-
+        Aquinas, T. Summa Theologiae, Prima Pars, Question 25 (“The power of God”), Article 3 (“Whether God is omnipotent?”). 本次打开并核对的是 New Advent 所刊英译：https://www.newadvent.org/summa/1025.htm 。
+      url: https://www.newadvent.org/summa/1025.htm
+    - id: 3
+      citation: >-
+        Mackie, J. L. (1955). Evil and Omnipotence. Mind, New Series, 64(254), 200–212. 本次打开并核对的是 JSTOR 数字化转载本 https://joelvelasco.net/teaching/hum9/mackie55-evilomnipotence.pdf ；另以 https://jwood.faculty.unlv.edu/unlv/Articles/evilomnipotence.pdf 作交叉核对。期刊官方页面未作为本次引文的阅读本。
+      url: https://joelvelasco.net/teaching/hum9/mackie55-evilomnipotence.pdf
+    - id: 4
+      citation: >-
+        Tooley, M. The Problem of Evil. The Stanford Encyclopedia of Philosophy. First published 16 September 2002; substantive revision 3 March 2015. 本次打开并核对的是 https://plato.stanford.edu/entries/evil/ 。
+      url: https://plato.stanford.edu/entries/evil/
+    - id: 5
+      citation: >-
+        Hunt, D., & Zagzebski, L. Foreknowledge and Free Will. The Stanford Encyclopedia of Philosophy. First published 6 July 2004; substantive revision 17 February 2026. 本次打开并核对的是 https://plato.stanford.edu/entries/free-will-foreknowledge/ 。
+      url: https://plato.stanford.edu/entries/free-will-foreknowledge/
+    - id: 6
+      citation: >-
+        Wierenga, E. Omnipresence. The Stanford Encyclopedia of Philosophy. First published 15 July 2005; substantive revision 1 June 2026. 本次打开并核对的是 https://plato.stanford.edu/entries/omnipresence/ 。
+      url: https://plato.stanford.edu/entries/omnipresence/
+    - id: 7
+      citation: >-
+        Wierenga, E. Omniscience. The Stanford Encyclopedia of Philosophy. First published 1 February 2010; substantive revision 10 May 2025. 本次打开并核对的是 https://plato.stanford.edu/entries/omniscience/ 。
+      url: https://plato.stanford.edu/entries/omniscience/
+- id: 2026-11-24-psych-music
+  date: '2026-11-24'
+  category: psychology
+  title_zh: 听音乐是有助于还是有害于专注与表现？证据怎么说？
+  title_en: Is there evidence that listening to music can aid/hinder concentration or performance?
+  commentary: >-
+    「边听边做」是极常见的工作习惯，也是极容易被记成单一答案的问题。把背景音乐进行中的干扰，和听完莫扎特再做空间测验的短期效应分开，证据才会开始说话。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/351/is-there-evidence-that-listening-to-music-can-aid-hinder-concentration-or-perfor
+  author: Josh
+  source_type: stackexchange
+  tags:
+  - 音乐
+  - 专注
+  - 认知表现
+  - 莫扎特效应
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        没有「听音乐一定有助于或一定有害于专注与表现」的单一结论。关于背景音乐的元分析表明总体为零效应，是因为不同任务和不同类型的音乐在互相抵消：阅读和记忆更容易受到干扰，情绪和运动表现则可能受益；在一项针对阅读理解的实验里，又快又响的器乐背景最可能造成损害，慢或轻的则未观察到显著不利。所谓「莫扎特效应」属于听完再测验的短期现象，已被一项关键实验解释为唤醒与心境的副产品，而不是莫扎特音乐对空间智力的特异、持久提升
+      note: >-
+        原问题问的是「在执行任务的同时听音乐」，这与「先听莫扎特再做空间测验」不是同一设计。Kämpfe、Sedlmeier 与 Renkewitz 的元分析把前者作为对象，发现全局为零效应，但认为这很可能来自正负效应被平均掉；他们从可计算效应量的研究中识别出：相对于无音乐，背景音乐干扰阅读过程，对记忆有较小的不利影响，但对情绪反应有正面影响并改善运动成绩；音乐速度还会带动正在进行的活动速度。[2]
+        Thompson、Schellenberg 与 Letnic 用器乐背景直接测验阅读理解，发现速度与强度存在交互：又快又响时理解显著低于安静基线；慢和/或轻的条件没有显著损害。他们并指出，这与 Kämpfe 等人「背景音乐干扰阅读」的总体结论并不完全一致，干扰取决于音乐的结构特征。[3]
+        Thompson、Schellenberg 与 Husain 讨论的是莫扎特效应：被试在听完音乐或安静之后再做空间测验。他们的结论是，该效应是唤醒与心境的产物。本次未能打开 Rauscher、Shaw 与 Ky 1993 年的 Nature 原文，也未能打开 Chabris 1999 年的评论或 Steele 等人的失败复制，因此对 1993 年原始报告的描述，只按 2001 年这篇已打开论文中的转述来写，并标明不是对 Nature 原文的直接核对。[4]
+        本次未找到可引用的认知科学共同体问卷调查，因此不虚构「百分之多少的研究者认为音乐会提高办公效率」。
+    summary: >-
+      原问题来自 Psychology Stack Exchange，提问者显示名为 Josh（2012 年 2 月 11 日）。他以程序员边工作边听音乐的经验为一方，以公司 CEO「音乐会分心、降低生产率」为另一方，问是否有研究检验在执行任务时听音乐会提高还是妨碍表现，以及认知科学是否已有共识。[1]
+      已打开的综述和实验都不支持把答案写成单纯的「有助于」或「有害于」。Kämpfe 等人对成人听众的元分析，第一层全局结果是零效应；他们立刻警告，这不应读成「背景音乐没有作用」，而更可能是具体效应被平均掉了，并且由于当时能够计算效应量的研究并不多，检出这些具体效应的把握并不高。在他们能够分解的比较里，相对无音乐，背景音乐会干扰阅读，对记忆有较小损害，但对情绪有正面作用、并改善运动成绩；不同背景音乐的比较则显示，音乐的速度会影响人们同时进行的活动速度。[2]
+      Thompson、Schellenberg 与 Letnic 把问题收窄到阅读理解，并系统操纵器乐的速度与强度。二十五名被试在四种条件（慢/轻、慢/响、快/轻、快/响）下各读一段文字并回答选择题，另用安静条件作为基线。他们观察到速度与强度的显著交互：又快又响时理解显著低于基线；作者据此认为，背景器乐最可能在又快又响时干扰阅读理解。讨论中他们进一步写：慢和/或轻的音乐没有显著损害，因此干扰取决于音乐的结构特征；同时，听音乐在唤醒和心境上的潜在益处，可能抵消注意资源被占用的代价，从而出现总体无差别。[3]
+      公众讨论里常常把另一条文献混进来，即所谓「莫扎特效应」。Thompson、Schellenberg 与 Husain 把它界定为：人们在听完莫扎特的作品之后，在空间能力测验上表现更好。这是「先听后测」，不是原问题里的「边听边做」，效应本身也被他们描述为短时（原文转述为 10–15 分钟）。在他们的实验里，空间任务成绩仅在听莫扎特之后优于安静，听阿尔比农尼的慢速、悲伤柔板则不然；而当享受、唤醒和心境上的差异被统计控制后，莫扎特效应消失。作者的判断是：该效应是唤醒与心境的副产品。[4]
+      因此，对原问题更审慎的回答是：证据支持「视任务和音乐而定」，而不是支持某一边的日常直觉。需要持续言语加工的任务（尤其是阅读）对响而快的背景更脆弱；把音乐当作先听后测的「智力催化剂」，则缺乏对特异、持久增益的支持。
+    definitions:
+    - term: 背景音乐（background music）
+      text: >-
+        在执行另一项主要任务的同时播放的音乐。Kämpfe 等人的元分析以此为对象，考察它对行为、认知和情绪的伴随效应，而不是把音乐课或主动练琴当作干预。[2]
+    - term: 莫扎特效应（Mozart effect）
+      text: >-
+        Thompson、Schellenberg 与 Husain 的用法是：人们在听完莫扎特的音乐之后，在空间能力测验上表现更好。按他们对 Rauscher、Shaw 与 Ky（1993）的转述，这一差别是短时的（约 10–15 分钟），设计是「听完再测」，与边工作边听不是同一回事。[4]
+    - term: 唤醒—心境假说（arousal-mood hypothesis）
+      text: >-
+        认为音乐对随后认知表现的影响，主要通过改变唤醒水平和心境，而不是通过某种对空间推理的特异神经机制。Thompson 等人 2001 年的实验以此为检验对象，并把它与「莫扎特作品本身提高空间能力」的说法相对立；他们在 2012 年讨论背景音乐时，也把唤醒与心境的潜在益处，写成可能抵消注意资源代价的力量。[3][4]
+    milestones:
+    - year: 1993
+      name: Rauscher、Shaw 与 Ky 关于听莫扎特后空间测验成绩的报告
+      explanation: >-
+        Thompson、Schellenberg 与 Husain 写：这三位作者报告，大学生在听完 10 分钟莫扎特奏鸣曲之后，在标准化空间能力测验上的表现，优于听放松指导或安静坐着。本次未打开 1993 年 Nature 原文，细节仅按 2001 年论文的转述记录。[4]
+    - year: 2001
+      name: 唤醒与心境对莫扎特效应的实验检验
+      explanation: >-
+        Thompson、Schellenberg 与 Husain 比较莫扎特奏鸣曲与阿尔比农尼的慢速柔板，并测量享受、唤醒和心境；在统计上控制这些差异后，莫扎特效应消失。他们据此认为该效应是唤醒与心境的副产品。[4]
+    - year: 2010–2012
+      name: 背景音乐元分析与对阅读理解的速度—强度实验
+      explanation: >-
+        Kämpfe、Sedlmeier 与 Renkewitz 的元分析（期刊卷期为 2011 年 Psychology of Music 39 卷 4 期；文首标注 2010 年）给出「无统一效应」的总体判断，并分解出对阅读、记忆、情绪和运动的不同方向。Thompson、Schellenberg 与 Letnic 随后用实验表明，器乐背景对阅读理解的干扰主要出现在又快又响的条件。[2][3]
+    views:
+    - position: 背景音乐没有统一的作用方向：全局元分析得到零效应，是因为具体的正负效应被平均掉了；阅读和记忆更容易受损，情绪和运动表现则可能受益，音乐速度还会带动活动速度
+      consensus_role: 针对「边听边做」这一问题，最常被后续实验引用的定量综述之一；作者对可计算效应量的研究数量偏少、方法质量参差有明确保留
+      evidence:
+        label: 对成人听众背景音乐研究的元分析，先做全局再做分领域
+        note: >-
+          文章发表于 Psychology of Music 39(4) (2011), 424–448。作者自己写明，检出具体效应的概率并不高，因为允许计算相应效应量的研究不足；他们也批评该领域方法质量差异很大。全局零效应和分领域方向，都是对既有实验的综合，不是一项新的随机试验。[2]
+      holders:
+      - name: Juliane Kämpfe、Peter Sedlmeier、Frank Renkewitz
+        identity: >-
+          论文署名分别为德国开姆尼茨工业大学（Chemnitz University of Technology）与埃尔福特大学（University of Erfurt）；通讯作者为 Peter Sedlmeier。[2]
+      argument: >-
+        作者从一开始就拒绝「音乐通常提高表现」或「音乐不过是噪音」这类单一故事。他们回顾：既有报告有益、有害和无效的结果，并指出公众往往更容易听到「有益」的说法。[2]
+        元分析的第一层是全局结果：零效应。但详细检查能够计算效应量的研究后，他们认为这一零效应最可能来自具体效应被平均掉。相对无音乐的比较显示：背景音乐干扰阅读过程，对记忆有一些较小的不利影响，但对情绪反应有正面影响，并改善运动成绩。不同类型背景音乐的比较则显示，音乐的速度会影响人们同时进行的活动速度。[2]
+        结论段把判断写得更直截了当：不存在背景音乐的统一效应；它有时有益、有时有害、有时对行为、认知和情绪没有作用。因此，第一次全局分析中的零效应，不能解释成「背景音乐没有效果」。在已识别的具体效应里，它似乎干扰阅读和记忆，却对情绪、尤其是运动行为有正面作用；此外，背景音乐的速度强烈影响不同类型行为的速度。[2]
+        对原问题而言：如果 CEO 担心的是需要读和记的工作，这篇综述给出的方向是谨慎的负面；如果有人在健身或情绪调节上感到音乐有帮助，综述并不否认。它明确反对用一个答案覆盖所有任务。
+      quotes:
+      - text: >-
+          A global analysis shows a null effect, but a detailed examination of the studies that allow the calculation of effects sizes reveals that this null effect is most probably due to averaging out specific effects.
+        text_zh: 全局分析显示为零效应，但详细检查那些允许计算效应量的研究后可以发现，这一零效应最可能是由于具体效应被平均掉了。
+        attribution: Juliane Kämpfe、Peter Sedlmeier 与 Frank Renkewitz，The impact of background music on adult listeners
+        locator: 摘要，Psychology of Music 39(4), 2011, 第 424 页
+        ref: 2
+      - text: >-
+          Nevertheless, our results make it quite clear that there is no uniform effect of background music: sometimes it has a beneficial, sometimes a detrimental, and sometimes no effect on behavior, cognition and emotion.
+        text_zh: 尽管如此，我们的结果相当清楚地表明，背景音乐并不存在统一的效应：它对行为、认知和情绪有时有益，有时有害，有时则没有作用。
+        attribution: 同上
+        locator: 结论一节（该段接在 “Discussion” 之后；文件中前一页页眉为第 440 页）
+        ref: 2
+    - position: 在阅读理解这种需要持续注意的言语任务上，又快又响的器乐背景最可能造成干扰；慢或轻的器乐则未必有显著损害，因为注意代价可能被唤醒与心境的益处抵消
+      consensus_role: 直接针对「边听边读」的实验证据，常被用来把元分析中的「干扰阅读」细化为音乐的结构特征；样本较小，只使用器乐
+      evidence:
+        label: 实验室重复测量实验，操纵器乐的速度与强度，并以安静为基线
+        note: >-
+          25 名被试，四种音乐条件加一项安静基线（基线来自预实验 2）。材料为器乐，不包含歌词。作者在讨论中承认偏好、熟悉度、是否有人声、人格和工作记忆等因素仍然大多是推测，并指出他们与 Kämpfe 等人「背景音乐干扰阅读」的总体结论并不完全一致。[3]
+      holders:
+      - name: William Forde Thompson、E. Glenn Schellenberg、Adriana Katharine Letnic
+        identity: >-
+          2012 年论文署名分别为澳大利亚麦考瑞大学、加拿大多伦多大学；文末简介写 Thompson 当时为麦考瑞大学心理系教授兼系主任，Schellenberg 为多伦多大学密西沙加校区心理系教授，Letnic 为麦考瑞大学心理学与法学毕业生。[3]
+      argument: >-
+        这三位作者把「边学习边听音乐」写成一种多任务，并指出阅读既包含自动化过程，也包含需要注意的推理与精加工，因而有理由怀疑音乐会争夺有限的注意资源。[3]
+        实验操纵速度和强度，使四种组合在心理量上大致可比（预实验 1）。主要结果是速度与强度的交互：在快速条件下，音乐更响时理解更差；慢速时，强度操纵没有效应。又快又响条件下的理解显著低于安静基线。摘要把含义概括为：听背景器乐，最可能在音乐又快又响时干扰阅读理解。[3]
+        讨论进一步提出机制性解释：单位时间内听觉事件更多、且因强度而更难忽略时，音乐会占用更多有限的注意资源；慢速音乐即使较响，也可能让人在声学干扰之后持续、自发地恢复，从而仍能同时做言语理解。[3]
+        他们明确写下：慢和/或轻的音乐对阅读理解没有显著损害，因此这类干扰取决于音乐的结构特征。三位作者认为，这与 Kämpfe 等人「背景音乐干扰阅读」的总体结论有出入；三种音乐条件下的零结果不太像是统计效力不足，因为任务对音乐训练的个体差异敏感，而且快而轻的条件正确数还略高于基线。一种可能是，听音乐通过唤醒和心境带来的益处，抵消了注意资源减少的代价，从而总体无效应；另一种可能是，背景音乐对阅读理解常常本来就是良性的。[3]
+        对原问题里的「busywork」和编程工作，这篇论文不能直接外推：它测的是短时阅读理解，用的是器乐。它能够支持的更窄结论是：至少在阅读这类言语任务上，「会不会妨碍」取决于音乐有多快、有多响，而不是取决于「有没有声音」这一件事。
+      quotes:
+      - text: >-
+          These findings reveal that listening to background instrumental music is most likely to disrupt reading comprehension when the music is fast and loud.
+        text_zh: 这些发现表明，听背景器乐时，最可能在音乐又快又响的情况下干扰阅读理解。
+        attribution: William Forde Thompson、E. Glenn Schellenberg 与 Adriana Katharine Letnic，Fast and loud background music disrupts reading comprehension
+        locator: 摘要，Psychology of Music 40(6), 2012, 第 700 页
+        ref: 3
+      - text: >-
+          Music that was slow and/or soft had no significant detrimental effects on reading comprehension, which is in conflict with the general conclusion reached by Kämpfe et al. (2010) based on their comprehensive meta-analysis of studies examining the impact of background music on concurrent task performance.
+        text_zh: 慢和/或轻的音乐对阅读理解没有显著的损害作用，这与 Kämpfe 等人（2010）在其关于背景音乐对并行任务表现之影响的综合元分析中得出的总体结论并不一致。
+        attribution: 同上
+        locator: 讨论一节，Psychology of Music 40(6), 2012, 第 706 页
+        ref: 3
+    - position: 常被拿来证明「听音乐能提高智力表现」的莫扎特效应，是听完再测验的短时现象，并且可以被唤醒与心境解释，而不是莫扎特音乐对空间能力的特异作用
+      consensus_role: 对莫扎特效应机制最常被引用的实验解释之一；它回答的是「先听后测」，只能间接约束原问题中「边听边做能提高表现」的通俗说法
+      evidence:
+        label: 实验室实验，比较两种情绪基调不同的乐曲，并测量享受、唤醒与心境
+        note: >-
+          发表于 Psychological Science 12(3) (2001), 248–251。作者把 1993 年原始发现作为文献起点加以转述，但本次未打开 Rauscher 等人的 Nature 论文，也未打开 Chabris（1999）或 Steele 等人（1999）的失败复制与评论原文，因此不引用那些文本中的原句或其中可能给出的具体效应量。[4]
+      holders:
+      - name: William Forde Thompson、E. Glenn Schellenberg、Gabriela Husain
+        identity: >-
+          2001 年论文署名为约克大学（York University, Toronto）与多伦多大学密西沙加校区（University of Toronto, Mississauga）。[4]
+      argument: >-
+        在通俗讨论里，「听音乐有助于表现」常常被说成「莫扎特让人更聪明」。Thompson、Schellenberg 与 Husain 首先把该说法还原为一个短时、特定任务的实验现象，并提出另一种解释：表现变好，是因为这段愉快而有活力的音乐改变了唤醒和心境，任何同样能做到这一点的刺激都可能有类似作用。[4]
+        实验中，被试在听完音乐或安静坐着之后再做空间测验。音乐对一部分人是莫扎特奏鸣曲（作者称为愉快而有活力），对另一部分人是阿尔比农尼的 G 小调柔板（慢而悲伤）。空间任务成绩在音乐条件优于安静，但只发生在听了莫扎特的被试身上。两种乐曲在享受、唤醒和心境测量上也引发了不同反应；当这些差异被统计控制后，莫扎特效应消失。摘要的结论是：这些发现提供了有力证据，表明莫扎特效应是唤醒与心境的副产品。[4]
+        这一结论并不否定短时之内「先听一段让人振奋的音乐，随后在某项空间任务上更好」可以发生；它否定的是把它理解成莫扎特作品对空间智力的特异、可推广增益。对原问题「边工作边听能否提高表现」，它的相关性是间接的：它提醒我们，把实验室里一段十来分钟的先听后测，说成办公时持续背景音乐的生产率为正，是一次概念上的跳跃。2012 年同一研究组在讨论背景音乐时，反而把唤醒与心境写成可能抵消干扰的力量，而不是稳定的净增益来源。[3][4]
+      quotes:
+      - text: >-
+          These findings provide compelling evidence that the Mozart effect is an artifact of arousal and mood.
+        text_zh: 这些发现提供了有力的证据，表明所谓莫扎特效应是唤醒与心境的伴随产物。
+        attribution: William Forde Thompson、E. Glenn Schellenberg 与 Gabriela Husain，Arousal, Mood, and the Mozart Effect
+        locator: 摘要末句，Psychological Science 12(3), 2001, 第 248 页
+        ref: 4
+    open_parts: >-
+      原问题里的编程与「琐碎事务」（busywork）并没有被上述实验直接测量。把阅读理解或元分析中的运动、记忆结果外推到写代码，仍然是推测；Thompson 等人 2012 年也把歌词、人格、工作记忆、偏好和熟悉度列为尚未被他们的设计充分纳入的因素。[3]
+      大多数实验室任务是短时的，办公场景则是数小时、可自行选择曲目和音量，并可能用音乐掩蔽他人交谈。Kämpfe 等人已经指出该领域方法质量参差，元分析能够分解的研究数量有限；因此「没有统一效应」是对当时文献的判断，不是对一切任务与一切音乐的终审。[2]
+      莫扎特效应的原始 1993 年报告、以及随后的失败复制与评论，本次未能打开全文。2001 年实验支持唤醒—心境解释，但不等于已经代替对那些原文的直接阅读；若要讨论效应量大小、发表偏倚或「是否存在任何特异的莫扎特成分」，需要打开那些未被本次核对的文本。
+      本次没有打开更新近的系统综述或针对带歌词流行音乐、开放办公环境的现场实验，因此不把 2010–2012 年前后的结论写成 2020 年代全部文献的最终状态。
+    references:
+    - id: 1
+      citation: >-
+        Josh. (2012, February 11). Is there evidence that listening to music can aid/hinder concentration or performance? Psychology Stack Exchange. 提问者显示名与标题经官方 API（https://api.stackexchange.com/2.3/questions/351?site=psychology&filter=withbody）于 2026-11-24 核对；对页面 HTML 的直接抓取返回 HTTP 403。规范页面为下列 URL。
+      url: https://psychology.stackexchange.com/questions/351/is-there-evidence-that-listening-to-music-can-aid-hinder-concentration-or-perfor
+    - id: 2
+      citation: >-
+        Kämpfe, J., Sedlmeier, P., & Renkewitz, F. (2011). The impact of background music on adult listeners: A meta-analysis. Psychology of Music, 39(4), 424–448. https://doi.org/10.1177/0305735610376261 。本次打开并核对的是带有期刊页眉的 PDF：https://gwern.net/doc/psychology/music/distraction/2010-kampfe.pdf 。
+      url: https://gwern.net/doc/psychology/music/distraction/2010-kampfe.pdf
+    - id: 3
+      citation: >-
+        Thompson, W. F., Schellenberg, E. G., & Letnic, A. K. (2012). Fast and loud background music disrupts reading comprehension. Psychology of Music, 40(6), 700–708. https://doi.org/10.1177/0305735611400173 。本次打开并核对的是作者提供的期刊 PDF：https://sites.utm.utoronto.ca/sites/sites.utm.utoronto.ca.glenn_website/files/download/ThompsonEtAl2012.pdf 。
+      url: https://sites.utm.utoronto.ca/sites/sites.utm.utoronto.ca.glenn_website/files/download/ThompsonEtAl2012.pdf
+    - id: 4
+      citation: >-
+        Thompson, W. F., Schellenberg, E. G., & Husain, G. (2001). Arousal, mood, and the Mozart effect. Psychological Science, 12(3), 248–251. https://doi.org/10.1111/1467-9280.00345 。本次打开并核对的是作者提供的期刊 PDF：https://sites.utm.utoronto.ca/sites/sites.utm.utoronto.ca.glenn_website/files/download/Thompson2001.pdf 。Rauscher, Shaw, and Ky (1993) 以及 Chabris (1999)、Steele 等人（1999）的原文本次未打开。
+      url: https://sites.utm.utoronto.ca/sites/sites.utm.utoronto.ca.glenn_website/files/download/Thompson2001.pdf
+- id: 2026-11-24-psych-life-changes
+  date: '2026-11-24'
+  category: psychology
+  title_zh: 人们是如何决定做出重大人生改变的？
+  title_en: How do people decide to make major life changes?
+  commentary: >-
+    多数日子里人们并不决定改换人生轨道，只有少数日子会。把「那几天究竟特殊在外界刺激，还是特殊在内心状态」问清楚，比把改变写成意志力或命运更接近经验研究真正能够检验的东西。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 人生转变
+  - 习惯中断
+  - 生命历程
+  - 阶段变化
+  - 决策
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-24'
+    consensus:
+      label: >-
+        心理学与生命历程研究并没有一套已结算的理论，专门解释「某个人辞职、离开一座城市或改换生涯的那一天」。相关证据分散在习惯中断、生命历程转折、以及（主要针对成瘾与健康行为的）变化阶段等文献中；它们对 Collison 的精确提问——那几天特殊在刺激还是内在状态——只有间接检验，而且彼此并不构成单一模型
+      note: >-
+        Collison 把问题写成：多数日子里人们并不决定以重大方式改变生活，只有少数日子会；那些日子有什么特殊？其中有多少关乎刺激，又有多少关乎他们自己的内在状态？[1]
+        Verplanken 与 Roy 的现场实验检验的是习惯中断假说：行为改变干预在生命历程变化的情境中更有效；在控制既往行为、习惯强度与意图等因素后，干预对近期搬家者更有效，结果提示「机会窗口」约为搬家后三个月。这直接触及「情境／刺激」一侧，但因变量是二十五项与环境相关的行为频率，不是辞职或改换生涯的决定，且作者自己把效应量称为小，并建议视为概念验证。[2]
+        Prochaska、DiClemente 与 Norcross 的跨理论模型把有意改变描述为经历前意向、意向、准备、行动与维持等阶段，并强调他们研究的是有意改变，而不是社会的、发展的或被强加的改变；其核心经验基础是成瘾行为。[3]
+        West 在 2005 年的社论中要求放弃该模型，批评「阶段」分界是任意的，并明确提出：替代理论需要有办法描述人们何以显得突然地改变，哪怕只是对微小触发作出反应——这与 Collison 的提问几乎同向，但西氏文本本身并不是对「重大人生决定」的新理论。[4]
+        Elder 的生命历程理论把生活转变放回教育、工作与家庭的社会轨迹中，并列出历史时空、转变时机、相互依存的生命与人的能动性等原则；「转折点」在该文中出现，却是作为某些重大转变（如军旅）之影响的描述，而不是对「决定日」的心理机制测量。[5]
+        本次未打开 Baumeister 关于「不满的结晶化」（crystallization of discontent）的章节，因此不转述其具体论点。
+    summary: >-
+      Patrick Collison 在个人网站的问题清单里问：人们如何决定做出重大人生改变？他接着写：多数日子里，人们并不决定以重大方式改变生活；只有少数日子，他们会。那些日子有什么特殊？其中有多少关乎刺激，又有多少关乎他们自己的内在状态？[1]
+      这不是一篇论文能够单独回答的题目。已打开的文献至少从三个方向提供部分机制，但对象、时间尺度与「决定」的含义都不相同。
+      习惯中断研究把重点放在情境一侧：搬家、换工作或基础设施改变等，会暂时打断旧习惯，使人更敏感于新信息，从而让干预更容易起作用。Verplanken 与 Roy 用现场实验表明，不连续性本身——而不只是「干预碰巧发生在变化之后」——可以改变效果；但他们研究的是环境行为，窗口以月计，而且效应小。[2]
+      变化阶段模型把重点放在内在准备：同样的外部劝说，落在前意向或准备阶段，含义完全不同；改变常循环往复，而不是一次线性穿越。[3] 这一模型被广泛使用，也受到包括 West 在内的严厉批评；West 认为阶段界限任意，并要求理论能够说明突然的、由微小触发引起的改变。[4]
+      生命历程研究则提醒：一次「决定」总是嵌在更长的轨迹、历史条件与关系网络里，能动性存在，但选择并非在社会真空中作出。[5]
+      因此，对 Collison 问题的审慎回答是：现有证据支持「情境断裂可以打开一个有期限的窗口」以及「内在准备状态会影响是否行动」，但几乎没有直接、可比的研究，去测量「辞职或迁居的那一天」在刺激与内心状态上究竟如何加权；把故事讲得比文献更整齐，是不诚实的。
+    definitions:
+    - term: 习惯中断假说（habit discontinuity hypothesis）
+      text: >-
+        Verplanken 与 Roy 的表述是：行为改变干预在生命历程变化的情境中更有效。其假定是：当习惯被（暂时）扰乱时，人们对新信息更敏感，并采取一种有利于行为改变的心态。[2]
+    - term: 机会窗口（window of opportunity）
+      text: >-
+        在该现场实验中，作者进一步追问中断之后干预最有效的实际时限。摘要称结果提示，这一窗口的持续时间为搬家后三个月；分组分析亦显示，干预效应集中在搬家后的头三个月，此后未能检出效应。[2]
+    - term: 变化阶段（stages of change）
+      text: >-
+        Prochaska、DiClemente 与 Norcross 将有意改变成瘾行为概括为历经五个阶段——前意向（precontemplation）、意向（contemplation）、准备（preparation）、行动（action）与维持（maintenance）——并且个体在戒除成瘾之前通常会多次循环经过这些阶段。[3]
+    - term: 生命历程（life course）
+      text: >-
+        Elder 把生命历程的基本要素写成：个体的多条轨迹及其发展意涵。生活转变（如入学、孩子出生）总是某一社会轨迹的一部分，并由这条轨迹赋予其独特的意义与形式。人的能动性是指个体能选择所走的道路，但这些选择并不在社会真空中作出，而取决于社会结构与文化的机会和约束。[5]
+    milestones:
+    - year: 1974–1998
+      name: Elder 从《大萧条的孩子们》走向生命历程作为发展理论
+      explanation: >-
+        Elder 在 1998 年的综述中，把生命历程理论的演化追溯到 1960 年代以来为处理历史变迁、生命模式与全生命跨度发展等议题所做的纲领性努力，并以他自己 1974 年的 Children of the Great Depression 为经验起点之一。[5]
+    - year: 1992
+      name: Prochaska、DiClemente 与 Norcross 系统总结跨理论模型
+      explanation: >-
+        三人在 American Psychologist 发表综述，把阶段与来自不同心理治疗理论的改变过程加以整合，用以同时理解自我启动的改变与专业协助下的改变；经验重点是成瘾行为。[3]
+    - year: 2005–2016
+      name: 对阶段模型的集中批评，以及习惯中断假说的现场实验检验
+      explanation: >-
+        West 在 Addiction 发表社论，主张将跨理论（变化阶段）模型搁置。Verplanken 与 Roy 则在 2016 年用包含近期搬家与未搬家、干预与无干预的现场实验，更严格地检验习惯中断假说。[4][2]
+    views:
+    - position: 重大的情境断裂（如搬家）会暂时打断旧习惯，打开一个有限期的窗口，使人们更可能吸收新信息并改变行为；因此「那些日子」的特殊性，至少有一部分在外界结构，而不只在内心忽然想通
+      consensus_role: >-
+        环境心理学与习惯研究中一条得到现场实验支持的假说，但直接证据主要针对亲环境行为，且效应量被作者称为小；不能自动外推到辞职或改换生涯
+      evidence:
+        label: 一项已打开的开放获取现场实验，设计上同时交叉了「是否近期搬家」与「是否接受干预」
+        note: >-
+          样本为英国 Peterborough 的 800 名参与者，结局是基线与八周后自我报告的二十五项环境相关行为频率。作者控制了既往行为、习惯强度、意图、知觉控制、生物圈价值观、个人规范与个人卷入。他们称搬家放大干预效应的效应量很小，并说结果首先应被视为概念验证；两个使检验偏保守的条件之一，是并非所有行为都在个别访谈中被讨论。因变量不是「作出重大人生决定」本身。[2]
+      holders:
+      - name: Bas Verplanken、Deborah Roy
+        identity: >-
+          “Empowering interventions to promote sustainable lifestyles: Testing the habit discontinuity hypothesis in a field experiment”（Journal of Environmental Psychology, 2016）作者。所打开论文的作者单位为 Department of Psychology, University of Bath。[2]
+      argument: >-
+        对 Collison 的「刺激对内在状态」，这一条文献明确押在刺激／情境一侧——但不是任何刺激，而是足以扰乱既有线索—反应联结的生命历程变化。[2]
+        作者把习惯写成：高频、常在同一地点与时间发生、较少受有意识意图引导的行为；其「隧道视野」使旧习惯难以被干预打破。可是当环境暂时阻止习惯执行时，人不得不考虑替代行动。搬家正是这样一种断裂。[2]
+        实验的关键，不只是证明「对刚搬家的人做工作会有效」，而是证明不连续性本身起了作用：在干预组与对照组里都各有一半近期搬家、一半未搬家；在控制基线因素后，干预对近期搬家者更有效。作者并按搬家后的时间分组，结果提示干预在搬家后头三个月有效，其后未能检出效应。[2]
+        讨论中，他们甚至把习惯中断与「从动机阶段走到意志阶段」联系起来，认为中断可能有助于从意向走向行动。这一点与 Collison 的「那一天」在直觉上接近，但必须立刻加上限制：这是关于可持续生活方式的自我报告行为，不是关于辞职、离婚或改行的民族志或决策记录；窗口以月计，而不是以「某一天」计；效应小。[2]
+        因此，它支持一个温和结论：当生活结构被打乱时，人更容易改变与该结构缠在一起的行为；它并不证明重大人生决定通常发生在搬家后三个月内，也不证明内在状态不重要。
+      quotes:
+      - text: >-
+          This study tested the habit discontinuity hypothesis, which states that
+          behaviour change interventions are more effective when delivered in the
+          context of life course changes. The assumption was that when habits
+          are (temporarily) disturbed, people are more sensitive to new
+          information and adopt a mind-set that is conducive to behaviour change.
+        text_zh: 本研究检验习惯中断假说，即行为改变干预在生命历程变化的情境中被施加时更为有效。其假定是：当习惯被（暂时）扰乱时，人们对新信息更敏感，并采取一种有利于行为改变的心态。
+        attribution: Bas Verplanken 与 Deborah Roy，Empowering interventions to promote sustainable lifestyles
+        locator: Journal of Environmental Psychology 45 (2016) 摘要，第 127 页
+        ref: 2
+      - text: >-
+          The results suggested that the duration of the ‘window of opportunity’
+          was three months after relocation.
+        text_zh: 结果提示，「机会窗口」的持续时间为搬家之后三个月。
+        attribution: Bas Verplanken 与 Deborah Roy，Empowering interventions to promote sustainable lifestyles
+        locator: 同文摘要末句，第 127 页。正文第 132 页的分组分析亦写明：这一分解提示干预在搬家后头三个月有效，此后未能检出效应
+        ref: 2
+    - position: 有意的改变可以被描述为经历若干准备「阶段」，因此「那些日子」的特殊性首先在于当事人是否已从「没想过要改」走到「准备行动」；同一外部事件，落在不同阶段上并不同等
+      consensus_role: >-
+        健康心理学与成瘾研究中极为流行的框架；其提出者把它写成对有意改变之结构的研究纲领，但主要证据来自成瘾与相关问题行为，而不是一般的重大人生决定
+      evidence:
+        label: 一篇 1992 年的整合性综述，总结此前约十二年的阶段与过程研究
+        note: >-
+          文章开宗明义：他们专注于有意改变，以对治社会的、发展的或被强加的改变；并问成功改变复杂成瘾何以既能在心理治疗中、也能在自我改变中被证明。阶段定义（如何前意向是可预见的未来中没有改变意图）来自该文第 1103–1104 页。它不是针对「改换城市或生涯」的调查，外推需要另找证据。[3]
+      holders:
+      - name: James O. Prochaska、Carlo C. DiClemente、John C. Norcross
+        identity: >-
+          “In Search of How People Change: Applications to Addictive Behaviors”（American Psychologist, 1992）作者。所打开文本标明的单位分别为：University of Rhode Island 的 Cancer Prevention Research Consortium；University of Houston；University of Scranton。[3]
+      argument: >-
+        若只从习惯中断看 Collison 的问题，会把「那一天」写成几乎全是外面的窗打开了。跨理论模型则坚持：人是否改变，还取决于他处在哪一种准备状态。[3]
+        前意向阶段的标志是：可预见的未来中没有改变行为的意图，许多人并未意识到或低估了问题。意向阶段的人已经意识到问题存在、并认真考虑要克服它，却尚未承诺采取行动；作者报告，在一项对自我改变者的研究中，他们追踪了 200 名处于意向阶段的吸烟者两年，该组的众数反应是在整个两年里一直留在意向阶段。[3]
+        准备阶段结合了意图与行为标准：打算在下个月采取行动，并且在过去一年中有过未成功的行动。行动阶段则是真正修改行为、体验或环境以克服问题；就成瘾而言，被归入行动的人通常已成功改变目标行为一天至六个月。维持是防止复发并巩固收获，被写成改变的延续而不是改变的缺席。[3]
+        作者强调，大多数人并非一次线性走完这些阶段，复发是常规而非例外，许多人会螺旋式地回到更早阶段再前进。[3]
+        把这套词汇用到「重大人生改变」上，至多是一个类比：也许「那一天」往往是准备已久的人碰到了一个行动的由头，而不是一个毫无准备的人被偶然刺激击中。可是，阶段边界在成瘾研究内部已经受到下一项立场所记录的严厉批评；而且 1992 年这篇综述并没有测量辞职或迁居决定。它能支持的，是「内在准备很重要」这一弱命题，而不是一套已被证实的人生决定阶段学。
+      quotes:
+      - text: >-
+          Modification of addictive behaviors involves progression through five
+          stages—precontemplation, contemplation, preparation, action, and
+          maintenance—and individuals typically recycle through these stages
+          several times before termination of the addiction.
+        text_zh: 成瘾行为的改变，包含经历五个阶段——前意向、意向、准备、行动与维持——并且个体在戒除该成瘾之前，通常会多次循环经过这些阶段。
+        attribution: James O. Prochaska、Carlo C. DiClemente 与 John C. Norcross，In Search of How People Change
+        locator: American Psychologist, 47(9), 1992, 第 1102 页开篇摘要性段落
+        ref: 3
+      - text: >-
+          Precontemplation is the stage at which there is no intention to change
+          behavior in the foreseeable future.
+        text_zh: 前意向是这样的阶段：在可预见的未来中，没有改变行为的意图。
+        attribution: James O. Prochaska、Carlo C. DiClemente 与 John C. Norcross，In Search of How People Change
+        locator: 第 1103 页，“Following are brief descriptions of each of the five stages” 之后对前意向的定义句
+        ref: 3
+    - position: 变化阶段模型在其最基本的「阶段」概念上是有缺陷的，不应当被当作解释「那一天」的现成理论；真正需要说明的，反而是人何以显得突然地、即使只对微小触发也作出改变
+      consensus_role: >-
+        对跨理论模型最直截了当的公开批评之一；它针对的是健康促进与成瘾领域中该模型的主导地位，而不是提出一套关于重大人生决定的替代理论
+      evidence:
+        label: 已打开的 Addiction 社论，明确呼吁放弃该模型，并引用此前多项经验与概念批评
+        note: >-
+          这是 2005 年的社论而非新的随机试验。West 声明不打算在此重述已经提出的大量证据与概念分析，而是主张问题已严重到应放弃该模型。文中提到的 Etter、Sutton、Littell 与 Girvin 等批评，本次未一一打开，故不转述其具体数据。West 的经验举例主要来自吸烟。[4]
+      holders:
+      - name: Robert West
+        identity: >-
+          “Time for a change: putting the Transtheoretical (Stages of Change) Model to rest”（Addiction, 2005）作者。所打开文本标明单位为 University College London，Department of Epidemiology 的 Health Behaviour Unit。[4]
+      argument: >-
+        若有人想用「阶段」来填补 Collison 所问的内在状态，West 的批评必须被放在同一张桌子上。[4]
+        他认为，该模型在其最基本的主张——「阶段」概念上就是有缺陷的：它必须划出任意分界才能区分各阶段，而这恰恰说明它们不是真正的阶段。他举的例子是：一个打算戒烟的人，若计划在未来 30 天内停止（且过去 12 个月有过持续 24 小时的戒烟尝试），就属于准备阶段；若计划在 31 天以后，就只属于意向阶段。[4]
+        他把该模型说成给研究者与临床工作者的「安全毯」，并主张问题已经严重到阻碍了健康促进领域的进展，尽管它对许多实务工作者仍有直觉吸引力，也应该被放弃。即便还没有新理论，回到该模型出现之前那种常识做法——直接询问改变的愿望与能力，并承认二者受个人与情境因素（包括成瘾）影响——也比继续使用该模型更好。[4]
+        对原问题特别重要的是他对「替代理论必须能做什么」的要求：它需要提供一条途径，去描述人们何以显得突然地改变，哪怕只是对微小触发作出反应；并且要超越简单的决策模型。[4]
+        这几乎是把 Collison 的问题改写成对阶段模型的理论判决。可是 West 并没有在这篇社论里提交这样一种替代理论，更没有测量「改换人生轨道的那一天」。它的作用是消极的、却不可少：不要把「阶段」误认为已经解答了突然性与触发的问题。
+      quotes:
+      - text: >-
+          First of all the model is flawed even in its most basic tenet,
+          the concept of the ‘stage’. It has to draw arbitrary dividing
+          lines in order to differentiate between the stages. This has
+          to mean that these are not genuine stages.
+        text_zh: 首先，该模型即使在其最基本的主张——「阶段」概念上——也是有缺陷的。它必须划出任意的分界线，才能把各个阶段区分开来。这也就意味着，它们并不是真正的阶段。
+        attribution: "Robert West，Time for a change: putting the Transtheoretical (Stages of Change) Model to rest"
+        locator: Addiction, 100 (2005), 第 1036–1037 页，小节 “WHAT IS WRONG WITH THE TRANSTHEORETICAL MODEL” 的第一条批评
+        ref: 4
+      - text: >-
+          A replacement is needed that more accurately reflects observations
+          about behaviour change, is internally consistent, and generates useful
+          ideas and predictions. It needs to provide a way of describing how
+          people can change with apparent suddenness, even in response to small
+          triggers.
+        text_zh: 需要一种替代理论：它应更准确地反映关于行为改变的观察，内部一致，并能产生有用的想法与预测。它需要提供一种途径，去描述人们何以显得突然地改变，哪怕只是对微小触发作出反应。
+        attribution: Robert West，Time for a change
+        locator: 同文第 1036 页导论，在主张应放弃该模型之后对「替代者须满足什么」的陈述
+        ref: 4
+    - position: 所谓重大改变，应被放回更长的社会轨迹、历史条件与关系网络中来看；人确实作出选择，但「那一天」的意义取决于它落在哪一条轨迹、何时发生、以及与谁的生命牵在一起
+      consensus_role: >-
+        生命历程研究的核心取向，对「把改变写成孤立的心理决定时刻」构成有力的校正；它提供的是发展与社会理论框架，而不是对决定日的实验测量
+      evidence:
+        label: 一篇已打开的 1998 年理论综述，以大萧条队列等纵贯研究为经验来源
+        note: >-
+          Elder 声明他使用「理论」一词，是指一套框架与取向（并引 Merton 1968）。文中的「转折点」出现在讨论军旅等具有「全控机构」性质的转变时，并引 Clausen、Rutter 等人；本次未打开这些被引文献，故不把转折点机制写成已在本文中被实验证实。该文并不直接回答「刺激与内在状态各占多少」。[5]
+      holders:
+      - name: Glen H. Elder, Jr.
+        identity: >-
+          “The Life Course as Developmental Theory”（Child Development, 1998）作者。文末通讯信息为 Carolina Population Center, University of North Carolina at Chapel Hill。[5]
+      argument: >-
+        Collison 的提问很容易把「重大人生改变」想像成一个孤立的日子、一次个人决策。Elder 用来贯穿其综述的前提却是：变化着的生活会改变发展轨迹。[5]
+        他把生命历程理解为教育、工作与家庭等社会轨迹；生活转变（入学、孩子出生等）总是这些轨迹的一部分，并由轨迹赋予其意义与形式。历史力量塑造这些轨迹，轨迹再影响行为与特定的发展路线。有些人能够选择道路，此即人的能动性，但「所有生命选择都取决于社会结构与文化的机会和约束」。[5]
+        他列出的关键原则包括：个体的生命历程嵌入并塑造于其所经历的历史时间与地点；一连串生命转变或事件的发展影响，取决于它们在个人生命中何时发生；生命是相互依存地度过的，社会与历史影响通过共享的关系网络表达出来；个体在历史与社会环境的机会和约束之内，通过选择与行动建构自己的生命历程。[5]
+        在讨论某些具有强力重塑作用的转变（如军旅）时，他提到有人把随之而来的改变描述为「转折点」。这对 Collison 的问题是一份提醒：看起来像「某一天作了决定」的事，可能是一条轨迹上被重新定向的转变，其效果取决于时机、历史位置与关系，而不是一个可以单独称量的刺激或心情。[5]
+        这一视角并不能告诉你，窗口与内在准备究竟哪一个权重大；它告诉你的是，若研究设计把「那一天」从轨迹里挖出来，可能已经问错了单位。
+      quotes:
+      - text: >-
+          A central premise ties together the studies presented
+          in this article: the notion that changing lives alter devel-
+          opmental trajectories.
+        text_zh: 一个核心前提把本文所呈现的各研究联结起来：变化着的生活会改变发展轨迹。
+        attribution: Glen H. Elder, Jr.，The Life Course as Developmental Theory
+        locator: Child Development, 69(1), 1998, 第 1 页 “INTRODUCTION” 首句。所打开的是 JSTOR 扫描转载本
+        ref: 5
+      - text: >-
+          Some individuals are able to select the paths they fol-
+          low, a phenomenon known as human agency, but
+          these choices are not made in a social vacuum. All
+          life choices are contingent on the opportunities and
+          constraints of social structure and culture.
+        text_zh: 有些个体能够选择自己所走的道路，这一现象被称为人的能动性，但这些选择并非在社会真空中作出。所有的生命选择，都取决于社会结构与文化的机会和约束。
+        attribution: Glen H. Elder, Jr.，The Life Course as Developmental Theory
+        locator: 同文第 2 页，在说明历史力量塑造家庭、教育与工作的社会轨迹之后
+        ref: 5
+    open_parts: >-
+      Collison 所问的「那少数几天」几乎没有被上述文献当作直接的分析单位：习惯中断研究的窗口以月计，阶段模型的时间框常常是 30 天或 6 个月，生命历程研究的单位则是轨迹与转变。把三者加起来，仍缺少对「辞职／离城／改行那一天」的系统测量，更缺少把刺激与内在状态放进同一设计里加以加权的研究。
+      习惯中断的直接实验证据目前主要在亲环境行为，外推到其他重大决定需要新的检验；作者也承认效应小，并视为概念验证。[2]
+      跨理论模型是否应被放弃，本身仍是有争议的（本次打开了 West 的批评，但未打开该模型支持者在 2005 年及以后的回应文）。即便不用「阶段」，如何描述突然性与微小触发，仍是 West 自己标明的未完成工作。[4]
+      Baumeister 的「不满的结晶化」、Gollwitzer 的执行意图，以及关于顿悟、传记断裂或重大健康行为改变的其他传统，可能与「那一天」相关，但本次未能打开这些文本，故不把它们写进已核对的观点。
+    references:
+    - id: 1
+      citation: >-
+        Collison, P. Questions. 本次按 2026-11-24 打开的页面核对，其中条目 “How do people decide to make major life changes?” 及其后的三句说明构成本题的提问原文。https://patrickcollison.com/questions
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: >-
+        Verplanken, B., & Roy, D. (2016). Empowering interventions to promote sustainable lifestyles: Testing the habit discontinuity hypothesis in a field experiment. Journal of Environmental Psychology, 45, 127–134. https://doi.org/10.1016/j.jenvp.2015.11.008 本次打开并核对的是 Ulster University 研究库提供的出版商 PDF（CC BY）：https://pure.ulster.ac.uk/ws/portalfiles/portal/112035328/1_s2.0_S0272494415300487_main.pdf
+      url: https://pure.ulster.ac.uk/ws/portalfiles/portal/112035328/1_s2.0_S0272494415300487_main.pdf
+    - id: 3
+      citation: >-
+        Prochaska, J. O., DiClemente, C. C., & Norcross, J. C. (1992). In search of how people change: Applications to addictive behaviors. American Psychologist, 47(9), 1102–1114. 本次打开并核对的转载本为 https://www.avannistelrooij.nl/wp-content/uploads/2024/05/Prochaska-ea-1992-how-people-change-AP-1.pdf ；文内页眉页脚与 1102–1114 的原刊分页一致。
+      url: https://www.avannistelrooij.nl/wp-content/uploads/2024/05/Prochaska-ea-1992-how-people-change-AP-1.pdf
+    - id: 4
+      citation: >-
+        West, R. (2005). Time for a change: putting the Transtheoretical (Stages of Change) Model to rest. Addiction, 100, 1036–1039. https://doi.org/10.1111/j.1360-0443.2005.01139.x 活页 Wiley 页面对本次简单抓取返回 403，故打开并核对的是 Internet Archive 快照 https://web.archive.org/web/20240316090812/https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1360-0443.2005.01139.x
+      url: https://web.archive.org/web/20240316090812/https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1360-0443.2005.01139.x
+    - id: 5
+      citation: >-
+        Elder, G. H., Jr. (1998). The life course as developmental theory. Child Development, 69(1), 1–12. 原刊 PDF 对本次简单抓取返回 403 或 500，故打开并核对的是 Internet Archive 上的 JSTOR 扫描件 https://web.archive.org/web/2018/http://www.rinaldipsych.synthasite.com/resources/Elder.pdf
+      url: https://web.archive.org/web/2018/http://www.rinaldipsych.synthasite.com/resources/Elder.pdf
