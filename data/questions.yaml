@@ -11098,3 +11098,1053 @@
       citation: >-
         Elder, G. H., Jr. (1998). The life course as developmental theory. Child Development, 69(1), 1–12. 原刊 PDF 对本次简单抓取返回 403 或 500，故打开并核对的是 Internet Archive 上的 JSTOR 扫描件 https://web.archive.org/web/2018/http://www.rinaldipsych.synthasite.com/resources/Elder.pdf
       url: https://web.archive.org/web/2018/http://www.rinaldipsych.synthasite.com/resources/Elder.pdf
+
+- id: 2026-11-25-ai-cnn-channels
+  date: '2026-11-25'
+  category: ai
+  title_zh: 在卷积神经网络里，每个新滤波器是对每个输入通道都有一套不同的权重，还是同一套权重用在所有输入通道上？
+  title_en: In a CNN, does each new filter have different weights for each input channel, or are the same weights of each filter used across input channels?
+  commentary: >-
+    许多人第一次看到彩色图像上的卷积，会以为一张 5×5 的小模板被原样印在红、绿、蓝三个通道上。把「空间上局部、深度上铺满」这一不对称性说清楚，才能理解滤波器到底在学什么，以及参数究竟有多少。
+  source_name: AI Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/5769/in-a-cnn-does-each-new-filter-have-different-weights-for-each-input-channel-or
+  author: Ryan Chase
+  source_type: stackexchange
+  tags:
+  - 卷积神经网络
+  - 滤波器
+  - 通道
+  - 深度学习
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        在标准的多通道卷积里，每一个输出通道（每一个滤波器）对每一个输入通道都有自己的一套空间权重，而不是把同一张二维模板重复用到所有输入通道上；同一滤波器在空间位置上则共享这套权重
+      note: >-
+        Stanford CS231n 讲义明确写出：神经元沿深度轴的连接范围「始终等于输入体的深度」；若输入是 $[32\\times 32\\times 3]$、感受野为 $5\\times 5$，则每个神经元的权重覆盖 $[5\\times 5\\times 3]$ 区域，共 75 个权重（另加偏置）。带参数共享时，每个滤波器引入 $F\\cdot F\\cdot D_1$ 个权重。[1]
+        Goodfellow、Bengio 与 Courville 把多通道卷积的核写成四维张量 $K_{i,j,k,l}$：它给出输出通道 $i$ 与输入通道 $j$ 之间、在空间偏移 $(k,l)$ 上的连接强度——下标里已经为「每个输入通道一套权重」留了位置。[2]
+        以上是对标准实现的教科书描述，不是一项需要抽样才能成立的经验定律；特殊结构（例如对所有输入通道强制共用同一张二维核）可以人为加进去，但不属于上述默认定义。
+    summary: >-
+      问题里的「新滤波器」对应一个输出通道。图像或上一层的特征图通常被看成三维张量：两个空间坐标，再加上通道下标。[2]
+      卷积在空间上是局部的：一个单元只看输入的一个小窗口。但在通道这个方向上，标准做法是看「全部」输入通道，而不是只看其中一个，也不是把同一张二维小模板拿去乘每一个通道再简单相加时还强制权重相同。[1][2]
+      CS231n 用数字把这一点写死：输入若有 3 个通道、滤波器空间尺寸为 5×5，则该滤波器的权重块是 $5\\times 5\\times 3$，参数个数是 75，而不是 25。[1]
+      Goodfellow 等人则用四维核 $K_{i,j,k,l}$ 把「输出通道 $i$、输入通道 $j$、空间偏移 $k,l$」四个轴同时写出来。只要 $j$ 这个轴是独立的，每个输入通道的空间权重就可以不同。[2]
+      需要同时记住另一半：「参数共享」指的是这同一个四维核（对固定的 $i$）在空间位置上平移复用，而不是在输入通道之间复用。[1][2]
+      因此，对这个问题的直接回答是：在通常的 CNN 里，每个滤波器对每个输入通道都有自己的权重；「同一套权重用在所有输入通道上」不是默认定义。
+    definitions:
+    - term: 输入体的深度 / 通道（depth / channels）
+      text: >-
+        CS231n 提醒：这里的 depth 指激活体的第三维，不是整个网络有多少层。例如 CIFAR-10 的输入图像是宽度、高度再加 3 个颜色通道。[1]
+    - term: 滤波器 / 卷积核（filter / kernel）
+      text: >-
+        在 CS231n 的用法里，一个滤波器学习在输入中寻找某种模式，并在输出体中占据一个深度切片；带参数共享时，每个滤波器有 $F\\cdot F\\cdot D_1$ 个权重。[1]
+        在 Goodfellow 等人的记号里，核是四维张量，同时索引输出通道、输入通道和两个空间偏移。[2]
+    - term: 参数共享（parameter sharing）
+      text: >-
+        同一滤波器的权重在输入的不同空间位置上重复使用，从而大幅减少参数并赋予平移等变的归纳偏置。它不意味着这些权重在不同输入通道之间也必须相同。[1][2]
+    milestones:
+    - year: 1989–1998
+      name: 卷积神经网络作为处理网格数据的专用结构被系统表述
+      explanation: >-
+        Goodfellow 等人把卷积网络追溯到 LeCun 1989 年的工作，并指出其名称来自网络在至少一层里用卷积代替一般的矩阵乘法。[2]
+        1998 年 LeCun、Bottou、Bengio 与 Haffner 的文献识别系统是这一路线的经典实现之一；本次打开了该文 PDF，但下面的通道定义以更直接的教科书表述为准，不把 1998 年论文未核到的句子写进引语。[3]
+    - year: 2016
+      name: 《Deep Learning》第 9 章给出多通道卷积的四维核记号
+      explanation: >-
+        Ian Goodfellow、Yoshua Bengio 与 Aaron Courville 在公开的第 9 章中，用 $K_{i,j,k,l}$ 写出输出通道、输入通道与空间偏移之间的连接，成为此后课程中常用的标准写法。[2]
+    views:
+    - position: 每个滤波器在深度方向上覆盖全部输入通道，并且对各输入通道使用各自的空间权重；参数个数按「空间尺寸 × 输入通道数」计算
+      consensus_role: 标准教材与课程讲义中的默认定义
+      evidence:
+        label: 公开课程讲义与教材章节中的定义和例算，不是新实验
+        note: >-
+          CS231n 讲义给出了 $[5\\times 5\\times 3]$ 与 75 个权重的具体算术，以及「每个滤波器 $F\\cdot F\\cdot D_1$ 个权重」的汇总公式。[1]
+          Goodfellow 等人的四维核记号把输入通道写成独立下标，从结构上排除了「同一套二维权重用于所有输入通道」这一默认假设。[2]
+          二者都是对常规实现的说明；它们并不禁止有人设计通道间权值绑定的变体。
+      holders:
+      - name: Stanford CS231n 课程讲义
+        identity: >-
+          本次打开并核对的是公开页面 https://cs231n.github.io/convolutional-networks/ 上的 “Convolutional Neural Networks (CNNs / ConvNets)” 讲义。该页未在本次核对本中以文首署名的方式给出单一作者，故不以未核到的个人名字作为作者。[1]
+      - name: Ian Goodfellow、Yoshua Bengio、Aaron Courville
+        identity: >-
+          《Deep Learning》（MIT Press, 2016）作者。本次打开并核对的是官方站点 https://www.deeplearningbook.org/contents/convnets.html 提供的第 9 章「Convolutional Networks」。[2]
+      argument: >-
+        先看空间与深度的不对称。CS231n 写明：连接在宽度和高度上是局部的，但沿输入深度始终是铺满的。因此，一个 $5\\times 5$ 的「滤波器」在 RGB 输入上并不是 25 个数，而是对三个通道各有 25 个数。[1]
+        汇总公式把这件事说成计数问题：若有 $K$ 个滤波器、空间尺寸为 $F$、输入深度为 $D_1$，则参数共享之后总权重是 $(F\\cdot F\\cdot D_1)\\cdot K$，再加 $K$ 个偏置。若同一套二维权重被用在所有输入通道上，每个滤波器就只应有 $F\\cdot F$ 个权重，与这里的公式不合。[1]
+        Goodfellow 等人从张量形状给出同一事实。他们写：处理图像时，卷积的输入和输出通常被看成三维张量，其中一个指标进入不同通道，另外两个进入每个通道的空间坐标。核 $K_{i,j,k,l}$ 是输出通道 $i$ 与输入通道 $j$ 之间、偏移 $k$ 行 $l$ 列的连接强度。只要不同的 $j$ 可以对应不同的数值，各输入通道的权重就是分开学的。[2]
+        所以，对原问题两个选项的取舍是明确的：默认是「每个输入通道一套不同的权重」。
+      quotes:
+      - text: >-
+          The extent of the connectivity along the depth axis is always equal to the depth of the input volume. It is important to emphasize again this asymmetry in how we treat the spatial dimensions (width and height) and the depth dimension: The connections are local in 2D space (along width and height), but always full along the entire depth of the input volume.
+        text_zh: >-
+          沿深度轴的连接范围始终等于输入体的深度。必须再次强调我们对待空间维（宽与高）和深度维的这种不对称：连接在二维空间上是局部的（沿宽与高），但沿输入体的整个深度始终是铺满的。
+        attribution: Stanford CS231n 课程讲义，Convolutional Neural Networks (CNNs / ConvNets)
+        locator: 小节 “Local Connectivity”，本次打开的 cs231n.github.io 页面
+        ref: 1
+      - text: >-
+          For example, suppose that the input volume has size [32x32x3], (e.g. an RGB CIFAR-10 image). If the receptive field (or the filter size) is 5x5, then each neuron in the Conv Layer will have weights to a [5x5x3] region in the input volume, for a total of 5*5*3 = 75 weights (and +1 bias parameter).
+        text_zh: >-
+          例如，设输入体的尺寸为 [32×32×3]（如 RGB 的 CIFAR-10 图像）。若感受野（或滤波器尺寸）为 5×5，则卷积层中的每个神经元将对输入体中一块 [5×5×3] 的区域拥有权重，共计 5×5×3 = 75 个权重（再加 1 个偏置参数）。
+        attribution: Stanford CS231n 课程讲义
+        locator: 同上，“Local Connectivity” 中的 Example 1
+        ref: 1
+      - text: >-
+          When working with images, we usually think of the input and output of the convolution as being 3-D tensors, with one index into the different channels and two indices into the spatial coordinates of each channel. [...] Assume we have a 4-D kernel tensor K with element K i,j,k,l giving the connection strength between a unit in channel i of the output and a unit in channel j of the input, with an offset of k rows and l columns between the output unit and the input unit.
+        text_zh: >-
+          在处理图像时，我们通常把卷积的输入和输出看成三维张量，其中一个指标进入不同的通道，另外两个指标进入每个通道的空间坐标。[…] 设我们有一个四维核张量 K，其元素 K i,j,k,l 给出输出通道 i 中的一个单元与输入通道 j 中的一个单元之间的连接强度，两者在空间上相差 k 行、l 列。
+        attribution: Ian Goodfellow、Yoshua Bengio 与 Aaron Courville，《Deep Learning》第 9 章
+        locator: 官方 HTML 第 9 章中关于多通道卷积与四维核 $K_{i,j,k,l}$ 的段落（印刷版页码在该 HTML 中标为第 342 页附近）
+        ref: 2
+
+    - position: 「同一套二维权重用在所有输入通道上」不是标准卷积的默认定义；若要那样做，必须额外施加通道间的权值绑定，而这会改变参数计数
+      consensus_role: 对常见误解的澄清，与教材默认定义相配套
+      evidence:
+        label: 由标准公式反推，不是一篇独立的实验论文
+        note: >-
+          CS231n 的汇总公式是每个滤波器 $F\cdot F\cdot D_1$ 个权重；若同一张二维核被用于全部输入通道，每个滤波器应只有 $F\cdot F$ 个权重，与该公式不合。[1]
+          深度可分离卷积等变体会以不同方式处理通道，本次没有打开那些原始论文，故不把变体写成对默认定义的否定，只指出默认与「全通道共用一套二维权重」不是一回事。
+      holders:
+      - name: Stanford CS231n 课程讲义
+        identity: >-
+          与上一观点相同，依据仍是本次打开的公开讲义中的参数计数公式。[1]
+      argument: >-
+        原问题给出的两个选项里，第二个选项不是不能被实现，而是它不是教材中的标准卷积。标准计数已经把输入深度 $D_1$ 乘进了每个滤波器的参数个数。[1]
+        因此，看到「一个 5×5 滤波器」时，若输入有 3 个通道，不应把它想成只有 25 个独立权重。除非模型被显式写成通道间共享那 25 个数，否则每个输入通道都有自己的 5×5。
+    open_parts: >-
+      教科书描述的是最常见的多层、多通道卷积。深度可分离卷积、分组卷积或显式的通道间权值绑定，会改变「每个输入通道是否有独立空间核」这一默认设定；本次没有把这些变体的原始论文作为核对对象，因此不把它们写成对标准定义的否定。
+      「滤波器」一词在口语里有时只指一张二维模板，有时指整个 $F\\times F\\times D_1$ 的权重块，混用会造成重复提问。上面的计数以讲义与教材的记号为准。[1][2]
+    references:
+    - id: 1
+      citation: >-
+        CS231n: Convolutional Neural Networks for Visual Recognition. 课程讲义页面 “Convolutional Neural Networks (CNNs / ConvNets)”。本次按 2026-11-25 打开的页面核对。https://cs231n.github.io/convolutional-networks/
+      url: https://cs231n.github.io/convolutional-networks/
+    - id: 2
+      citation: >-
+        Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. 第 9 章 “Convolutional Networks”。本次打开并核对的是作者官方站点上的章节 HTML：https://www.deeplearningbook.org/contents/convnets.html
+      url: https://www.deeplearningbook.org/contents/convnets.html
+    - id: 3
+      citation: >-
+        LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-based learning applied to document recognition. Proceedings of the IEEE, 86(11), 2278–2324. 本次打开的是公开转载 PDF：https://gwern.net/doc/ai/nn/cnn/1998-lecun.pdf （用于核对这一文献路线的存在与年份，通道定义的引语取自 [1][2]）
+      url: https://gwern.net/doc/ai/nn/cnn/1998-lecun.pdf
+
+- id: 2026-11-25-ai-fuzzy
+  date: '2026-11-25'
+  category: ai
+  title_zh: 什么是模糊逻辑？
+  title_en: What is fuzzy logic?
+  commentary: >-
+    「是」与「否」不够用的时候，人们仍然要推理：什么叫「高个子」、什么叫「差不多到了」。模糊逻辑把隶属程度写进形式系统，既打开了控制工程里大量成功应用，也引来「它是否真的超出了二值逻辑」的基础争论。
+  source_name: AI Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/10/what-is-fuzzy-logic
+  author: kenorb
+  source_type: stackexchange
+  tags:
+  - 模糊逻辑
+  - 模糊集合
+  - 人工智能基础
+  - 知识表示
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        作为一套把「隶属程度」形式化的数学工具，以及在启发式控制中有大量成功应用，这一点较少争议；但它作为「关于不确定性的推理逻辑」是否自洽、以及成功应用究竟依赖了理论中的哪些部分，自 1990 年代起就有严肃的技术批评
+      note: >-
+        Zadeh 在 1965 年把模糊集定义为带有连续隶属等级的对象类，并用取值于 $[0,1]$ 的隶属函数来刻画。[1]
+        Elkan 在 1993 年 AAAI 论文中承认模糊方法在启发式控制中「高度成功」，同时论证：他所考察的一个标准版本在形式上会坍缩为二值逻辑，并且他认为模糊逻辑并不适于专家系统中关于不确定证据的推理。[2]
+        本次打开并核对的是这两篇一手文本；未打开 Zadeh 后续关于「模糊逻辑」一词的专文，也未做应用领域的系统综述，故不把「控制成功」写成已清点过的统计结论。
+    summary: >-
+      日常语言和工程判断里充满边界不清的类别。Zadeh 的出发点正是：现实世界中的对象类，往往没有精确定义的隶属标准。[1]
+      他的解决办法不是把这些类强行切成「属于 / 不属于」，而是引入模糊集：每个对象被赋予介于 0 与 1 之间的隶属等级；包含、并、交、补等集合运算被推广到这类对象上。[1]
+      在后来的用法里，「模糊逻辑」常被理解为把经典命题逻辑的真值 {假, 真} 推广为 $[0,1]$ 上的真值度，并据此设计规则与控制器。Elkan 也是在这个意义上讨论「最简单的」模糊逻辑。[2]
+      需要分开的是三件不同的事：第一，模糊集作为描述含糊边界的数学语言；第二，把这套语言做成推理或控制算法；第三，这些算法在真实系统里为什么有效。前一件由 1965 年的论文给出了清楚的定义；后两件则是 Elkan 质疑的焦点——他的「悖论」并不是否认应用成功，而是追问：成功是否真的依赖于那套被当作逻辑基础的演算。[2]
+    definitions:
+    - term: 模糊集（fuzzy set）
+      text: >-
+        Zadeh 的定义是：模糊集是带有连续隶属等级的对象类；它由一个隶属（特征）函数刻画，该函数把每个对象映射到 0 与 1 之间的一个隶属等级。[1]
+        用更日常的话说：一个元素不必「完全在」或「完全不在」集合里，可以「在某种程度上」属于它。
+    - term: 模糊逻辑（fuzzy logic）
+      text: >-
+        在 Elkan 的表述中，最简单的模糊逻辑是把标准命题逻辑从两个真值「假」和「真」，推广为 0 与 1 之间的真值度。[2]
+        实践中这一名称还常覆盖模糊控制、模糊规则系统等工程方法；那些方法是否在逻辑上等于上述形式系统，正是争议所在。
+    - term: 隶属函数（membership / characteristic function）
+      text: >-
+        在经典集合里，特征函数只取 0 或 1。Zadeh 指出，当隶属函数退化为这种二值情形时，模糊集就还原为普通集合。[1]
+    milestones:
+    - year: '1965'
+      name: Zadeh 发表《Fuzzy Sets》
+      explanation: >-
+        Lotfi A. Zadeh 在 *Information and Control* 上给出模糊集的定义与基本运算，并讨论包含、关系、凸性等推广。论文署名单位为加州大学伯克利分校电气工程系与电子学研究实验室。[1]
+    - year: '1993'
+      name: Elkan 对模糊逻辑基础与应用范围的批评
+      explanation: >-
+        Charles Elkan 在 AAAI-93 发表《The Paradoxical Success of Fuzzy Logic》，把「控制应用的成功」与「形式基础可能坍缩为二值逻辑」并置为需要解释的现象。[2]
+        该文随后引发大量回应（本次未逐一打开那些回应文，故不在已核对观点中转述其内容）。
+    views:
+    - position: 模糊集是为「边界不清的类别」准备的形式语言：用 $[0,1]$ 上的隶属等级代替非此即彼的成员资格
+      consensus_role: 该数学定义本身是清楚的，并成为后续「模糊逻辑」讨论的起点
+      evidence:
+        label: 经典原始论文中的定义与导论，不是应用试验
+        note: >-
+          依据是本次打开的 Zadeh 1965 年论文全文。它对「模糊逻辑」这个后来更宽的工程用语并没有给出与今日教材完全同一的定义，本文不把 1965 年的集合论构造直接说成已经完成了全部「模糊逻辑」。[1]
+      holders:
+      - name: Lotfi A. Zadeh
+        identity: >-
+          1965 年论文署名：加州大学伯克利分校电气工程系与电子学研究实验室（Department of Electrical Engineering and Electronics Research Laboratory, University of California, Berkeley）。[1]
+      argument: >-
+        Zadeh 用动物这个类别做说明：狗、马、鸟显然属于，岩石、流体、植物显然不属于，但海星、细菌相对于「动物」的身份是含混的；「远大于 1 的实数」相对于 10 也有同样的含混。[1]
+        模糊集并不试图事先消除这种含混，而是把含混写成可计算的隶属等级，再把并、交、补等运算推广过去。当隶属函数只取 0 或 1 时，构造回到普通集合，因此它被表述为普通集合论的扩展，而不是与之无关的另一套数学。[1]
+        这一观点回答「什么是模糊逻辑」的前半：至少就其数学内核而言，它首先是一种关于分级成员资格的集合论。
+      quotes:
+      - text: >-
+          A fuzzy set is a class of objects with a continuum of grades of membership. Such a set is characterized by a membership (characteristic) function which assigns to each object a grade of membership ranging between zero and one.
+        text_zh: >-
+          模糊集是带有连续隶属等级的对象类。这样的集合由一个隶属（特征）函数刻画，该函数为每个对象指定一个介于零与一之间的隶属等级。
+        attribution: L. A. Zadeh，Fuzzy Sets
+        locator: Information and Control, 8 (1965), 第 338 页摘要
+        ref: 1
+      - text: >-
+          More often than not, the classes of objects encountered in the real physical world do not have precisely defined criteria of membership.
+        text_zh: >-
+          在真实的物理世界中遇到的对象类，往往并没有被精确定义的隶属标准。
+        attribution: L. A. Zadeh，Fuzzy Sets
+        locator: 同文第 338 页，“I. INTRODUCTION” 首句
+        ref: 1
+    - position: 把模糊逻辑当成处理不确定证据的形式系统时，一个看似合理的标准版本会在数学上坍缩为二值逻辑；控制应用的成功并不能自动为这个形式系统辩护
+      consensus_role: 有影响的技术批评，不是该领域的全体共识
+      evidence:
+        label: 一篇会议论文中的形式论证与应用观察，随后有争议
+        note: >-
+          依据是本次打开的 Elkan 1993 年 AAAI 论文。摘要给出了「坍缩为二值逻辑」的判断，以及「启发式控制高度成功」与「不适于专家系统中的不确定证据推理」的对照。[2]
+          本文没有核对他正文中的定理推导，也没有打开同年或此后的回应文章，因此只陈述他明确写出的主张，不把「已经证成坍缩」写成无争议的定理。
+      holders:
+      - name: Charles Elkan
+        identity: >-
+          该文署名单位为加州大学圣迭戈分校计算机科学与工程系（Department of Computer Science and Engineering, University of California, San Diego）。[2]
+      argument: >-
+        Elkan 要解释的是一种他所谓的「悖论」：模糊逻辑方法在真实应用中取得了成功，但其基础的融贯性一直受到攻击。[2]
+        他的抽象写法是：作为形式系统，他所讨论的一个标准版本在数学上坍缩为二值逻辑；在经验上，模糊逻辑不足以承担专家系统里对不确定证据的推理。尽管如此，它在启发式控制中的应用却相当成功。他给出的解释是：这些不一致性在实践中尚未造成伤害，是因为当时的模糊控制器远比其他知识系统更简单。[2]
+        对「什么是模糊逻辑」这个问题，这一观点的意义在于划界：工程上被称为模糊逻辑的控制器，不必等于一篇逻辑论文里的那个形式系统；也不能因为控制器有用，就断定那套形式系统已经作为「不确定性推理逻辑」而成立。
+      quotes:
+      - text: >-
+          We show that as a formal system, a standard version of fuzzy logic collapses mathematically to two-valued logic, while empirically, fuzzy logic is not adequate for reasoning about uncertain evidence in expert systems. Nevertheless, applications of fuzzy logic in heuristic control have been highly successful. We argue that the inconsistencies of fuzzy logic have not been harmful in practice because current fuzzy controllers are far simpler than other knowledge-based systems.
+        text_zh: >-
+          我们表明：作为形式系统，模糊逻辑的一个标准版本在数学上坍缩为二值逻辑；而在经验上，模糊逻辑不足以用于专家系统中对不确定证据的推理。尽管如此，模糊逻辑在启发式控制中的应用却取得了高度成功。我们论证：这些不一致性在实践中尚未造成伤害，是因为当前的模糊控制器远比其他知识系统更简单。
+        attribution: Charles Elkan，The Paradoxical Success of Fuzzy Logic
+        locator: AAAI-93 Proceedings 论文摘要
+        ref: 2
+    open_parts: >-
+      「模糊逻辑」一词在 1965 年之后的外延比「模糊集」更宽，涵盖控制规则、近似推理与各种真值度演算；这些用法之间并不自动等同，本次也未打开 Zadeh 后来专门讨论「fuzzy logic」的论文来核对他自己的用词史。
+      Elkan 的形式坍缩论证依赖他对「一个标准版本」的公理选择，这一点在发表后即有争议；在没有打开回应文与他本人的后续说明之前，不应把该论证写成已经关闭的结论。[2]
+      当代机器学习很少以模糊逻辑为中心范式，但这并不构成对 1965 年数学构造的否定，只说明「什么是模糊逻辑」和「它是否仍是实现人工智能的主干路线」是两个问题。
+    references:
+    - id: 1
+      citation: >-
+        Zadeh, L. A. (1965). Fuzzy sets. Information and Control, 8(3), 338–353. https://doi.org/10.1016/S0019-9958(65)90241-X
+        本次打开并核对的是加州大学伯克利分校公开转载的出版商 PDF：https://people.eecs.berkeley.edu/~pister/publications/FamousPapers/Zadeh65FuzzySets.pdf
+      url: https://people.eecs.berkeley.edu/~pister/publications/FamousPapers/Zadeh65FuzzySets.pdf
+    - id: 2
+      citation: >-
+        Elkan, C. (1993). The paradoxical success of fuzzy logic. In Proceedings of the Eleventh National Conference on Artificial Intelligence (AAAI-93) (pp. 698–703). AAAI Press.
+        本次打开并核对的是 AAAI 提供的会议论文 PDF：https://cdn.aaai.org/AAAI/1993/AAAI93-104.pdf
+      url: https://cdn.aaai.org/AAAI/1993/AAAI93-104.pdf
+
+- id: 2026-11-25-biz-neighborhoods
+  date: '2026-11-25'
+  category: business
+  title_zh: 我们为什么不再建造宜人的街区了？
+  title_en: Why don't we build nice neighborhoods any more?
+  commentary: >-
+    几乎每座城市都有几片让人愿意慢慢走的「老城区」，而战后新造的许多街区却难以唤起同样的感受。问题强迫我们把「乡愁」拆开：这是幸存下来的选择偏差，是汽车与区划改写了城市的生成规则，还是我们真的把建造宜居公共空间的能力弄丢了？
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 城市
+  - 街区
+  - 城市规划
+  - 建成环境
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        「许多被公认为宜人的街区确实更老」是广泛分享的观感，但对其原因并无单一、已被因果识别清楚的解释；有影响的城市论辩把重点放在街道生活与混合用途，经验研究则显示建成环境与步行等出行行为相关，而「幸存者偏差」和「我们是否整体变差」仍缺少与问题对等的系统测量
+      note: >-
+        Collison 把问题写成：世界各地宜人的街区往往是旧的，默认「老城」才是好的那一部分；他怀疑这不完全是拆掉差街区、留下好街区的选择效应，并问汽车导向的设计是否足以解释，以及其他地方的新造城市景观是否出于同一机制。[1]
+        Jacobs 在 1961 年把城市的公共安全与活力主要归给人行道上持续的使用与相互监视，而不是主要靠警察，并攻击当时的城市更新与规划惯例。[2]
+        Ewing 与 Cervero 2010 年的元分析，把 2009 年底以前关于建成环境与出行的文献做了效应量汇总，说明密度、多样性、设计等「D 变量」与步行、公交和车公里等行为相关；这是关联证据，不是对「宜人」的直接评分。[3]
+        本次未能打开 Collison 所提及的 Nathan Lewis 文本，也未打开 Jackson《Crabgrass Frontier》或 Bruegmann《Sprawl》等可能构成对立叙事的专著全文，故不把「汽车是唯一原因」或「蔓延并无问题」写成已核对的完整立场。
+    summary: >-
+      这道题的困难首先在于「宜人」不是一个已经统一操作化的指标。Collison 用可观察的反差来逼近它：人们愿意在北京胡同、京都东山、华沙古城、布宜诺斯艾利斯的巴勒莫、贝鲁特的 Gemmayze 或纽约的 Village 散步，而这些地方都显得很老；美国自 1950 年以来很难想到同样宜人的新建街区，尽管 17 世纪反而留下了剑桥（马萨诸塞）或普罗维登斯这样的例子。[1]
+      一种有长久影响的回答来自 Jacobs：城市街道是最重要的公共器官，其安全主要靠人行道上密集、持续、几乎不自觉的相互照看，而这种秩序看起来像「旧城的紊乱」，其实是复杂的使用秩序。[2]
+      若新的建设系统性消除了混合用途、连续人行道和「街上的眼睛」，那么即使房屋更新、道路更宽，也可能造不出旧城里那种可以被人占用的公共空间。
+      经验城市研究并不直接为「宜人」打分，但 Ewing 与 Cervero 的元分析表明，建成环境的测量指标与出行选择之间存在可汇总的关联，尤其是与步行、公交和车辆行驶里程有关的结果。[3]
+      仍待分开的是三种解释：旧街区被留下是因为它们本来就更好（选择偏差）；规则与技术（汽车、区划、融资、工程规范）改变了可建造的形态；以及「宜人」本身随口味和财富而变，不能直接做成退化叙事。后两种在本次核对的文本里被 Collison 提出，但没有被同样强度的一手专著所展开。[1]
+    definitions:
+    - term: 人行道上的眼睛（eyes on the street）
+      text: >-
+        Jacobs 用来描述城市公共安全之社会基础的说法：人行道需要相当连续的使用者，以增加有效的监视，并诱导沿街建筑里的人去看人行道。她强调，没有人乐于对着一条空街坐在门阶上或向窗外看。[2]
+    - term: 建成环境（built environment）
+      text: >-
+        在 Ewing 与 Cervero 的元分析里，指可通过规划与城市设计加以改变的空间属性，并常被组织为密度、多样性、设计等所谓 D 变量；该文关注它们与出行需求、尤其是非通勤出行距离等结果的关联。[3]
+    - term: 幸存者偏差（survivorship bias）
+      text: >-
+        Collison 用来表述一种即刻怀疑：我们拆掉了糟糕的旧街区、留下了好的，于是「留下来的旧街区显得更好」。他认为这种解释不像是全部事实，因为反差过于尖锐，但本次没有打开一项直接检验该偏差的研究。[1]
+    milestones:
+    - year: '1961'
+      name: Jacobs《美国大城市的死与生》
+      explanation: >-
+        Jane Jacobs 以并非职业规划师的身份发表该书，把当时的城市更新与规划正统当作攻击对象，并以人行道安全与街道生活为中心论证城市如何运转。本次打开并核对的是 *The City Reader* 转载的第 2 章 “The Uses of Sidewalks: Safety”。[2]
+    - year: '2010'
+      name: Ewing 与 Cervero 对建成环境与出行的元分析
+      explanation: >-
+        发表于 *Journal of the American Planning Association*。作者说明其目的是：对截至 2009 年底的建成环境—出行文献做可推广的总结，量化效应量，并更新更早的工作。[3]
+    views:
+    - position: 宜人的城市街区依赖于持续被使用的街道和人行道上几乎不自觉的社会秩序；规划若把这些条件拆掉，就很难再造出「旧城」里那种可走、可看、可互相照看的公共空间
+      consensus_role: 城市思想史上极有影响的规范性与观察性主张
+      evidence:
+        label: 经典专著章节中的观察与论证，不是受控试验或因果识别
+        note: >-
+          依据是本次打开的 Jacobs 第 2 章转载本。它提供的是对街道生活的结构化描述和规划批评，而不是一组可重复的计量结果。文中对 1960 年代美国城市犯罪与「野蛮」的判断带有当时的语境，不能直接外推到 2026 年的所有城市。[2]
+      holders:
+      - name: Jane Jacobs
+        identity: >-
+          *The Death and Life of Great American Cities*（1961）作者。本次打开的 *The City Reader* 转载本在编者导言中称：她起初是作为社区活动家和 *Architectural Forum* 的助理编辑来写城市，而不是受过专业训练的规划师（1916–2006）。[2]
+      argument: >-
+        Jacobs 把街道及其人行道称作城市最主要的公共场所、最重要的器官：街道看起来有趣，城市就看起来有趣；街道看起来乏味，城市就看起来乏味。她接着把安全当成第一问题——如果街道对野蛮和恐惧是安全的，城市大体上也就可容忍地安全。[2]
+        她的核心机制不是「更多警察」。她写：城市的公共和平主要不是由警察维持的，尽管警察必要；它主要是由人们之间一套精巧、几乎不自觉的自愿控制与标准来维持，并由人们自己来执行。在这种日常执行已经崩溃的地方，再多的警察也无法强制文明。[2]
+        「街上的眼睛」要求人行道上相当连续地有人，也要求沿街有商店和其他公共场所把人吸引出来。看起来像旧城紊乱的东西，在她看来其实是一种维持街道安全与城市自由的复杂秩序，其本质是人行道使用的错综，带来不断接续的目光。[2]
+        若把这一论点接到 Collison 的问题上：许多战后新街区即使更新、更宽、更分区明确，也可能系统性地减少了这种「被使用的人行道」。这并不能证明 1950 年之后就没有例外，但它给出了一种不依赖乡愁的机制性解释。
+      quotes:
+      - text: >-
+          The first thing to understand is that the public peace – the sidewalk and street peace – of cities is not kept primarily by the police, necessary as police are. It is kept primarily by an intricate, almost unconscious, network of voluntary controls and standards among the people themselves, and enforced by the people themselves.
+        text_zh: >-
+          首先要理解的是：城市的公共和平——人行道与街道的和平——主要不是由警察维持的，尽管警察是必要的。它主要是由人们之间一套精巧、几乎不自觉的自愿控制与标准来维持，并由人们自己来执行。
+        attribution: "Jane Jacobs，The Uses of Sidewalks: Safety"
+        locator: >-
+          *The Death and Life of Great American Cities*（1961）第 2 章；本次打开的是 *The City Reader* 转载本第 107 页对应段落。引文按双栏版面按栏重排后逐字核对。
+        ref: 2
+      - text: >-
+          Under the seeming disorder of the old city, wherever the old city is working successfully, is a marvelous order for maintaining the safety of the streets and the freedom of the city. It is a complex order. Its essence is intricacy of sidewalk use, bringing with it a constant succession of eyes.
+        text_zh: >-
+          在旧城表面上的紊乱之下，凡是旧城运转成功的地方，都有一种维持街道安全与城市自由的非凡秩序。这是一种复杂的秩序。其本质是人行道使用的错综，并因而带来不断接续的目光。
+        attribution: "Jane Jacobs，The Uses of Sidewalks: Safety"
+        locator: 同转载本第 108–109 页对应段落，按栏重排后核对
+        ref: 2
+    - position: 建成环境的可测量特征与人们如何移动（步行、公交、开车）相关；因此「我们造了什么样的街区」并不是与使用体验无关的审美问题
+      consensus_role: 规划与交通研究中被广泛引用的关联性证据
+      evidence:
+        label: 对既有文献的元分析，报告的是关联而非单一因果机制
+        note: >-
+          Ewing 与 Cervero 说明，地方与州正转向用地规划与城市设计，以减少汽车使用及相关的社会和环境成本，但此类策略对出行需求的效果在当时尚未从大量研究中被重新概括。他们的目的是量化效应量并得出对实践可推广的结论。[3]
+          元分析不能代替对「宜人」的直接测量，也不能单独证明「新街区必然不宜人」。
+      holders:
+      - name: Reid Ewing、Robert Cervero
+        identity: >-
+          该文作者。本次打开的作者稿页眉写明 Ewing 当时与 University of Utah、Urban Land Institute 有关，Cervero 与 University of California, Berkeley、University of California Transportation Center 及 Institute of Urban and Regional Development 有关。[3]
+      argument: >-
+        如果「宜人的街区」部分意味着人们愿意在其中行走、停留、使用沿街的公共空间，那么出行行为就是一个虽不完整、但可测量的代理。
+        Ewing 与 Cervero 把问题放在政策语境里：蔓延、拥堵、对石油的依赖和气候变化，促使地方求助于规划与城市设计来约束汽车使用；许多人认为道路无法修得足够快，以赶上道路建设自身及其催生的蔓延所诱导的出行需求。[3]
+        他们并不声称自己测量了「宜人」，但元分析的存在本身说明：密度、混合用途、街道网络设计一类属性，已经被当作可以系统研究的自变量。若新建设在这些维度上系统性偏离旧的可步行街区，Collison 所观察到的反差就至少有一部分可以落到可检验的形态变量上，而不是只能停在印象层面。[3]
+        这一观点的限度也很清楚：与步行相关，并不等于与「美」或「令人愉快地度过几天」相关；效应量是平均关联，并且依赖 2009 年以前的文献。[3]
+    open_parts: >-
+      Collison 自己列出、但本次未能用一手文献充分展开的问题仍然开口：选择偏差到底有多强；汽车是不是足以成为主因；美国战后街区与别处新造城市景观是否出于同一机制；财富、稳定性和经济复杂度是否解释了跨国差异。[1]
+      「宜人」缺少与问题匹配的、可比较的测量。安全、步行、停留时间、土地混合或房价，都只抓住其中一面。
+      Jacobs 的机制是观察性的，Ewing 与 Cervero 的结果是关联性的；要把它们连成「我们不再建造宜人街区是因为某条规则变了」的因果故事，还需要针对建设年代、规范与融资的历史识别，而本次没有打开这类研究的全文。
+    references:
+    - id: 1
+      citation: >-
+        Collison, P. Questions. 本次按 2026-11-25 打开的页面核对，其中条目 “Why don't we build nice neighborhoods any more?” 及其后说明构成本题的提问原文。https://patrickcollison.com/questions
+      url: https://patrickcollison.com/questions
+    - id: 2
+      citation: >-
+        Jacobs, J. (1961). The death and life of great American cities. 本次打开并核对的是 *The City Reader* 对第 2 章 “The Uses of Sidewalks: Safety” 的转载本：https://openlab.bmcc.cuny.edu/criminal-justice-and-the-urban-community-crj-204/wp-content/uploads/sites/92/2020/08/City-Reader-Jacobs.pdf
+      url: https://openlab.bmcc.cuny.edu/criminal-justice-and-the-urban-community-crj-204/wp-content/uploads/sites/92/2020/08/City-Reader-Jacobs.pdf
+    - id: 3
+      citation: >-
+        Ewing, R., & Cervero, R. (2010). Travel and the built environment: A meta-analysis. Journal of the American Planning Association, 76(3), 265–294. https://doi.org/10.1080/01944361003766766
+        本次打开并核对的是公开转载 PDF：https://www.cedeus.cl/wp-content/uploads/2013/09/EwingCervero.pdf
+      url: https://www.cedeus.cl/wp-content/uploads/2013/09/EwingCervero.pdf
+
+- id: 2026-11-25-biz-ubi
+  date: '2026-11-25'
+  category: business
+  title_zh: 在美国，普遍基本收入（UBI）可行吗？
+  title_en: Is a universal basic income possible in the United States?
+  commentary: >-
+    「每人一份无条件的钱」听起来简单，可一旦把金额对准贫困线、并把现有的社会保障计算进去，问题立刻变成财政规模、替代哪些转移支付、以及劳动供给会不会收缩。可行性在这里不是一句口号，而是一套可以对账的约束。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/1893/is-a-universal-basic-income-possible-in-the-united-states
+  author: jmbejara
+  source_type: stackexchange
+  tags:
+  - 普遍基本收入
+  - 社会保障
+  - 财政
+  - 劳动供给
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        在美国做一份接近贫困线、真正普遍发放的 UBI，财政规模会非常大；这一点在认真的公共财政综述里较少争议。至于它是否「可能」，则取决于金额、是否替代现有转移支付、如何增税，以及人们把「可能」理解成会计上的可支付、政治上的可立法，还是劳动供给上的可承受——这些并没有单一答案
+      note: >-
+        Hoynes 与 Rothstein 在 2019 年的综述中写：真正普遍的 UBI 会极其昂贵；他们所讨论的那类方案，花费接近「三大」项目（社会保障、Medicare、Medicaid）当前总支出的两倍。[1]
+        他们同时指出，任何大规模 UBI 很可能部分靠取消大多数家计调查型转移支付来筹资，因此「在现有福利之上再叠加一份 UBI」并不是评估真实方案时最相关的参数。[1]
+        芬兰 2017–2018 年实验的官方初步报告给出的是另一类、规模小得多的证据：对象是领取失业给付的人，金额为每月 560 欧元的部分基本收入；第一年就业效应在统计上不显著，但生活满意度等福祉指标有改善。[2]
+        芬兰实验不是美国全国性 UBI 的可行性证明或否证，只是一项有限的政策试验。
+    summary: >-
+      「可行吗」首先要问：什么样的 UBI。Hoynes 与 Rothstein 讨论的是发达国家、尤其是美国语境中的普遍基本收入：在已经存在虽不完整、但相当发达的安全网之后，再引入一份普遍、少附加条件的现金。[1]
+      若把金额设到使单身非老年成年人接近贫困线的水平，并把支付真正做成普遍发放，账单会大到必须正视。他们给出的对照是：所讨论的那类 UBI，花费将近美国「三大」项目当前总支出的两倍。[1]
+      财政可行性因此很少是「国家有没有这笔钱」的形而上学问题，而是「增哪些税、砍哪些既有项目、赤字扩大多少」的选择。综述强调，大规模方案很可能要取消大多数家计调查型转移支付，所以不能把「在现有福利之外再发一份钱」的小规模试验，直接当成全国方案的效应估计。[1]
+      劳动供给是第二条约束。支持者希望减少福利悬崖、增加对工作的激励；批评者担心无条件的收入会降低就业。现有最接近的大规模随机证据并不是美国全国 UBI，而是有限的实验。芬兰实验在第一年没有发现统计上显著的就业效应，同时报告了福祉方面的显著改善；其样本是失业给付领取者，金额也只对应当时的基本失业给付净额，不能外推为美国贫困线水平的全民方案。[2]
+      因此，一个审慎的回答是：小额、替代部分给付、面向特定群体的方案，在会计上和实践上已经被尝试过；接近贫困线的全民 UBI 在美国「可能」，只是以大幅度的税收或支出重组为前提，而不是在现有预算里轻轻加一项。[1]
+    definitions:
+    - term: 普遍基本收入（universal basic income, UBI）
+      text: >-
+        在 Hoynes 与 Rothstein 的综述里，UBI 被放在发达国家已有安全网的背景下讨论，指相对普遍、较少附加条件的收入转移。具体方案在金额、是否替代现有项目、筹资方式上差别很大，不能把所有「基本收入」实验当成同一种政策。[1]
+    - term: 家计调查型转移支付（means-tested transfers）
+      text: >-
+        给付资格或金额随收入或资产变化的福利。综述指出，大规模 UBI 很可能部分通过取消此类项目来筹资；若实验把 UBI 做成现有福利之上的增量，其估计就不一定对应真实的大规模方案。[1]
+    - term: 部分基本收入（partial basic income）
+      text: >-
+        芬兰实验采用的是每月 560 欧元、相当于当时 Kela 基本失业津贴与劳动力市场补贴月净额的部分基本收入，而不是足以单独替代全部生活费用的全额 UBI。[2]
+    milestones:
+    - year: 2017–2018
+      name: 芬兰基本收入实验
+      explanation: >-
+        从领取 Kela 失业给付的 25–58 岁人口中随机抽取 2,000 人，发放每月 560 欧元的部分基本收入。2019 年 2 月，社会事务与卫生部发布由 Kangas、Jauhiainen、Simanainen 与 Ylikännö 编辑的第一年初步结果报告。[2]
+    - year: '2019'
+      name: Hoynes 与 Rothstein 对发达国家 UBI 的综述
+      explanation: >-
+        发表于 *Annual Review of Economics* 的专题综述，系统讨论美国及发达国家语境中的 UBI、安全网、成本与劳动供给，并明确警告财政规模。[1]
+    views:
+    - position: 在美国实施接近贫困线、真正普遍的 UBI，财政成本会大到必须重组税收或大规模替代现有转移支付；「在现有福利之上再加一份」并不是可信的全国方案
+      consensus_role: 公共财政综述中对大规模方案的主流数量判断
+      evidence:
+        label: 权威综述中的成本核算与制度讨论，不是一次全国实施的事后评估
+        note: >-
+          Hoynes 与 Rothstein 给出了「极其昂贵」以及与「三大」项目总支出相对照的判断，并讨论筹资可能包括取消大多数家计调查型转移支付。[1]
+          本次打开的是《Annual Review of Economics》作者稿 PDF。具体美元总额会随基年与方案细节变化，本文以他们写出的相对规模为准，不另推算未核到的新预算。
+      holders:
+      - name: Hilary Hoynes、Jesse Rothstein
+        identity: >-
+          该综述作者，署名单位为加州大学伯克利分校Goldman School of Public Policy。[1]
+      argument: >-
+        问题如果指的是「美国政府有没有能力在会计上支付一笔全民现金」，答案几乎必然是：只要愿意大幅增税或大幅削减其他支出，就「可能」。这并没有把问题回答到有用的程度。
+        Hoynes 与 Rothstein 把有用的约束写出来了。真正普遍的 UBI 会极其昂贵；他们讨论的那些方案，花费接近社会保障、Medicare 与 Medicaid 当前总支出的两倍。[1]
+        他们还写明一个制度事实：任何大规模 UBI 很可能部分靠取消大多数家计调查型转移支付来筹资。因此，那些把 UBI 做成「在现有项目之上再叠加」的试点，所识别的参数并不一定是全国方案真正会采取的政策。[1]
+        就「可行吗」而言，这一观点给出的不是「绝对不可能」，而是：可行性随金额和替代范围急剧变化；把贫困线水平的全民 UBI 说成对现有预算的小幅修改，与这篇综述的数量判断不符。
+      quotes:
+      - text: >-
+          A truly universal UBI would be enormously expensive. The kinds of UBIs often discussed would cost nearly double the current total spending on the “big three” programs (Social Security, Medicare, and Medicaid).
+        text_zh: >-
+          一份真正普遍的 UBI 会极其昂贵。人们经常讨论的那类 UBI，其花费接近目前「三大」项目（社会保障、Medicare 和 Medicaid）总支出的两倍。
+        attribution: Hilary Hoynes 与 Jesse Rothstein，Universal Basic Income in the United States and Advanced Countries
+        locator: Annual Review of Economics, 11 (2019), 正文中关于美国语境下 UBI 成本的段落
+        ref: 1
+    - position: 有限的基本收入实验表明，至少在特定失业样本和中等金额上，第一年就业未必显著下降，福祉指标却可能改善；但这不能外推为美国全民、贫困线水平 UBI 的可行性证明
+      consensus_role: 来自一项国家级随机实验的有限证据
+      evidence:
+        label: 官方初步报告（第一年），不是终局评估，更不是美国方案
+        note: >-
+          芬兰报告写明：当时只能报告实验第一年的经验；以登记数据衡量的就业在处理组与对照组之间没有统计显著的就业效应，处理组全年就业天数平均只高大约半天。[2]
+          生活满意度方面，处理组平均为 7.32、对照组为 6.76，差异统计上高度显著（p=< .0001）。[2]
+          实验对象是 2016 年 11 月领取 Kela 失业给付的人，金额为每月 560 欧元的部分基本收入，样本量为 2,000 人。[2]
+          电话调查的回应率在处理组与对照组之间不同，福祉结果需按此限制解读。本次打开的是 2019 年初步报告，未打开后续最终评估的全文，故不引用未核到的第二年或终报数字。
+      holders:
+      - name: Olli Kangas、Signe Jauhiainen、Miska Simanainen、Minna Ylikännö
+        identity: >-
+          芬兰社会事务与卫生部 2019:9 号报告《The basic income experiment 2017–2018 in Finland. Preliminary results》的编者。该报告由该部于 2019 年在赫尔辛基发布。[2]
+      argument: >-
+        若把「可行」理解成「发了这笔钱之后劳动供给会不会崩溃」，芬兰第一年的登记数据并不支持崩溃叙事：实验对第一年就业状态没有可检出的效应，就业天数平均只高出约半天，而 p 值远离显著水平。[2]
+        同一份报告在福祉方面则报告了更清楚的差异，例如生活满意度。这与「基本收入只影响支票、不影响感受」的简单图景不合，但也必须记住：调查回应率不同，且这是初步结果。[2]
+        把这项实验接回美国问题，限度比结果本身更重要。它不是全民方案，不是贫困线全额，对象也不是全体成年人。它不能用来否定 Hoynes 与 Rothstein 指出的财政规模，也不能用来保证美国若取消大量现有福利再代以 UBI，劳动供给仍会像这份报告一样「几乎不动」。[1][2]
+        它能说明的是：在一种有限的、可执行的设计里，基本收入已经被一个发达国家以随机方式试过，并且第一年没有出现就业上的大幅恶化。
+      quotes:
+      - text: >-
+          Table 2 shows that the experiment did not have any effect on employment status during the first year of the experiment. The number of annual days in employment for the group that received a basic income is on average about half a day higher than for the control group.
+        text_zh: >-
+          表 2 显示，实验对实验第一年的就业状态没有任何效应。领取基本收入的组别，全年就业天数平均只比对照组高大约半天。
+        attribution: Kangas、Jauhiainen、Simanainen 与 Ylikännö（编），芬兰基本收入实验初步结果
+        locator: 芬兰社会事务与卫生部报告 2019:9，第 11 页附近，关于 2017 年登记就业结果的段落
+        ref: 2
+      - text: >-
+          Satisfaction with life was measured by a variable where the value 0 on a scale from 0 to 10 means very high dissatisfaction with life and the value 10 very high satisfaction with life. In the test group the average value for satisfaction with life was 7.32 and in the control group 6.76. The difference is statistically highly significant (p=< .0001).
+        text_zh: >-
+          生活满意度用 0 到 10 的变量测量，0 表示对生活非常不满意，10 表示非常满意。实验组的平均值为 7.32，对照组为 6.76。该差异在统计上高度显著（p=< .0001）。
+        attribution: 同报告
+        locator: 同报告关于福祉效应的段落（生活满意度）
+        ref: 2
+    open_parts: >-
+      「可行」仍未被单一指标钉死：预算可支付、政治可立法、劳动供给可承受、对贫困与分配的净效果，四者可以分开失败。
+      美国若以贫困线水平做全民 UBI，具体的税率、赤字和替代清单取决于方案细节；Hoynes 与 Rothstein 给出的是数量级，而不是某一份已立法方案的评分。[1]
+      芬兰之外还有负所得税、现金转移和城市试点等文献，本次没有把它们的全文作为核对对象，故不把「劳动供给效应接近于零」写成普遍规律。芬兰报告本身也是初步的第一年结果。[2]
+    references:
+    - id: 1
+      citation: >-
+        Hoynes, H., & Rothstein, J. (2019). Universal basic income in the United States and advanced countries. Annual Review of Economics, 11, 929–958. https://doi.org/10.1146/annurev-economics-080218-030237
+        本次打开并核对的是作者单位公开的期刊 PDF：https://gspp.berkeley.edu/archived/files/research/pdf/Hoynes-Rothstein-annurev-economics-080218-030237.pdf
+      url: https://gspp.berkeley.edu/archived/files/research/pdf/Hoynes-Rothstein-annurev-economics-080218-030237.pdf
+    - id: 2
+      citation: >-
+        Kangas, O., Jauhiainen, S., Simanainen, M., & Ylikännö, M. (Eds.). (2019). The basic income experiment 2017–2018 in Finland: Preliminary results (Reports and Memorandums of the Ministry of Social Affairs and Health 2019:9). Helsinki: Ministry of Social Affairs and Health. ISBN 978-952-00-4035-2. http://urn.fi/URN:ISBN:978-952-00-4035-2
+        本次打开并核对的是官方 PDF：https://julkaisut.valtioneuvosto.fi/server/api/core/bitstreams/f2041c17-878d-490c-8c5f-f12ab5cbd70b/content
+      url: https://julkaisut.valtioneuvosto.fi/server/api/core/bitstreams/f2041c17-878d-490c-8c5f-f12ab5cbd70b/content
+
+- id: 2026-11-25-phil-absolute-proof
+  date: '2026-11-25'
+  category: philosophy
+  title_zh: 是否存在所谓「绝对的证明」？
+  title_en: Is there such a thing as absolute proof?
+  commentary: >-
+    「你能绝对证明吗」经常被用来结束讨论，却很少被说明「绝对」到底指不可错、不可修正，还是只指相对于给定前提的有效推导。把证明、确定性与知识分开，这个问题才不会在口号里打转。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/77/is-there-such-a-thing-as-absolute-proof
+  author: John M.
+  source_type: stackexchange
+  tags:
+  - 证明
+  - 确定性
+  - 知识论
+  - 怀疑论
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        当代知识论里一个相当普遍的做法，是把确定性与知识区分开，并承认我们很少、甚至从不拥有那种「绝对的」确定性；但这并不等于承认我们的信念没有任何认识上的价值。至于数学证明是否算「绝对证明」，则取决于是否把绝对性理解成相对于公理与规则的有效性，还是理解成对公理本身的不可错保证——后者远更有争议
+      note: >-
+        Baron Reed 为 *Stanford Encyclopedia of Philosophy* 撰写的条目 “Certainty”（2022 年 2 月 21 日实质性修订）指出：确定性在哲学史上扮演中心角色；有人把数学知识所特有的那种确定性当作哲学应追求的目标，但也有不同的确定性模型。该条目明确写到：尽管有人认为知识与确定性没有分别，但越来越常见的是把二者区分开来；允许存在低于确定性的知识，其主要动机之一是：怀疑论论证往往被看作成功地表明我们很少或从不拥有确定的信念，却并未表明这些信念全然没有认识价值。[1]
+        本次打开的是这一条权威综述，以及它对 Descartes、Plato 等人的转述。本次没有重新打开 Descartes 或 Plato 的原书页来核对这些转述中的引语，因此下面只引用 Reed 条目里可以在页面上直接核对的句子，不把条目中的二手引语再当作已核对的一手引文。
+    summary: >-
+      「绝对的证明」并不是一个已经定义清楚的技术术语。它有时指一种心理上的确定感，有时指原则上不可被修正的保证，有时只指在给定前提和推理规则下不再有缝隙的推导。
+      Reed 的条目从确定性入手，而不是从「proof」这个词的日常用法入手。他指出，追求确定性在哲学史上地位重要：有些哲学家把数学知识那种确定性当作哲学应当瞄准的目标；另一些人则采用别的模型来理解确定性。[1]
+      一个对原问题直接有用的区分是：知识与确定性不必是一回事。条目写明，越来越常见的看法是把它们分开，并把确定性视为最高形式的知识，或视为比知识更高的认识性质。允许「低于确定性的知识」存在，是因为许多哲学家认为怀疑论成功地打击了确定性，却没有把信念的认识价值一并取消。[1]
+      若「绝对证明」指的是这种最高的确定性，那么按照上述相当流行的图景，答案倾向于：我们很少或从不拥有它，尤其是在经验事务上；但这不一定意味着「什么都没被证明」或「什么都不算知识」。[1]
+      若「绝对证明」指的是数学里相对于公理的证明，那么它当然存在，作为形式或半形式的推导实践；可它仍然相对于所接受的公理、规则与元理论，并不自动提供对那些出发点本身的绝对保证。后者已经越出「有没有证明」而进入「证明证明了什么」。
+    definitions:
+    - term: 确定性（certainty）
+      text: >-
+        Reed 把它说成信念的一种认识性质（也可派生地说成主体的性质：S 确定 p，当且仅当 S 对 p 的信念是确定的）。它可以是最高形式的知识，或是比知识更高的认识性质；分析起来并不容易，因为存在不同种类的确定性，并且其全部价值很难被刻画。[1]
+    - term: 低于确定性的知识
+      text: >-
+        条目所称越来越常见的图景：知识不必达到确定性。其动机是：怀疑论论证往往被看作表明我们很少或从不拥有确定的信念，却并未表明这些信念全无认识价值。[1]
+    - term: 相对于前提的证明
+      text: >-
+        一种不把「绝对」读成「对出发点也不可错」的用法：一旦公理或前提被接受，推导可以是完备的。这一用法能说明数学证明的严格性，但不能单独回答前提本身是否绝对。
+        这一界定是为澄清原问题而作的概念区分，不是 Reed 条目里的专名定义。
+    views:
+    - position: 确定性曾经是、也仍然可以是哲学的一个理想，其典范常被设想为数学知识那种确定
+      consensus_role: 哲学史上有深远影响的理想，但不是当代知识论唯一的工作标准
+      evidence:
+        label: 权威百科条目对历史立场的综述
+        note: >-
+          Reed 在开篇把「获得确定性的尝试」称为哲学史上的中心角色，并概述了以数学为范本以及另一些模型。[1]
+          条目中出现的 Plato、Descartes 引语，是该条目的转述；本次未打开对应原著来逐字核对，故不把那些句子再引为已核对引文。
+      holders:
+      - name: Baron Reed
+        identity: >-
+          *Stanford Encyclopedia of Philosophy* 条目 “Certainty” 的作者。本次打开的页面写明：该条目首次发布于 2008 年 2 月 2 日，实质性修订于 2022 年 2 月 21 日；页面提供的作者联系域名为 northwestern.edu。[1]
+      argument: >-
+        如果「绝对证明」被理解成「达到哲学曾经追求的那种确定性」，那么这个问题首先是历史性的：确实有一条重要传统，把数学式的确定当作哲学方法应当接近的标准。Reed 把这一点作为条目的起笔，而不是当作已经被放弃的古董。[1]
+        但同一条目立刻补充：并非所有哲学家都采用这一种确定性模型，例如有人强调科学说明，有人强调宗教实践，也有经验主义者到知觉经验的基本信念中去寻找经验事务上的确定性。[1]
+        因此，即便承认「绝对证明」作为一种理想曾经被认真对待，也不能直接推出：只存在一种被所有传统接受的绝对性标准。
+      quotes:
+      - text: >-
+          Certainty, or the attempt to obtain certainty, has played a central role in the history of philosophy. Some philosophers have taken the kind of certainty characteristic of mathematical knowledge to be the goal at which philosophy should aim.
+        text_zh: >-
+          确定性，或获得确定性的尝试，在哲学史上扮演了中心角色。一些哲学家把数学知识所特有的那种确定性，当作哲学应当追求的目标。
+        attribution: Baron Reed，Stanford Encyclopedia of Philosophy 条目 “Certainty”
+        locator: 条目开篇第一段，页面标明实质性修订于 2022 年 2 月 21 日
+        ref: 1
+    - position: 即使怀疑论成功地表明我们很少或从不拥有确定性，也不必否认我们仍有知识或仍有认识上的价值；因此「没有绝对证明」不等于「什么都没被证实」
+      consensus_role: 当代知识论中相当常见的分层图景
+      evidence:
+        label: 权威综述对文献态势的判断，不是一项新的民意调查
+        note: >-
+          Reed 写明「越来越常见」的是区分知识与确定性，并给出这一区分的主要动机。他同时注明仍有人主张知识要求确定性（并认为我们能够拥有它），以及有人主张怀疑论会摧毁信念的一切认识地位。[1]
+          因此这是有竞争力的主流图景，不是无异议的定理。
+      holders:
+      - name: Baron Reed
+        identity: >-
+          同上，SEP 条目 “Certainty” 作者。[1]
+      argument: >-
+        原问题里的「绝对」很容易把讨论推向全有或全无：要么有一种不再可能出错的证明，要么一切都只是意见。Reed 概述的图景提供了第三种位置。
+        确定性可以是最高的认识性质；知识则可以在达不到这种性质时仍然成立。允许这种「低于确定性的知识」，正是为了吸收怀疑论对确定性的打击，而不把认识规范一起取消。[1]
+        在经验科学里，这一分层尤其自然：我们通常不声称对理论有了不可修正的绝对证明，但仍可以有强弱不等的证据。在数学里，则可以把「证明」保留给相对于公理的推导，而把「公理本身是否绝对确定」另案处理。
+        条目也提醒：并非所有人都接受这种分层。有人认为知识必须包含确定性，有人认为怀疑论会削弱一切认识地位。原问题之所以难，部分就是因为「绝对证明」没有事先声明自己属于哪一种标准。[1]
+      quotes:
+      - text: >-
+          Although some philosophers have thought that there is no difference between knowledge and certainty, it has become increasingly common to distinguish them. On this conception, then, certainty is either the highest form of knowledge or is the only epistemic property superior to knowledge. One of the primary motivations for allowing kinds of knowledge less than certainty is the widespread sense that skeptical arguments are successful in showing that we rarely or never have beliefs that are certain [...] but do not succeed in showing that our beliefs are altogether without epistemic worth.
+        text_zh: >-
+          尽管有些哲学家认为知识与确定性之间没有分别，但把二者区分开来已经变得越来越常见。按照这种构想，确定性要么是最高形式的知识，要么是唯一高于知识的认识性质。允许存在低于确定性的知识，其主要动机之一是：人们普遍感到，怀疑论论证成功地表明我们很少或从不拥有确定的信念，[…] 却并没有成功地表明我们的信念全然没有认识价值。
+        attribution: Baron Reed，Stanford Encyclopedia of Philosophy 条目 “Certainty”
+        locator: 条目导论中区分知识与确定性的段落
+        ref: 1
+    open_parts: >-
+      「绝对的证明」本身没有被该条目当作一个单一技术术语来定义；把日常问题翻译成「是否存在确定性」「知识是否要求确定性」「数学证明相对于什么而成立」，答案会分开。
+      数学基础中的形式证明、不完全性、以及公理选择，会进一步限制「数学证明 = 绝对证明」这种简单等式；这些问题与本站已收录的哥德尔相关条目相邻，本次没有把不完全性定理的原始论文重新作为本题的核对对象。
+      Reed 提到的 Descartes、Plato 原句以及其他竞争性理论（例如主张知识必须包含确定性的立场），需要打开相应原著或专文才能作为已核对引语使用。
+    references:
+    - id: 1
+      citation: >-
+        Reed, B. (2022). Certainty. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy. 页面标明首次发布于 2008 年 2 月 2 日，实质性修订于 2022 年 2 月 21 日。本次按 2026-11-25 打开的页面核对。https://plato.stanford.edu/entries/certainty/
+      url: https://plato.stanford.edu/entries/certainty/
+
+- id: 2026-11-25-phil-ontology
+  date: '2026-11-25'
+  category: philosophy
+  title_zh: 形而上学和本体论有什么区别？
+  title_en: What is the difference between metaphysics and ontology?
+  commentary: >-
+    这两个词经常被互换，又都大到几乎可以装下半部哲学。真正有用的区分不是再造两个互不来往的学科，而是看清：本体论首先追问「有什么」，而当代形而上学早已把模态、心灵、因果等更宽的问题也包括进来。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/1534/what-is-the-difference-between-metaphysics-and-ontology
+  author: wajed
+  source_type: stackexchange
+  tags:
+  - 形而上学
+  - 本体论
+  - 存在
+  - 哲学概念
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        一种在当代英文哲学里相当标准的说法是：本体论是形而上学的一部分，初步而言研究「有什么」以及存在者最一般的特征与关系；形而上学则是一个更宽、历史含义多次变化的学科，今天也包括模态、时间、因果、心身等不一定等于「开一份存在清单」的问题。用词并非完全统一，边界也被承认为模糊
+      note: >-
+        Thomas Hofweber 的 SEP 条目 “Logic and Ontology”（2023 年 3 月 13 日实质性修订）把本体论初步表述为对「有什么」的研究，并说它通常也被认为涵盖存在者最一般的特征与关系；这类问题很快会转入更一般的形而上学，而形而上学是把本体论作为其一部分包含在内的哲学学科。他明确写：这里的边界有一点模糊。[1]
+        Peter van Inwagen、Meghan Sullivan 与 Sara Bernstein 的 SEP 条目 “Metaphysics”（2023 年 5 月 4 日实质性修订）开篇即说明：已经不容易说清形而上学是什么。古代和中世纪哲学家或许会按题材把它定义成研究「作为存在的存在」、事物的第一因或不变化之物的科学；但这样定义在今天不再可行，既因为否定这些对象的哲学家仍在做形而上学断言，也因为许多现在被看作形而上学的问题并不涉及第一因或不变化之物，例如自由意志或心身问题。[2]
+    summary: >-
+      先说一个不会太错的工作区分。本体论首先问：有什么？现实是由什么构成的？已存在的那些东西之间最一般的特征与关系是什么？Hofweber 把这当作对本体论的初步理解，并立刻补充：如何着手回答这些问题（本体论承诺）、这些问题本身究竟是什么（元本体论），已经使这个学科比「开清单」更复杂。[1]
+      形而上学则是一个更宽、也更不稳定的名称。van Inwagen、Sullivan 与 Bernstein 强调，今天不能再把它简单地定义成研究第一因或不变化之物；当代形而上学的问题清单已经扩展到模态、时空、持存与构成、因果与自由、心与物、社会形而上学等。[2]
+      二者的包含关系，在 Hofweber 的表述里相当直接：刚才那些关于共相与殊相、事件与关系的问题，会很快变成更一般的形而上学；而形而上学是把本体论作为其一部分包括进来的学科。[1]
+      因此，合理的用法通常是：凡是「有没有数、有没有共相、有没有上帝」这类存在问题，都算本体论，也算形而上学；但不是所有形而上学问题都只是在列存在清单，例如自由意志或心物关系，即便它们会牵出存在问题。
+      仍须保留的弹性是：不同传统对两个词的用法并不一致，「本体论」有时几乎被当作「形而上学」的同义词，有时又被收窄为形式化的范畴理论。权威条目选择的是说明这种含混，而不是颁布一条法律定义。[1][2]
+    definitions:
+    - term: 本体论（ontology）
+      text: >-
+        Hofweber 的初步表述：本体论是对「有什么」的研究；通常也被认为包括对已存在实体之最一般特征与关系的研究。除此之外，广义的本体论还包含如何裁定「有什么」（本体论承诺）以及这些问题本身是什么（元本体论）。[1]
+    - term: 形而上学（metaphysics）
+      text: >-
+        在 van Inwagen、Sullivan 与 Bernstein 的条目中，它不再能被稳定地定义成研究「作为存在的存在」、第一因或不变化之物的科学；当代用法覆盖一组已经明显扩大的问题，其中有些与第一因全然无关。[2]
+        在 Hofweber 的用法里，它是把本体论作为一部分包含在内的、更宽的哲学学科。[1]
+    - term: 元本体论（meta-ontology）
+      text: >-
+        Hofweber 用来指对「本体论问题究竟是什么、本体论要完成什么」的研究。狭义上它严格来说不是本体论，但广义的本体论通常包含这一自我研究。[1]
+    views:
+    - position: 本体论初步而言是研究「有什么」以及存在者最一般的特征与关系；这些问题会进入更宽的形而上学，而形而上学把本体论当作自己的一部分
+      consensus_role: 当代英文哲学中很常见的工作区分
+      evidence:
+        label: 权威哲学百科中的概念澄清，不是一项历史计量
+        note: >-
+          依据是 Hofweber 条目第 3.1 节的初步界定。他强调这只是 first approximation，有人会抗议这一定义，并且边界是模糊的。[1]
+      holders:
+      - name: Thomas Hofweber
+        identity: >-
+          *Stanford Encyclopedia of Philosophy* 条目 “Logic and Ontology” 的作者。本次打开的页面标明首次发布于 2004 年 10 月 4 日，实质性修订于 2023 年 3 月 13 日。[1]
+      argument: >-
+        Hofweber 先给出一个足够用的近似：本体论研究有什么。诸如有没有上帝、有没有共相，都是本体论问题，因为它们处理某类事物或更宽泛的实体是否存在。[1]
+        但他马上把范围扩大一圈：本体论通常也涵盖已存在实体的最一般特征与关系，例如共相如何与具有它的殊相关联，或「约翰吃饼干」这类事件如何关联到约翰、饼干和「吃」这个关系——前提是承认有事件、殊相和关系。[1]
+        正是在这里，他写下对原问题最直接的一句话：这类问题很快会转入更一般的形而上学，而形而上学是把本体论作为其一部分包含进来的哲学学科。边界有一点模糊，但至少可以分出两截工作：说出有什么，以及说出这些东西最一般的特征与关系。[1]
+        这个区分的用处在于避免两种夸大：既不要把本体论说成与形而上学互不相干的另一门科学，也不要把二者当成可以无损失地对调的同义词。
+      quotes:
+      - text: >-
+          As a first approximation, ontology is the study of what there is.
+        text_zh: >-
+          作为初步的近似，本体论是对「有什么」的研究。
+        attribution: Thomas Hofweber，Stanford Encyclopedia of Philosophy 条目 “Logic and Ontology”
+        locator: 第 3.1 节 “Different conceptions of ontology” 首句，页面标明实质性修订于 2023 年 3 月 13 日
+        ref: 1
+      - text: >-
+          These kinds of problems quickly turn into metaphysics more generally, which is the philosophical discipline that encompasses ontology as one of its parts. The borders here are a little fuzzy. But we have at least two parts to the overall philosophical project of ontology, on our preliminary understanding of it: first, say what there is, what exists, what the stuff of reality is made out of, secondly, say what the most general features and relations of these things are.
+        text_zh: >-
+          这类问题很快会转入更一般的形而上学，而形而上学是把本体论作为其一部分包含在内的哲学学科。这里的边界有一点模糊。但按照我们的初步理解，本体论这项整体的哲学规划至少有两个部分：第一，说出有什么、存在着什么、实在是由什么构成的；第二，说出这些事物最一般的特征与关系是什么。
+        attribution: Thomas Hofweber，同上
+        locator: 同节随后段落
+        ref: 1
+    - position: 形而上学不能再按古代的题材定义来划界；许多今天的形而上学问题并不等于「作为存在的存在」或「不变化之物」，因此它比本体论的初步定义更宽、也更杂
+      consensus_role: 对当代形而上学外延的标准说明
+      evidence:
+        label: 权威百科条目的开篇界定
+        note: >-
+          依据是 van Inwagen、Sullivan 与 Bernstein 条目的导论。它给出的是概念史和方法论上的判断，并说明古代定义为何失效。[2]
+      holders:
+      - name: Peter van Inwagen、Meghan Sullivan、Sara Bernstein
+        identity: >-
+          *Stanford Encyclopedia of Philosophy* 条目 “Metaphysics” 的作者。本次打开的页面标明首次发布于 2007 年 9 月 10 日，实质性修订于 2023 年 5 月 4 日。[2]
+      argument: >-
+        如果有人把形而上学直接等同于本体论，或等同于「研究存在本身的科学」，这个条目的开篇就是在劝阻这种过时的简便定义。
+        古代和中世纪哲学家或许还可以按题材来定义它：作为存在的存在、第一因、不变化之物。今天之所以不行，条目给出两个理由。第一，否认这些对象存在的哲学家，由此作出的仍然会被看作形而上学断言。第二，许多现在被视为形而上学（或至少部分是形而上学）的问题，与第一因或不变化之物毫无关系，例如自由意志，或心与物的问题。[2]
+        把这一点接回原问题：本体论仍然可以相对稳定地从「有什么」说起；形而上学则已经是一个外延扩大、内部不那么统一的领域。二者重叠很大，但当代形而上学的问题清单并不能全部还原成一份存在者目录。[2]
+      quotes:
+      - text: >-
+          It is not easy to say what metaphysics is. Ancient and Medieval philosophers might have said that metaphysics was, like chemistry or astrology, to be defined by its subject-matter: metaphysics was the “science” that studied “being as such” or “the first causes of things” or “things that do not change”. It is no longer possible to define metaphysics that way, for two reasons. First, a philosopher who denied the existence of those things that had once been seen as constituting the subject-matter of metaphysics—first causes or unchanging things—would now be considered to be making thereby a metaphysical assertion. Second, there are many philosophical problems that are now considered to be metaphysical problems (or at least partly metaphysical problems) that are in no way related to first causes or unchanging things—the problem of free will, for example, or the problem of the mental and the physical.
+        text_zh: >-
+          要说清形而上学是什么并不容易。古代和中世纪的哲学家或许会说，形而上学像化学或占星术一样，应由其题材来定义：形而上学是研究「作为存在的存在」、或「事物的第一因」、或「不变化之物」的「科学」。今天已经不能再那样定义形而上学，原因有二。第一，一位否认那些曾经被视为构成形而上学题材之物——第一因或不变化之物——之存在的哲学家，现在会被认为由此作出了一个形而上学断言。第二，有许多现在被视为形而上学问题（或至少部分是形而上学问题）的哲学问题，与第一因或不变化之物毫无关系——例如自由意志问题，或心与物的问题。
+        attribution: Peter van Inwagen、Meghan Sullivan 与 Sara Bernstein，Stanford Encyclopedia of Philosophy 条目 “Metaphysics”
+        locator: 条目开篇第一段，页面标明实质性修订于 2023 年 5 月 4 日
+        ref: 2
+    open_parts: >-
+      即使用上这两条权威界定，用词实践仍不统一：有的作者几乎互换这两个词，有的把本体论收窄为范畴表或形式本体论，有的传统（包括一些非欧洲传统）并不按这对英文标签来划分。两条 SEP 条目都提示了这种历史与跨传统的差异，本次没有把那些专条作为本题的核对对象。[1][2]
+      「本体论承诺」和元本体论会继续改变人们对「有什么」这个问题本身的理解；那已经是下一层争论，而不是对两个词的词典定义。
+    references:
+    - id: 1
+      citation: >-
+        Hofweber, T. (2023). Logic and ontology. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy. 页面标明首次发布于 2004 年 10 月 4 日，实质性修订于 2023 年 3 月 13 日。本次按 2026-11-25 打开的页面核对。https://plato.stanford.edu/entries/logic-ontology/
+      url: https://plato.stanford.edu/entries/logic-ontology/
+    - id: 2
+      citation: >-
+        van Inwagen, P., Sullivan, M., & Bernstein, S. (2023). Metaphysics. In E. N. Zalta & U. Nodelman (Eds.), The Stanford Encyclopedia of Philosophy. 页面标明首次发布于 2007 年 9 月 10 日，实质性修订于 2023 年 5 月 4 日。本次按 2026-11-25 打开的页面核对。https://plato.stanford.edu/entries/metaphysics/
+      url: https://plato.stanford.edu/entries/metaphysics/
+
+- id: 2026-11-25-psych-fidget
+  date: '2026-11-25'
+  category: psychology
+  title_zh: 抖腿是一种帮助专注的手段吗？
+  title_en: Is leg jiggling a focus aid?
+  commentary: >-
+    抖腿常被看成失礼或坐不住，却也可能是一种给注意力加压的身体策略。现有较好的证据主要来自 ADHD 儿童在实验室任务中的活动量，而不是对普通成年人「抖腿」的直接试验——把外推限度写清楚，这个问题才不会被逸事带着走。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/241/is-leg-jiggling-a-focus-aid
+  author: Schroedingers Cat
+  source_type: stackexchange
+  tags:
+  - 注意
+  - 多动
+  - ADHD
+  - 身体活动
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        在被诊断为 ADHD 的儿童与青少年中，有一个得到实验室证据支持的假说：较高或较强烈的自发运动，可能与某些认知控制或工作记忆任务上的更好表现有关，因而未必只是纯粹的损害。把这一假说直接推广到普通成年人的「抖腿有助于专注」，证据仍然较弱，也缺少针对抖腿这一具体动作的随机试验
+      note: >-
+        Sarver、Rapport、Kofler、Raiker 与 Friedman（2015）在 8–12 岁男孩中比较 ADHD 与典型发展儿童，发现结果更符合把多动理解为具有功能作用、而非单纯妨碍学习的模型；在个体水平上，ADHD 组在活动量最高相对于最低时，工作记忆表现更常被归为可靠改善。[1]
+        Hartanto、Krafft、Iosif 与 Schweitzer（2016）对 10–17 岁、无显著共病的 ADHD 与典型发展青少年，在 flanker 任务中用踝部活动记录仪做试次水平分析：更强烈的运动与更好表现相关，这一交互出现在 ADHD 组而非典型发展组。[2]
+        两篇都不是「抖腿」专项研究，样本也不是普通成人。原问题作为一般性的专注策略，目前只能得到间接、有限的回答。
+    summary: >-
+      抖腿是一种很普通的自发运动，但几乎没有以「抖腿」为独立自变量、以普通人群专注表现为因变量的高质量试验。比较接近的科学文献，讨论的是 ADHD 中被称作多动或过量运动的现象：它究竟只是妨碍学习的核心症状，还是也可能具有补偿功能。
+      传统诊断图景把过量粗大运动视为损害。Sarver 等人指出，这一看法已受到新近模型的挑战：过量运动被概念化为一种可能便利神经认知功能的补偿机制。他们的实验要在工作记忆与注意这两类测量上，直接比较相互竞争的预测。[1]
+      Hartanto 等人则把问题放到认知控制上，并用试次水平的活动强度来看：什么时候动得更厉害，任务是否也做得更好。他们发现，更强烈的运动与更好表现相关，这一模式出现在 ADHD 组，而不是典型发展组；ADHD 组在正确试次（而非错误试次）中的活动也更强。[2]
+      把两篇合在一起，可以得到一个有限度的肯定：至少对一部分有 ADHD 的儿童和青少年，在特定实验室任务中，较多或较强的自发运动并不表现为单纯的干扰，而可能与更好的表现同行，并被作者解释为对注意或警觉的补偿。[1][2]
+      这距离「普通人抖腿就能更专注」仍有几步。典型发展组在 Hartanto 等人的数据里并没有同样的关联；两篇研究都没有单独分析「抖腿」；成人、课堂或办公室情境也未被同等检验。[2]
+    definitions:
+    - term: 多动 / 过量粗大运动（hyperactivity / excess gross motor activity）
+      text: >-
+        Sarver 等人把它称为儿童 ADHD 的核心诊断特征之一，传统上被视为妨碍学习；他们要检验的对立模型则把它看作可能具有补偿功能的行为。[1]
+    - term: 补偿性运动假说
+      text: >-
+        即过量运动不只是需要被抑制的症状，而可能是当事者为调节注意、警觉或工作记忆而增加的身体活动。Hartanto 等人在摘要的结论句中，把与临床显著 ADHD 症状相关的过量运动，解释为调节注意与警觉的补偿努力。[2]
+    - term: 认知控制（cognitive control）
+      text: >-
+        Hartanto 等人视为在 ADHD 中已充分确立存在困难的一类功能；他们用 flanker 范式来测量，并以试次正确与否作为表现指标。[2]
+    milestones:
+    - year: '2015'
+      name: Sarver 等检验「多动是损害还是补偿」
+      explanation: >-
+        发表于 *Journal of Abnormal Child Psychology*。样本为 8–12 岁男孩，ADHD 组合型 29 人，典型发展 23 人，客观测量语音工作记忆、注意行为与活动水平。[1]
+    - year: '2016'
+      name: Hartanto 等的试次水平活动与认知控制研究
+      explanation: >-
+        发表于 *Child Neuropsychology*。44 名 10–17 岁 ADHD 或典型发展青少年，均无精神病学共病或显著学习障碍；踝部活动记录仪加 flanker 任务。[2]
+        通讯作者为加州大学戴维斯分校医学院精神病学与行为科学系、MIND Institute 的 Julie B. Schweitzer。[2]
+    views:
+    - position: 在 ADHD 儿童与青少年中，较高或较强烈的自发运动可能与某些工作记忆或认知控制任务上的更好表现有关，因而可被理解为补偿，而不仅仅是纯粹的损害
+      consensus_role: 有实验室证据支持的功能性假说，主要限于 ADHD 样本和特定任务
+      evidence:
+        label: 两篇同行评议的实验室研究，样本较小，且为相关/试次内比较而非长期干预试验
+        note: >-
+          Sarver 等人比较了相互竞争的模型预测，并报告结果看起来最符合赋予多动以功能角色的模型；他们也指出，运动并没有预测任一组别注意的变化。[1]
+          Hartanto 等人报告了组别与表现的显著交互：更强烈的运动与更好表现相关发生在 ADHD 组，而非典型发展组。[2]
+          两文都不能直接回答「抖腿」或成人日常专注。因果方向也仍需谨慎：是动了所以做得更好，还是某些内部状态同时带来运动和正确反应，并未被一劳永逸地分清。
+      holders:
+      - name: Dustin E. Sarver、Mark D. Rapport、Michael J. Kofler、Joseph S. Raiker、Lauren M. Friedman
+        identity: >-
+          2015 年论文 *Hyperactivity in Attention-Deficit/Hyperactivity Disorder (ADHD): Impairing Deficit or Compensatory Behavior?* 的作者。本次打开的作者稿未在此处改写其各自当时的职务，故只按论文署名引用。[1]
+      - name: T. A. Hartanto、C. E. Krafft、A. M. Iosif、J. B. Schweitzer
+        identity: >-
+          2016 年论文作者。文首单位为加州大学戴维斯分校医学院精神病学与行为科学系及 MIND Institute；通讯作者为 Julie B. Schweitzer, Ph.D.。[2]
+      argument: >-
+        若从诊断手册的表面意思出发，抖腿或多动首先是问题行为。Sarver 等人把这一「妨碍学习」的观点，与「过量运动可能补偿神经认知功能」的模型对放在同一设计里。他们的组水平和个体水平结果，总体更支持后者：至少在语音工作记忆任务上，活动量的高低与 ADHD 儿童的表现变化方向，更像是在帮忙而不是在拆台。他们同时报告，运动并没有预测注意的变化，这说明「补偿」即使成立，也不是对所有认知指标一视同仁。[1]
+        Hartanto 等人提供了更细的时间分辨率。不是「这一天好动的孩子成绩更好」，而是「在这个试次里动得更猛，是否更常做对」。交互作用表明，这种关系出现在 ADHD 组；该组在正确试次中的活动强度也高于错误试次，典型发展组则没有相应的组内差异。作者据此建议：与临床显著 ADHD 症状相关的过量运动，可能反映为调节注意和警觉所作的补偿努力。[2]
+        对原问题而言，这是目前最强的肯定性证据，但它有明确的主语：主要是 ADHD 儿童与青少年，在实验室认知任务中的自发运动，而不是任何人的抖腿。
+      quotes:
+      - text: >-
+          Excess gross motor activity (hyperactivity) is considered a core diagnostic feature of childhood ADHD that impedes learning. This view has been challenged, however, by recent models that conceptualize excess motor activity as a compensatory mechanism that facilitates neurocognitive functioning in children with ADHD. [...] These findings appear most consistent with models ascribing a functional role to hyperactivity in ADHD, with implications for selecting behavioral treatment targets to avoid overcorrecting gross motor activity during academic tasks that rely on phonological WM.
+        text_zh: >-
+          过量的粗大运动（多动）被视为儿童 ADHD 的一项核心诊断特征，并被认为会妨碍学习。然而，这一看法已受到新近模型的挑战：这些模型把过量运动概念化为一种在 ADHD 儿童中便利神经认知功能的补偿机制。[…] 这些发现看起来最符合赋予 ADHD 之多动以功能角色的模型，并对选择行为治疗目标具有含义：在依赖语音工作记忆的学业任务中，避免对粗大运动纠正过度。
+        attribution: "Dustin E. Sarver 等，Hyperactivity in ADHD: Impairing Deficit or Compensatory Behavior?"
+        locator: Journal of Abnormal Child Psychology, 43 (2015), 摘要
+        ref: 1
+      - text: >-
+          A significant interaction effect between group and performance revealed that more intense movement was associated with better performance in the ADHD, but not TD group. [...] These findings suggest that excessive motoric activity associated with clinically significant ADHD symptoms may reflect compensatory efforts to modulate attention and alertness.
+        text_zh: >-
+          组别与表现之间的显著交互效应表明，更强烈的运动与更好的表现相关，这一关系出现在 ADHD 组，而非典型发展组。[…] 这些发现提示：与临床显著 ADHD 症状相关的过量运动，可能反映为调节注意与警觉所作的补偿努力。
+        attribution: T. A. Hartanto、C. E. Krafft、A. M. Iosif 与 J. B. Schweitzer
+        locator: Child Neuropsychology, 22(5), 2016, 摘要
+        ref: 2
+    - position: 即使上述补偿假说在 ADHD 中成立，也不能由此推出普通人抖腿就是一种普遍有效的专注辅助；现有数据甚至提示典型发展组没有同样的关联
+      consensus_role: 对过度推广的审慎限制，与前一观点兼容
+      evidence:
+        label: 来自同一批研究的阴性或组别限定结果；直接针对抖腿与普通成人的证据缺失
+        note: >-
+          Hartanto 等人写明：更强烈运动与更好表现的关联出现在 ADHD 组，「而不是」典型发展组；典型发展组也没有正确/错误试次之间的组内活动差异。[2]
+          本次没有打开以「leg jiggling」或「fidgeting in typical adults」为主要自变量且结果可核对的随机试验，故必须把普通成年人部分标为证据不足。
+      holders:
+      - name: T. A. Hartanto、C. E. Krafft、A. M. Iosif、J. B. Schweitzer
+        identity: >-
+          同上，2016 年试次水平研究的作者。此处依据的是他们对典型发展组的明确限定，而不是另外一篇反对补偿假说的专文。[2]
+      argument: >-
+        原问题问的是「抖腿是不是一种专注辅助」，主语默认可以是任何人。Hartanto 等人的交互作用正好阻断这种默认：同样的「动得更厉害」，在典型发展组并不与更好的认知控制表现相伴。[2]
+        此外，实验室里的踝部活动或总体运动量，并不等于办公室里的抖腿；工作记忆、flanker 与「能不能把一篇报告看完」也不是同一件事。Sarver 等人甚至在 ADHD 样本内部也发现，运动并未预测注意测量的变化。[1][2]
+        因此，较为诚实的公共建议不是「所有人都应该靠抖腿来集中注意」，而是：在一部分 ADHD 儿童与青少年中，抑制一切多余动作可能并不总是有利于某些认知任务；对没有相应诊断、也没有相应实验室证据的人群，抖腿是否有助于专注，目前还没有足够的直接证据。
+    open_parts: >-
+      还没有一项被本次打开的、专门针对「抖腿」这一动作、并以普通成人或一般学生课堂表现为终点的决定性试验。
+      补偿假说的因果方向、适用的认知领域（工作记忆可以、注意测量未必）、以及治疗上「不过度纠正运动」应如何操作，仍是开放的。[1][2]
+      成人 ADHD、药物状态、任务难度和情境（考试、会议、阅读）都可能改变关系，不能从这两篇儿童青少年实验室研究中直接读取。
+    references:
+    - id: 1
+      citation: >-
+        Sarver, D. E., Rapport, M. D., Kofler, M. J., Raiker, J. S., & Friedman, L. M. (2015). Hyperactivity in attention-deficit/hyperactivity disorder (ADHD): Impairing deficit or compensatory behavior? Journal of Abnormal Child Psychology, 43, 1219–1232. https://doi.org/10.1007/s10802-015-0011-1
+        本次打开并核对的是公开作者稿：https://sciences.ucf.edu/psychology/childrenslearningclinic/wp-content/uploads/sites/24/2013/05/Dustin-Rapport-et-al.-2015-1.pdf
+      url: https://sciences.ucf.edu/psychology/childrenslearningclinic/wp-content/uploads/sites/24/2013/05/Dustin-Rapport-et-al.-2015-1.pdf
+    - id: 2
+      citation: >-
+        Hartanto, T. A., Krafft, C. E., Iosif, A. M., & Schweitzer, J. B. (2016). A trial-by-trial analysis reveals more intense physical activity is associated with better cognitive control performance in attention-deficit/hyperactivity disorder. Child Neuropsychology, 22(5), 618–626. https://doi.org/10.1080/09297049.2015.1044511
+        本次打开并核对的是 eScholarship / PMC 作者稿：https://escholarship.org/content/qt85w054gt/qt85w054gt.pdf
+      url: https://escholarship.org/content/qt85w054gt/qt85w054gt.pdf
+
+- id: 2026-11-25-psych-retinal
+  date: '2026-11-25'
+  category: psychology
+  title_zh: 大脑为什么要把眼睛形成的倒像再「翻正」？
+  title_en: Why would the brain flip the images perceived by your eyes?
+  commentary: >-
+    晶体把视网膜上的像倒过来，这是光学事实；可「再由大脑翻正」却偷偷假定脑子里还有一位在看屏幕的小人。把这幅内在屏幕拆掉，问题就从「如何翻正」变成「正立的视觉究竟依赖什么」。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/337/why-would-the-brain-flip-the-images-perceived-by-your-eyes
+  author: Steven Jeuris
+  source_type: stackexchange
+  tags:
+  - 视觉
+  - 视网膜倒像
+  - 知觉
+  - 适应
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        视网膜因眼的光学而形成倒像，这是没有争议的；但「大脑必须把这幅倒像再翻正，我们才能看见正立的世界」并不是当代知觉理论的必要步骤。至少有一条重要的实验传统表明：视网膜像的倒立并不是「正立视觉」所必需的
+      note: >-
+        George M. Stratton 在 1897 年发表于 *The Psychological Review* 的长文《Vision without inversion of the retinal image》中，用透镜改变视网膜像的方向，并在第二部分的结论里写明：视网膜像的倒立位置因此并非「正立视觉」所必需，因为它并非触觉与视觉之间和谐所必需；实验表明，视与触的和谐并不依赖于视网膜像的倒立。[1][2]
+        原问题预设了「大脑会翻转图像」。这一预设把视网膜当成一幅有待被内部观察者观看的图画。Stratton 要检验的，是方向和谐是否要求某一特定的视网膜朝向，而不是为「内部翻正机制」提供一份电路图。
+        本次打开并 OCR 核对了该文的上下两篇（第 341–360 页与第 463–481 页）。未能打开后来关于倒转眼镜的现代脑成像研究（如 Linden 等），故不引用未核到的后继实验结果。
+    summary: >-
+      眼睛的屈光系统会在视网膜上生成倒像，这只是几何光学。由此并不能推出：知觉要「看起来正」，就必须在某处再做一次几何上的翻转。
+      「大脑把图像翻正」这种说法，暗含一幅容易引起误解的图画：视网膜上有一张照片，脑子里还有一个小人在看这张照片，于是照片必须先被摆正。可视觉系统并不是在看自己的视网膜，它是在通过视网膜活动来对世界作出反应。需要解释的是视觉方向如何与触摸、行动和身体感觉相一致，而不是谁在内部把画面转了 180 度。
+      Stratton 自己用一套透镜装置，使右眼通过透镜看世界，并把实验持续约八天（扣除蒙眼时间后净约 87 小时）。他要问的是更宽的问题：在人为改变视网膜像方向之后，上下、左右的方向重建如何发生，视与触的定位如何相互影响。[1]
+      在论文的收束处，他把关键结论写得很明确：视网膜像的倒立并不是「正立视觉」的必要条件，因为它不是视与触和谐的必要条件；实验表明，这种和谐并不依赖于视网膜像的倒立。视觉位置与触觉位置能够同一，并不要求对象在视野中处于某个特殊方向，或先经过一次视觉上的对调。[2]
+      因此，对原问题更妥当的回答不是「大脑用某某机制翻正」，而是：这个问题本身多半问错了。正立的视觉是一套跨感觉的和谐与行动的成功，而不是对一张内在照片的摆正；倒立的视网膜像也不是这套和谐必须缴纳的光学税。[2]
+    definitions:
+    - term: 视网膜倒像（inverted retinal image）
+      text: >-
+        由眼的光学造成的、相对于外部场景上下（以及相应方向上）颠倒的视网膜投影。Stratton 的实验通过透镜改变这一关系，从而检验倒立是否为「正立视觉」所必需。[1][2]
+    - term: 正立视觉（upright vision）
+      text: >-
+        Stratton 所讨论的并不是「脑子里的照片是否摆正」，而是视觉与触觉等感觉之间能否重新和谐，使我们在看见的位置上摸到、在摸到的位置上看到。[2]
+    - term: 局部标记的对应（correspondence of local signs）
+      text: >-
+        Stratton 用来解释视触和谐如何形成、以及为何可以重新协调的学说：某一触觉位置之所以「意味着」某一视觉位置，是因为二者长期一道出现，而不是因为两种「空间」之间有不可更改的先天对应。[2]
+    milestones:
+    - year: '1897'
+      name: Stratton 的「无视网膜倒像之视觉」实验
+      explanation: >-
+        George M. Stratton 在 *The Psychological Review* 分两期发表完整报告（第 4 卷第 341–360 页、第 463–481 页）。他本人既是实验者又是观察者，使用安置在右眼前的透镜管，并把实验从第一日中午持续到第八日中午。[1]
+        署名单位为 University of California。[1]
+    views:
+    - position: 视网膜像的倒立并不是正立视觉的必要条件；视与触的和谐来自长期一起出现的感觉对应，这种对应可以在新的视网膜朝向下重新建立
+      consensus_role: 知觉史上的经典实验结论，直接反驳「必须先把倒像翻正」的预设
+      evidence:
+        label: 单被试、自我观察的长期穿戴实验，报告详尽，但不是大样本对照试验
+        note: >-
+          依据是本次打开并 OCR 核对的 1897 年全文。实验只有 Stratton 本人一名观察者，许多记录依赖内省与行为描述，这是该证据的真实限度；它仍然足以打击「某一特定视网膜朝向对正立视觉必不可少」的强主张。[1][2]
+      holders:
+      - name: George M. Stratton
+        identity: >-
+          该文署名 “Professor George M. Stratton, University of California”。[1]
+      argument: >-
+        原问题里的「为什么」预设了大脑确实在做一次翻转。Stratton 把需要检验的命题换成：对象是否必须在视野中的某个特定位置上出现，视与触才能合一。
+        他的结论是：实验清楚地表明，视与触的和谐并不依赖于视网膜像的倒立。一个对象在视觉中的位置与它在触觉中的位置要成为同一个位置，并不要求先有一次视觉上的对调，也不要求它在视野中取某个特殊方向。[2]
+        他用来解释这一点的，是局部标记的对应，而不是一种先天固定的「触觉空间」与「视觉空间」关系。某一触觉经验所提示的视觉位置，取决于我们在拥有那种触觉时经常在哪里看见该对象；如果这种触觉经验转而一律伴随另一种视觉位置，两种感觉报告就会意味着同一件事，其位置也会同一。[2]
+        因此，「大脑翻正图像」既不是对光学事实的必要补充，也不是对 Stratton 结果的良好摘要。更好的说法是：正立是学会了的、可重新协调的跨感觉一致，而不是对一张内在照片的几何矫正。
+      quotes:
+      - text: >-
+          The inverted position of the retinal image is, therefore, not essential to ‘upright vision,’ for it is not essential to a harmony between touch and sight
+        text_zh: >-
+          因此，视网膜像的倒立位置并非「正立视觉」所必需，因为它并非触觉与视觉之间的和谐所必需。
+        attribution: George M. Stratton，Vision without inversion of the retinal image
+        locator: Psychological Review, 1897, 第 475 页，第二部分即将转入第 476 页处的结论句
+        ref: 2
+      - text: >-
+          The experiment makes it clear that the harmony between sight and touch does not depend on the inversion of the retinal image. The spatial identity of tactual and visual objects evidently does not require that there should be a visual transposition of objects or that they should be given some special direction in the visual field.
+        text_zh: >-
+          实验清楚地表明，视觉与触觉之间的和谐并不依赖于视网膜像的倒立。触觉对象与视觉对象在空间上的同一性，显然并不要求对象先经过一次视觉上的对调，或在视野中被赋予某个特殊方向。
+        attribution: George M. Stratton，同上
+        locator: 同文第 480 页，“But to return to the more significant features of the experiment” 之后
+        ref: 2
+
+    - position: 「大脑必须先把视网膜上的倒像翻正，我们才能看见正立的世界」把视网膜当成一幅有待内部观察者观看的图画；这一预设既非光学事实所强制，也被 Stratton 的实验所削弱
+      consensus_role: 常见的直观说法，是原问题的预设，而不是一条已证实的知觉机制
+      evidence:
+        label: 概念批评，加上 Stratton 对「投影理论」之主要理由已被实验拿走的判断
+        note: >-
+          光学上的倒像是事实，但「因此必须再翻一次」是推论。Stratton 在结论中写道，实验去掉了投影理论存在的主要理由；他同时反对把头部或眼动的「绝对」肌肉方向当作理解视触和谐的决定性证据。[2]
+          本次没有打开一篇独立捍卫「内部翻正」机制的现代论文，故把这一观点写成有待检验、并已被该经典实验削弱的直观预设，而不是某个仍占主流的实验室学说。
+      holders:
+      - name: George M. Stratton
+        identity: >-
+          同上。此处依据的是他对投影理论以及「必须先做视觉对调」这一要求的否定，而不是另一位被核对手稿的持有者。[2]
+      argument: >-
+        原问题中的「为什么」已经把「大脑会翻转图像」当成事实。可如果视觉系统并不是在观看自己的视网膜，而是用视网膜活动来引导行动并与触摸相协调，那么就不需要一位内部观察者先把照片摆正。
+        Stratton 认为，视觉对象与触觉对象在空间上的同一性，并不要求先有一次视觉上的对调，或要求对象在视野中占据某个特殊方向。他还写：实验因此拿走了投影理论存在的主要理由。[2]
+        这一观点作为「被拒绝的预设」仍然值得单独写出，因为它解释了问题为什么会以这种形式被提出，以及为什么回答不能从「寻找翻正回路」开始。
+      quotes:
+      - text: >-
+          The chief reason for the existence of the projection theory is therefore taken away.
+        text_zh: >-
+          因此，投影理论得以存在的主要理由就被拿走了。
+        attribution: George M. Stratton，Vision without inversion of the retinal image
+        locator: Psychological Review, 1897, 第 480 页，在说明和谐不依赖视网膜倒立之后
+        ref: 2
+    open_parts: >-
+      单被试的十九世纪实验不能回答现代问题：适应主要是感觉运动的重新校准，还是也包括「世界看起来重新正过来了」的现象体验？后来的倒转眼镜研究对此有分歧，本次未能打开那些全文，故不转述其结果。
+      Stratton 自己也讨论了摘下透镜后的后效、声音定位以及身体运动如何使新经验更和谐，这些细节表明适应是逐步、可逆、且依赖行动的，而不是一次开关式的「翻正」。[2]
+      「图像在视网膜上是倒的」这一光学事实仍然成立；被拒绝的只是「因此大脑必须再翻一次」这一推论。
+    references:
+    - id: 1
+      citation: >-
+        Stratton, G. M. (1897). Vision without inversion of the retinal image. Psychological Review, 4, 341–360. 本次打开并经 OCR 核对的是 Wikimedia Commons 提供的扫描件（File:Stratton.1897a.pdf）：https://commons.wikimedia.org/wiki/Special:FilePath/Stratton.1897a.pdf
+      url: https://commons.wikimedia.org/wiki/Special:FilePath/Stratton.1897a.pdf
+    - id: 2
+      citation: >-
+        Stratton, G. M. (1897). Vision without inversion of the retinal image (concluded). Psychological Review, 4, 463–481. 本次打开并经 OCR 核对的是 Wikimedia Commons 提供的扫描件（File:Stratton.1897b.pdf）：https://commons.wikimedia.org/wiki/Special:FilePath/Stratton.1897b.pdf
+      url: https://commons.wikimedia.org/wiki/Special:FilePath/Stratton.1897b.pdf
+
+- id: 2026-11-25-sci-aging
+  date: '2026-11-25'
+  category: science
+  title_zh: 我们为什么会衰老？是否已有一套衰老理论？
+  title_en: Why do we age? or Do we have a theory of senescence?
+  commentary: >-
+    衰老看起来像一条谁都逃不掉的自然定律，但演化理论要解释的是：自然选择为什么没有把后期的衰退彻底清除。把「磨损」和「选择力随年龄减弱」分开，这个问题才从感叹变成可以论证的科学问题。
+  source_name: Biology Stack Exchange
+  source_url: https://biology.stackexchange.com/questions/344/why-do-we-age-or-do-we-have-a-theory-of-senescence
+  author: Poshpaws
+  source_type: stackexchange
+  tags:
+  - 衰老
+  - 演化生物学
+  - 自然选择
+  - 生命史
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-25'
+    consensus:
+      label: >-
+        当代演化生物学的主流出发点是：衰老不是为了「给物种让路」而被程序化的利他死亡，而与自然选择的力量随年龄减弱有关；在这一总图景下，具体理论路径（有害基因在晚期积累、早年有利而晚年有害的基因、维修资源的权衡等）以及分子机制的清单，仍是开放且多元的
+      note: >-
+        Medawar 在 1951 年的就职演讲、1952 年出版的《An Unsolved Problem of Biology》中，批评了 Weismann 式「衰老个体对物种有害因此被选择掉」的循环论证，并论证：即使在潜在不朽的种群里，只要存在真实的死亡风险，较老年龄组的生殖价值也会下降，从而使晚期才显现的有害遗传因素更难被选择清除。[1]
+        后来的拮抗性多效性、可抛弃躯体等理论，是在同一问题意识下的重要发展；本次未能打开 Williams（1957）、Kirkwood（1977）和 López-Otín 等人关于「衰老标志」的原文，故不把这些后来路径写成已核对的引语或细节主张，只在未决部分标明它们的存在。
+    summary: >-
+      「我们为什么会衰老」至少有两层。一层是机制：细胞和器官里发生了哪些可观测的变化。另一层是演化：为什么这些变化没有被自然选择去掉。Medawar 明确把问题放在第二层，并把它称为生物学中一个尚未解决的问题。[1]
+      他首先区分「仅仅变老」与「衰老」（senescence）：后者指伴随着身体官能、感受力与能量衰退的老化。他强调，野生状态下许多动物活不到能把这种衰退清楚展示出来的年纪；衰老在一种重要意义上是家养或庇护所造成的「人工现象」——不是说衰退不存在，而是说它往往要在避开日常死亡风险之后才变得明显。[1]
+      针对「为了物种而死亡」的说法，他指出 Weismann 的论证预先假定了正要解释的那种衰老，因而落入循环。[1]
+      他自己的核心模型是：一个潜在不朽、但持续面临破碎或死亡风险的种群，会自然形成「年轻组人数多于年老组」的稳定年龄结构。于是，即使每个个体的生育力并不随年龄下降，较老年龄组的总体生殖价值仍然更低。晚期才出现的遗传灾难，影响的是已经变少、对未来种群贡献也更小的那一批个体，选择对它的压力因此减弱。[1]
+      由此可以得到三条彼此关联的机制：反复出现的有害突变若作用足够晚，选择可能弱到无法阻止其立足；把有害基因的作用时间推迟，等价于在某种程度上清除它；选择甚至会强制推迟不利基因的显露、并提前有利基因的显露。Medawar 把后者视为意义最广的一条，并称衰老因此可以是自我加强的过程。[1]
+      这已经构成一套真正的理论，而不是一句「时间会磨损一切」。但它并不是封闭的终局理论：Medawar 自己也说，即使加上这些限定，他的提议还很难被称为自足的理论。[1]
+    definitions:
+    - term: 衰老（senescence）
+      text: >-
+        Medawar 用来指「伴随着身体官能、感受力与能量之衰退的老化」，并把它与仅仅随时间推移的 ageing 区分开。他说，衰老意味着活力的下降。[1]
+    - term: 自然选择的力量随年龄减弱
+      text: >-
+        Medawar 论证的关键：即使个体潜在不朽，只要暴露在真实的死亡风险中，较老的年龄组人数就更少、总体生殖价值更低，因而选择对晚发生的遗传效应更不敏感。[1]
+    - term: 生殖价值（reproductive value）
+      text: >-
+        在他的试管模型里，每个个体对未来种群祖先的贡献可以不随年龄而变，但一个年龄组的总体生殖价值随年龄下降，只是因为这个组的个体更少。[1]
+    milestones:
+    - year: 1891（被 Medawar 引用的文本）
+      name: Weismann 关于生命长度与死亡的演化讨论
+      explanation: >-
+        Medawar 引用 *Weismann on Heredity*（Poulton 等编，Oxford, 1891）中 “The Duration of Life” 与 “Life and Death” 的段落，作为「衰老具有正统演化起源」的早期表述，并批评其循环。[1]
+        本次打开的是 Medawar 的引文与批评，不是 Weismann 原书页。
+    - year: 1951–1952
+      name: Medawar 将衰老的演化起源立为「尚未解决的问题」并给出选择力衰减的论证
+      explanation: >-
+        1951 年 12 月 6 日在 University College London 发表就职演讲，1952 年由学院出版。当时他的署名是伦敦大学比较解剖学与动物学的 Jodrell Professor。[1]
+    views:
+    - position: 衰老不能用「破损组织必须为物种让路」这种循环论证来解释；关键是自然选择的效力随年龄下降，从而使晚发的有害遗传效应更容易留下
+      consensus_role: 演化衰老理论的经典起点，其后的主流工作多在这一图景内推进
+      evidence:
+        label: 一篇被广泛引用的就职演讲/专著小册，是理论论证而非新的分子实验
+        note: >-
+          依据是本次打开的 1952 年文本全文。Medawar 自己把它称为尚未解决的问题，并承认其提议还不是自足理论。[1]
+          论证依赖人口学模型和逻辑，而不是直接鉴定出哪些人类基因因「作用太晚」而逃脱了选择。野生动物少见明显衰老，是他为这个模型提供的经验线索，但并不是对所有物种生命表的完整检验。
+      holders:
+      - name: Peter B. Medawar
+        identity: >-
+          该演讲出版文本署名为 P. B. Medawar，Jodrell Professor of Zoology and Comparative Anatomy in the University of London；演讲于 1951 年 12 月 6 日在 University College London 发表，1952 年首次出版。[1]
+      argument: >-
+        Medawar 先排除一条仍不时出现在通俗讨论里的路。他引 Weismann 的话大意是：死亡发生，是因为耗损的组织不能永远自我更新；衰老个体对物种不仅没有价值，甚至有害，因为他们占了健全者的位置；于是自然选择会缩短理论上不朽的个体的生命，减去对物种无用的那一段。Medawar 认为这是循环：论证预先假定了那些年长者已经耗损衰败，而那正是有待解释的状态。[1]
+        他自己的模型从潜在不朽却会「被打破」的试管种群开始。持续的随机破碎加上补充，会得到稳定的年龄结构：越年长的组人数越少——不是因为它们变得更脆，只是因为暴露于风险的次数更多。年轻组在数量上压倒年老组。[1]
+        于是，一场发生得足够晚的「遗传性解体」，在自然种群里可能几乎不重要，甚至要靠「把试管当宠物养起来」才能确定它真的发生；若发生得早，则可以是灾难性的。这就是选择力随年龄减弱的含义。[1]
+        他进一步给出三条相关的作用途径：晚发有害突变可能抵挡住的选择太弱；推迟有害基因的显露时间等价于某种清除；选择还会强制这种推迟，并提前有利基因的作用，从而使衰老成为一种自我加强的过程。这个定理并不依赖已经存在生殖后期，而只要求各年龄组的生殖价值随年龄下降。[1]
+        对「我们为什么会衰老」的回答因此是：不是因为肉体在形而上学意义上必然用坏，也不是为了给下一代腾位置，而是因为选择在生命较晚阶段本来就看不太清、抓得不紧。
+      quotes:
+      - text: >-
+          This model shows, I hope, how it must be that the force of natural selection weakens with increasing age—even in a theoretically immortal population, provided only that it is exposed to real hazards of mortality. If a genetical disaster that amounts to breakage happens late enough in individual life, its consequences may be completely unimportant.
+        text_zh: >-
+          我希望这个模型能够表明：自然选择的力量为什么必定随年龄增长而减弱——即使在一个理论上不朽的种群中也是如此，只要它暴露在真实的死亡风险之下。如果一场相当于「破裂」的遗传灾难在个体生命中发生得足够晚，其后果就可能完全无关紧要。
+        attribution: P. B. Medawar，An Unsolved Problem of Biology
+        locator: 1952 年出版文本第 18 页，试管模型之后的推论段
+        ref: 1
+      - text: >-
+          I have now suggested three agencies which may have played a part in the evolution of ‘innate’ senescence: (1) the inability of natural selection to counteract the feeble pressure of repetitive mutation when the mutant genes make their effects apparent at ages which the great majority of the members of a population do not in fact attain to; (2) the fact that the postponement of the time of action of a deleterious gene is equivalent to its elimination, and may sometimes be the only way in which elimination can be achieved; and (3) the fact that natural selection may actually enforce such a postponement, and, conversely, expedite the age of onset of the overt action of favourable genes. All these theorems derive from the hypothesis that the efficacy of natural selection deteriorates with increasing age.
+        text_zh: >-
+          我现在提出了三种可能在「内在」衰老之演化中起过作用的机制：（1）当突变基因在种群中绝大多数成员实际上活不到的年龄才显现其效应时，自然选择无力抵消反复突变的微弱压力；（2）推迟有害基因的作用时间等价于清除它，而且有时可能是实现清除的唯一途径；（3）自然选择实际上可能强制这种推迟，并反过来提前有利基因公开作用的起始年龄。所有这些定理都来自这样一个假说：自然选择的效力随年龄增长而衰退。
+        attribution: P. B. Medawar，An Unsolved Problem of Biology
+        locator: 同书第 23 页，对前述论证的收束
+        ref: 1
+
+    - position: 「衰老是为了给健全者让路而被选择出来的」这一说法，在逻辑上预先假定了它所要解释的衰退，因而不能作为衰老的演化起源
+      consensus_role: 被 Medawar 明确批评的历史立场，今天通常不再被当作成功的适应主义解释
+      evidence:
+        label: 对历史文本的转述与反驳，而非本次打开的 Weismann 原书
+        note: >-
+          Medawar 引用了 1891 年英文编译本 *Weismann on Heredity* 中的段落，并批评其循环。本次打开的是 Medawar 的引述与评论，不是 Weismann 原书页，因此不把 Weismann 的句子作为已从原书核对的引语。[1]
+      holders:
+      - name: Peter B. Medawar
+        identity: >-
+          同上，1952 年出版的就职演讲作者。此处他是作为批评者出现，所讨论的是他归之于 August Weismann 的论证。[1]
+      argument: >-
+        通俗讨论里仍不时出现一种听起来很「演化」的故事：老个体占了位置、对物种有害，于是选择缩短了生命。Medawar 认为这是循环。论证一开始就假定年长者已经耗损衰败，而那正是需要解释的状态；再用这种状态去说明选择为何要除掉他们。[1]
+        他并不否认衰老具有演化起源，也不否认 Weismann 把问题放进自然选择框架是有价值的起点；他要改的是机制。正确的方向不是「为了物种而程序化死亡」，而是选择压力如何随年龄结构而减弱。[1]
+        把这一被拒绝的立场写出来，是为了标明：今天若还把「我们会衰老，是为了给下一代腾地方」当成理论，并没有得到 Medawar 这条经典论证路线的支持。
+    open_parts: >-
+      Medawar 本人不认为这已经是自足理论；把选择力衰减落实到具体基因、具体物种的生命表，以及早年利益与晚年代价如何交易，都是后续工作的入口。[1]
+      在他之后，拮抗性多效性（通常追溯到 Williams 1957）和可抛弃躯体理论（通常追溯到 Kirkwood 1977）成为演化衰老讨论中的标准名称；细胞与分子层面还有「衰老的标志」一类综述。本次未能打开这些原文，因此不在已核对观点中展开其定理或引用其句子，以免把二手印象写成已核对的主张。
+      「为什么会衰老」的机制清单（损伤、干细胞耗竭、炎症等）与演化解释之间如何一一对应，仍然是开放的研究领域。
+    references:
+    - id: 1
+      citation: >-
+        Medawar, P. B. (1952). An unsolved problem of biology: An inaugural lecture delivered at University College London, 6 December 1951. London: H. K. Lewis, for University College London.
+        本次打开并核对的是 Internet Archive 提供的文本 PDF：https://dn721909.ca.archive.org/0/items/medawar-1952-unsolved-problem/Medawar1952-Unsolved-Problem_text.pdf
+      url: https://dn721909.ca.archive.org/0/items/medawar-1952-unsolved-problem/Medawar1952-Unsolved-Problem_text.pdf
