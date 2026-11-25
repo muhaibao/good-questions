@@ -12148,3 +12148,866 @@
         Medawar, P. B. (1952). An unsolved problem of biology: An inaugural lecture delivered at University College London, 6 December 1951. London: H. K. Lewis, for University College London.
         本次打开并核对的是 Internet Archive 提供的文本 PDF：https://dn721909.ca.archive.org/0/items/medawar-1952-unsolved-problem/Medawar1952-Unsolved-Problem_text.pdf
       url: https://dn721909.ca.archive.org/0/items/medawar-1952-unsolved-problem/Medawar1952-Unsolved-Problem_text.pdf
+- id: 2026-11-26-ai-lstm-size
+  date: '2026-11-26'
+  category: ai
+  title_zh: 如何选择 LSTM 的隐藏层数和记忆单元数？
+  title_en: How to select number of hidden layers and number of memory cells in an LSTM?
+  commentary: 层数和记忆单元数看起来像有「标准答案」的工程参数，但它们其实是容量与正则化之间的取舍。把「没有闭式公式」和「可以系统搜索」同时写清楚，这个问题才不会停在经验口诀上。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/3156/how-to-select-number-of-hidden-layers-and-number-of-memory-cells-in-an-lstm
+  author: Stephen Johnson
+  source_type: stackexchange
+  tags:
+  - LSTM
+  - 超参数
+  - 神经网络
+  - 模型选择
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 没有被广泛接受的、可直接算出 LSTM 隐藏层数或记忆单元数的闭式公式；它们被当作需用验证集（及早停等正则）来设定的容量超参数。较大规模的经验研究支持用随机搜索等系统方法来调，并显示在已考察的范围内，学习率往往比隐藏层大小更关键
+      note: Bengio（2012）把隐藏单元数明确列为控制容量的超参数，并强调这些建议来自实践、应当被检验，而不是定理。[1] Bergstra 与 Bengio（2012）比较了网格搜索、手工搜索与随机搜索，论证在相同预算下随机搜索通常更高效。[2]
+        Greff、Srivastava、Koutník、Steunebrink 与 Schmidhuber 对九种 LSTM 结构、三个任务做了约 5400 次试验，用随机搜索调参并用 fANOVA
+        评估超参数重要性；他们报告所考察的超参数几乎相互独立，并给出高效调整的经验指南，例如学习率可先在较小网络上调好再用于较大网络。[3] 这些结果不能外推成「任意新任务的最佳层数」，原问题因此只能得到程序性、而不是数值性的回答。
+    summary: LSTM 的隐藏层数和每层记忆单元（block）数，决定了循环网络的容量，也决定了过拟合的风险。它们并没有一条与任务无关的最优公式。Bengio 把隐藏单元数写成实验者可以自由设定、用以控制容量的超参数，并把它和学习率、迭代次数等并列；实际选择依赖验证表现，并常与早停、权重衰减等正则手段一起使用。[1]
+      既然搜索空间很大，下一步就是如何搜。Bergstra 与 Bengio 指出，网格搜索和手工搜索虽最常用，但随机搜索在经验与理论上都往往更高效：它能在相同计算预算下覆盖更大、也更少「看起来有希望」的配置空间。[2]
+      Greff 等人把这一方法用到 LSTM 上：对每种变体、每个任务单独做随机搜索，隐藏层中 LSTM block 数在 [20, 200] 上按对数均匀抽样，并比较八种只改动一处的变体。他们的结论是：常用的
+      vanilla LSTM 在多个数据集上已经相当好，所考察的八种修改都没有显著提升；学习率是最重要的超参数，学习率与隐藏层大小的交互相对较小，因而学习率可以先在小网络上调，再用来训练大网络。[3]
+      对原问题而言，这意味着：先把层数与单元数当作待验证的容量选择，用随机搜索（或至少是验证集驱动的试验）来找，而不是寻找一条普遍的「该用几层、多少个 cell」的口诀；若计算有限，应优先把学习率调稳。
+    definitions:
+    - term: 超参数（hyper-parameter）
+      text: Bengio 用来指那些需要在训练算法之外设定的「铃铛和哨子」，包括正则系数、隐藏单元数、训练迭代次数等数值选择。[1]
+    - term: 容量（capacity）
+      text: Bengio 把多层网络中每一层可以自由设定的大小，视为控制模型容量的量；容量过大容易过拟合，过小则可能拟合不足。早停和其他正则会改变「名义容量」与「有效容量」的关系。[1]
+    - term: 随机搜索（random search）
+      text: Bergstra 与 Bengio 所指的、在超参数空间中按预先指定的分布随机抽取配置并评估的策略，以对比在网格上逐点评估。[2] Greff 等人在 LSTM 研究中采用了这一策略。[3]
+    milestones:
+    - year: '2012'
+      name: Bengio 的深度结构训练实践建议；Bergstra 与 Bengio 的随机搜索论文
+      explanation: '前者是面向深度结构的实践指南（arXiv:1206.5533v2）。[1] 后者刊于 JMLR 13: 281–305，作者单位为蒙特利尔大学计算机与运筹学系。[2]'
+    - year: '2016'
+      name: Greff 等对 LSTM 变体的大规模比较
+      explanation: 刊于 IEEE Transactions on Neural Networks and Learning Systems。作者当时单位为瑞士人工智能实验室 IDSIA
+        及瑞士意大利语区大学（USI）等。本次打开并核对的是 arXiv:1503.04069v2（2017-10-04）。[3]
+    views:
+    - position: 隐藏层数和记忆单元数是需要用验证来设定的容量超参数，没有普遍的闭式答案
+      consensus_role: 实践指南层面的主流说法，并被后续系统搜索研究当作前提
+      evidence:
+        label: 实践指南章节，建议本身被作者明确要求接受检验
+        note: Bengio 开篇写明，这些建议出自多年实验与一定程度的数学理由，但「应当被挑战」，只是实验者的良好起点。[1] 它不是针对 LSTM 记忆单元数的专项定理，而是对多层网络隐藏单元数的一般讨论。
+      holders:
+      - name: Yoshua Bengio
+        identity: 《Practical Recommendations for Gradient-Based Training of Deep Architectures》作者。该文版本（arXiv:1206.5533v2,
+          2012-09-16）未在文首列出当时职务，故此处不补充未核到的头衔。[1]
+      argument: 原问题想要的是「该选多少」。Bengio 的回答方式是换一个问题：这些量是什么类型的决定。隐藏单元数被写成与正则系数、训练迭代次数同类的数值超参数，其作用是控制容量；因为还有早停和权重衰减，容量并不是把层数或单元数填进公式就能一次性确定的。[1]
+        因此，负责任的做法是在验证集上比较候选结构，而不是从输入维、样本数直接「算出」一个 LSTM 宽度。这一观点并不否定规则口诀的启发式价值，但把它们降格为有待检验的起点。
+      quotes:
+      - text: Number of hidden units nh. Each layer in a multi-layer neural network typically has a size
+          that we are free to set and that controls capacity. Because of early stopping and possibly other
+          regularizers (e.g., weight decay, discussed
+        text_zh: 隐藏单元数 nh。多层神经网络中的每一层通常都有一个我们可以自由设定的大小，它控制着容量。由于早停以及可能的其他正则（例如下面讨论的权重衰减）
+        attribution: Yoshua Bengio，Practical Recommendations for Gradient-Based Training of Deep Architectures
+        locator: arXiv:1206.5533v2（2012-09-16），「模型与准则超参数」小节中的条目 “Number of hidden units nh”
+        ref: 1
+    - position: 应把层数与单元数放进系统的超参数搜索；随机搜索通常优于网格，而 LSTM 上更关键的往往是学习率而非结构变体或隐藏大小本身
+      consensus_role: 有大规模对照实验支持的方法论主张
+      evidence:
+        label: 一篇 JMLR 论文和一篇基于约 5400 次试验的同行评议 LSTM 研究
+        note: Bergstra 与 Bengio 的比较对象是此前用网格和手工搜索配置的神经网络与深度信念网，不是专门的 LSTM 层数定理。[2] Greff 等人的搜索空间把每层 LSTM
+          block 数限制在 20 到 200，任务为语音、手写和复调音乐，不能直接给出「你的任务该用多少个 cell」。[3] 他们也指出，所比较的是变体与超参数，而不是去刷新当时的最新成绩。
+      holders:
+      - name: James Bergstra、Yoshua Bengio
+        identity: 《Random Search for Hyper-Parameter Optimization》（JMLR, 2012）作者，文首单位为蒙特利尔大学计算机与运筹学系。[2]
+      - name: Klaus Greff、Rupesh K. Srivastava、Jan Koutník、Bas R. Steunebrink、Jürgen Schmidhuber
+        identity: '《LSTM: A Search Space Odyssey》作者。预印本所列单位为瑞士人工智能实验室 IDSIA，以及瑞士意大利语区大学（USI）与瑞士意大利语区应用科学大学（SUPSI）。[3]'
+      argument: 若承认这些量必须试，接下来的分歧是：怎么试才算「有研究依据」。Bergstra 与 Bengio 给出的不是另一条口诀，而是对搜索策略的比较：随机抽取的试验，往往比在网格上走点更高效。[2]
+        Greff 等人把随机搜索落到 LSTM 上，并为每个变体、每个任务单独寻优。结果有两层。第一，就结构而言，常用的 vanilla LSTM 已经足够好，他们考察的八种「只改一处」的变体没有显著胜过它；遗忘门和输出激活函数反而是最关键的部件。[3]
+        第二，就超参数而言，学习率最重要，所考察的超参数几乎相互独立；学习率与隐藏层大小的交互较小，因此可以先在小网络上把学习率调好，再训练大网络。[3] 这并不是说隐藏层大小无关紧要，而是说：在他们覆盖的范围内，它通常不是第一颗该拧的螺丝，也不存在离了任务还能成立的「标准层数」。
+      quotes:
+      - text: Grid search and manual search are the most widely used strategies for hyper-parameter optimization.
+          This paper shows empirically and theoretically that randomly chosen trials are more efficient
+          for hyper-parameter optimization than trials on a grid.
+        text_zh: 网格搜索和手工搜索是超参数优化中使用最广的策略。本文从经验和理论上表明，随机抽取的试验比在网格上做的试验，对超参数优化更为高效。
+        attribution: James Bergstra 与 Yoshua Bengio，Random Search for Hyper-Parameter Optimization
+        locator: 'Journal of Machine Learning Research 13 (2012): 281–305，摘要'
+        ref: 2
+      - text: Our results show that none of the variants can improve upon the standard LSTM architecture
+          significantly, and demonstrate the forget gate and the output activation function to be its
+          most critical components. We further observe that the studied hyperparameters are virtually
+          independent and derive guidelines for their efficient adjustment.
+        text_zh: 我们的结果表明，没有任何一种变体能够显著改进标准 LSTM 结构，并证明遗忘门和输出激活函数是其最关键的部件。我们还观察到，所研究的超参数几乎是相互独立的，并由此给出了高效调整它们的指南。
+        attribution: 'Klaus Greff 等，LSTM: A Search Space Odyssey'
+        locator: 摘要，arXiv:1503.04069v2；期刊版本为 IEEE TNNLS，DOI 10.1109/TNNLS.2016.2582924
+        ref: 3
+    open_parts: 「该用几层、多少个记忆单元」仍然高度依赖任务、数据量和正则手段，本次打开的研究没有给出可直接套用的数值表。Greff 等人的搜索上界是每层 200 个 block、且主要使用一层或双向两层设置，更深的堆叠
+      LSTM、以及后来占主导的 Transformer，都不在其比较范围内。[3] 神经结构搜索（NAS）的后续文献本次没有作为核对对象，故不把「随机搜索已是最终答案」写成定论。
+    references:
+    - id: 1
+      citation: Bengio, Y. (2012). Practical recommendations for gradient-based training of deep architectures
+        (arXiv:1206.5533v2). 本次打开并核对的是该预印本 PDF：https://arxiv.org/pdf/1206.5533.pdf
+      url: https://arxiv.org/pdf/1206.5533.pdf
+    - id: 2
+      citation: Bergstra, J., & Bengio, Y. (2012). Random search for hyper-parameter optimization. Journal
+        of Machine Learning Research, 13, 281–305. 本次打开并核对的是 JMLR 官方 PDF：https://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf
+      url: https://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf
+    - id: 3
+      citation: 'Greff, K., Srivastava, R. K., Koutník, J., Steunebrink, B. R., & Schmidhuber, J. (2016).
+        LSTM: A search space odyssey. IEEE Transactions on Neural Networks and Learning Systems. https://doi.org/10.1109/TNNLS.2016.2582924
+        本次打开并核对的是 arXiv:1503.04069v2：https://arxiv.org/pdf/1503.04069.pdf'
+      url: https://arxiv.org/pdf/1503.04069.pdf
+- id: 2026-11-26-ai-python
+  date: '2026-11-26'
+  category: ai
+  title_zh: 为什么 Python 会成为人工智能领域如此流行的语言？
+  title_en: Why is Python such a popular language in the AI field?
+  commentary: 这不是在问「哪种语言最好」，而是在问一套研究工具链为什么会收敛到 Python。答案很大程度写在科学计算的数组库和深度学习框架的前端选择里，而不是写在语言跑得有多快。
+  source_name: Artificial Intelligence Stack Exchange
+  source_url: https://ai.stackexchange.com/questions/3494/why-is-python-such-a-popular-language-in-the-ai-field
+  author: Douglas Ferreira
+  source_type: stackexchange
+  tags:
+  - Python
+  - 科学计算
+  - 深度学习框架
+  - 研究工具
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: Python 在人工智能中的流行，与它作为科学计算和深度学习的前端语言、以及 NumPy 一类数组库构成的生态系统密切相关；计算内核通常并不写在纯 Python 里。把「流行」完全归因于语法简洁，证据不足
+      note: Harris 等人把 NumPy 写成整个科学 Python 宇宙的基础，并强调它在众多学科研究分析流水线中的位置。[1] Paszke 等人把 PyTorch 的设计目标之一，说成是一种与其他流行科学计算库相一致的命令式、Pythonic
+        风格，同时又保持对加速器的效率。[2] Abadi 等人描述 TensorFlow 时写明，客户通常用受支持的前端语言（C++ 或 Python）来构造计算图。[3] 本次没有打开以「语言流行度」为因变量的因果识别研究，故社区路径依赖、教学与就业市场等解释只能作为未被本文核对的补充因素。
+    summary: Python 成为人工智能的常用语言，首先不是因为它在数值内核上最快，而是因为它处在科学计算生态的中心，并被主要深度学习系统选作人写代码的界面。Harris 等人指出，NumPy
+      是 Python 的主要数组编程库，在物理、化学、天文、生物、心理、工程和金融等研究分析流水线中起关键作用，并且是整个科学 Python 宇宙得以建立的基础；由于其在生态中的中心位置，它还日益充当不同数组计算库之间的互操作层。[1]
+      在此基础上，深度学习框架把「用 Python 描述模型」和「在 GPU 等硬件上高效执行」拆开。PyTorch 的作者论证，易用与速度不必对立：它可以提供命令式、Pythonic 的风格，便于把代码当作模型本身、也便于调试，并与其他流行科学计算库保持一致，同时仍能高效使用加速器。[2]
+      TensorFlow 的白皮书同样把 Python（与 C++ 并列）当作构造计算图的典型前端。[3] 合在一起，较有文献依据的回答是：Python 提供了研究工作流已经依赖的数组与库生态，而主流框架又把性能放进另一层实现，于是「写人工智能」在实践中往往就是「用
+      Python 写前端」。语法更干净、原型更快等说法与这一图景相容，但不是本次打开的论文直接测量的对象。
+    definitions:
+    - term: 数组编程（array programming）
+      text: Harris 等人所说的、用紧凑而富于表达力的语法来访问和操作向量、矩阵及更高维数组的编程范式；NumPy 被他们称为 Python 语言的主要数组编程库。[1]
+    - term: 前端语言 / 前端（front-end）
+      text: 在 TensorFlow 的表述里，指用来构造计算图的界面语言。文中写明客户通常使用 C++ 或 Python；执行则被映射到多种硬件。[3]
+    milestones:
+    - year: 2015–2016
+      name: TensorFlow 作为开源系统发布并描述其 Python 前端
+      explanation: Abadi 等人的预印本标为 2015 年 11 月 9 日的初步白皮书，arXiv:1603.04467v2（2016-03-16）。文中称 API 与参考实现于
+        2015 年 11 月以 Apache 2.0 开源。[3]
+    - year: 2019–2020
+      name: PyTorch 论文与 NumPy 的 Nature 论文
+      explanation: Paszke 等人的 PyTorch 论文预印本为 arXiv:1912.01703v1（2019-12-03）。[2] Harris 等人《Array programming
+        with NumPy》刊于 Nature 585, 357–362（2020）；本次打开并核对的是 arXiv:2006.10256v1。[1]
+    views:
+    - position: Python 之所以能承接人工智能工作，首先是因为它已经是科学计算的共享基础，NumPy 一类数组库把研究分析流水线组织在同一语言里
+      consensus_role: 对科学 Python 生态之中心地位的权威技术陈述，本身不是专门的「AI 语言流行」因果论文
+      evidence:
+        label: Nature 上的库综述/介绍论文，描述的是 NumPy 的作用与生态位置
+        note: Harris 等人列举的应用领域包含广泛的科学研究，并不单独测量「有多少 AI 项目因 NumPy 而选择 Python」。他们提到后续出现了面向专门硬件的 Python 数组包，以及
+          NumPy 作为互操作层的角色。[1] 这支持「生态」解释，但不能单独排除教学、就业或历史偶然。
+      holders:
+      - name: Charles R. Harris、K. Jarrod Millman、Stéfan J. van der Walt、Ralf Gommers、Travis E. Oliphant
+          等
+        identity: 《Array programming with NumPy》的作者群体。通讯作者单位包括加州大学伯克利分校、Stellenbosch 大学等；Travis E. Oliphant
+          为署名作者之一。本次按 arXiv:2006.10256v1 文首署名引用。[1]
+      argument: 若只盯着「Python 语法简单」，就很难解释为什么同样简单的语言没有成为科学与人工智能的默认界面。Harris 等人提供的机制是基础设施：研究分析已经围绕数组对象组织起来，而
+        NumPy 是 Python 里承担这一角色的主库，甚至被写成整个科学 Python 宇宙的地基。[1] 人工智能研究大量处理张量、把实验写进可重复的脚本、并调用科学栈中的其他工具；当这些工作已经发生在
+        Python 里，新的学习库就有强烈理由继续停在同一语言中，而不是让研究者换一套数组与可视化传统。
+      quotes:
+      - text: NumPy is the primary array programming library for the Python language [2, 3, 4, 5]. It
+          plays an essential role in research analysis pipelines in fields as diverse as physics, chemistry,
+          astronomy, geoscience, biology, psychology, material science, engineering, finance, and economics.
+          [...] NumPy is the foundation upon which the entire scientific Python universe is constructed.
+        text_zh: NumPy 是 Python 语言的主要数组编程库。[2, 3, 4, 5] 它在物理、化学、天文、地球科学、生物、心理、材料科学、工程、金融和经济学等多样化领域的研究分析流水线中起着关键作用。[…]
+          NumPy 是整个科学 Python 宇宙得以建立的基础。
+        attribution: Charles R. Harris 等，Array programming with NumPy
+        locator: 摘要，arXiv:2006.10256v1；期刊：Nature 585, 357–362 (2020)
+        ref: 1
+    - position: 主流深度学习框架把 Python 选作人使用的前端，而把效率放在对加速器的执行层，这巩固了「用 Python 做 AI」的工作方式
+      consensus_role: 框架设计者的一手陈述，说明他们为何提供 Python 界面
+      evidence:
+        label: 两个框架的技术论文/白皮书，不是语言采用的抽样调查
+        note: PyTorch 论文强调命令式、Pythonic 风格与效率可以兼得，并与流行科学计算库保持一致。[2] TensorFlow 白皮书把 Python 与 C++ 并列写为构造计算图的前端。[3]
+          二者都是系统设计者的描述，能说明「为何提供 Python 接口」，不能单独证明这是社区选择 Python 的唯一原因。
+      holders:
+      - name: Adam Paszke、Sam Gross、Francisco Massa、Soumith Chintala 等
+        identity: '《PyTorch: An Imperative Style, High-Performance Deep Learning Library》作者。文首显示 Paszke
+          当时单位为华沙大学，Gross、Massa、Chintala 等为 Facebook AI Research。[2]'
+      - name: Martín Abadi、Ashish Agarwal、Paul Barham、Jeffrey Dean、Rajat Monga 等
+        identity: '《TensorFlow: Large-Scale Machine Learning on Heterogeneous Distributed Systems》作者，署名
+          Google Research。[3]'
+      argument: 即便科学 Python 生态已经存在，如果深度学习系统要求研究者改用另一种主语言，收敛仍可能被打断。PyTorch 作者把「好用」和「快」写成可以同时成立的目标，并把 Pythonic、与科学计算库一致，列为达到这一目标的方式。[2]
+        TensorFlow 则在实现层面把图的构造交给 C++ 或 Python 前端。[3] 于是出现一种分工：人用 Python 写模型与实验，重计算在另一层完成。这与「Python 适合快速原型」的常见说法一致，但它更具体：流行的不是「用解释型语言做矩阵乘法」，而是「用
+        Python 作为与已有科学栈一致的界面」。
+      quotes:
+      - text: 'PyTorch is a machine learning library that shows that these two goals are in fact compatible:
+          it provides an imperative and Pythonic programming style that supports code as a model, makes
+          debugging easy and is consistent with other popular scientific computing libraries, while remaining
+          efficient and supporting hardware accelerators such as GPUs.'
+        text_zh: PyTorch 是一个表明这两个目标其实可以兼得的机器学习库：它提供一种命令式的、Pythonic 的编程风格，支持把代码当作模型、使调试变得容易，并与其他流行的科学计算库保持一致，同时仍然高效，并支持
+          GPU 等硬件加速器。
+        attribution: 'Adam Paszke 等，PyTorch: An Imperative Style, High-Performance Deep Learning Library'
+        locator: 摘要，arXiv:1912.01703v1
+        ref: 2
+    open_parts: 「为什么是 Python 而不是 Julia、R 或 MATLAB」涉及教学、工业招聘、历史时机和路径依赖，本次打开的论文并未做因果分解。框架后来的演进（包括对其他语言前端的支持）也超出了这两篇系统设计文本的范围。[2][3]
+      因此，本文只对「生态 + 前端选择」给出有文献支持的说明，而不把其他流行解释写成已核证的结论。
+    references:
+    - id: 1
+      citation: Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau,
+        D., … Oliphant, T. E. (2020). Array programming with NumPy. Nature, 585, 357–362. https://doi.org/10.1038/s41586-020-2649-2
+        本次打开并核对的是 arXiv:2006.10256v1：https://arxiv.org/pdf/2006.10256.pdf
+      url: https://arxiv.org/pdf/2006.10256.pdf
+    - id: 2
+      citation: 'Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., Chanan, G., … Chintala, S.
+        (2019). PyTorch: An imperative style, high-performance deep learning library (arXiv:1912.01703v1).
+        本次打开并核对的是该预印本 PDF：https://arxiv.org/pdf/1912.01703.pdf'
+      url: https://arxiv.org/pdf/1912.01703.pdf
+    - id: 3
+      citation: 'Abadi, M., Agarwal, A., Barham, P., Brevdo, E., Chen, Z., Citro, C., … Zheng, X. (2016).
+        TensorFlow: Large-scale machine learning on heterogeneous distributed systems (arXiv:1603.04467v2;
+        preliminary white paper dated November 9, 2015). 本次打开并核对的是该预印本 PDF：https://arxiv.org/pdf/1603.04467.pdf'
+      url: https://arxiv.org/pdf/1603.04467.pdf
+- id: 2026-11-26-biz-lawyerly
+  date: '2026-11-26'
+  category: business
+  title_zh: 美国是如何变成一个「律师社会」的？
+  title_en: How did the United States become a lawyerly society?
+  commentary: 律师就业份额和相对工资在大约二十年间突然跃升，这不太像缓慢的文化偏好，更像法律环境本身被改写了。新近的经济史研究把范围扩张、文本不确定和私人执法激励放在同一条需求曲线上。
+  source_name: Marginal Revolution
+  source_url: https://marginalrevolution.com/marginalrevolution/2026/11/how-did-the-united-states-become-a-lawyerly-society.html
+  author: Tyler Cowen
+  source_type: curated
+  tags:
+  - 法律服务
+  - 劳动需求
+  - 管制
+  - 诉讼
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 就「1970–1990 年美国法律服务就业份额与律师相对工资为何大幅上升」这一可检验的问题而言，Reshef 与 Slattery 给出了目前本次打开的最完整定量叙述：需求移动来自立法与管制环境的三项变化。这一结论仍是一篇
+        2026 年工作论文的结果，不是已被多篇独立复制钉死的教科书共识
+      note: 作者将需求移动归因于：新一波立法与管制拓宽了法律的范围、使其适用变得不确定，并通过费用转移（fee-shifting）让私人律师去执法。他们用一个多世纪的数据表明，律师的就业与报酬追踪这三项变化；事件研究把具体制定法与相关领域诉讼和需求的增加联系起来；律师质量、产业结构与技术等替代解释不足以说明这一移动。他们估计，立法不确定性大约占需求移动的
+        13%，仅 2024 年就约合 230 亿美元成本。[1] 文本依据的是作者 2026 年 9 月 23 日稿，尚未作为本次已打开的期刊定稿来引用。
+    summary: 「律师社会」若指律师在经济中的比重和报酬突然升高，关键转折并不均匀地铺在整个二十世纪，而集中在 1970 到 1990 年：法律服务就业份额提高一倍以上，律师相对工资上升 60%，此前此后则相对平稳。[1]
+      Reshef 与 Slattery 把这一需求移动归因于法律环境里三件相关的事。社会性管制把民权、环境、工作场所安全和消费者保护纳入法律；经济性放松管制则把价格与准入的控制从行政机关转到制定法和司法解释。许多新立法写得很宽，关键问题被留给法院；国会往往不是同步扩大联邦执法能力，而是附上费用转移条款，给私人律师以执法的金钱激励。范围扩大、适用更不确定、私人执法回报提高，三者都会推高对法律中介的需求。[1]
+      作者强调，对法律中介的需求根本上源于关于法律的信息不对称：律师知道法律如何规制行为，大多数人不知道。人均民事案件与法律服务就业份额在二十世纪里紧密并行，说明无论驱动因素是什么，它经由或伴随着民事诉讼而运作。[1]
+      他们还用事件研究把具体制定法与受影响法律领域的诉讼和需求增加联系起来，并报告律师质量、产业结构和技术不能解释这次移动。对「不确定性」单独做的核算认为，它约占 1970–1990 年需求移动的
+      13%，按 2024 年工资账单约合 230 亿美元；若不对范围与不确定性作分离，上限会高得多。[1] 因此，就本文核对过的证据而言，美国变得更「律师化」，首先是因为法律被写得更宽、更不确定，并由私人诉讼来执行，而不是因为某种含混的民族性格突然改变。
+    definitions:
+    - term: 费用转移（fee-shifting）
+      text: 作者所说的、附在制定法上、使私人律师有金钱激励去执行这些法律的条款；被列为与范围扩张、文本不确定并列的第三项需求驱动。[1]
+    - term: 法律中介需求
+      text: 在他们的理论里，来自关于法律的信息不对称：律师知道法律如何规制行为，大多数人不知道。需求随法律所及范围的扩大、适用更不可预测、或援引法律的回报上升而增长。[1]
+    milestones:
+    - year: 1970–1990
+      name: 美国法律服务需求的集中移动期
+      explanation: 作者报告，这一时期就业份额提高一倍以上，律师相对工资上升 60%，与前后的平稳形成对照。[1]
+    - year: '2026'
+      name: Reshef 与 Slattery 的历史视角工作论文
+      explanation: '《Legislation, Regulation and Litigation: Demand for U.S. Legal Services in Historical
+        Perspective》，稿面日期 2026 年 9 月 23 日。作者单位为 CNRS、巴黎第一大学、巴黎经济学院与 CESifo（Reshef），以及加州大学伯克利分校哈斯商学院（Slattery）。[1]'
+    views:
+    - position: 1970–1990 年的律师需求跃升，主要来自法律范围扩大、立法不确定性增加，以及费用转移所激励的私人执法
+      consensus_role: 本文打开的核心实证主张，目前来自一篇工作论文
+      evidence:
+        label: 作者自己的世纪数据、事件研究与反事实核算，尚未在本次作为已发表期刊论文核对
+        note: 摘要与导论给出了就业份额、相对工资、13% 与 230 亿美元等关键数字，并明确排除质量、产业结构和技术作为充分解释。[1] 230 亿美元的估算以「法律范围扩大是社会有益的、但立法含混的增加不是」为条件；作者也给出了另一口径（把相对工资上升视为非生产性租金）约每年
+          750 亿美元。这些都是反事实核算，对假设敏感。[1]
+      holders:
+      - name: Ariell Reshef、Cailin Slattery
+        identity: 该 2026 年 9 月 23 日稿的作者。文首单位分别为 CNRS、巴黎第一大学、巴黎经济学院与 CESifo，以及加州大学伯克利分校哈斯商学院。[1]
+      argument: 若把「律师社会」理解成一种始终如此的文化事实，就很难解释为什么就业与相对工资的跃升集中在大约二十年里。Reshef 与 Slattery 把观察窗口拉长到一个多世纪，显示移动与立法—管制环境的三项变化同步，并且民事诉讼是可见的传导渠道。[1]
+        理论部分把「范围」主要写在外延（更多争端进入法律），把不确定性写进诉讼努力与进入决策，把费用转移写进私人执法的回报。经验部分则用事件研究把具体制定法连接到受影响领域。于是，问题从「美国人是否特别好讼」转成「法律被怎样书写和执行」。按他们的核算，即便承认范围扩张可能有社会价值，仅「写得不确定」这一项，在
+        2024 年仍对应可观的超额律师成本。[1]
+      quotes:
+      - text: 'Between 1970 and 1990 the U.S. legal services industry underwent a dramatic demand shift.
+          Its employment share more than doubled and the relative wages of lawyers rose by 60%, in contrast
+          to stability before and after. We attribute this shift to three related changes in the legal
+          environment: a wave of new legislation and regulation broadened the scope of the law, left its
+          application uncertain, and enlisted private lawyers to enforce it through fee-shifting. [...]
+          Other explanations, including lawyer quality, industrial composition, and technology, do not
+          account for the demand shift. We estimate that legislative uncertainty accounts for roughly
+          13% of the demand shift—a cost of about $23 billion in 2024 alone.'
+        text_zh: 在 1970 至 1990 年间，美国法律服务产业经历了一次剧烈的需求移动。其就业份额提高一倍以上，律师的相对工资上升了 60%，与此前此后的平稳形成对照。我们将这一移动归因于法律环境中三项相关变化：新一波立法与管制拓宽了法律的范围、使其适用变得不确定，并通过费用转移让私人律师去执行它。[…]
+          包括律师质量、产业结构和技术在内的其他解释，并不能说明这一需求移动。我们估计，立法不确定性大约占这次需求移动的 13%——仅在 2024 年就约合 230 亿美元的成本。
+        attribution: 'Ariell Reshef 与 Cailin Slattery，Legislation, Regulation and Litigation: Demand for
+          U.S. Legal Services in Historical Perspective'
+        locator: 摘要，作者稿 2026-09-23
+        ref: 1
+    - position: 即使接受上述需求移动，把整段律师扩张都写成「浪费」仍然过头：作者自己也把范围扩张与不确定性分开，并对社会成本给出了条件性的不同口径
+      consensus_role: 对同一论文内部核算假设的审慎读法，与前一观点兼容
+      evidence:
+        label: 来自同一文稿中的反事实练习，不是独立的反对性研究
+        note: 作者写明，13% 与 230 亿美元的估算假定范围扩张是社会有益的、而立法含混的增加不是；若不把不确定性从范围中分离，上限可达 1120 亿美元。另一练习把法律就业数量的增加视为给定，而把相对工资上升当作非生产性租金，得到约每年
+          750 亿美元。[1] 这些数字不能在未说明假设时被单独引用为「律师社会的总成本」。
+      holders:
+      - name: Ariell Reshef、Cailin Slattery
+        identity: 同上。此处依据的是文中「超额成本」的两种信封计算，而不是另外一篇否定需求移动的论文。[1]
+      argument: 把论文读成「美国不该立法、不该有律师」，并不符合作者的分拆。他们试图分离的是：哪些需求增长可能对应法律所及范围的扩大，哪些来自把法律写得含混并由私人诉讼去填空。只有在后一种被当作「并非必要」时，13%
+        的口径才被解释为超额成本。[1] 因此，对原问题更稳妥的回答是：美国在那二十年里确实变得明显更依赖法律服务，机制上法律环境的变化比技术或产业结构更有解释力；至于这在多大程度上是代价、在多大程度上是管制扩张的伴随物，仍取决于人们如何评价那些制定法本身。
+      quotes:
+      - text: Under the assumption that the expansion of the law was socially beneficial but the increase
+          in legislative ambiguity was not, we estimate that uncertainty in legislative text accounts
+          for roughly 13% of the increase in demand for lawyers. We estimate that $23 billion of the 2024
+          wage bill in legal services reflects excess costs.
+        text_zh: 在假定法律范围的扩张是社会有益的、但立法含混的增加并非如此的前提下，我们估计立法文本中的不确定性大约占律师需求增加的 13%。我们估计，2024 年法律服务工资账单中的
+          230 亿美元反映的是超额成本。
+        attribution: Ariell Reshef 与 Cailin Slattery
+        locator: 作者稿 2026-09-23，关于「超额」成本的信封计算段落
+        ref: 1
+    open_parts: 这篇研究目前以 2026 年 9 月作者稿被本次打开，后续期刊修订可能改变估算或识别策略。它回答的是法律服务的就业与报酬，而不是「好讼文化」的全部含义（例如刑事司法、法学院供给或州与州之间的差异）。作者也讨论了律师协会的进入限制等供给因素，但核心故事被写成需求移动；供给一侧的定量权重，仍需结合全文其他节来评估，本次不把它们写成与三项需求机制对等的已核结论。[1]
+    references:
+    - id: 1
+      citation: 'Reshef, A., & Slattery, C. (2026, September 23). Legislation, regulation and litigation:
+        Demand for U.S. legal services in historical perspective (manuscript). 作者单位：CNRS / Université
+        Paris 1 / Paris School of Economics / CESifo；UC Berkeley, Haas School of Business. 本次打开并核对的是作者页提供的
+        PDF：https://cailinslattery.com/s/ReshefSlattery_Lawyers_Sept2026.pdf'
+      url: https://cailinslattery.com/s/ReshefSlattery_Lawyers_Sept2026.pdf
+- id: 2026-11-26-sci-paper-successor
+  date: '2026-11-26'
+  category: science
+  title_zh: 科学论文和科学期刊的后继形态会是什么？
+  title_en: What's the successor to the scientific paper and the scientific journal?
+  commentary: 预印本已经把「发行」变得极便宜，开放获取宣示了读者免费的目标，也有期刊尝试用网页原生格式取代 PDF；但认证、筛选和声望仍大部分留在期刊里。后继者与其说是已经就位的单一替代物，不如说是一组尚未收束的实验。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 科学出版
+  - 开放获取
+  - 预印本
+  - 同行评议
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 把廉价、快速的公开发行与成本更高的质量认证拆开，是过去三十年里最有实现形态的方向；但「论文和期刊将被某一新格式彻底取代」并不是已经完成的事实。开放获取成为广泛接受的规范目标，网页原生期刊则仍属未完成的实验
+      note: Ginsparg（2004）把 arXiv 写成无需传统编辑流程的传播系统，成本可比常规同行评议系统低两三个数量级，并区分「发行」与「知识认证」。他同时写明，期刊仍提供作者身份认证和对研究内容的某种质量控制。[1]
+        《布达佩斯开放获取倡议》把开放获取定义为文献在公共互联网上免费可供阅读、下载、复制和传播，并主张同行评议期刊文献应对读者免费，尽管生产并非没有成本。[2] Distill 以自身「关于」页说明，传统学术出版仍聚焦
+        PDF，限制了网页原生的表达；该刊在 2016–2021 年运营后无限期停刊。[3] 因此，后继形态的讨论有明确的经验锚点，但没有单一已被领域普遍采用的替代格式。
+    summary: 科学论文和期刊至少做了两件不同的事：把结果发行出去，以及对作者与内容做某种认证。Ginsparg 从 arXiv 的经验出发论证，一旦生产与发行可以自动化或交给作者，其费用可能不到编辑认证费用的
+      1%，于是必须追问：把两者绑在一起的旧结构，在电子环境下是否还值得那么多时间和金钱。arXiv 本身几乎即时、按领域聚合地提供评议前传播，这是任何单一期刊都难以覆盖的广度；期刊则补充作者身份认证，以及「并非明显错误、并非明显无趣」这一最低限度的质量把关，选择性更高的期刊还带来短期声望。[1]
+      《布达佩斯开放获取倡议》把下一步规范写得更明确：学者无偿交给世界的文献，尤其是同行评议论文，应当在网上对读者免费开放；版权在这个领域的作用，应主要是让作者控制作品完整性并要求正确署名。[2]
+      至于「论文」作为制品本身，Distill 代表另一种实验：用网页原生的交互图示取代以 PDF 为中心的交流，并主张非传统研究制品应被承认为真正的学术贡献。但它在 2021 年后进入无限期停刊，说明新格式还没有自动成为新的默认。[3]
+      较稳妥的判断因此不是「后继者已经到来」，而是：发行层已被预印本和开放获取大幅改写，认证与声望功能仍大量留在期刊，而论文的媒介形式仍在试验中。
+    definitions:
+    - term: 开放获取（open access）
+      text: 《布达佩斯开放获取倡议》的定义是：文献在公共互联网上免费可供任何用户阅读、下载、复制、传播、打印、检索或链接全文，或作其他合法使用，除接入互联网本身所不可分的障碍外，不应再有资金、法律或技术障碍。[2]
+    - term: 传播与认证的分离
+      text: Ginsparg 区分作为纯传播系统的存储库，与提供作者认证和内容质量控制的编辑过程。他认为，在前者成本远低于后者之后，是否仍把两者按印刷时代的方式绑在一起，成为一个不可回避的问题。[1]
+    milestones:
+    - year: 1991–2004
+      name: arXiv 的建立与 Ginsparg 对学术信息架构的回顾
+      explanation: Ginsparg 文中写明 arXiv 始于 1991 年，至 2003 年中约有 25 万篇全文，当时年新增约 4 万篇。该文刊于 Data Science Journal
+        第 3 卷（2004 年 2 月 4 日）。作者单位为康奈尔大学物理系与计算与信息科学系。[1]
+    - year: '2002'
+      name: 布达佩斯开放获取倡议
+      explanation: 开放获取运动的基础性公开声明。本次打开并核对的是倡议官网「Read the Declaration」页。[2]
+    - year: 2016–2021
+      name: Distill 作为网页原生期刊的实验与停刊
+      explanation: 其「关于」页称该刊在 2016–2021 年运营，此后无限期停刊。[3]
+    views:
+    - position: 后继架构的核心是把廉价的公开发行做成基础设施，而把同行评议式的认证做成可以重新设计的、成本更高的功能，而不是用同一套印刷期刊同时承担两者
+      consensus_role: 对预印本系统最有影响的实践总结之一，并与开放获取宣言的规范目标相一致
+      evidence:
+        label: arXiv 创建者的回顾文章，以及一份开放获取宣言；都不是对「期刊已死」的因果证明
+        note: Ginsparg 给出的 100 到 1000 倍成本差异，引的是他自己 2001 年的先前文字，本次未再打开那篇被引文献，故只转述 2004 年文本中的这一陈述。[1] BOAI
+          是规范声明，它主张同伴评议文献应对读者免费，同时承认生产并非没有成本。[2]
+      holders:
+      - name: Paul Ginsparg
+        identity: 《Scholarly Information Architecture, 1989–2015》作者，文首单位为康奈尔大学物理系与计算与信息科学系。[1]
+      - name: Budapest Open Access Initiative
+        identity: 2002 年发布的开放获取公开声明。本次按官网声明文本引用，不把未在该页逐一核对的签署人写成个人主张。[2]
+      argument: 「论文和期刊的后继者是什么」容易被听成「哪一种新杂志会取代 Nature」。Ginsparg 把问题改写成基础设施设计：若今天从零开始做一套受质量控制的科技信息发布系统，它不必延续印刷时代把发行和编辑认证绑在一起的成本结构。arXiv
+        演示了评议前、按领域聚合的即时发行；期刊并未因此消失，而是被重新定位到认证、最低质量把关和声望。[1] BOAI 则从规范上要求，学者无偿给出的文献应对读者开放，从而把「后继发行」从技术可能推进成一项公共目标。[2]
+        按这一路线，后继者首先是「开放的传播层 + 仍待改造的认证层」，而不是一本新的纸本期刊。
+      quotes:
+      - text: Primarily, the arXiv provides instant pre-review dissemination, aggregated on a field-wide
+          basis, a breadth far beyond the capacity of any one journal. The journals augment this with
+          some measure of authentication of authors (they are who they claim to be), and a certain amount
+          of quality control of the research content.
+        text_zh: 首先，arXiv 提供即时的评议前传播，并在整个领域的范围内加以聚合，这种广度远超任何一家期刊的能力。期刊则对此加以补充：对作者身份给予某种认证（他们确是其所声称的人），以及对研究内容给予一定程度的质量控制。
+        attribution: Paul Ginsparg，Scholarly Information Architecture, 1989–2015
+        locator: Data Science Journal 3 (2004)，关于 arXiv 与期刊功能划分的段落
+        ref: 1
+    - position: 论文作为「静态 PDF」的制品本身也可能被网页原生、可交互的形式取代，但这一路线尚未成为新的默认，Distill 的停刊说明替代格式仍不稳定
+      consensus_role: 有代表性的实验，证据是期刊自身的公开陈述，而不是对照试验
+      evidence:
+        label: 一份期刊「关于」页的自我说明，需如实标为第一方陈述
+        note: Distill 的文本论证的是 PDF 限制了交流，以及非传统制品应被承认为真正贡献；它不是对「新格式提高发现效率」的计量研究。[3] 停刊事实本身说明，仅有技术可能并不足以完成对论文和期刊的替换。
+      holders:
+      - name: Distill
+        identity: 2016–2021 年运营的网页原生科学期刊。本次打开并核对的是其「关于」页的自我陈述，不把指导委员会名单中的个人观点未经其本人文本核对而写出。[3]
+      argument: 即便发行已经电子化，如果交流单元仍是为印刷设计的静态论文，Ginsparg 所说的「从零开始的设计」就只完成了一半。Distill 把问题对准媒介：网页可以承载反应式图示和可检查的模型，而传统出版仍聚焦
+        PDF，使这类交流难以成为正式贡献。[3] 它因此把「后继者」想象成一种新的研究制品，而不只是把旧论文放到网上。但该刊已停刊，说明声望、审稿劳动和可持续运营并没有自动跟随新格式到来。后继形态在这一侧仍然开放。
+      quotes:
+      - text: The web is a powerful medium to share new ways of thinking. Over the last few years we’ve
+          seen many imaginative examples of such work. But traditional academic publishing remains focused
+          on the PDF, which prevents this sort of communication.
+        text_zh: 网络是分享新思维方式的有力媒介。过去几年我们已经看到许多富有想象力的这类工作。但传统学术出版仍然聚焦于 PDF，而这妨碍了这类交流。
+        attribution: Distill，「关于」页
+        locator: https://distill.pub/about/ ，「A modern medium for presenting research」一节
+        ref: 3
+    open_parts: 没有一种格式已经被证明可以同时接替发行、认证、声望和可归档性。不同学科对预印本和开放获取的采纳速度差很大，Ginsparg 主要依据的是物理及相关领域的 arXiv，不能直接外推到所有学科。[1]
+      开放获取的商业实现（文章处理费、转化协议、仓储路径）带来了新的成本转移，BOAI 文本本身并不解决这些后起的制度问题。[2] 可执行论文、数据论文、注册报告等其他后继候选，本次没有作为核对对象。
+    references:
+    - id: 1
+      citation: Ginsparg, P. (2004). Scholarly information architecture, 1989–2015. Data Science Journal,
+        3, 29–41. 作者单位：Cornell University. 本次打开并核对的是 J-STAGE 提供的 PDF：https://www.jstage.jst.go.jp/article/dsj/3/0/3_0_29/_pdf
+      url: https://www.jstage.jst.go.jp/article/dsj/3/0/3_0_29/_pdf
+    - id: 2
+      citation: Budapest Open Access Initiative. (2002). Read the declaration. 本次打开并核对的是倡议官网文本：https://www.budapestopenaccessinitiative.org/read/
+      url: https://www.budapestopenaccessinitiative.org/read/
+    - id: 3
+      citation: Distill. (n.d.). About Distill. 页面写明该刊于 2016–2021 年运营，此后无限期停刊。本次打开并核对：https://distill.pub/about/
+      url: https://distill.pub/about/
+- id: 2026-11-26-sci-red-meat
+  date: '2026-11-26'
+  category: science
+  title_zh: 食用红肉对健康有什么影响？
+  title_en: The health effects of eating red meat
+  commentary: 观察性研究发现红肉和加工肉与疾病相连，但饮食与其他健康行为严重混杂。国际癌症机构给出了分级，营养指南小组认为证据把握很低，而一项利用α-半乳糖综合征的自然实验，则把「不吃红肉」的心血管代谢好处估计得相当有限。
+  source_name: Marginal Revolution
+  source_url: https://marginalrevolution.com/marginalrevolution/2026/11/the-health-effects-of-eating-red-meat.html
+  author: Tyler Cowen
+  source_type: curated
+  tags:
+  - 营养流行病学
+  - 癌症
+  - 自然实验
+  - 膳食指南
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 加工肉与结直肠癌的关联，被 IARC 评为对人类致癌证据充分；未加工红肉被评为很可能致癌，证据有限。对心血管代谢终点以及「该不该继续按当前摄入量吃」，专业文献存在公开分歧：NutriRECS
+        认为减量带来的健康效应很小且证据把握低，而 2026 年一项自然实验估计，被迫停止食用红肉只带来温和但可测量的心血管代谢改善
+      note: IARC 工作组将加工肉列为 1 类（对人类致癌），将红肉列为 2A 类（很可能对人类致癌）；每日本增加 50 克加工肉与结直肠癌风险升高 18% 相关。新闻稿也强调，就个人而言因食用加工肉而发生结直肠癌的风险仍然很小。[1]
+        Johnston 等代表的 NutriRECS 小组给出弱推荐：成年人可继续当前的未加工红肉与加工肉摄入，依据是低把握证据。[2] Patel、Worsham、Liu-Hass 与 Jena
+        利用α-半乳糖综合征造成的非自愿停食，相对于其他蜱传疾病患者，估计体重持续下降 0.8 千克，并有甘油三酯、糖化血红蛋白、血糖和 LDL 的小幅下降；他们写明，这些效应方向与膳食指导一致，但远小于受混杂的观察对比所暗示的幅度。[3]
+        三种陈述针对的终点并不完全相同（癌症分级 vs 指南推荐 vs 心血管代谢自然实验），不能互相「取消」。
+    summary: 「吃红肉是否有害」至少要分成三条证据链。第一条是癌症危害鉴定。IARC 在审阅大量文献后，把加工肉（腌制、熏制等）列为对人类致癌（1 类），依据是充分的人类证据表明其导致结直肠癌；把红肉（哺乳动物肌肉）列为很可能致癌（2A
+      类），依据是有限的人类证据和较强的机制证据。关联主要见于结直肠癌，也被观察到与胰腺癌、前列腺癌有关。新闻稿同时引述：每日本增加 50 克加工肉，结直肠癌风险升高 18%，但对个人而言这一风险仍然很小；红肉仍有营养价值，需要在风险评估中权衡。[1]
+      第二条是膳食指南该怎么说。NutriRECS 小组做了多份系统综述，并用 GRADE 评定证据把握，最终给出弱推荐：成年人可继续当前的未加工红肉和加工肉摄入，证据把握为低。这与许多建议限制红肉的当代指南不同，分歧的核心是：他们判断减量带来的健康差别很小，且证据不确定。[2]
+      第三条试图处理营养流行病学里几乎无法回避的混杂。Patel 等人利用α-半乳糖综合征——一种蜱传的哺乳动物肉类过敏——作为突然、非自愿停止食用红肉的自然实验，并以同为蜱叮咬、求诊、但饮食不受限的其他蜱传疾病患者为对照。相对对照，诊断后两年内体重持续下降
+      0.8 千克（95% CI 0.6–1.0），并随致敏程度增加；甘油三酯、糖化血红蛋白、血糖和 LDL 也有小幅下降。作者的概括是：不吃红肉似乎带来温和但可测量的心血管代谢好处，且小于受混杂的观察对比所暗示的幅度；饮食替代还可能进一步抵消部分好处。[3]
+      把三条合在一起，较诚实的结论并不是「红肉无害」或「必须立即戒除」，而是：加工肉的癌症证据更强；未加工红肉的癌症证据较弱但仍被列为很可能致癌；就心血管代谢而言，更干净的识别给出的是小效应。
+    definitions:
+    - term: 红肉与加工肉
+      text: IARC 新闻稿把红肉定义为牛肉、小牛肉、猪肉、羊肉、马肉、山羊肉等哺乳动物肌肉；加工肉指经盐腌、腌渍、发酵、熏制或其他工艺以增强风味或改善保存的肉类，例如热狗、火腿、香肠等。[1]
+    - term: IARC 分组
+      text: 1 类表示「对人类致癌」，加工肉因充分的人类证据被列入；2A 类表示「很可能对人类致癌」，红肉因有限的人类证据加上较强机制证据被列入。[1]
+    - term: α-半乳糖综合征（alpha-gal syndrome）
+      text: Patel 等人所用的蜱传过敏，导致对哺乳动物肉类的突然、非自愿停止食用，从而提供一个饮食被外生打断的自然实验。[3]
+    milestones:
+    - year: '2015'
+      name: IARC 第 114 卷对红肉与加工肉的评价
+      explanation: 2015 年 10 月 26 日第 240 号新闻稿公布工作组结论；详细评估作为 IARC 专著第 114 卷出版，摘要亦见于 The Lancet Oncology。[1]
+    - year: '2019'
+      name: NutriRECS 膳食指南推荐
+      explanation: Johnston 等，Annals of Internal Medicine。通讯作者单位包括达豪斯大学、麦克马斯特大学等。本次打开并核对的是接受稿。[2]
+    - year: '2026'
+      name: α-半乳糖综合征自然实验
+      explanation: Patel、Worsham、Liu-Hass 与 Jena，NBER Working Paper 36025（2026 年 11 月）。作者单位为哈佛大学 / 哈佛医学院与布里格姆妇女医院等。[3]
+    views:
+    - position: 加工肉有充分证据导致结直肠癌，红肉则是很可能致癌；公共健康上仍有理由限制摄入，尽管对个人的绝对风险可能不大
+      consensus_role: 危害鉴定上的权威机构结论，针对癌症终点
+      evidence:
+        label: IARC 专著工作组的正式分类与新闻稿；本次打开的是新闻稿全文，不是第 114 卷专著的逐页正文
+        note: 新闻稿写明工作组审阅了 800 多项研究，最有影响的证据来自过去二十年的大型前瞻性队列。1 类分类不等于「与烟草同等危险」，它表示证据充分，而不是效应大小相同。对个人风险「仍然很小」的判断，出现在
+          IARC 专著项目负责人 Kurt Straif 的引语中。[1]
+      holders:
+      - name: IARC 专著工作组；Kurt Straif、Christopher Wild
+        identity: 国际癌症研究机构（世界卫生组织下属）2015 年 10 月 26 日第 240 号新闻稿所报道的评价。Straif 当时为 IARC 专著项目负责人，Wild 当时为
+          IARC 主任。本次按新闻稿引述，不补充未在该文本中出现的个人论文主张。[1]
+      argument: 若问题被理解成「有没有权威的危害鉴定」，IARC 的答案是分层的：加工肉的人类证据被评为充分，红肉则是有限证据加上机制证据。新闻稿同时避免把人群层面的重要性与个人绝对风险混为一谈：因为食用者众多，即使个人风险很小，对全球发病率仍可能有公共卫生意义；红肉又有营养价值，需要在评估中权衡。[1]
+        这一立场支持「限制、尤其是限制加工肉」，但它并不自动给出「完全戒除」或某一克数的临床处方。
+      quotes:
+      - text: Processed meat was classified as carcinogenic to humans (Group 1), based on sufficient evidence
+          in humans that the consumption of processed meat causes colorectal cancer. [...] After thoroughly
+          reviewing the accumulated scientific literature, a Working Group of 22 experts from 10 countries
+          convened by the IARC Monographs Programme classified the consumption of red meat as probably
+          carcinogenic to humans (Group 2A), based on limited evidence that the consumption of red meat
+          causes cancer in humans and strong mechanistic evidence supporting a carcinogenic effect.
+        text_zh: 加工肉被列为对人类致癌（1 类），依据是充分的人类证据表明食用加工肉会导致结直肠癌。[…] 在彻底审阅已积累的科学文献后，由 IARC 专著项目召集的、来自 10 个国家的
+          22 名专家组成的工作组，将食用红肉列为很可能对人类致癌（2A 类），依据是食用红肉导致人类癌症的证据有限，以及支持致癌作用的较强机制证据。
+        attribution: International Agency for Research on Cancer，新闻稿第 240 号
+        locator: 2015-10-26，Lyon，「Processed meat」与「Red meat」节
+        ref: 1
+    - position: 就膳食指南而言，减少红肉和加工肉的健康收益可能很小，证据把握低，因而可以弱推荐人们继续当前摄入；一项新的自然实验则显示，不吃红肉确有温和的心血管代谢好处，但远小于受混杂的观察研究常暗示的幅度
+      consensus_role: 与限制性指南公开分歧的系统推荐，加上一项针对混杂问题的自然实验
+      evidence:
+        label: 一篇使用 GRADE 的指南论文，以及一篇 2026 年 NBER 工作论文
+        note: NutriRECS 的推荐是「弱推荐、低把握证据」，并且明确未把环境影响或动物福利纳入考虑。[2] Patel 等人针对的是心血管代谢指标而非癌症，样本是电子病历中被诊断为α-半乳糖综合征的患者，其饮食替代行为可能与自愿减量者不同；作者自己也讨论了食欲回升与食物替代会抵消部分好处。[3]
+          工作论文尚未作为本次已打开的期刊定稿来引用。
+      holders:
+      - name: Bradley C. Johnston、Dena Zeraatkar、Gordon H. Guyatt 等（NutriRECS 小组）
+        identity: 2019 年 Annals of Internal Medicine 指南的作者。Johnston 的接受稿单位包括达豪斯大学、麦克马斯特大学与德克萨斯 A&M 大学。[2]
+      - name: Vishal Patel、Christopher M. Worsham、Michael Liu-Hass、Anupam Jena
+        identity: NBER Working Paper 36025（2026 年 11 月）作者。摘要页所列单位为哈佛大学、哈佛医学院与布里格姆妇女医院。[3]
+      argument: IARC 回答的是「能否鉴定为致癌物」，指南回答的是「普通人该不该改饮食」，自然实验回答的是「去掉红肉后，心血管代谢指标会移动多少」。NutriRECS 认为，把摄入量每周减少若干份所对应的风险差很小，证据把握低，而人们通常更愿意维持当前饮食，因此给出继续当前摄入的弱推荐。[2]
+        Patel 等人则说明，观察关联确实被饮食和其他健康行为混杂；当停食是过敏强加的，体重和若干代谢指标仍改善，但幅度温和，且可能被替代食物部分抵消。[3] 这两条并不否定癌症分级，但它们限制了一种常见的跳跃：从「被列为致癌/很可能致癌」直接跳到「效应必然很大，或观察研究里的系数就是因果效应」。
+      quotes:
+      - text: The panel suggests that adults continue current unprocessed red meat consumption (weak recommendation,
+          low certainty evidence). Similarly, the panel suggests adults continue current processed meat
+          consumption (weak recommendation, low certainty evidence).
+        text_zh: 小组建议成年人继续当前的未加工红肉摄入（弱推荐，低把握证据）。同样，小组建议成年人继续当前的加工肉摄入（弱推荐，低把握证据）。
+        attribution: Bradley C. Johnston 等，NutriRECS 指南
+        locator: 接受稿摘要「Recommendations」；期刊为 Annals of Internal Medicine, 2019, 171:756–764
+        ref: 2
+      - text: Observational associations between red meat consumption and cardiometabolic disease are
+          confounded by diet and other health behaviors. [...] Relative to this comparison group, diagnosis
+          of alpha-gal syndrome led to a sustained 0.8 kg (95% CI, 0.6 to 1.0) reduction in body weight
+          that increased with the degree of sensitization, as well as small reductions in triglycerides,
+          glycated hemoglobin, glucose, and low-density lipoprotein cholesterol. Not eating red meat appears
+          to yield modest but measurable cardiometabolic benefits.
+        text_zh: 红肉消费与心血管代谢疾病之间的观察性关联，受到饮食和其他健康行为的混杂。[…] 相对于这一对照组，α-半乳糖综合征的诊断导致体重持续下降 0.8 千克（95% CI，0.6
+          至 1.0），该下降随致敏程度增加，同时甘油三酯、糖化血红蛋白、血糖和低密度脂蛋白胆固醇也有小幅下降。不吃红肉似乎带来温和但可测量的心血管代谢好处。
+        attribution: Vishal Patel、Christopher M. Worsham、Michael Liu-Hass 与 Anupam Jena
+        locator: NBER Working Paper 36025，摘要
+        ref: 3
+    open_parts: 癌症与心血管代谢是不同终点，不能用一项自然实验否定 IARC 的癌症分级，也不能用危害鉴定直接读出戒肉的绝对收益。Patel 等人的识别针对的是「被过敏迫使停食」的人群，食物替代、食欲回升和两年窗口都限制外推；该文目前为工作论文。[3]
+      加工肉与未加工红肉应当分开评价，许多公众讨论却把两者混为一谈。环境与动物福利被 NutriRECS 明确排除在推荐之外，因而「该不该少吃」的完整政策问题比健康终点更宽。[2]
+    references:
+    - id: 1
+      citation: 'International Agency for Research on Cancer. (2015, October 26). IARC Monographs evaluate
+        consumption of red meat and processed meat (Press Release No. 240). Lyon: IARC. 本次打开并核对的是官方新闻稿
+        PDF：https://www.iarc.who.int/wp-content/uploads/2018/07/pr240_E.pdf'
+      url: https://www.iarc.who.int/wp-content/uploads/2018/07/pr240_E.pdf
+    - id: 2
+      citation: 'Johnston, B. C., Zeraatkar, D., Han, M. A., Vernooij, R. W. M., Valli, C., El Dib, R.,
+        … Guyatt, G. H. (2019). Unprocessed red meat and processed meat consumption: Dietary guideline
+        recommendations from the Nutritional Recommendations (NutriRECS) Consortium. Annals of Internal
+        Medicine, 171, 756–764. https://doi.org/10.7326/M19-1621 本次打开并核对的是 UEA 知识库接受稿：https://ueaeprints.uea.ac.uk/id/eprint/72566/1/Accepted_Manuscript.pdf'
+      url: https://ueaeprints.uea.ac.uk/id/eprint/72566/1/Accepted_Manuscript.pdf
+    - id: 3
+      citation: 'Patel, V., Worsham, C. M., Liu-Hass, M., & Jena, A. (2026). The health effects of eating
+        red meat: A natural experiment in alpha-gal syndrome (NBER Working Paper No. 36025). 本次打开并核对的是
+        NBER 工作论文 PDF：https://www.nber.org/system/files/working_papers/w36025/w36025.pdf'
+      url: https://www.nber.org/system/files/working_papers/w36025/w36025.pdf
+- id: 2026-11-26-phil-guns
+  date: '2026-11-26'
+  category: philosophy
+  title_zh: 「枪不杀人，人杀人」是不是一个好论证？
+  title_en: Is 'guns don't kill people, people kill people' a good argument?
+  commentary: 这句口号把工具和行动者对立起来，听起来像在谈因果，往往却在暗示责任或政策结论。用标准的「若非则不」检验去看，它作为对因果的否认站不住；作为「只有人可被归责」的提醒，也推不出「因此枪支没有问题」。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/10975/is-guns-dont-kill-people-people-kill-people-a-good-argument
+  author: Crab Bucket
+  source_type: stackexchange
+  tags:
+  - 因果
+  - 责任
+  - 非正式论证
+  - 武器
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 若把这句口号理解成「枪支不是致死的原因」，它与英美侵权和刑法中占主导的「若非则不」（but-for / sine qua non）因果检验相冲突。若把它理解成「只有人才能承担道德或法律责任」，这一提醒更可辩护，但从中推不出「因此枪支或某类金融工具就没有问题」。本次讨论是概念分析，不是对持枪与死亡率的实证研究综述
+      note: 斯坦福哲学百科「Causation in the Law」条目把法律中占主导的「事实上的因果」检验陈述为 sine qua non 或 but-for 检验：若非被告的行为，受害人是否仍会受到她所受到的伤害？该检验要求被告的行为是伤害的必要条件，其吸引力正在于它抓住了我们在解释事件与归责时都关心的问题：被告的行为是否造成了差别。[1]
+        把同一反事实问题问向「若非有枪」，在许多枪杀中答案为否，于是枪支可以是事实上的原因之一，即使它不是道德主体。原帖还指出，这句句式已被用于汽车和证券化债务，并常被暗示推出「因此 X 没有问题」；后一步是额外的规范跳跃，并不由「人是行动者」自动给出。本次没有打开关于枪支可获得性与杀人罪的经验研究，故不把政策效应写成已核对的结论。
+    summary: 「枪不杀人，人杀人」像一句关于因果的断言，但它通常还想带走一句政策结论。要判断它是不是好论证，需要先分开两件事：某物是否是伤害的原因，以及谁应当被归责。关于前者，法律哲学里最常用、也最简约的检验是反事实的「若非则不」：若非某一因素，伤害是否仍会发生。斯坦福哲学百科对这一主导检验的概括是：它问「若非被告的行为，受害人是否仍会受到她所受到的伤害」，并要求该行为是伤害的必要条件；人们在乎它，正因为解释和责任都关心「这一点是否造成了差别」。[1]
+      枪杀若在「若非有这把枪（或这类武器）」时本不会以同一方式发生，则枪支可以是事实上的原因，即使扣扳机的是人。于是，把口号读成对因果贡献的否认，是一个坏论证：它把「人是行动者」错当成「工具不能进入因果故事」。把口号读成「只有人可被责备、枪支不是罪犯」，则更接近责任归属的常识；可是原帖所指出的那一步——「因此枪支（或跑车、或证券化债务）没有问题」——并不能从「只有人是主体」推出。工具可以改变伤害的可能性、方式或严重程度，而不需要自己成为道德主体。作为论证，这句口号至多是在转移论题：从「工具是否参与因果」跳到「应不应规制工具」，中间缺少独立的前提。
+    definitions:
+    - term: 若非则不 / 必要条件检验（but-for / sine qua non test）
+      text: 斯坦福哲学百科所述、在侵权与刑法中占主导地位的「事实上的因果」检验。它提出反事实问题：若非被告的行为，受害人是否仍会受到她所受到的伤害？也被称为必要条件检验，因为它要求该行为对伤害而言是必要的。[1]
+    - term: 事实上的因果（cause-in-fact）
+      text: 该条目所陈述的、法律因果两层要求中的第一层。按其中转述的常规看法，这一层才是真正对应科学或事实因果概念的部分；第二层（近因等）则常常混有政策考量。[1]
+    views:
+    - position: 若口号被用来否认枪支是致死的原因，则它不是一个好论证：标准的反事实检验允许工具成为事实上的原因
+      consensus_role: 把既有的法律因果检验应用到这句口号上的分析，不是一条专门讨论该口号的新定理
+      evidence:
+        label: 哲学百科对主导法律检验的综述；本次把该检验应用到口号上，应用本身不是条目里的原句
+        note: 条目讨论的是「被告的行为」，而不是「枪支」这个对象。将 but-for 问句改写成「若非有枪」是分析上的平移，需要承认：有些死亡在没有这把枪时仍可能以其他方式发生，此时该枪可能通不过必要条件检验。条目也指出，叠加因果等情形会使单纯的
+          but-for 检验陷入困境，法院实际上会修改它。[1] 因此，这里只主张「不能一般地否认枪支的因果贡献」，而不是主张「每一起案件中枪都是 but-for 原因」。
+      holders:
+      - name: Stanford Encyclopedia of Philosophy 条目 “Causation in the Law”
+        identity: 首次发布于 2019 年 10 月 3 日，本次打开的是 2024 年 2 月 4 日修订本。页面转换文本未提供可逐字核对的作者署名行，故此处按条目本身引用，不补写未经该页核对的作者姓名。[1]
+      argument: 口号的力量来自一种看似显然的对比：人会行动，枪不会。可是「事实上的因果」并不要求原因必须是行动者。but-for 检验问的是必要性，不是主体性。[1] 许多枪杀满足：若非有枪，受害人不会以这种方式死去。此时否认枪的因果贡献，只是把「谁该受审」的问题伪装成「什么算原因」。原帖把它推广到汽车和金融工具，恰好暴露了同一结构：我们不会因为「开车的是人」就否认车辆在致死过程中的因果角色。作为对因果的否认，这句口号是失败的。
+      quotes:
+      - text: 'This minimalist requirement is by far the dominant explicit test for cause in fact in both
+          torts and criminal law. It is the “sine qua non”, or “but-for” test. Such a test asks a counterfactual
+          question: “but for the defendant’s action, would the victim have been harmed as she was?” This
+          test is also sometimes called the necessary condition test, because it requires the defendant’s
+          action have been necessary to the victim’s harm. The appeal of this test stems from this fact.
+          The test seems to isolate something we seem to care a lot about, both in explaining events and
+          in assessing responsibility for them, namely, did the defendant’s act make a'
+        text_zh: 这一最低限度的要求，是侵权法和刑法中迄今为止占主导地位的、明示的「事实上的因果」检验。它就是 “sine qua non” 或 「若非则不」检验。这一检验提出一个反事实问题：「若非被告的行为，受害人是否仍会受到她所受到的伤害？」它有时也被称为必要条件检验，因为它要求被告的行为对受害人的伤害而言是必要的。这一检验的吸引力正来自于此。它似乎分离出了我们在解释事件和评定责任时都非常关心的东西，即：被告的行为是否造成了差别。
+        attribution: Stanford Encyclopedia of Philosophy，Causation in the Law
+        locator: §2.2 The dominant definition of cause-in-fact（2024-02-04 修订本）。引文在 “make a” 处随条目原文转入下一句，本次不补写未完整截取的后续词语。
+        ref: 1
+    - position: 若口号只是提醒「责任归于行动者，而不是归于作为物体的枪」，它有一定道理，但由此不能推出「因此枪支没有问题」
+      consensus_role: 对口号的善意读法，并指出原帖所关心的那一步规范跳跃
+      evidence:
+        label: 概念分析；「因此 X 没有问题」这一步来自原帖对其修辞用法的观察，不是一项新的经验发现
+        note: 法律条目本身把「解释事件」和「评定责任」并列，说明因果贡献与归责相关但不是同一件事。[1] 善意读法把口号放在归责一侧。即便如此，要从「枪不是被告」推出「不必关注枪的设计、可获得性或某类金融工具」，仍需要额外前提。本次未核对枪支管制的经验文献，故不在此给出政策结论。
+      holders:
+      - name: Stanford Encyclopedia of Philosophy 条目 “Causation in the Law”
+        identity: 同上。此处依据的是该条目把因果贡献与责任评定相关联、但又分为不同问题的陈述，而不是该条目对枪支口号的直接评论——条目并未讨论这句口号。[1]
+      argument: 有一种更宽容的理解：说话者并不是在做物理学，而是在说刑法和道德的主语必须是人。枪不能被定罪，人才能。这一提醒本身并不荒谬，而且与「我们既关心解释、也关心责任」的法律实践相容。[1]
+        它之所以仍然常常是坏论证，是因为公共讨论里它很少停在这一提醒上。原帖准确地看到了那句潜台词：因此枪支是可以的，因此快车是可以的，因此证券化债务是可以的。可是「不是道德主体」并不等于「不是使伤害发生或加重的因素」，更不等于「规制该因素没有理由」。要完成这一步，还必须论证工具不改变风险，或改变了也不构成公共理由——而这些都是独立的、需要另外证据的主张。缺少它们，口号就只是在用因果的语法，运送一个它并未证明的政策结论。
+    open_parts: 「若非则不」检验在重叠因果、抢先因果等情形中并不够用，条目对此有专门讨论；本次没有把那些技术修正展开为对口号的逐案应用。[1] 枪支作为「原因」的经验强度（可获得性是否改变杀人罪或自杀率）是另一项大量文献，本次未打开，故明确不加进结论。把同一句式用到汽车或金融工具时，各自的反事实背景和规制理由也不相同，不能用一句口号统一判决。
+    references:
+    - id: 1
+      citation: Causation in the law. (2024, February 4). In Stanford Encyclopedia of Philosophy (substantive
+        revision of the entry first published October 3, 2019). 本次打开并核对的是条目页：https://plato.stanford.edu/entries/causation-law/
+      url: https://plato.stanford.edu/entries/causation-law/
+- id: 2026-11-26-phil-download
+  date: '2026-11-26'
+  category: philosophy
+  title_zh: 非法下载音乐是不道德的吗？
+  title_en: Is it immoral to download music illegally?
+  commentary: 把未经授权的下载叫作「盗版」或「偷窃」，是权利人常用的道德语言，但知识产权的客体可以同时被许多人使用、也不会因为被复制而耗尽。是不是不道德，取决于「偷窃」类比是否成立，以及激励论证能走多远——这两点在哲学里都有严肃争议。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/1597/is-it-immoral-to-download-music-illegally
+  author: stoicfury
+  source_type: stackexchange
+  tags:
+  - 知识产权
+  - 版权
+  - 伦理学
+  - 非竞争性
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 非法下载在实定法上通常构成侵权，但「因此它不道德」并不是哲学上的定论。反对把复制等同于偷窃的核心理由是：知识对象具有非排他、非竞争性，多一人使用并不消耗原物。这一理由构成对限制性权利的初步质疑，但并不是自动的许可：激励创作的功利论证，以及对未经同意之风险的反驳，仍然存在
+      note: Hettinger（1989）指出，知识产权制度尤其难以证成；他把版权、专利和商业秘密的对象称为「知识对象」，并强调它们是非排他的：可以同时出现在许多地方，且不会因使用而被消耗，增加一个使用者的边际成本为零。他也记录了权利人把未经授权的获取称为「盗版」或信息偷窃，并举翻录朋友唱片等为例，同时认为这些现象表明公众对制度的性质与正当性存在广泛分歧。[1]
+        斯坦福哲学百科「Intellectual Property」在「信息是非竞争性的」一节，把「复制并不剥夺任何人的占有」概括为反对限制性权利的初步论证，并明确引用 Hettinger 等；随即指出该论证的第一前提是弱点：并非凡可被许多人同时使用的信息，都产生应被最大开放的初步道德要求，且未经授权的复制即使未抢走一笔本会发生的销售，也可能把未经同意的风险加给权利人。[2]
+    summary: 「非法下载音乐是否不道德」不能靠「法律禁止因此不道德」或「不过是复制因此无所谓」其中任何一句来结束。Hettinger 把问题放回制度证成：财产制度塑造社会，而知识财产尤其难以证成。权利人常把翻录唱片、拷贝程序等称为「盗版」或信息偷窃，但
+      Hettinger 认为这类现象恰恰说明，公众对知识财产制度的性质与正当性并无共识，需要专门审视。[1] 他给出的关键事实是对象本身的性质：他把版权、专利和商业秘密的对象叫作知识对象，并强调它们是非排他的——可以同时在许多地方出现，使用并不消耗它们，多提供给一个使用者的边际成本为零。[1]
+      斯坦福哲学百科把这一思路整理成更形式的「非竞争性」论证：若作品可被许多人同时使用和消费，则应允许最大程度的获取与使用；知识作品正是非竞争性的，因此对限制性知识产权有初步的反面理由。百科同时标明，弱点在第一前提：敏感的个人信息、国家安全信息等同样是非竞争性的，却并不因此产生应被最大开放的初步道德要求；即便复制者本来就不会合法购买，未经授权的复制仍可能把未经同意的风险加在权利人身上。[2]
+      于是，较稳妥的结论是：把非法下载直接等同于偷窃，忽视了复制并不取走原物这一事实，道德上并不自动成立；但「非竞争性」本身也推不出「因此可以不顾作者与激励地下载」。是否不道德，还要看具体情境里激励、同意、替代购买以及公平使用等因素，而不是一句口号。
+    definitions:
+    - term: 知识对象的非排他性（nonexclusive）
+      text: Hettinger 用来刻画版权、专利和商业秘密之对象的性质：它们可以同时处于许多地方，并且不会因使用而被消耗；向额外使用者提供的边际成本为零。[1]
+    - term: 非竞争性（non-rivalrous）
+      text: 斯坦福哲学百科在批评性综述中使用的概念：知识作品通常不会因被使用而被消耗，并且可以被许多人同时使用；「做一份拷贝并不剥夺任何人的占有」。[2]
+    milestones:
+    - year: '1989'
+      name: Hettinger《Justifying Intellectual Property》
+      explanation: '刊于 Philosophy & Public Affairs 18(1): 31–52。文章感谢美国商务部国家电信与信息管理局对其早期研究的支持。本次打开并核对的是作者提供的
+        PDF。[1]'
+    - year: 2011/2022
+      name: 斯坦福哲学百科「Intellectual Property」条目
+      explanation: 首次发布于 2011 年 3 月 8 日，本次打开的是 2022 年 8 月 18 日修订本。[2]
+    views:
+    - position: 把非法下载直接叫作偷窃是有误导的，因为知识对象可以同时被许多人使用、并不会因复制而耗尽；知识产权制度本身仍需要独立的证成
+      consensus_role: 对「盗版=偷窃」类比最有影响的哲学质疑之一
+      evidence:
+        label: 一篇经典的同行评议哲学论文，加上百科对其非竞争性论证的转述
+        note: Hettinger 的文章是对版权、专利和商业秘密制度的一般证成讨论，并非专门的「下载音乐」案例分析；他把翻录朋友的唱片列为权利人所称的侵权活动之一。[1] 本文不把 1989
+          年的技术例子（磁带、录像）当成对当代流媒体市场效应的估计。
+      holders:
+      - name: Edwin C. Hettinger
+        identity: 《Justifying Intellectual Property》（Philosophy & Public Affairs, 1989）作者。文首脚注说明其原初研究完成于在美国商务部国家电信与信息管理局工作期间。[1]
+      argument: 若下载不道德是因为它「和偷一张光盘一样」，论证的负担在于说明：被取走的到底是什么。Hettinger 指出，知识对象与有体物不同，它们可以同时在许多地方，使用并不消耗它们。[1]
+        因此，未经授权的拷贝并不像偷窃那样让原拥有者失去那份物体。他同时记录，「盗版」「偷窃」是权利人的语言，而公众是否接受这一制度，本身就是分歧。[1] 这意味着，非法性可以成立，但道德结论还不能从「偷窃」二字自动运出；必须另外说明，为何要赋予对非排他对象的排他控制。
+      quotes:
+      - text: 'These objects are nonexclusive: they can be at many places at once and are not consumed
+          by their use. The marginal cost of providing an intellectual object to an additional user is
+          zero'
+        text_zh: 这些对象是非排他的：它们可以同时处于许多地方，并且不会因使用而被消耗。向额外的一个使用者提供一个知识对象的边际成本为零。
+        attribution: Edwin C. Hettinger，Justifying Intellectual Property
+        locator: Philosophy & Public Affairs 18(1) (1989)，「Intellectual Objects as Nonexclusive」一节起首，作者
+          PDF 约第 36 页附近
+        ref: 1
+    - position: 非竞争性只提供反对限制性权利的初步理由，并不自动使非法下载成为道德上可允许的行为
+      consensus_role: 对前一论证之第一前提的有影响批评，与「需要证成」的立场兼容
+      evidence:
+        label: 哲学百科中的综述与反例，不是一项关于音乐市场的新试验
+        note: 该节把 Kuflik、Hettinger、Barlow 列为初步论证的代表，随即指出第一前提的弱点，并引用 Moore（2012）与 Himma（2005b）的反驳方向。[2]
+          条目转换文本未提供可逐字核对的作者署名行，故按条目本身引用。
+      holders:
+      - name: Stanford Encyclopedia of Philosophy 条目 “Intellectual Property”
+        identity: 2011 年首次发布、2022 年 8 月 18 日修订的百科条目。本次打开并核对该页「Information is Non-Rivalrous」一节。[2]
+      argument: 即便接受「多一份拷贝不会让原文件消失」，也不等于「因此应允许最大获取」。百科把这一跳跃写成明确的第一前提，并给出反例：敏感个人信息同样可以被许多人同时使用，却并不因此产生应被最大开放的初步道德要求。它还提醒，即使复制者本来就不会购买正版，未经授权的复制仍可能把未经同意的风险加给权利人。[2]
+        对音乐下载而言，这意味着：否定偷窃类比，并不自动完成辩护。仍需要面对激励（没有一定的控制，部分作品是否还会被创作和发行）、同意，以及「这次下载是否替代了一次本会发生的付费」等独立问题。法律上的「非法」也不能单独定道德之罪，但「非竞争性」同样不能单独颁发道德许可证。
+      quotes:
+      - text: Since intellectual works are not typically consumed by their use and can be used by many
+          individuals concurrently (making a copy does not deprive anyone of their possessions), we have
+          a strong case against moral and legal intellectual property rights (Kuflik 1989; Hettinger 1989;
+          Barlow 1997). [...] The weak point in this argument is the first premise (Moore 2012; Himma,
+          2005b).
+        text_zh: 由于知识作品通常不会因其被使用而被消耗，并且可以被许多个体同时使用（制作一份拷贝并不剥夺任何人的占有），我们便有了反对道德上和法律上的知识产权的强理由（Kuflik 1989；Hettinger
+          1989；Barlow 1997）。[…] 这一论证的弱点在于第一个前提（Moore 2012；Himma, 2005b）。
+        attribution: Stanford Encyclopedia of Philosophy，Intellectual Property
+        locator: §4.2 Information is Non-Rivalrous（2022-08-18 修订本）
+        ref: 2
+    open_parts: 当代流媒体改变了「一次下载是否替代一次销售」的经验背景，1989 年与百科修订本都不是对 2020 年代音乐市场的计量研究。[1][2] 公平使用、价格、地区限制、以及艺术家与发行商之间的收入分配，都会改变具体判断，但本次没有打开相应的经验文献。功利主义的激励论证是证成知识产权的另一条主线，条目另有专节，本次只在限度内提及，不把它写成已逐段核对的完整理论。
+    references:
+    - id: 1
+      citation: Hettinger, E. C. (1989). Justifying intellectual property. Philosophy & Public Affairs,
+        18(1), 31–52. 本次打开并核对的是作者提供的 PDF：https://hettingern.people.charleston.edu/Hettinger%20-%20Justifying%20Intellectual%20Property.pdf
+      url: https://hettingern.people.charleston.edu/Hettinger%20-%20Justifying%20Intellectual%20Property.pdf
+    - id: 2
+      citation: Intellectual property. (2022, August 18). In Stanford Encyclopedia of Philosophy (substantive
+        revision of the entry first published March 8, 2011). 本次打开并核对的是条目页：https://plato.stanford.edu/entries/intellectual-property/
+      url: https://plato.stanford.edu/entries/intellectual-property/
+- id: 2026-11-26-psych-upside-down
+  date: '2026-11-26'
+  category: psychology
+  title_zh: 学会倒着读写之后，我对自己做了什么？
+  title_en: By learning to read and write upside down, what did I do to myself?
+  commentary: 学会倒着写之后，手写时分不清小写 b 和 d，听起来像「给自己制造了阅读障碍」。更准确的心理学名称是负迁移：一项新技能干扰了旧技能的某个局部。镜像书写本身也是文献里有记载的现象，不必首先把它病理化。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/232/by-learning-to-read-and-write-upside-down-what-did-i-do-to-myself
+  author: Wayne Werner
+  source_type: stackexchange
+  tags:
+  - 学习迁移
+  - 镜像书写
+  - 读写
+  - 负迁移
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 在一种情境中学会倒着或反向读写，从而干扰正常手写中的个别字母（如 b 与 d），最贴切的既有概念是负迁移，而不是「给自己造成了发展性阅读障碍」。镜像书写和镜像阅读在儿童、部分发展性阅读障碍者、某些健康左利手成人以及脑损伤后都有记载，机制并不单一
+      note: Perkins 与 Salomon（1992）把学习迁移定义为：在一种情境中的学习增强（正迁移）或损害（负迁移）另一种相关表现；并区分近迁移与远迁移。[1] Gottfried、Sancar
+        与 Chatterjee（2003）在一篇关于获得性镜像书写与阅读的病例研究中写明：幼儿、发展性阅读障碍者以及一些健康的左利手成人可能写出镜像文字；脑损伤后的持续性镜像书写则很少见，且提出过运动、视空间和视觉词形等多种假说。[2]
+        原提问者的困难局限于手写 b/d、并不影响阅读或打字，更符合局部负迁移，而不是获得性阅读障碍或发展性阅读障碍的诊断标准——后两者本次也没有把诊断手册作为核对对象。
+    summary: 原提问者在青少年时期自学倒着（以及可能的反向）读写，此后手写小写 b 和 d 变得非常困难，以至于要用「b 指向词尾」这类常与阅读障碍联系起来的策略；阅读和打字则不受影响。他问：这是不是一种非常有限的、自己造成的阅读障碍？就已打开的文献而言，更准确的说法是负迁移。Perkins
+      与 Salomon 把迁移定义为：在一种情境或材料上的学习，增强或损害另一种相关情境中的表现；损害的那一侧就叫负迁移。教育通常期望正迁移，但研究也表明迁移——尤其是远迁移——常常并不发生；一旦发生，也可以沿相反方向起作用。[1]
+      把「倒着写」练到流畅，意味着另一套字母方向与笔画顺序被高度练习，于是在回到常规手写时，最容易在方向对立的一对字母上出错，这与负迁移「损害相关表现」的定义相符，也解释了为什么干扰可以只出现在手写、而不出现在阅读或键盘输入。镜像现象本身并不罕见到必须立刻病理化。Gottfried
+      等人指出，幼儿、发展性阅读障碍者和一些健康左利手成人都可能写出镜像文字；他们自己报告的是一例脑外伤后持续性镜像书写与阅读的病人，并强调单一机制无法解释所有镜像现象。[2] 该病例与提问者的主动练习不是同一回事，但它说明：反向的字形表征可以在神经系统中被组织起来，而不必等于「患上了发展性阅读障碍」。较稳妥的自我描述因此是：通过刻意练习获得了一项不寻常的技能，并在与旧技能重叠的局部（手写
+      b/d）付出了负迁移的代价。
+    definitions:
+    - term: 正迁移与负迁移（positive / negative transfer）
+      text: Perkins 与 Salomon 的定义：在一种情境中的学习增强另一种相关表现，称为正迁移；损害另一种相关表现，称为负迁移。迁移还包括近迁移（到紧密相关的情境）和远迁移（到相当不同的情境）。[1]
+    - term: 镜像书写与镜像阅读（mirror writing / mirror reading）
+      text: Gottfried 等人把镜像书写定义为：单个字母和整个词串以相反方向产出；镜像阅读则指相对于正常书写的词，更偏好阅读镜像反转的词。把这些字对着镜子，可以正常读出。[2]
+    milestones:
+    - year: '1992'
+      name: Perkins 与 Salomon 的「学习迁移」百科条目
+      explanation: 为《国际教育百科全书》第二版撰写，文面日期 1992 年 9 月 2 日。作者单位为哈佛研究生教育学院（Perkins）与海法大学、亚利桑那大学（Salomon）。[1]
+    - year: '2003'
+      name: Gottfried、Sancar 与 Chatterjee 的获得性镜像书写病例
+      explanation: '刊于 Neuropsychologia 41: 96–107。作者单位为宾夕法尼亚大学医院神经科与认知神经科学中心。[2]'
+    views:
+    - position: 手写时把 b 和 d 弄混，最好理解为对「倒着写」这项新技能的负迁移，而不是自己制造了发展性阅读障碍
+      consensus_role: 用标准学习理论对个案的概念归类；并非针对该提问者的专门实验
+      evidence:
+        label: 百科条目中的定义与一般研究发现，加上提问者自我报告的症状范围
+        note: Perkins 与 Salomon 讨论的是迁移的一般机制（低路/反射性迁移与高路/有意抽象），并指出远迁移常常不发生。[1] 他们没有研究「倒着写」这一具体训练。把 b/d
+          混淆归为负迁移，是因为症状局限于与方向高度相关的手写表现，这与定义相符，但不是一项已发表的个案试验。
+      holders:
+      - name: David N. Perkins、Gavriel Salomon
+        identity: 《Transfer of Learning》作者。文首单位为哈佛研究生教育学院，以及海法大学与亚利桑那大学。[1]
+      argument: 提问者担心的是一个诊断标签。迁移理论提供了一个更窄、也更可检验的描述：新学习损害了旧表现的某一部分。[1] 「倒着写」与常规书写共用字母形状，却在方向上相反，正是容易互相干扰的近关系。只在手写时出现、阅读和打字完好，进一步符合「局部负迁移」而不是全面的字词系统崩溃。这并不否认发展性阅读障碍者也可以出现字母反转，而是说：由主动练习带来的、局限于产出方向的干扰，不必先被写成一种自我诱发的疾病。
+      quotes:
+      - text: Transfer of learning occurs when learning in one context enhances (positive transfer) or
+          undermines (negative transfer) a related performance in another context. Transfer includes near
+          transfer (to closely related contexts and performances) and far transfer (to rather different
+          contexts and performances).
+        text_zh: 当在一种情境中的学习增强（正迁移）或损害（负迁移）另一种情境中的相关表现时，就发生了学习迁移。迁移包括近迁移（到紧密相关的情境和表现）和远迁移（到相当不同的情境和表现）。
+        attribution: David N. Perkins 与 Gavriel Salomon，Transfer of Learning
+        locator: International Encyclopedia of Education, 2nd ed. 条目摘要，文面日期 1992-09-02
+        ref: 1
+    - position: 镜像读写是已知现象，可见于没有脑损伤的人群，也可见于脑损伤后的罕见病例；不能把提问者的情况直接等同于获得性镜像书写，但后者说明反向字形表征可以被神经系统组织起来
+      consensus_role: 临床与认知神经科学中的现象记录，用来给「我做了什么」提供对照，而不是给提问者做诊断
+      evidence:
+        label: 一篇病例研究及其文献回顾，样本不是自学倒着写的健康青少年
+        note: Gottfried 等人的病人是 51 岁、外伤后持续性镜像书写与阅读者，与提问者的主动练习不同。[2] 文中「幼儿、发展性阅读障碍者和一些健康左利手成人可能写出镜像文字」是对既有文献的概述，并附有文献号，不是该文自己的新抽样调查。作者还强调，不同损伤部位和多种假说说明不存在单一机制。[2]
+      holders:
+      - name: Jay A. Gottfried、Feyza Sancar、Anjan Chatterjee
+        identity: '《Acquired mirror writing and reading: evidence for reflected graphemic representations》作者，单位为宾夕法尼亚大学医院神经科、认知神经科学中心。[2]'
+      argument: 如果镜像书写只出现在疾病里，提问者把自己的症状想成「有限的阅读障碍」就更有诱惑力。Gottfried 等人的综述性开场表明并非如此：一些没有脑损伤的人也会写出镜像文字，包括健康的左利手成人。[2]
+        他们自己的病例则展示了另一种极端——损伤后持久的镜像偏好。两者都说明，反向的书写方向可以作为一种稳定的表现出现。对原问题，有用的对照是：提问者保留了正方向阅读和打字，干扰集中在手写的一对字母，这既不像该文的获得性综合征，也不必被写成发展性阅读障碍的缩小版。更谨慎的说法是获得了一项技能，并在重叠的运动—字形映射上付出了代价。
+      quotes:
+      - text: Young children, developmental dyslexics, and some healthy left-handed adults may produce
+          mirror text [10,36].
+        text_zh: 幼儿、发展性阅读障碍者以及一些健康的左利手成人，可能会写出镜像文字 [10,36]。
+        attribution: Jay A. Gottfried、Feyza Sancar 与 Anjan Chatterjee，Acquired mirror writing and reading
+        locator: 'Neuropsychologia 41 (2003): 96–107，引言段'
+        ref: 2
+    open_parts: 本次没有打开专门追踪「刻意练习倒着写」对正常字母分辨之因果效应的实验，因而对提问者个案的判断是概念归类，不是临床诊断。b/d 混淆与发展性阅读障碍的关系是另一项文献，不能从一句「阅读障碍者也可能写镜像字」推出互为充分条件。[2]
+      干扰是否会随停止练习或针对性再训练而消退，也超出了这两篇文本的范围。
+    references:
+    - id: 1
+      citation: 'Perkins, D. N., & Salomon, G. (1992, September 2). Transfer of learning. In International
+        Encyclopedia of Education (2nd ed.). Oxford: Pergamon. 本次打开并核对的是作者后来上传的条目文本：https://openlab.citytech.cuny.edu/fywpd/files/2020/01/transferoflearning.pdf'
+      url: https://openlab.citytech.cuny.edu/fywpd/files/2020/01/transferoflearning.pdf
+    - id: 2
+      citation: 'Gottfried, J. A., Sancar, F., & Chatterjee, A. (2003). Acquired mirror writing and reading:
+        Evidence for reflected graphemic representations. Neuropsychologia, 41, 96–107. 本次打开并核对的是作者页 PDF：https://neuroaesthetics.med.upenn.edu/assets/user-content/documents/publications/gottfried-sancar-chatterjee-2003-01.pdf'
+      url: https://neuroaesthetics.med.upenn.edu/assets/user-content/documents/publications/gottfried-sancar-chatterjee-2003-01.pdf
+- id: 2026-11-26-psych-self-interest
+  date: '2026-11-26'
+  category: psychology
+  title_zh: 人们何时会按自身利益行事，何时又不会？
+  title_en: What influences when people act in accordance with their self-interest and when they don't?
+  commentary: 经济学的默认故事是人人追求物质私利，但实验室里的讨价还价、公共品和惩罚，描绘的却是另一幅图景：一部分人在乎公平，而环境决定了「公平类型」还是「自私类型」会主导均衡。这个机制能解释不少何时利己、何时不利己，但还不能直接等于对投票或区划政治的完整答案。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 自利
+  - 公平
+  - 社会偏好
+  - 实验经济学
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-26'
+    consensus:
+      label: 「所有人只追求物质自利」作为普遍描述，与大量受控实验不符。Fehr 与 Schmidt 的综合模型主张：除了纯粹自利者，还有一部分人具有以自我为中心的不平等厌恶；究竟是公平类型还是自私类型主导均衡，取决于经济环境。把这一实验室结论直接推广到投票、区划等政治态度，仍缺少本次已核对的专门证据
+      note: Fehr 与 Schmidt（1999）开篇即并列两组「令人困惑」的事实：人们在竞争性市场中会利用其议价能力，但在双边讨价还价中往往不会；人们在自愿合作博弈中会利用搭便车机会，可一旦有机会惩罚搭便车者，稳定合作就能维持，尽管惩罚对惩罚者是有成本的。他们证明，如果一些人关心公平，这些现象可以在同一框架中得到解释，并且经济环境决定哪一类人主导均衡行为。[1]
+        他们把公平建成以自我为中心的不平等厌恶：人们愿意放弃部分物质收益，以使结果更公平，但并不人均地关心他人之间的不平等。[1] 原问题中的政治例子（限制性区划、富裕选民的党派选择）属于政治心理学中「象征政治
+        vs 自利」的传统，本次未能打开 Sears 或 Chong 等人的全文，故不把实验室环境效应写成对那些例子的已核解释。
+    summary: 「人们何时按自身利益行事」先要澄清：这里的「自身利益」若指物质回报最大化，则它并不是对所有环境和所有人的好描述。Fehr 与 Schmidt 指出，几乎所有经济模型都假定所有人只追求物质自利、并不关心「社会」目标本身；这或许适用于一些人，但肯定不是所有人。已有大量证据表明，公平动机会影响许多人的行为。[1]
+      他们关心的不是再增加一种与自利无关的特殊动机，而是寻找一条能同时解释几组相反事实的原则。竞争性市场里，人们会利用议价优势；双边讨价还价里，往往不会。自愿公共品博弈里，人们会搭便车；一旦可以付出代价去惩罚搭便车者，合作就能稳定下来。[1]
+      他们的回答是：除了纯粹自利者，还有一部分人具有以自我为中心的不平等厌恶，愿意牺牲部分物质收益来减少与自己相关的不公平；然后，环境决定是公平类型还是自私类型主导均衡。[1] 于是，「何时利己、何时不利己」至少有一个有模型、有实验的答案：在高度竞争、个体难以影响规范的市场里，自利行为更容易主导；在面对面的分配、或存在可实施的惩罚与互惠的地方，公平约束更容易被看见。Patrick
+      Collison 原问里的政治例子——房主支持抬高房价的区划，或富裕选民支持表面上不利于自己钱包的政党——需要另外的政治态度研究才能下同样强度的判断；本次核对停留在社会偏好的实验与理论，而不把那些政治例子写成已被同一篇论文证明。
+    definitions:
+    - term: 以自我为中心的不平等厌恶（self-centered inequity aversion）
+      text: Fehr 与 Schmidt 对公平的建模方式：人们抵制不平等的结果，愿意放弃部分物质收益以移向更公平的结果；若这种厌恶是以自我为中心的，则他们并不本身关心其他人之间的不平等，而只关心自己的物质收益相对于他人是否公平。[1]
+    milestones:
+    - year: '1999'
+      name: Fehr 与 Schmidt 的公平、竞争与合作理论
+      explanation: '刊于 Quarterly Journal of Economics 114(3): 817–868。本次打开并核对的是公开转载 PDF。[1]'
+    views:
+    - position: 并非所有人都只追求物质自利；一部分人具有公平或不平等厌恶，这一假设足以在不放弃理性的前提下解释多组看似矛盾的实验
+      consensus_role: 实验经济学中极有影响的社会偏好模型
+      evidence:
+        label: 一篇 QJE 理论—综述论文，所依赖的是既有的市场、讨价还价与公共品实验，而不是作者自己的一次新现场试验
+        note: 作者强调，除了引入一部分关心公平的人，不必放松理性假设。[1] 文中对工资设定、垄断定价的引用（如 Kahneman、Knetsch 与 Thaler 1986）是对既有研究的转述。模型参数（公平类型的比例、厌恶系数）需要与具体实验相校准，不能直接读成人口中的固定比例。
+      holders:
+      - name: Ernst Fehr、Klaus M. Schmidt
+        identity: 《A Theory of Fairness, Competition, and Cooperation》（Quarterly Journal of Economics,
+          1999）的作者。本次打开的 PDF 文首未列出当时职务，故不补充未核到的机构头衔。[1]
+      argument: 如果人人永远按物质私利行动，双边最后通牒、有代价的惩罚以及某些定价与工资约束就很难理解；如果人人永远公平，竞争性市场中对议价力的利用又不好解释。Fehr 与 Schmidt
+        的策略是保留理性，只改动机的组成：人口中同时存在自利者与不平等厌恶者。[1] 「何时按自身利益行事」于是不再是性格测验，而变成一个关于组成与规则的问题。这一主张直接打击了「经济人是对所有互动的忠实描述」，但并不否认自利在许多环境中确实主导。
+      quotes:
+      - text: There is strong evidence that people exploit their bargaining power in competitive markets
+          but not in bilateral bargaining situations. There is also strong evidence that people exploit
+          free-riding opportunities in voluntary cooperation games. Yet, when they are given the opportunity
+          to punish free riders, stable cooperation is maintained, although punishment is costly for those
+          who punish. This paper asks whether there is a simple common principle that can explain this
+          puzzling evidence. We show that if some people care about equity the puzzles can be resolved.
+          It turns out that the economic environment determines whether the fair types or the selfish
+          types dominate equilibrium behavior.
+        text_zh: 有强证据表明，人们在竞争性市场中会利用其议价能力，但在双边讨价还价情境中却不会。也有强证据表明，人们在自愿合作博弈中会利用搭便车的机会。然而，当他们有机会惩罚搭便车者时，稳定的合作得以维持，尽管惩罚对实施惩罚的人是有成本的。本文追问：是否存在一条简单的共同原则，能够解释这些令人困惑的证据。我们表明，如果一些人关心公平，这些困惑就可以得到解决。结果是：经济环境决定了公平类型还是自私类型会主导均衡行为。
+        attribution: Ernst Fehr 与 Klaus M. Schmidt，A Theory of Fairness, Competition, and Cooperation
+        locator: Quarterly Journal of Economics 114(3) (1999)，开篇摘要段
+        ref: 1
+    - position: 同一批人也会在某些环境中表现得自私、在另一些环境中表现得公平：竞争性市场更容易让自利行为主导，而双边分配或可惩罚的合作则更容易让公平类型起作用
+      consensus_role: 该模型的关键比较静态，用来直接回答「何时」
+      evidence:
+        label: 同一论文中的理论结果及其所依据的实验模式
+        note: 「环境决定哪一类主导」是作者自己的概括，细节分布在市场、讨价还价和公共品各节。本次不把未逐节展开的命题写成比摘要更强的定量规律。投票、税收遵从等在脚注中被提及，但不是本文核对的中心证据。[1]
+      holders:
+      - name: Ernst Fehr、Klaus M. Schmidt
+        identity: 同上。[1]
+      argument: 原问题要的是条件，而不是「人到底自私还是不自私」的一次表决。Fehr 与 Schmidt 把条件写在环境上：当竞争使单一个体很难把结果拉向公平，自利类型可以主导可见行为；当互动是双边的，或惩罚使公平类型能够约束搭便车者，公平行为就更容易维持。[1]
+        这对日常直觉有直接推论：在匿名、可替代、规则冷酷的市场里，预期人们按物质利益行事往往更准；在关系紧密、能实施制裁或面对面分配的场合，只按钱包计算则常常出错。至于政策态度——例如清楚的房产利益与相对模糊的税收—再分配利益——是否服从同一逻辑，需要政治领域的专门证据，不能从这些博弈实验里直接读取。
+    open_parts: 实验室博弈中的「物质自利」与政治领域中的「自身利益」（包括身份、象征态度、对群体的认同）不是同一个变量。Sears、Chong 等人关于自利何时影响政策态度的研究，与本题的政治例子更直接相关，但本次没有打开其全文，故不引用其具体结论。不平等厌恶模型也不是唯一的社会偏好理论（互惠、纯利他、羞耻等竞争理论本次未核对）。现场、跨文化和长期制度如何改变「公平类型」的比例，仍是开放问题。[1]
+    references:
+    - id: 1
+      citation: Fehr, E., & Schmidt, K. M. (1999). A theory of fairness, competition, and cooperation.
+        The Quarterly Journal of Economics, 114(3), 817–868. 本次打开并核对的是公开转载 PDF：https://web.stanford.edu/~niederle/Fehr.Schmidt.1999.QJE.pdf
+      url: https://web.stanford.edu/~niederle/Fehr.Schmidt.1999.QJE.pdf
