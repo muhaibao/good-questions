@@ -13875,3 +13875,762 @@
         Indicator. Consulting Psychology Journal: Practice and Research, 57(3), 210–221. https://doi.org/10.1037/1065-9293.57.3.210
         本次打开并核对的是该文 PDF：https://www.discprofiling.co.nz/i/ComparisonReferencePapers/Cautionary_comments_regarding_the_Myers_Briggs_Typ.pdf'
       url: https://www.discprofiling.co.nz/i/ComparisonReferencePapers/Cautionary_comments_regarding_the_Myers_Briggs_Typ.pdf
+- id: 2026-11-28-ai-frame
+  date: '2026-11-28'
+  category: ai
+  title_zh: 框架问题是什么？为什么它对人工智能如此困难？
+  title_en: What is the frame problem?
+  commentary: 看起来像书呆子的技术细节——行动之后哪些事实还不变——一旦认真要让机器在真实世界里做计划，就会变成：怎样才不必把「没有改变的事」一条一条写完，又不会漏掉真正改变的事。
+  source_name: McCarthy & Hayes (1969) — Machine Intelligence 4
+  source_url: https://www-formal.stanford.edu/jmc/mcchay69.pdf
+  author: John McCarthy and Patrick J. Hayes
+  source_type: curated
+  tags:
+  - 框架问题
+  - 情境演算
+  - 常识推理
+  - 知识表示
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 作为形式化问题，框架问题由 McCarthy 与 Hayes 在 1969 年明确提出，这一点没有争议；它是否已被「解决」，取决于你把它理解成狭义的框架公理书写问题，还是更宽的相关性和常识推理问题
+      note: |-
+        本次打开并核对的是斯坦福官方重排 PDF，文中第 4.3 节以电话簿为例引入该问题，并给出用「框架」来预设未提及的流（fluent）保持不变的写法。[1] Dennett 后来用三个机器人寓言把问题推广为「如何忽略无关推论」，但他在结集前言中写明，McCarthy 与 Hayes 认为那并不是他们所说的「真正的框架问题」。[2] 因此，下面把狭义形式化提法与后起的相关性解释分开陈述，而不把二者说成同一条已解决的定理。
+    summary: |-
+      框架问题最初不是一句关于「机器有没有常识」的口号，而是 McCarthy 与 Hayes 在用形式语言证明策略能否达成目标时碰到的书写负担。他们指出，要证明一个人查完电话簿后仍能与另一个人通话，必须额外假定：查号之后他依然拥有那部电话。若有 n 种行动、m 个流，就可能要写下 mn 条「某行动不改变某流」的条件。[1] 他们提出的出路之一，是引入类似状态向量的「框架」：声明哪些流附着于该框架，行动只需说明哪些流改变，其余被推定不变。[1] 十五年后，Dennett 把这一困难讲成一组思想实验：只考虑预定效果会把炸弹一起拉出房间；试图推尽一切副作用会在爆炸前仍在证明墙色未变；而给推论打上「相关/无关」标签后，系统又可能把时间花在列出必须忽略的事项上。[2] 这个寓言有力地说明了相关推理的难度，但它已经宽于 1969 年论文里那个有明确计数的形式化问题。今天，情境演算、后继状态公理、默认推理和概率模型都在不同程度上减轻了狭义书写负担；在开放世界里实时区分「该更新什么、该保持什么」，仍然是人工智能的开放课题。
+    definitions:
+    - term: 流（fluent）
+      text: McCarthy 与 Hayes 用来表示随情境而变化的那些量或条件。框架问题的核心计数是：哪些行动会改变、哪些不会改变这些流的值。[1]
+    - term: 框架（frame）
+      text: 他们提出的一种表示法，类似于 McCarthy 1962 年讨论的状态向量：若干流被声明为附着于该框架，行动的效果通过指明哪些流改变来描述，其余被推定不变。[1]
+    - term: 框架公理（frame axioms）
+      text: 用来断言「某行动不改变某流」的语句。Dennett 后来把这类公理称为该问题得名的来源之一；本次打开的 1969 年文本本身使用的是 frame 一词，并以
+        mn 条条件来刻画书写负担。[1][2]
+    milestones:
+    - year: '1969'
+      name: McCarthy 与 Hayes 在情境演算中提出框架问题
+      explanation: 论文发表于 Machine Intelligence 4，第 463–502 页，作者当时的署名单位为 Stanford University
+        Computer Science Department。本次打开并核对的是斯坦福官方提供的 PDF 重排本。[1]
+    - year: '1984'
+      name: 'Dennett 发表《Cognitive Wheels: The Frame Problem of AI》'
+      explanation: 原载 Hookway 编 *Minds, Machines and Evolution*（Cambridge University Press，1984）第
+        129–151 页。本次打开并核对的是后来收入 *Brainchildren* 的重印文本（文中页码自 182 页起）。[2]
+    views:
+    - position: 框架问题首先是形式化行动理论里的书写与推定问题：必须避免为每一个「没有发生的变化」单独写一条公理
+      consensus_role: 原论文中的问题提法，后续技术工作多从此出发
+      evidence:
+        label: 一篇奠定情境演算的经典长文中的专节，是形式论证而非机器人实验
+        note: 依据是本次打开的官方 PDF 第 4.3 节。作者给出的是电话簿例子和 mn 条条件的计数，以及用框架/赋值语句来推定未提及者不变的方案；他们并没有在该节声称问题已经彻底解决，也提到还可以有其他进路。[1]
+      holders:
+      - name: John McCarthy
+        identity: 该文署名单位为 Stanford University Computer Science Department；文中通讯地址为 jmc@cs.stanford.edu，官方页面也称他为「人工智能」一词的提出者。[1][2]
+      - name: Patrick J. Hayes
+        identity: 与 McCarthy 共同署名的作者，当时同样署在斯坦福计算机科学系。[1]
+      argument: 若智能程序靠在形式语言中推断某策略能达成目标来做决定，它就必须表示行动的效果。表示「变了什么」相对直接，表示「其余一切仍保持原样」却会随行动与流的数目组合爆炸。框架的设想是把「未声明的不变」写成默认，而不是写成一张穷尽的公理表。[1]
+      quotes:
+      - text: |-
+          In the last section of part 3, in proving that one person could get into conversation with another, we were obliged to add the hypothesis that if a person has a telephone he still has it after looking up a number in the telephone book. If we had a number of actions to be performed in sequence we would have quite a number of conditions to write down that certain actions do not change the values of certain fluents. In fact with n actions and m fluents we might have to write down mn such conditions.
+        text_zh: 在第三部分的最后一节，为了证明一个人能够与另一个人通话，我们不得不加上这样的假设：一个人若拥有一部电话，在电话簿里查完号码之后他仍然拥有这部电话。假如有许多行动要按顺序执行，我们就要写下相当多的条件，说明某些行动并不改变某些流的值。事实上，若有
+          n 种行动、m 个流，我们可能必须写下 mn 条这样的条件。
+        attribution: John McCarthy and Patrick J. Hayes, Some Philosophical Problems from
+          the Standpoint of Artificial Intelligence
+        locator: 斯坦福官方 PDF 重排本第 4.3 节，重排页码第 30 页；原载 Machine Intelligence 4（1969），第 463–502
+          页
+        ref: 1
+      - text: |-
+          We see two ways out of this difficulty. The first is to introduce the notion of frame, like the state vector in McCarthy (1962). A number of fluents are declared as attached to the frame and the effect of an action is described by telling which fluents are changed, all others being presumed unchanged.
+        text_zh: 我们看到这一困难有两条出路。第一条是引入框架的概念，就像 McCarthy（1962）中的状态向量那样。若干流被声明为附着于该框架，行动的效果则通过说明哪些流发生了改变来描述，其余的都被推定为不变。
+        attribution: John McCarthy and Patrick J. Hayes, Some Philosophical Problems from
+          the Standpoint of Artificial Intelligence
+        locator: 同上，第 4.3 节，重排页码第 30 页
+        ref: 1
+    - position: 若把问题理解为「一个行动者如何在实时中忽略无关推论、抓住相关副作用」，它就变成更广泛的相关性与常识推理难题
+      consensus_role: 有广泛影响的哲学阐释，但原作者并不认为这等于他们提出的那个问题
+      evidence:
+        label: 一篇面向哲学读者的经典文章，主要是思想实验和概念分析
+        note: 本次打开的是 *Brainchildren* 重印本。正文以 R1、R1D1、R2D1 三个机器人讲述预定效果、穷尽副作用与「相关/无关」标签的失败。重印前言写明：McCarthy
+          与 Hayes 认为 Dennett 所谈的并不是「真正的框架问题」，而 Dennett 自己说他已不再坚称哪些问题才算同一个问题。[2] 该重印本的单词间距不整齐，故此处不提供长段逐字引语，以免把排印瑕疵写成原文。
+      holders:
+      - name: Daniel C. Dennett
+        identity: 文章原载 1984 年 Hookway 所编文集；本次打开的重印本页眉作 *Brainchildren*。文中他称自己当初想为旁观者提供对该问题的导论，并说明其哲学趣味。[2]
+      argument: |-
+        只表示「我打算造成的那一种变化」，会漏掉把炸弹连同电池一起拉出房间这类副作用；试图从描述中演绎出一切含义，又会在时间耗尽前仍在证明墙的颜色没有变。给含义打上相关或无关的标签，本身也可能变成一项做不完的任务。这样看来，困难不仅是少写几条公理，而是系统如何把相关性从组合爆炸中切割出来。[2] 这一阐释帮助许多人理解了为什么框架问题会从 AI 技术细节变成哲学问题，但不应反过来覆盖 1969 年那个更窄、更形式化的提法。
+    open_parts: |-
+      狭义的框架公理问题在后来的行动逻辑里有多种技术应对（例如把「什么变了、什么默认不变」写成后继状态公理），但本次没有打开这些后续技术文献，因此不把「已被何种演算解决」写成已核对的结论。更宽的相关性问题——在开放、有时间压力的世界里，哪些后果必须纳入计划，哪些可以忽略——仍然没有一个被普遍接受的一般解。McCarthy 与 Hayes 自己在第 4.3 节末尾也只是指出还有其他可能进路，并说其中一条他们尚未充分研究。[1] 学习系统能否从数据中学到「通常不变、例外才更新」的结构，是另一条当代进路，同样超出了本次打开的两篇文本。
+    references:
+    - id: 1
+      citation: |-
+        McCarthy, J., & Hayes, P. J. (1969). Some philosophical problems from the standpoint of artificial intelligence. In B. Meltzer & D. Michie (Eds.), Machine Intelligence 4 (pp. 463–502). Edinburgh University Press. 本次打开并核对的是斯坦福官方重排 PDF：https://www-formal.stanford.edu/jmc/mcchay69.pdf
+      url: https://www-formal.stanford.edu/jmc/mcchay69.pdf
+    - id: 2
+      citation: |-
+        Dennett, D. C. (1984). Cognitive wheels: The frame problem of AI. In C. Hookway (Ed.), Minds, machines and evolution (pp. 129–151). Cambridge University Press. 本次打开并核对的是后来收入 Brainchildren 的重印文本（文中页码自 182 页起）。
+      url: https://camallen.net/files/dennett-cognitive-wheels-frame-problem-ai.pdf
+- id: 2026-11-28-ai-generalization
+  date: '2026-11-28'
+  category: ai
+  title_zh: 为什么深度网络在参数远多于数据、甚至能拟合随机标签时，仍然能够泛化？
+  title_en: Understanding deep learning requires rethinking generalization
+  commentary: 按传统学习理论的直觉，一个能把训练标签改成随机数再全部记住的模型，不该再在真正的测试集上表现良好。可成功的深度网络两边都做到了——这个张力逼我们重新问：到底是什么在控制泛化。
+  source_name: ICLR 2017 — arXiv:1611.03530
+  source_url: https://arxiv.org/abs/1611.03530
+  author: Chiyuan Zhang, Samy Bengio, Moritz Hardt, Benjamin Recht, Oriol Vinyals
+  source_type: curated
+  tags:
+  - 泛化
+  - 深度学习
+  - 随机标签
+  - 正则化
+  - 学习理论
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 张等人的随机标签实验已被广泛接受为需要解释的事实：许多成功的深度网络可以完美拟合随机标签，同时在真实标签上又可以有很小的泛化误差；传统的复杂度界和「显式正则化是关键」的说法，不足以单独解释这一现象。关于应当用哪一种新理论来取代它们，则没有共识
+      note: 本次打开并核对的是 arXiv:1611.03530v2（2017-02-26），也是 ICLR 2017 的成稿来源。[1] 作者在摘要和正文里给出了可复核的实验命题，而不是一条已被证明的泛化定理。后起的双下降、隐式正则化、算法稳定性等文献试图回应这篇论文提出的难题，但本次没有打开这些后续论文，故不把其中任何一种写成已核对的「标准答案」。
+    summary: |-
+      深度网络常常拥有远多于训练样本的可训练参数，却仍可能让训练误差和测试误差都很小。传统看法把这种小泛化误差归于模型族的性质，或归于训练时使用的正则化技术。[1] Zhang、Bengio、Hardt、Recht 与 Vinyals 用一组系统实验挑战了这个看法。他们对图像分类中的先进卷积网络使用随机梯度方法训练，结果这些网络能够轻易拟合训练集上的随机标签；这一现象在性质上不受显式正则化的影响，即使把真正的图像换成完全无结构的随机噪声，仍然会发生。[1] 在 CIFAR-10 上，他们报告的 Inception 模型在真实标签下训练准确率为 100%、测试准确率约 85%–89%；在拟合随机标签且关闭裁剪与权重衰减时，训练准确率仍为 100%，测试准确率则降到 9.78%，接近随机猜测。[1] 他们还给出一个理论构造：一旦参数数目超过数据点数——这在实践中通常如此——简单的两层网络就已经具备完美的有限样本表达能力。[1] 由此得出的不是「深度网络其实不会泛化」，而是：能够记住任意标签的模型，其传统复杂度度量往往会给出无用的泛化界；因此，要解释为什么它们在真实数据上仍然泛化，必须超出这些传统思路。
+    definitions:
+    - term: 泛化误差（generalization error）
+      text: 该文把它说成训练误差与测试误差之差。成功的深度网络可以让这个差非常小，尽管模型体积很大。[1]
+    - term: 随机标签实验（randomization test）
+      text: 把训练集的标签全部（或按比例）替换为随机类别，再看模型是否仍能把训练误差做到接近零。作者指出，这一设定与经验 Rademacher 复杂度的定义十分接近。[1]
+    - term: 显式正则化（explicit regularization）
+      text: 文中讨论的包括权重衰减、随机裁剪和数据增强等在训练时显式加入的约束或扰动。作者的主张是：这些技术并不能从根本上改变网络拟合随机标签的能力，因而也不足以单独充当泛化的解释。[1]
+    milestones:
+    - year: 2016–2017
+      name: Zhang 等人提出「理解深度学习需要重新思考泛化」
+      explanation: 预印本 arXiv:1611.03530，本次打开的是 v2（2017-02-26）；文章同时是 ICLR 2017 论文。作者当时的署名单位分别为
+        MIT（Zhang，并于 Google Brain 实习）、Google Brain（Bengio、Hardt）、UC Berkeley（Recht）和 Google
+        DeepMind（Vinyals）。[1]
+    views:
+    - position: 许多成功的深度网络可以完美拟合随机标签乃至随机像素，因此传统复杂度量和显式正则化并不能区分「会泛化」与「只会死记」的网络
+      consensus_role: 该文提出并被后续文献广泛引用的核心实验命题
+      evidence:
+        label: 在 CIFAR-10 与 ImageNet 上对多种架构做的系统实验，外加一个关于两层网络有限样本表达能力的构造
+        note: |-
+          CIFAR-10 上 Inception、AlexNet 与 MLP 都能把随机标签的训练损失收敛到零；ImageNet 上 Inception V3 对约一百万个随机标签达到 95.20% 的 top-1 训练准确率，虽未到 100%，作者认为已经非常令人惊讶，并猜测调整超参数后可能达到完美拟合。[1] 显式正则化打开时，网络对随机标签仍可达到约 90% 的 top-1 训练准确率。[1] 这些结果是对特定架构、数据集和训练算法的实验发现，不是一条对一切神经网络都成立的定理。
+      holders:
+      - name: Chiyuan Zhang
+        identity: 文中署名单位为 Massachusetts Institute of Technology，并注明工作完成于其在 Google Brain 实习期间。[1]
+      - name: Samy Bengio
+        identity: 文中署名单位为 Google Brain。[1]
+      - name: Moritz Hardt
+        identity: 文中署名单位为 Google Brain。[1]
+      - name: Benjamin Recht
+        identity: 文中署名单位为 University of California, Berkeley。[1]
+      - name: Oriol Vinyals
+        identity: 文中署名单位为 Google DeepMind。[1]
+      argument: 若一个模型族已经丰富到可以给任意标签赋值，那么用来控制泛化误差的 VC 维或 Rademacher 复杂度就会大到给不出有用的界。正则化如果不能阻止这种记忆，也就不能被当成「它们之所以泛化」的充分解释。真正需要解释的是：同样这些模型，为什么在真实标签的数据分布上会表现出很小的训练–测试差距。[1]
+      quotes:
+      - text: |-
+          Specifically, our experiments establish that state-of-the-art convolutional networks for image classification trained with stochastic gradient methods easily fit a random labeling of the training data. This phenomenon is qualitatively unaffected by explicit regularization, and occurs even if we replace the true images by completely unstructured random noise.
+        text_zh: 具体而言，我们的实验表明：用于图像分类、并用随机梯度方法训练的先进卷积网络，能够轻易拟合训练集上的随机标签。这一现象在性质上不受显式正则化的影响，即使我们把真正的图像换成完全无结构的随机噪声，它仍然会发生。
+        attribution: Zhang, Bengio, Hardt, Recht, and Vinyals, Understanding deep learning
+          requires rethinking generalization
+        locator: arXiv:1611.03530v2，摘要第 2 段
+        ref: 1
+    - position: 显式正则化可以改善真实数据上的测试表现，但它并不是泛化发生的必要机制，也不足以阻止网络记住随机标签
+      consensus_role: 对该文内部结果的审慎读法，与前一观点兼容
+      evidence:
+        label: 同一论文中关于开关正则化的对照实验，而非一篇独立的因果识别研究
+        note: |-
+          在 CIFAR-10 的 Inception 上，真实标签下开或关随机裁剪与权重衰减，训练准确率都是 100%，测试准确率在 85.75% 与 89.31% 之间变动；拟合随机标签且两者都关闭时，训练准确率仍为 100%，测试准确率 9.78%。[1] 附录还显示，默认系数的权重衰减下，除 AlexNet 未能收敛外，其他模型仍能拟合随机标签；增强数据后只要改变权重衰减并训练更久，Inception 仍会过拟合随机标签。[1] 因此，正则化不是无关的，但它不能承担「解释泛化」的全部工作。
+      holders:
+      - name: Chiyuan Zhang, Samy Bengio, Moritz Hardt, Benjamin Recht, Oriol Vinyals
+        identity: 同上，该文作者。[1]
+      argument: 即使没有某些常用的显式正则化，这些网络在真实标签上仍然可以达到很高的测试准确率；即使打开这些正则化，它们往往仍能记住随机标签。所以，把泛化主要归功于「用了权重衰减或数据增强」并不充分。需要另找与真实数据结构和优化算法有关的解释。[1]
+    open_parts: |-
+      这篇论文提出的是一个需要解释的实验难题，而不是一个替代性的完整泛化理论。作者自己的理论构造说明了表达能力为何足够记住训练集，但没有由此推出真实数据上的测试误差界。[1] 后续文献中的隐式正则化、双下降、边缘和算法稳定性等方案，正是为了填补这个空缺；本次未能打开这些原文，因此不把其中任何一条写成已核对的定论。随机标签实验本身也有范围：它主要使用图像分类、随机梯度方法和若干当时的标准架构；换到其他模态、目标函数或优化器上，记忆与泛化如何共存，仍然需要单独检验。
+    references:
+    - id: 1
+      citation: |-
+        Zhang, C., Bengio, S., Hardt, M., Recht, B., & Vinyals, O. (2017). Understanding deep learning requires rethinking generalization. In International Conference on Learning Representations. 本次打开并核对的是 arXiv:1611.03530v2（2017-02-26）：https://arxiv.org/abs/1611.03530
+      url: https://arxiv.org/abs/1611.03530
+- id: 2026-11-28-biz-superstars
+  date: '2026-11-28'
+  category: business
+  title_zh: 为什么名人能获得极高的薪酬？
+  title_en: Why do celebrities get high wages?
+  commentary: 若只是「因为他们更有才华」，很难解释为何顶尖与第二档之间那点外行几乎听不出的差别，会变成收入上如此陡峭的鸿沟。Rosen 把问题从感叹改写成了市场规模与不完全替代。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/10742/why-do-celebrities-get-high-wages
+  author: Stephan Kulla
+  source_type: stackexchange
+  tags:
+  - 超级明星经济学
+  - 收入分配
+  - 不完全替代
+  - 联合消费
+  - 媒体技术
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 在劳动与产业组织文献中，Rosen 1981 年的「超级明星经济学」仍是解释「少数顶尖者占据极大市场份额与收入」的标准出发点；它并不声称能解释一切高薪，也不提供「何谓票房魅力」的心理学理论
+      note: |-
+        本题来自 Economics Stack Exchange 上 Stephan Kulla 的提问。[2] 解答所依据的一手文献是本次打开的 Rosen,《The Economics of Superstars》, American Economic Review 71(5), 1981, 第 845–858 页。[1] Rosen 自己强调，保密与数据限制使他几乎不可能获得该领域的系统数据，因而文章主要是理论框架加若干可观察的例证，而不是一篇完整的计量估计。[1]
+    summary: |-
+      名人的极高薪酬，并不是标准供求图景里「卖得更多就赚得更多」那句话的简单推论——正如 Rosen 所说，这句话对鞋匠和摇滚乐手同样适用，所以还需要额外的结构。[1] 他指出这类活动有两个共同要素：个人报酬与其自身市场规模紧密相连；市场规模和报酬都强烈地向最有才华的人倾斜。[1] 造成报酬函数凸性的，首先是不同卖方之间的不完全替代：次一等的才华往往很难替代更高的才华，于是才华上的小差异会被放大成收入上的大差异，在顶端尤其如此。[1] 但偏好或替代性本身还不足以解释产出为何如此集中在少数最有才华的卖方身上。这第二点更应由技术来解释：许多表演具有联合消费的规模经济，相对少数卖方就能服务整个市场；复制与传播成本越低，越不需要那么多卖方。[1] 把不完全替代与联合消费放在一起，才华出众的人同时拥有极大市场和极高收入，就变得可以理解。电视等媒介扩大了个人市场的容量，也就提高了顶端收入的可能性。[1] 这一理论说明的是市场机制，而不是「名人为何有魅力」，更不是对一切行业高薪的通用解释。
+    definitions:
+    - term: 超级明星现象（Superstars）
+      text: Rosen 用来指：相对少数人赚到极高收入，并在其所从事的活动中占据支配地位；伴随而来的是产出集中、收入分配明显右偏，以及顶端的巨大报酬。[1]
+    - term: 不完全替代（imperfect substitution）
+      text: 不同质量的卖方不能被彼此完美替换。Rosen 写到，次一等的才华往往是更高才华的糟糕替代品；替代性越差，更高质量卖方所能维持的租金就越大。[1]
+    - term: 联合消费（joint consumption）
+      text: 同一场表演或同一份复制品可以被许多消费者同时消费。这种技术带来的规模经济，使相对少数卖方就能服务整个市场。[1]
+    milestones:
+    - year: '1981'
+      name: Rosen 发表《超级明星的经济学》
+      explanation: American Economic Review 第 71 卷第 5 期，第 845–858 页。作者当时署名为 University of
+        Chicago and NORC。[1]
+    views:
+    - position: 顶尖收入的凸性，首先来自才华或质量之间的不完全替代：很小的才华差异可以变成很大的报酬差异
+      consensus_role: 该经典论文的第一条核心机制
+      evidence:
+        label: 一篇理论文章中的正式论证，辅以音乐、喜剧、教科书等当时可观察的例子，而不是对当代名人合同的计量估计
+        note: Rosen 举过这样的例子：多数听众在「盲听」中很难听出一流与二流演奏者的细微差别，但两者收入可以相差悬殊；若一位外科医生在挽救生命上比同行成功 10%，多数人愿意支付的溢价会超过
+          10%。[1] 这些是说明性例证。文章明确承认系统数据难以获得。[1]
+      holders:
+      - name: Sherwin Rosen
+        identity: 该文署名单位为 University of Chicago and NORC。[1]
+      argument: 把才华写成一个可观察的质量指数 q，卖方的净收入函数 R(q) 若是凸的，收入分布就会比才华分布在右尾被拉得更长。不完全替代是维持这种凸性的条件之一：人们不愿用「多一点平庸」去替代「少一点卓越」，尤其当结果关系重大时。[1]
+      quotes:
+      - text: |-
+          Convexity of R(q) literally means that small differences in talent become magnified in larger earnings differences, with great magnification if the earnings-talent gradient increases sharply near the top of the scale.
+        text_zh: R(q) 的凸性，字面上意味着才华上的小差异会被放大成收入上的更大差异；若收入–才华梯度在靠近顶端处变得很陡，这种放大就会非常可观。
+        attribution: Sherwin Rosen, The Economics of Superstars
+        locator: American Economic Review 71(5), 1981, 约第 846 页，引入 R(q) 凸性的段落
+        ref: 1
+    - position: 产出高度集中在少数最有才华的卖方，主要来自联合消费这类技术：一个人的表演可以同时服务一个很大的市场
+      consensus_role: 该论文的第二条核心机制，用来补足「仅有不完全替代还不够」的缺口
+      evidence:
+        label: 同一理论框架中的需求分析，不是对数字平台时代的新估计
+        note: Rosen 强调，偏好单独不能解释产出为何集中于少数最有才华者，这一点最好由技术而非口味来说明。[1] 联合消费的规模经济使相对少数卖方就能服务整个市场。[1]
+          电视被他当作能够产生高收入、扩大个人市场容量的技术例子。[1] 对 1981 年之后流媒体如何进一步降低复制成本，本文没有打开后续估计，故不把「今天的放大倍数是多少」写成已核对数字。
+      holders:
+      - name: Sherwin Rosen
+        identity: 同上。[1]
+      argument: 不完全替代解释了为什么更有才华的人能索取更高单价；联合消费解释了为什么他们还能同时拥有极大的「数量」。两者相乘，顶端薪酬才会达到看起来不合比例的水平。这也说明，媒介技术一旦让同一场表演接触到更多人，超级明星现象就会加剧，而不必假定顶尖才华本身突然变得更稀缺。[1]
+      quotes:
+      - text: The implied scale economy of joint consumption allows relatively few sellers
+          to service the entire market.
+        text_zh: 联合消费所蕴含的规模经济，使得相对少数的卖方就能服务整个市场。
+        attribution: Sherwin Rosen, The Economics of Superstars
+        locator: American Economic Review 71(5), 1981, 第 847 页附近，讨论联合消费技术的段落
+        ref: 1
+    open_parts: |-
+      Rosen 的模型把「票房魅力」当作给定的质量指数，明确声明不指导如何制造魅力。[1] 因此，它不能回答「为什么是这个人而不是那个人成为名人」。后天培训、网络效应、运气，以及后来文献中讨论的「因为其他人关注所以我关注」都可能重要，但本次没有打开这些原文，故不展开其定理。超级明星机制也不是一切高薪的通解：有的高收入来自管制或锦标赛合同，需要另外的证据。把 1981 年的技术条件直接外推到全球流媒体，还需要新的经验估计。
+    references:
+    - id: 1
+      citation: Rosen, S. (1981). The economics of superstars. American Economic Review, 71(5),
+        845–858. 本次打开并核对的 PDF：https://jenni.uchicago.edu/econ341/readings/Rosen_1981_AER_v71_n5.pdf
+      url: https://jenni.uchicago.edu/econ341/readings/Rosen_1981_AER_v71_n5.pdf
+    - id: 2
+      citation: Kulla, S. (2015, question). Why do celebrities get high wages? Economics Stack
+        Exchange. https://economics.stackexchange.com/questions/10742/why-do-celebrities-get-high-wages
+      url: https://economics.stackexchange.com/questions/10742/why-do-celebrities-get-high-wages
+- id: 2026-11-28-biz-fundamental-eq
+  date: '2026-11-28'
+  category: business
+  title_zh: 经济学有哪些可以比之于物理学的基本方程？
+  title_en: Fundamental equations in economics
+  commentary: 物理学可以把牛顿定律或麦克斯韦方程写在黑板上，作为学科的门面。经济学有没有同样的东西？这个问题逼我们区分「教学上好用的恒等式」和「对世界有约束力的定律」。
+  source_name: Economics Stack Exchange
+  source_url: https://economics.stackexchange.com/questions/35/fundamental-equations-in-economics
+  author: Lumi
+  source_type: stackexchange
+  tags:
+  - 经济学方法论
+  - 均衡
+  - 边际分析
+  - 模型
+  - 学科基础
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 经济学没有一份像物理学那样被普遍承认的「基本方程」短名单；更常见的共识是：许多模型共享若干组织性条件（尤其是均衡与约束下的边际优化），但这些条件的具体方程随设定而改变，其经验地位也不同于物理定律
+      note: |-
+        本题来自 2014 年 Economics Stack Exchange 用户 Lumi 的提问，要求向物理学家介绍「奠基性的最重要方程」。[1] 高票回答把重点放在概念（均衡、约束下的边际优化）而非一张固定公式表上。[1] 本次没有另外打开 Samuelson、Debreu 或某本标准高级教材的原文来逐条核对「官方清单」，因此下面把论坛中的组织性看法当作有代表性的讨论，而不是当成教科书定理；证据强度低于一篇方法论专著或系统综述。
+    summary: |-
+      如果「基本方程」指的是少数几条不随情境改变、并且能像物理定律那样约束世界的公式，经济学大概给不出一份无争议的名单。Lumi 的提问本身已经预设了这种对照，而最受欢迎的回答并没有开出一张「最重要方程」清单，而是指出两个会在具体理论设定中导向具体方程的概念：均衡，以及约束下的边际优化。[1] 均衡被用来抓住「事物往往趋向于安定下来」这一观察，从而为理解均衡之外的运动提供锚点；「供给量等于需求量」只是这种想法在市场上的一种写法，更恰当的说法或许是供给与需求往往会趋于相等，其理由最终与资源有限有关。[1] 在静态环境里，约束下的边际优化会导向把边际量或函数一阶导数写成相等，例如产品市场上的边际收益等于边际成本。[1] 这些写法在教学和建模中极为常见，但它们是组织模型的条件，而不是一条已被一劳永逸测量的自然定律：换一个不完全竞争、有限理性、或非均衡动态的设定，出现在黑板上的方程就会不同。因此，对物理学家更诚实的介绍也许是：经济学有重复出现的建模语法，而不是有牛顿定律的等价物。
+    definitions:
+    - term: 均衡（equilibrium）
+      text: 在该高票回答的用法里，指模型中事物「安定下来」的不动点，用来理解围绕它的运动；并强调日常所见的不断变动，并不使这个概念自动失效。[1]
+    - term: 约束下的边际优化（marginal optimization under constraints）
+      text: 同一回答中的第二个组织性概念：在静态环境中，它常常体现为某些边际量相等。回答举了产品市场上边际收益等于边际成本、投入市场上边际收益产品等于边际报酬等例子。[1]
+    milestones:
+    - year: '2014'
+      name: Lumi 在 Economics Stack Exchange 提出「经济学的基本方程」问题
+      explanation: 提问于 2014-11-19，后于 2017-04-13 编辑。本次打开的页面显示 13 个回答，接受的回答来自 Alecos Papadopoulos。[1]
+        这是问题的公开出处，不是经济学史上的发现事件。
+    views:
+    - position: 与其寻找少数几条「像物理学那样的基本方程」，不如先抓住跨模型反复出现的组织性概念，尤其是均衡
+      consensus_role: 该讨论帖中最受欢迎的整理方式，不是一篇方法论专著的结论
+      evidence:
+        label: 一篇高票论坛回答提出的教学整理，证据较弱
+        note: Alecos Papadopoulos 的回答得分最高并被接受，但它是论坛上的概念说明，而不是经过同行评议的综述。本次未打开一般均衡或局部均衡的经典原著来为这一整理背书，因此只把它当作对该问题一种有代表性、可核对的公开答复。[1]
+      holders:
+      - name: Alecos Papadopoulos
+        identity: Economics Stack Exchange 该问题下被接受、且得分最高的回答作者。其学术身份未在本次打开的页面中作为机构署名给出，故这里只根据该页的作者显示名来指称。[1]
+      argument: 人们环顾四周看到的是不断运动，于是「均衡」听起来像最不相关的概念。回答的策略是：经济学要刻画的是事物大多数时候趋于安定这一观察；把这个不动点刻画清楚，才能理解它之外和周围的运动，也才能在看到偏离时回过头来问：是哪些条件被违反了。[1]
+        「供给等于需求」只是这一想法的一种方程写法，而不是全部。
+    - position: 另一组反复出现的方程来自约束下的边际优化，但它们随市场设定而变，不能被误认为一条唯一的基本定律
+      consensus_role: 同一讨论中的补充性整理，同样不是定论性的学科清单
+      evidence:
+        label: 同一篇论坛回答中的举例说明，证据较弱
+        note: 该回答举了产品市场与投入市场中边际量相等的例子，并有意把效用最大化暂时放在一边，理由是需要先解释「效用指标」是什么。[1] 这些例子与许多教科书的讲法一致，但本次没有打开对应教材或原论文来逐字核对，故不把「边际收益等于边际成本」写成某位特定作者的已核对照片式引语。
+      holders:
+      - name: Alecos Papadopoulos
+        identity: 同上。[1]
+      argument: 一旦接受行动者在约束下做优化，静态模型里就常常出现一阶条件。它们看起来像「基本方程」，其实是特定目标函数和约束的推论。换了目标、约束或均衡概念，黑板上的式子就会换。把它们介绍给物理学家时，更准确的说法是：这是一类推导格式，而不是一条与设定无关的自然定律。[1]
+    open_parts: 论坛上还有其他候选，例如数量方程、欧拉方程、各种核算恒等式或特定的一般均衡存在性条件。本次没有为它们打开一手文献，因此不把任何一份「十大方程」清单写成学界共识。更深层的方法论问题——经济学是否有类似物理定律的「定律」，还是主要以模型与案例推理——需要专门的方法论著作来处理；本次未打开这类专著，故只把「没有无争议的短名单」当作对本问题最安全的、与已打开讨论相一致的判断。
+    references:
+    - id: 1
+      citation: Lumi. (2014, question); Papadopoulos, A. (answer). Fundamental equations in
+        economics. Economics Stack Exchange. https://economics.stackexchange.com/questions/35/fundamental-equations-in-economics
+      url: https://economics.stackexchange.com/questions/35/fundamental-equations-in-economics
+- id: 2026-11-28-sci-dna-programs
+  date: '2026-11-28'
+  category: science
+  title_zh: DNA 有没有类似于 IF 语句、WHILE 循环或函数调用的结构？
+  title_en: Does DNA have the equivalent of IF-statements, WHILE loops, or function calls?
+    How about GOTO?
+  commentary: 把基因组比作程序，是一种几乎无法避免的比喻。这个比喻要有用，就得问清楚：细菌里被实验确认的调控回路，到底对应到程序语言的哪些构件，哪些地方又会把比喻撑破。
+  source_name: Biology Stack Exchange
+  source_url: https://biology.stackexchange.com/questions/30116/does-dna-have-the-equivalent-of-if-statements-while-loops-or-function-calls-h
+  author: user12939
+  source_type: stackexchange
+  tags:
+  - 基因表达调控
+  - 操纵子
+  - 系统生物学
+  - 遗传程序
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 在细菌中，相邻结构基因可被共同的操纵基因控制，形成操纵子，并由阻遏物等调控回路响应代谢信号——这一点是分子生物学的标准知识。把这些回路严格翻译成 IF、WHILE、函数调用或
+        GOTO，则只是启发性的类比，不是一条被普遍接受的形式等价
+      note: |-
+        本题来自 Biology Stack Exchange 用户 user12939 在 2015 年的提问。[2] 关于操纵子和调控回路，本次打开并核对的是 François Jacob 1965 年的诺贝尔奖演讲 *Genetics of the bacterial cell* 官方 PDF，而不是未能成功获取的 Jacob 与 Monod 1961 年 *Journal of Molecular Biology* 原文；因此下面的引语与机制说明以这次打开的演讲文本为准。[1] 高票论坛回答提供了 IF/WHILE 等比喻的对应设想，但那是讨论帖，证据较弱，只在观点中当作类比，不当作实验结论。
+    summary: |-
+      如果把问题理解成「基因组的表达是否受条件控制」，答案是肯定的，而且在细菌里有非常具体的实验传统。Jacob 在 1965 年的演讲中，把大肠杆菌基因组的活动概括为：遗传物质由包含一个或多个基因的操纵子组成，每个操纵子产生一种信使；信使的产生又被由调节基因、阻遏物和操纵基因组成的调控回路所抑制；特异性代谢物在这些回路上充当信号——在可诱导系统中使阻遏物失活从而允许生产，在可阻遏系统中则使阻遏物激活从而抑制生产。[1] 「操纵子」被他定义为受共同操纵基因控制的相邻结构基因组合。[1] 这种结构确实很像程序里的条件开关：某种信号在场或不在场，一组基因就被打开或关上。但类比到此也应当停步。细胞并没有一份与源代码逐行对应的指令计数器；只要信号还在，回路往往就持续作用，并不构成一个事先写好步数的 WHILE；把调控蛋白、信号通路或转座过程分别叫作「函数调用」或「GOTO」，需要另外的证据，不能从操纵子模型里直接推出来。论坛回答把 IF 说成转录激活、把程序的结束说成只有细胞死亡，这类说法有助于建立直觉，但它们是比喻，不是已经核对过的分子形式系统。[2] 真核生物还有增强子、剪接和染色质状态等更多层级，本次没有打开这些原文，不能把细菌操纵子当成一切 DNA「编程」的通解。
+    definitions:
+    - term: 操纵子（operon）
+      text: Jacob 的定义是：受一个共同操纵基因控制的、相邻结构基因的组合。他用这个概念解释为什么同一生化途径的酶的基因在细菌中倾向于成簇存在，以及这些酶何以被协调地生产。[1]
+    - term: 阻遏物（repressor）与操纵基因（operator）
+      text: 演讲中，阻遏物是调节基因的产物，作用于操纵基因以阻断合成；诱导则通过使阻遏物失活而允许表达。调控回路由调节基因、阻遏物和操纵基因三个要素组成。[1]
+    - term: 信使（messenger）
+      text: Jacob 所说的、由操纵子产生并与核糖体结合、从而决定相应肽链的不稳定中间分子。一个操纵子产生一种信使，再形成该操纵子中不同结构基因所决定的一系列肽链，是他当时给出的推论。[1]
+    milestones:
+    - year: '1965'
+      name: Jacob 在诺贝尔演讲中陈述操纵子与调控回路
+      explanation: |-
+        演讲题目为 Genetics of the bacterial cell，与 André Lwoff、Jacques Monod 分享 1965 年诺贝尔生理学或医学奖。本次打开并核对的是诺贝尔基金会提供的官方 PDF；文中页眉作「1965 FRANÇOIS JACOB」，讨论操纵子的段落印在第 156 页附近。[1] 1961 年 Jacob 与 Monod 的 Journal of Molecular Biology 论文是更早的经典出处，但本次未能打开该原文，故不从该文引用句子。
+    views:
+    - position: 细菌基因组的表达受明确的条件性调控回路控制：操纵子产生信使，调节基因–阻遏物–操纵基因回路根据代谢信号打开或关闭这些操纵子
+      consensus_role: 细菌分子遗传学的经典核心结果，来自获奖者对自己工作的官方陈述
+      evidence:
+        label: 一篇基于大肠杆菌乳糖系统等实验传统的诺贝尔演讲，是对已发表研究的综合陈述，而不是 1961 年那篇论文的逐页核对
+        note: Jacob 用来支持「一个操纵子产生一种信使」的，是他所说的遗传学与生物化学两方面实验论据，并在演讲中以引用标记指向这些工作。[1] 演讲也承认，阻遏物当时尚未被分离出来，它与操纵基因或代谢物形成的复合物的本质仍有待研究。[1]
+          因此，这里核对的是 1965 年他对回路的表述，不是此后纯化阻遏物、测定晶体结构等后继结果。
+      holders:
+      - name: François Jacob
+        identity: 1965 年诺贝尔生理学或医学奖得主之一。演讲开篇写明他在巴斯德研究所 André Lwoff 实验室准备博士论文，并与 Jacques Monod
+          的小组同处一条走廊。[1]
+      argument: 乳糖系统中三个已知蛋白质的结构基因在染色体上彼此相邻，操纵基因位于一端；不论改变调节基因还是操纵基因，组成型突变都是多效的，并且以同样的程度同时影响三种蛋白质的生产。这表明调控作用在一个包含三个基因信息的整体结构上。把这个整体叫作操纵子，就可以同时解释基因成簇与酶的协调生产，并用阻遏物回路说明细胞如何根据代谢信号决定生产还是不生产。[1]
+      quotes:
+      - text: |-
+          The notion of the operon, a grouping of adjacent structural genes controlled by a common operator, explained why the genes controlling the enzymes of the same biochemical pathway tend to remain clustered in bacteria
+        text_zh: 操纵子这一概念——受一个共同操纵基因控制的相邻结构基因组合——解释了为什么控制同一生化途径中那些酶的基因，在细菌里往往保持成簇存在。
+        attribution: François Jacob, Genetics of the bacterial cell
+        locator: 1965 年诺贝尔演讲官方 PDF，讨论乳糖区域之后、给出操纵子定义的段落（页眉第 156 页附近）
+        ref: 1
+      - text: |-
+          The genetic material consists of operons containing one or more genes, each operon giving rise to one messenger. The production of messenger by the operon is, in one way or another, inhibited by regulatory loops composed of three elements: regulatory gene, repressor, operator.
+        text_zh: 遗传物质由包含一个或多个基因的操纵子组成，每个操纵子产生一种信使。操纵子产生信使，以这样或那样的方式，被由三个要素组成的调控回路所抑制：调节基因、阻遏物、操纵基因。
+        attribution: François Jacob, Genetics of the bacterial cell
+        locator: 同上，紧随其后的「我们可以因此设想大肠杆菌基因组的活动如下」一段
+        ref: 1
+    - position: 把这些回路翻译成 IF、WHILE、函数调用或 GOTO，只是启发式类比：它能帮助直觉，但不能写成 DNA 与程序语言之间的形式等价
+      consensus_role: 对原问题字面要求的审慎限定
+      evidence:
+        label: 原问题来自讨论帖，高票回答给出的对应表是比喻性整理，证据较弱
+        note: WYSIWYG 的接受回答把 IF 比作转录激活因子在场则基因被转录，并指出通常没有像程序那样的终止，除非信号消失，程序只随细胞死亡结束，因此 IF 总是更大回路的一部分。[2]
+          这些说法与「条件性转录调控存在」相容，但讨论帖没有提供把基因组编译为某种程序语言的形式系统，本次也未打开后继的「遗传电路」工程论文来支持更强的等价主张。
+      holders:
+      - name: user12939
+        identity: Biology Stack Exchange 本题提问者，页面显示的用户名为 user12939。[2]
+      - name: WYSIWYG
+        identity: 该问题下被接受且得分最高的回答作者，身份依据为该页面的显示名。[2]
+      argument: IF 之所以看起来贴切，是因为操纵子模型里确实有「若信号如此，则表达如此」的逻辑。WHILE 则容易说过头：生物回路常常是只要条件维持就持续作用，而不是执行一个预先数好的循环体。函数调用和
+        GOTO 还要再对应到层级调控、信号通路或基因组重排，这些机制存在，但不等于源代码意义上的跳转与返回。类比的正当用途是提出可检验的问题，而不是宣布 DNA「就是一门程序语言」。[1][2]
+    open_parts: |-
+      Jacob 的经典图景以细菌、尤其是大肠杆菌的乳糖系统为中心。[1] 真核生物的增强子、剪接、染色质修饰和远距离调控是否还能用「一个操纵子一种信使」来覆盖，需要另外的文献。合成生物学后来把启动子、核糖体结合位点和转录因子重新组合，做成更接近电路图的装置，也常使用程序语言隐喻；本次没有打开这些论文，故不把「已经可以把细胞编程」写成已核对结论。1961 年 Jacob 与 Monod 的原论文本次未能打开，若要对最早的术语与实验记录做逐字核对，仍应回到那篇文章。
+    references:
+    - id: 1
+      citation: Jacob, F. (1965). Genetics of the bacterial cell [Nobel lecture]. Nobel Prize
+        Outreach. 本次打开并核对的是诺贝尔基金会官方 PDF：https://www.nobelprize.org/uploads/2018/06/jacob-lecture.pdf
+      url: https://www.nobelprize.org/uploads/2018/06/jacob-lecture.pdf
+    - id: 2
+      citation: |-
+        user12939. (2015, question). Does DNA have the equivalent of IF-statements, WHILE loops, or function calls? How about GOTO? Biology Stack Exchange. https://biology.stackexchange.com/questions/30116/does-dna-have-the-equivalent-of-if-statements-while-loops-or-function-calls-h
+      url: https://biology.stackexchange.com/questions/30116/does-dna-have-the-equivalent-of-if-statements-while-loops-or-function-calls-h
+- id: 2026-11-28-phil-divine-book
+  date: '2026-11-28'
+  category: philosophy
+  title_zh: 怎样的逻辑前提才能保证一本书源于神圣？
+  title_en: What logical preconditions would guarantee that a book is of divine origin?
+  commentary: 许多宗教把一部经书的神圣来源当作信仰的起点。这个问题把起点反过来：假如我们只看文本本身，有没有任何内容能在逻辑上保证它不可能出自人类，哪怕是极有洞见的人类。
+  source_name: Philosophy Stack Exchange
+  source_url: https://philosophy.stackexchange.com/questions/596/what-logical-preconditions-would-guarantee-that-a-book-is-of-divine-origin
+  author: JDH
+  source_type: stackexchange
+  tags:
+  - 知识论
+  - 神迹
+  - 证词
+  - 宗教哲学
+  - 休谟
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 若「保证」是指逻辑上必然、使理性人别无选择的证明，当代讨论很难承认仅凭书中语句就能达到这一标准；若把问题减弱为「何种证据能合理地提高对神圣来源的置信」，则会进入神迹与证词的古典争论，而休谟给出的是其中最有影响、也最具争议的检验
+      note: |-
+        本题由 Philosophy Stack Exchange 用户 JDH 于 2011 年提出，明确问的是原则上能否写出某种内容，使理性人必须承认该书由神所写或直接默示，而不能出自人类。[2] 本次打开并核对的一手哲学文本是 Hume《人类理解研究》第十节「论神迹」，依据 davidhume.org 提供的校勘文本（含 E 与 SBN 页码）。[1] 论坛上的 31 个回答是公开讨论，证据较弱，下面只用来标明问题被如何理解，不把它们当作权威论证。
+    summary: |-
+      JDH 的提问把标准定得很高：不是「这部书很深刻、很古老、或很有影响力」，而是有没有一种逻辑上有效的指示，能保证它必须是神圣默示，而不可能出自即使极有洞见的人类。[2] 用这个标准衡量，书中任何有限的语句串，看起来都很难「保证」其作者是神。因为一部书终究是符号的有限组合：出人意料的预言或超前的知识主张，原则上仍可能被归因于巧合、事后解释、伪造，或某种尚未被识别的人类能力。休谟并不是直接讨论「神圣作者身份的逻辑保证」，但他提供了最接近的古典检验：若一部经书的神圣来源要靠神迹来证明，而神迹又要靠人类证词来确立，那么理性人必须按证据的分量来比例地给予相信。[1] 他给出的一般准则是：没有任何证词足以确立一个神迹，除非这证词的虚假会比它试图确立的事实更加神迹；即便如此，双方论证仍会相互抵消，只把剩余的力量留给较强的一边。[1] 这个准则并不在逻辑上禁止神圣启示，但它极大地提高了「仅凭文本或转述就保证其神圣来源」的门槛。把「保证」改成「可以合理地相信」，答案会变得更开放，也更依赖宗教知识论中其他未被本次打开的路线。
+    definitions:
+    - term: 神迹（miracle）
+      text: Hume 的定义是：对自然法则的违反。他写到，坚定而不变的经验已经确立了这些法则，因此就其事实的本性而言，反对神迹的证明，与任何来自经验的论证同样完整。[1]
+    - term: 证词（testimony）
+      text: 在该节中，指见证人和历史学家的报告。Hume 认为我们之所以给予证词某种信任，并不是因为先验地看出证词与实在有联系，而是因为我们习惯于发现二者相符。[1]
+    - term: 逻辑上的保证（guarantee）
+      text: 原问题中的用法：一种逻辑上有效的指示，表明该书必然是神圣默示的，而不可能由人类写出。[2] 它比「高度可能」或「对信徒足够」更强。
+    milestones:
+    - year: 1748 / 1777
+      name: Hume 发表并修订《人类理解研究》第十节「论神迹」
+      explanation: 本次打开的是 Hume Texts Online 的校勘文本，该节标有 E 10 与 Selby-Bigge/Nidditch（SBN）页码。[1]
+    - year: '2011'
+      name: JDH 将「神圣作者身份的逻辑保证」表述为明确的知识论问题
+      explanation: 提问于 2011-06-23，页面显示后于 2024-08-29 有编辑。作者显示名为 JDH。[2]
+    views:
+    - position: 若一部书的神圣来源要靠神迹证词来证明，理性的准则是按证据比例赋予信念，并且通常没有任何证词足以确立神迹
+      consensus_role: 宗教知识论中最有影响的经验主义检验之一，同时始终有争议
+      evidence:
+        label: 一篇古典哲学文本中的论证，不是对某部具体经典的历史鉴定
+        note: |-
+          Hume 先承认经验作为向导并非绝对无误，然后给出「明智的人按证据的分量来比例地给予相信」。[1] 他把神迹定义为违反自然法则，并主张存在来自「齐一经验」的完整反证；只有更强的反方向证明才能使之可信。[1] 第十节第二部分还进一步收紧让步，声称历史上从未有过建立在如此充分证据上的神迹事件。[1] 这一论证的有效范围、对「自然法则」的依赖，以及是否对宗教证词设定了过高标准，是后来大量文献的主题；本次没有打开这些反驳与辩护的原文。
+      holders:
+      - name: David Hume
+        identity: 《人类理解研究》第十节「论神迹」的作者。本次依据的是 davidhume.org 提供的校勘文本，而非某个纸本页的照片。[1]
+      argument: 一部声称神圣的书，如果其权威建立在作者或见证者所见的神迹上，那么问题就变成：这份人类证词能否压倒我们对于自然常规的齐一经验。Hume 的准则是把两边都当成经验证明来权衡，并且始终拒绝那个更大的神迹。于是，「书里写了神迹」或「有人作证这本书来自神」本身，几乎不可能达到
+        JDH 所要求的那种逻辑保证。[1][2]
+      quotes:
+      - text: A wise man, therefore, proportions his belief to the evidence.
+        text_zh: 因此，一个明智的人按证据的分量来比例地给予他的相信。
+        attribution: David Hume, An Enquiry Concerning Human Understanding, Section X
+        locator: E 10.4, SBN 110–111
+        ref: 1
+      - text: |-
+          The plain consequence is (and it is a general maxim worthy of our attention), That no testimony is sufficient to establish a miracle, unless the testimony be of such a kind, that its falsehood would be more miraculous, than the fact, which it endeavours to establish: And even in that case there is a mutual destruction of arguments, and the superior only gives us an assurance suitable to that degree of force, which remains, after deducting the inferior.
+        text_zh: 明显的推论是（这也是一条值得注意的一般准则）：没有任何证词足以确立一个神迹，除非这证词的虚假会比它试图确立的事实更加神迹。即便在那种情况下，双方的论证仍会相互抵消，较强的一方只能给予与扣除较弱一方之后所剩余的那种力量相当的确信。
+        attribution: David Hume, An Enquiry Concerning Human Understanding, Section X
+        locator: E 10.13, SBN 115–116
+        ref: 1
+    - position: 原问题要的是「逻辑保证」，这比历史可信性或宗教经验更强；按这个标准，有限文本很难排除一切非神圣的作者身份假说
+      consensus_role: 对该提问字面力度的澄清，依据是问题本身，而不是一条新的哲学定理
+      evidence:
+        label: 对原问题措辞的概念分析，论坛答复只能作为较弱的旁证
+        note: JDH 要求的是原则上能否存在某种文本内容，使理性人必须承认它由神所写，且不能由人类写出。[2] 接受回答主张「书中所写没有任何东西能说服人它为神所写」，并举出巧合、事后解释和机器随机组合符号等理由；这是讨论帖中的非正式论证，证据较弱，这里只用来说明该问题在公共讨论中常被如何回应，而不把其三条理由写成已核验的定理。[2]
+      holders:
+      - name: JDH
+        identity: Philosophy Stack Exchange 本题提问者，页面显示名为 JDH。[2]
+      argument: 「保证」要求排除所有与「神圣作者」不相容的假说。一部书无论写出多么精确的预言或多么深的数学，逻辑上都还可能来自极为幸运、极为博学、或得到未知自然帮助的人类，也可能来自后来的窜改与过度解释。除非另外引入关于神的定义、关于人类能力上限、以及关于文本传递可靠性的很强前提，否则仅从书页上的语句推不出神圣来源的必然性。[2]
+        这些额外前提一旦放进论证，所谓「保证」就已经不再是「只看书本身」了。
+    open_parts: |-
+      宗教知识论中还有其他路线，例如把见证、团体经验、改革宗知识论中的「圣灵的内在见证」，或把某些自然神学论证与经文分开处理。本次没有打开 Plantinga、Swinburne 或相关百科全书的原文，因此不把这些路线写成已核对的对立定理。Hume 的论证本身是否成功，也仍是专业争论：关键在于「齐一经验」能否先于具体证词被当成完整反证，以及神迹定义是否已经预设了结论。若把问题从「保证」减弱为「何种内容会构成对理性人很强的证据」，答案会取决于对预言检验、文本鉴定和作者能力的经验标准，那已经是另一项研究。
+    references:
+    - id: 1
+      citation: Hume, D. (1748/1777). An enquiry concerning human understanding, Section X,
+        “Of miracles.” 本次打开并核对的是 Hume Texts Online 校勘本：https://davidhume.org/texts/e/10
+      url: https://davidhume.org/texts/e/10
+    - id: 2
+      citation: |-
+        JDH. (2011, question). What logical preconditions would guarantee that a book is of divine origin? Philosophy Stack Exchange. https://philosophy.stackexchange.com/questions/596/what-logical-preconditions-would-guarantee-that-a-book-is-of-divine-origin
+      url: https://philosophy.stackexchange.com/questions/596/what-logical-preconditions-would-guarantee-that-a-book-is-of-divine-origin
+- id: 2026-11-28-phil-religion-cause
+  date: '2026-11-28'
+  category: philosophy
+  title_zh: 宗教到底造成了什么？
+  title_en: What does religion cause?
+  commentary: 把「宗教」当成一个总开关，什么结果都往它头上算，问题会大到无法下手。把它拆成「何种信仰、何种参与、对何种结果」，才可能进入可以检验的争论。
+  source_name: Patrick Collison — Questions
+  source_url: https://patrickcollison.com/questions
+  author: Patrick Collison
+  source_type: curated
+  tags:
+  - 宗教与社会
+  - 经济增长
+  - 信仰与归属
+  - 因果识别
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 「宗教造成了什么」没有一个单一答案；较可检验的做法是区分宗教信仰与宗教参与，并分别估计它们与特定结果（例如经济增长）的关系。Barro 与 McCleary
+        对跨国增长的一项有影响的研究发现：在使用工具变量处理反向因果之后，某些宗教信仰与增长正相关，礼拜出席则与增长负相关。这一结果不能自动推广到宗教的全部社会效应，其因果识别也仍可争议
+      note: |-
+        问题来自 Patrick Collison 的公开问题清单，原文还提到诺贝尔奖、向上流动、以及 Schulz、Henrich 等人关于基督教与亲社会行为的主张，并问不同宗教、不同地区的效应是否不同。[2] 本次打开并核对的一手研究是 Barro 与 McCleary 的 NBER Working Paper 9682（2003 年 5 月）《Religion and Economic Growth》。[1] 这是工作论文，不一定与随后可能发表的期刊定稿逐字相同。Collison 提到的 Henrich、Schulz 以及韦伯传统，本次没有打开原文，故不引用其句子，也不把那些主张写成已核对的结论。
+    summary: |-
+      Collison 把问题提得很宽：宗教是人类文明的巨大塑造力量之一，那么在最宽的意义上，它到底造成了什么？不同宗教的效应在性质和幅度上有何不同？与地区文化相互作用时，会不会稳定地造成不同的事？[2] 要进入经验研究，必须先把「宗教」拆开。Barro 与 McCleary 使用 1981–1999 年六次国际调查形成的跨国面板，考察礼拜出席和宗教信仰对经济增长的影响，并用国教存在、宗教市场管制、宗教多元以及宗教构成等变量作为工具，以隔离从宗教性到经济表现的方向。[1] 他们的主要发现是：经济增长对宗教信仰的程度——尤其是对地狱与天堂的信仰——作出正向反应，对礼拜出席则作出负向反应。也就是说，增长取决于「相信相对于归属」的程度。[1] 在论文的结论部分，他们再次写明：在给定信仰时，礼拜出席的增加倾向于降低增长；在给定出席时，对地狱、天堂和来世的某些信仰倾向于提高增长；并有迹象显示，对地狱的恐惧这根「棍子」比天堂前景这根「胡萝卜」对增长更有力。[1] 他们的猜想是：更高的宗教信仰有助于维持某些提高生产率的个人行为；而在给定信仰时，更多的出席意味着宗教部门消耗了更多资源。[1] 这项研究回答的是「宗教性的哪些维度与经济增长有关」，远远不是「宗教造成的一切」。
+    definitions:
+    - term: 相信相对于归属（believing relative to belonging）
+      text: Barro 与 McCleary 用来总结其主要结果的说法：增长对信仰（相信）正向反应，对礼拜出席（归属/参与）负向反应。他们并提到，相信相对于归属的极端情形，会是
+        Davie（1994）对现代英国所作的「没有归属的相信」。[1]
+    - term: 工具变量（instrumental variables）
+      text: 该文为了隔离从宗教性到经济表现的因果方向而使用的估计策略。他们采用的工具包括国教存在、宗教市场管制、宗教多元指标以及宗教构成。[1] 作者认为，基于这些工具「可争辩的外生性」，其估计反映的是从宗教到增长的影响，而不是相反。[1]
+    milestones:
+    - year: '2003'
+      name: Barro 与 McCleary 发表关于宗教与经济增长的工作论文
+      explanation: |-
+        NBER Working Paper 9682，2003 年 5 月。作者当时的署名单位为 Harvard University Department of Economics and NBER（Barro），以及 Harvard University Weatherhead Center for International Affairs（McCleary）。研究得到 NSF 与 John Templeton Foundation 资助。[1]
+    views:
+    - position: 至少在跨国经济增长这一结果上，重要的不是笼统的「更有宗教性」，而是信仰相对于参与的结构：某些超自然信仰与更高增长相连，更多的礼拜出席则与更低增长相连
+      consensus_role: 一项有影响的跨国经验研究结论，对象限于增长，识别策略仍可讨论
+      evidence:
+        label: 一篇使用国际调查面板和工具变量的工作论文，不是随机实验，也不是对宗教全部社会后果的普查
+        note: 数据来自 1981–1999 年六次国际调查汇总到国家层面的出席与信仰信息。[1] 作者强调，这些增长效应模式是在用工具变量控制反向因果之后才成立的。[1]
+          工具是否真正外生，是此类研究最容易被质疑的地方；作者自己的用语是「可争辩的外生性」。[1] 本次没有打开后续的复制、批评或期刊定稿，因此不把该结果写成已经关闭的共识。
+      holders:
+      - name: Robert J. Barro
+        identity: NBER Working Paper 9682 的作者之一，当时署名为 Harvard University Department of Economics
+          and NBER。[1]
+      - name: Rachel M. McCleary
+        identity: 同一工作论文的作者之一，当时署名为 Harvard University Weatherhead Center for International
+          Affairs。[1]
+      argument: 如果只观察「更虔诚的国家是否增长更快」，很容易把因果颠倒：发展本身也会改变宗教性。他们先分析宗教性的决定因素，再把其中一些变量用作工具，从而估计宗教性对随后增长的影响。拆开「相信」与「出席」之后，两者的符号相反，说明把宗教当成单一开关会掩盖机制：信仰可能通过个人行为特质影响生产率，而出席在给定信仰时更接近宗教部门的资源投入。[1]
+      quotes:
+      - text: |-
+          We find that economic growth responds positively to the extent of religious beliefs, notably those in hell and heaven, but negatively to church attendance. That is, growth depends on the extent of believing relative to belonging.
+        text_zh: 我们发现，经济增长对宗教信仰的程度——尤其是对地狱与天堂的信仰——作出正向反应，对礼拜出席则作出负向反应。也就是说，增长取决于相信相对于归属的程度。
+        attribution: Robert J. Barro and Rachel M. McCleary, Religion and Economic Growth
+        locator: NBER Working Paper 9682（2003 年 5 月），摘要
+        ref: 1
+      - text: |-
+          The results show that, for given religious beliefs, increases in church attendance tend to reduce economic growth. In contrast, for given church attendance, increases in some religious beliefs—notably in hell, heaven, and an after-life—tend to increase economic growth. There is also some indication that the stick represented by the fear of hell is more potent for growth than the carrot from the prospect of heaven.
+        text_zh: 结果表明：在给定宗教信仰的情况下，礼拜出席的增加倾向于降低经济增长。相反，在给定礼拜出席的情况下，某些宗教信仰——尤其是对地狱、天堂和来世的信仰——的增加倾向于提高经济增长。也有一些迹象表明，对地狱的恐惧所代表的那根棍子，比天堂前景所代表的胡萝卜，对增长更为有力。
+        attribution: Robert J. Barro and Rachel M. McCleary, Religion and Economic Growth
+        locator: 同上，第 V 节 “Summary of Main Findings”，工作论文第 35–36 页
+        ref: 1
+    - position: 经济增长只是「宗教造成了什么」的一个切片；问题本身还要求区分不同宗教、不同地区，以及其他社会结果，而这些超出了本文已打开的证据
+      consensus_role: 对原问题范围的必要限定，避免把一项增长研究写成对全部问题的回答
+      evidence:
+        label: 原问题的公开表述，加上对未打开文献的明示限制
+        note: |-
+          Collison 的表述还问到不同宗教在效应性质与幅度上的差异，以及宗教与地区文化的相互作用；并提到 Schulz、Henrich 关于欧洲基督教传播与亲社会行为、社会结构的主张，以及一篇回应博文。[2] 本次没有打开这些文本，因此不能核对他们的效应量或因果设计。Barro 与 McCleary 的论文本身也主要估计的是出席与若干信仰对增长的平均关系，虽然他们报告了不同宗教在出席和信仰上的描述性差异，但那不是对「每一种宗教造成什么」的完整回答。[1]
+      holders:
+      - name: Patrick Collison
+        identity: 公开问题清单 https://patrickcollison.com/questions 的作者。本次打开并依据的是该页面上「What does
+          religion cause?」一条。[2]
+      argument: 即便接受 Barro 与 McCleary 对增长的估计，也仍未回答宗教对生育、健康、信任、暴力、科学活动或政治制度造成了什么，更没有按宗教传统拆开这些效应。一个负责任的回答应当是：已有研究可以就某些结果、某些维度给出有方法说明的估计；「宗教造成了什么」作为总问题，仍然是一份研究议程，而不是一条已经结算的总账。[1][2]
+    open_parts: |-
+      该工作论文的工具变量是否外生、结果对信仰指标和样本的稳健性如何，以及期刊发表版本是否有重要修改，都需要对照后续文献才能判断；本次没有打开这些批评、复制或定稿。韦伯关于新教伦理的古典命题、宗教经济学中关于俱乐部与牺牲的理论，以及文化演化研究中关于亲缘制度与亲社会性的主张，都与原问题直接相关，但因原文未打开，这里只标明它们的存在，不转述其具体结论。把「地狱信仰促进增长」外推为规范性建议，也超出了原论文的识别目标。
+    references:
+    - id: 1
+      citation: Barro, R. J., & McCleary, R. M. (2003). Religion and economic growth (NBER
+        Working Paper No. 9682). National Bureau of Economic Research. https://www.nber.org/papers/w9682
+        本次打开并核对的是该工作论文 PDF。
+      url: https://www.nber.org/system/files/working_papers/w9682/w9682.pdf
+    - id: 2
+      citation: Collison, P. (n.d.). Questions. https://patrickcollison.com/questions （条目
+        “What does religion cause?”）
+      url: https://patrickcollison.com/questions
+- id: 2026-11-28-psych-incentives
+  date: '2026-11-28'
+  category: psychology
+  title_zh: 为什么在非简单任务上，更高的激励反而会降低表现？
+  title_en: Why do higher incentives lead to lower performance for non-rudimentary tasks?
+  commentary: 按常识，奖金越高人越卖力，卖力就该做得更好。可一旦任务需要思考而不是重复按键，超高的奖励有时会把表现压下去——问题不在人是否想赢，而在「更想赢」会不会破坏完成任务所需的那种控制。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/6/why-do-higher-incentives-lead-to-lower-performance-for-non-rudimentary-tasks
+  author: David
+  source_type: stackexchange
+  tags:
+  - 动机
+  - 绩效
+  - 激励
+  - 压力下窒息
+  - 实验经济学
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 「更高的绩效薪酬总会提高产出」这一常见假定，并不普遍成立。Ariely、Gneezy、Loewenstein 与 Mazar 的实验表明：相对收入而言非常高的或然奖励，会损害多种需要认知的任务表现，但对只需体力的任务则可以提高表现。心理机制常被放在「压力下窒息」和过高唤醒的标题下讨论，但哪一种机制为主，仍未完全结算
+      note: |-
+        本题由 Psychology Stack Exchange 用户 David 于 2012 年提出，背景是 Dan Pink 对动机研究的通俗讲述。[2] 解答所依据的一手文献是本次打开的 Ariely, Gneezy, Loewenstein & Mazar,《Large Stakes and Big Mistakes》, Review of Economic Studies 76 (2009), 第 451–469 页。[1] 论坛接受回答转而讨论 Dweck 的思维模式，与本题所引的激励实验不是同一条证据链，本文不以该论坛回答作为主要依据。
+    summary: |-
+      绩效薪酬的直觉建立在两步之上：更高的或然报酬会提高动机与努力，而更高的努力会改善表现。[1] Ariely 等人要检验的是第二步是否总是成立。他们在印度和美国做了多组实验，让被试在从很小到相对其通常收入非常大的或然报酬下完成不同任务。摘要中的概括是：除了一些重要例外，非常高的奖励水平对表现有损害作用。[1] 在印度农村的第一项实验中，87 名被试完成六项需要创造力、记忆或运动技能的任务；高奖励条件中单局最高支付 400 卢比，接近当时印度农村人均月消费支出。[1] 六项任务合计，平均最大可能收入份额在高支付条件下最低，为 19.5%，中等与低支付条件则分别为 36.7% 与 35.4%；低与中之间几乎没有差别，高支付则显著更差。[1] 作者原先预期损害会集中在运动技能与创造力、而不出现在记忆任务上，但第一项实验的所有任务都在最高奖励下表现更差，并未出现这种分化。[1] 分化出现在麻省理工学院的第二项实验：加法任务（需要认知努力）的表现随赌注上升而下降（低 62.9%，高 42.9%），而交替按键任务（只需体力）的表现则随赌注上升而提高（低 39.9%，高 77.9%）。[1] 因此，更准确的句子不是「高激励总是有害」，而是：当任务主要依赖认知控制时，超高的或然奖励可能损害表现；当任务主要是纯体力努力时，更高奖励可以如经济学直觉所预期的那样提高产出。
+    definitions:
+    - term: 压力下窒息（choking under pressure）
+      text: Ariely 等人用来指心理研究中已经观察到的现象：过度的奖励在某些情况下会导致表现下降。他们引用 Baumeister 等人的用法，并把增加的唤醒、注意变窄、以及对奖励本身的过分关注列为讨论中的机制。[1]
+    - term: Yerkes–Dodson 定律
+      text: 该文转述为：执行任务存在一个最优唤醒水平，朝着任一方向偏离都可能导致表现下降。他们把它归因于 Yerkes 与 Dodson（1908）。[1] 本次没有打开
+        1908 年原文，故不从那篇论文引句，只记录 Ariely 等人的转述。
+    milestones:
+    - year: '2009'
+      name: Ariely、Gneezy、Loewenstein 与 Mazar 发表《大赌注与大错误》
+      explanation: |-
+        Review of Economic Studies 第 76 卷，第 451–469 页；初稿 2006 年 8 月，终稿 2008 年 7 月被接受。作者当时的署名单位分别为 Duke University、Rady School of Management、Carnegie Mellon University，以及 Rotman School of Management。[1] 印度实验于 2002 年末进行。[1]
+    views:
+    - position: 相对收入而言非常高的或然奖励，会损害多种需要技能或认知的任务表现；这不是因为人们不再努力，而是因为更高的努力并不自动变成更好的表现
+      consensus_role: 该实验论文的主要发现，范围限于其所用任务、样本和奖励量级
+      evidence:
+        label: 一项在印度进行的、含低中高三档或然支付和六种任务的实验，以及在 MIT 进行的随访实验
+        note: 印度实验的有效样本为低 28、中 30、高 29 人。[1] 合计回归中，高支付虚拟变量的系数为 −0.1598 且显著，中支付则接近零。[1] 作者也讨论了局限：被试对多数游戏并不熟悉，高奖励可能「高过了头」，以及外部有效性需要其他样本来补。[1]
+          这些是实验室与类实验室任务，不是对公司高管薪酬的现场实验。
+      holders:
+      - name: Dan Ariely
+        identity: 该文作者之一，当时署名为 Duke University。[1]
+      - name: Uri Gneezy
+        identity: 该文作者之一，当时署名为 Rady School of Management。[1]
+      - name: George Loewenstein
+        identity: 该文作者之一，当时署名为 Carnegie Mellon University。[1]
+      - name: Nina Mazar
+        identity: 该文作者之一，当时署名为 Rotman School of Management。[1]
+      argument: 如果只是「钱不够，所以没人努力」，那么把奖励从低提高到中（相差十倍）应当看到表现上升。第一项实验里并没有这种上升，却在再提高一档、使单局最高支付接近月度消费水平时看到明显下降。[1]
+        这说明损害出现在奖励已经非常高的区间，而不是任何一次加薪都会让表现变差。心理文献提供的候选机制包括过高唤醒、对自动化动作的意识干扰、注意变窄以及被奖励本身分心；该文把它们作为背景，而不是在印度实验里逐一分离。[1]
+      quotes:
+      - text: With some important exceptions, very high reward levels had a detrimental effect
+          on performance.
+        text_zh: 除了一些重要例外，非常高的奖励水平对表现具有损害作用。
+        attribution: Ariely, Gneezy, Loewenstein, and Mazar, Large Stakes and Big Mistakes
+        locator: Review of Economic Studies 76 (2009), 摘要末句，第 451 页
+        ref: 1
+    - position: 重要例外是：当任务只需体力、几乎不需要认知资源时，更高的或然奖励会提高而不是降低表现
+      consensus_role: 同一论文中用来限定前一观点的关键对照，而不是相反的普遍规律
+      evidence:
+        label: MIT 第二项实验中 24 名被试的组内对照：加法任务对按键任务
+        note: |-
+          加法表现：低 M=62.9%（SD=23.2），高 M=42.9%（SD=30.7），χ²(1)=7.22，p=0.0072。按键表现：低 M=39.9%（SD=37.1），高 M=77.9%（SD=13.8），χ²(2)=23.16，p<0.0001。[1] 加法任务上 24 人中有 70.8% 在高支付下表现更差；按键任务上 23 人中有 82.6% 在高支付下表现更好。[1] 激励水平与任务类型的交互高度显著。[1] 样本是 MIT 学生，任务时间短，外部推广仍有限。
+      holders:
+      - name: Dan Ariely, Uri Gneezy, George Loewenstein, and Nina Mazar
+        identity: 同上，该文作者。[1]
+      argument: 如果损害来自「钱让人不想干」，纯体力任务也应当下降。结果相反：按键这种几乎不需要认知资源的努力，随赌注上升而增加，说明高额或然奖励确实能提高努力；但在需要寻找数字组合的加法任务上，同样的高赌注却让表现下降。[1]
+        这正对应原问题里「非简单任务」与「简单任务」的区别：不是激励无效，而是激励把努力推过了某些认知任务的最优点。
+      quotes:
+      - text: |-
+          the results for the adding task replicated the basic results from Experiment 1, with performance decreasing as a function of stakes (low: M = 62·9%, S.D. = 23·2; high: M = 42·9%, S.D. = 30·7, χ 2 (1) = 7·22, p = 0·0072), while the results from the key-pressing task showed the opposite pattern: performance increasing as a function of stakes (low: M = 39·9%, S.D. = 37·1, high: M = 77·9%, S.D. = 13·8, χ 2 (2) = 23·16, p < 0·0001).
+        text_zh: |-
+          我们的分析显示，激励水平与任务之间存在高度显著的交互。如图 3 所示，加法任务的结果重复了实验 1 的基本发现，表现随赌注上升而下降（低：M=62.9%，SD=23.2；高：M=42.9%，SD=30.7，χ²(1)=7.22，p=0.0072）；而按键任务则呈现相反模式：表现随赌注上升而提高（低：M=39.9%，SD=37.1；高：M=77.9%，SD=13.8，χ²(2)=23.16，p<0.0001）。
+        attribution: Ariely, Gneezy, Loewenstein, and Mazar, Large Stakes and Big Mistakes
+        locator: Review of Economic Studies 76 (2009), 实验 2 结果段；原文数字使用中间点（62·9 等），卡方符号在 PDF
+          中排作 χ 2
+        ref: 1
+    open_parts: |-
+      该文并没有在实验中把唤醒、意识干扰、注意变窄和分心这些机制完全分离开来，因此「为什么非简单任务会下降」仍然有多种相容的心理解释。[1] 第三项实验把社会观察引入奖励，本次为控制篇幅没有展开其数字。现场薪酬制度、长期激励与一次性实验赌注如何对应，也需要另外的研究。Yerkes 与 Dodson 1908 年的原文、以及 Deci 等人关于内在动机被外在奖励挤出的文献，常被用来讨论相关现象，但本次没有打开这些原文，故不把它们写成已核对的机制证明。原问题提到的 Dan Pink 演讲是通俗转述，不能替代上述论文。
+    references:
+    - id: 1
+      citation: |-
+        Ariely, D., Gneezy, U., Loewenstein, G., & Mazar, N. (2009). Large stakes and big mistakes. Review of Economic Studies, 76(2), 451–469. 本次打开并核对的 PDF：https://rady.ucsd.edu/_files/faculty-research/uri-gneezy/large-stakes.pdf
+      url: https://rady.ucsd.edu/_files/faculty-research/uri-gneezy/large-stakes.pdf
+    - id: 2
+      citation: |-
+        David. (2012, question). Why do higher incentives lead to lower performance for non-rudimentary tasks? Psychology Stack Exchange. https://psychology.stackexchange.com/questions/6/why-do-higher-incentives-lead-to-lower-performance-for-non-rudimentary-tasks
+      url: https://psychology.stackexchange.com/questions/6/why-do-higher-incentives-lead-to-lower-performance-for-non-rudimentary-tasks
+- id: 2026-11-28-psych-dress
+  date: '2026-11-28'
+  category: psychology
+  title_zh: 为什么有人把这条裙子看成白金，有人看成蓝黑？
+  title_en: What color is this dress? -- And why do some see it as white and gold and others
+    see it as black and blue?
+  commentary: 同一张照片、同一块屏幕，有人觉得答案显而易见是白和金，有人同样斩钉截铁地看到蓝和黑。它把「颜色是不是客观地贴在物体上」这件事，变成了一次人人都能参加的知觉实验。
+  source_name: Psychology Stack Exchange
+  source_url: https://psychology.stackexchange.com/questions/9405/what-color-is-this-dress-and-why-do-some-see-it-as-white-and-gold-and-others
+  author: John Berryman
+  source_type: stackexchange
+  tags:
+  - 颜色知觉
+  - 颜色恒常性
+  - 照明估计
+  - 个体差异
+  - 视觉
+  answer:
+    format: scholarly
+    reviewed_at: '2026-11-28'
+    consensus:
+      label: 这张照片会在不同观察者中稳定地诱发不同的颜色类别，主要解释是人们在折扣不同的照明：有人假定冷色照明并看到白金，有人假定暖色照明并看到蓝黑。像素本身并不是「客观的白金」或「客观的蓝黑」。关于个体差异的精确来源，仍有后续研究空间
+      note: |-
+        本题由 John Berryman 于 2015 年 2 月 27 日在 Psychology Stack Exchange 提出，当时该图正迅速传播。[2] 解答所依据的一手文献是本次打开的 Lafer-Sousa、Hermann 与 Conway 的通讯文章《Striking individual differences in color perception uncovered by ‘the dress’ photograph》。[1] 本次打开的是 Wellesley 托管的、标为 Current Biology 未校正校样的 PDF（DOI: 10.1016/j.cub.2015.04.053）；Cell 页面写明于 2015 年 5 月 14 日在线发表，校样页脚并有 2015 年 6 月 29 日的期刊日期。因校样页码不完整，下面不杜撰正式的 R 栏页码。
+    summary: |-
+      「裙子」照片的特殊之处在于：单独看像素，裙子是棕色和蓝色，这些颜色与自然照明相关；但流行的说法是，它看起来要么是白/金，要么是蓝/黑。[1] 若这只是社交媒体上二选一提问造成的假象，自由报告就应当打散这些类别。Lafer-Sousa、Hermann 与 Conway 对 1401 名被试做了自由报告调查，发现大多数人——包括尚未见过该图的人——仍然报告白/金或蓝/黑，另有一些人说蓝/棕。[1] 总体而言，57% 的被试把裙子描述为蓝/黑，30% 为白/金，11% 为蓝/棕，2% 为其他。[1] 在与语言无关的颜色匹配中，结果出现三个峰，分别对应主要的描述类别，说明大脑把图像兑现为三种稳定知觉之一。[1] 作者的假说是：这些差别反映不同的内部先验。有人偏向冷色照明（蓝天），因而折扣较短波长，看到白/金；有人偏向暖色照明（白炽灯），因而折扣较长波长，看到蓝/黑；其余人可能假定中性照明，看到蓝/棕。[1] 他们还表明，加入明确的照明线索可以翻转裙子的颜色。[1] 白/金相对于蓝/黑的报告在年龄较大者和女性中更高；复测时有人报告知觉切换，说明图像也可以是多稳的。[1] 所以，争论的不是谁在「看错颜色」，而是视觉系统为了实现颜色恒常性，必须从同一张模糊的照片里推断照明，而不同人推断的照明并不相同。
+    definitions:
+    - term: 颜色恒常性（color constancy）相关的照明折扣（discounting the illuminant）
+      text: 该文的核心解释步骤：视觉系统会把一部分颜色变化归给照明，从而估计物体表面的颜色。对冷色照明的先验会让人折扣短波，把裙子看成白/金；对暖色照明的先验则会让人折扣长波，看成蓝/黑。[1]
+    - term: 多稳知觉（multistable percept）
+      text: 作者指出，复测时有被试报告知觉切换，说明该图像可以是多稳的；他们把它类比为奈克尔立方体一类多稳形状图像。[1]
+    milestones:
+    - year: '2015'
+      name: 「裙子」照片成为大规模的颜色知觉个案，并迅速出现定量调查
+      explanation: |-
+        Berryman 的问题发布于 2015-02-27。[2] Lafer-Sousa、Hermann 与 Conway 的通讯在线发表于 2015-05-14，DOI 10.1016/j.cub.2015.04.053。作者当时的署名单位为 Wellesley College Neuroscience Program 与 MIT Department of Brain and Cognitive Sciences；通讯作者为 Bevil R. Conway。[1]
+    views:
+    - position: 个体差异是真实、可重复的类别差异，而不是二选一提问制造出来的假象：大多数人看到蓝黑或白金，还有一个较小的蓝棕类别
+      consensus_role: 该通讯文章的主要描述性发现
+      evidence:
+        label: 一项 N=1401 的自由报告调查，加上颜色匹配与部分实验室复测
+        note: 样本包括 313 名对该图尚属天真的被试、1088 名非天真被试；其中 53 人在实验室测试，28/53 人接受复测。[1] 总体 57%/30%/11%/2%
+          的分割是对全体被试的描述。[1] 颜色匹配显示三个峰，且作者报告了被试内的可靠性。[1] 这是对一张特定照片的知觉测量，不是对一切颜色错觉的普遍定律。
+      holders:
+      - name: Rosa Lafer-Sousa
+        identity: 该文共同第一作者之一（文中以 dagger 标明贡献相等），署名单位包括 Wellesley College Neuroscience Program
+          与 MIT Department of Brain and Cognitive Sciences。[1]
+      - name: Katherine L. Hermann
+        identity: 该文另一位贡献相等的共同第一作者，署名单位同上。[1]
+      - name: Bevil R. Conway
+        identity: 该文通讯作者，署名单位包括 MIT Department of Brain and Cognitive Sciences 与 Wellesley
+          College。[1]
+      argument: 如果差异只来自社交媒体的「白金还是蓝黑」这一强迫选择，自由报告应当更分散，天真被试尤其不该落入同样的类别。结果相反：自由报告仍然集中在少数名称上，颜色匹配也出现对应的峰。这说明视觉系统在这张图像上确实稳定地收敛到少数几种解，而不是每人任意命名。[1]
+      quotes:
+      - text: Overall, 57% of subjects described the dress as blue/black (B/K); 30% as white/gold
+          (W/G); 11% as blue/brown (B/B); and 2% as something
+        text_zh: 总体而言，57% 的被试把裙子描述为蓝/黑（B/K）；30% 为白/金（W/G）；11% 为蓝/棕（B/B）；2% 为其他。
+        attribution: Lafer-Sousa, Hermann, and Conway, Striking individual differences in
+          color perception uncovered by ‘the dress’ photograph
+        locator: Current Biology（2015）通讯正文，报告 N=1401 调查结果的段落。本次打开的未校正校样在该句末尾被栏排截断，完整枚举以同页开头的
+          57%/30%/11%/2% 为准；「2% as something」之后的余词在校样中未完整显示，故不补造。
+        ref: 1
+    - position: 这些类别最有力的机制假说是：不同观察者对场景照明持有不同的内部先验，因而把不同的波长成分「折扣」掉
+      consensus_role: 作者提出的主要解释，并有操纵照明线索的支持，但仍是假说
+      evidence:
+        label: 以颜色恒常性文献为背景的机制假说，加上引入照明线索可以翻转颜色的实验操纵
+        note: 作者明确使用「我们假设」（We hypothesize）来陈述先验解释。[1] 他们还报告，把裙子放在模拟的冷色或暖色照明场景中，可以按预期方向改变描述。[1]
+          关于年龄、性别与「晨型/夜型」的关联，文中作为与照明经验有关的线索被讨论，但并不是已经完成的因果证明。[1] 本次没有打开 Gegenfurtner 等人几乎同时的其他通讯，故不把那些论文的数字写进正文。
+      holders:
+      - name: Rosa Lafer-Sousa, Katherine L. Hermann, and Bevil R. Conway
+        identity: 同上，该通讯的作者。[1]
+      argument: 照片没有把照明交待清楚，于是视觉系统必须猜测：这块蓝褐色是「白布被暖光打黄」还是「蓝布被冷光打蓝」。若你的先验是日光或蓝天，你更可能把短波成分算给照明，于是布本身被看成白/金；若你的先验是室内暖光，你更可能把长波成分算给照明，于是看到蓝/黑。[1]
+        能用照明线索翻转知觉，说明关键不在视网膜上的固定色素，而在对照明的推断。
+      quotes:
+      - text: |-
+          We hypothesize that these reflect different internal priors: some people favor a cool illuminant (blue sky), discount shorter wavelengths, and perceive white/gold; others favor a warm illuminant (incandescent light), discount longer wavelengths, and see blue/black. The remaining subjects may assume a neutral illuminant, and see blue/brown. We show that by introducing overt cues to the illumination, we can flip the dress color.
+        text_zh: 我们假设，这些差别反映了不同的内部先验：有些人偏向冷色照明（蓝天），因而折扣较短波长，并知觉为白/金；另一些人偏向暖色照明（白炽灯），因而折扣较长波长，并看成蓝/黑。其余被试可能假定中性照明，并看成蓝/棕。我们表明，通过引入明确的照明线索，我们可以翻转裙子的颜色。
+        attribution: Lafer-Sousa, Hermann, and Conway, Striking individual differences in
+          color perception uncovered by ‘the dress’ photograph
+        locator: Current Biology（2015）通讯开篇综述段（未校正校样首页）
+        ref: 1
+    open_parts: |-
+      个体差异的来源——照明经验、昼夜节律类型、年龄与性别、显示器与图像尺寸——在该通讯里有线索，但还不是一套已关闭的因果模型。[1] 后续还有其他实验室的测量与计算模型，本次没有打开，故不综述其异同。原问题下的论坛回答把这张图称为双稳颜色错觉，方向与后来的定量研究相容，但本身不是受控实验。[2] 「裙子在实体世界里到底是什么颜色」是另一个问题：该文关心的是照片像素如何被不同视觉系统解释，而不是对一件实物做光谱测量。
+    references:
+    - id: 1
+      citation: |-
+        Lafer-Sousa, R., Hermann, K. L., & Conway, B. R. (2015). Striking individual differences in color perception uncovered by ‘the dress’ photograph. Current Biology. https://doi.org/10.1016/j.cub.2015.04.053 在线发表于 2015-05-14。本次打开并核对的是 Wellesley College 托管的未校正校样 PDF：https://www1.wellesley.edu/sites/default/files/assets/departments/neuroscience/images/lafersousahermannconway_thedress_2015_withsupp-1.pdf
+      url: https://doi.org/10.1016/j.cub.2015.04.053
+    - id: 2
+      citation: |-
+        Berryman, J. (2015, question). What color is this dress? -- And why do some see it as white and gold and others see it as black and blue? Psychology Stack Exchange. https://psychology.stackexchange.com/questions/9405/what-color-is-this-dress-and-why-do-some-see-it-as-white-and-gold-and-others
+      url: https://psychology.stackexchange.com/questions/9405/what-color-is-this-dress-and-why-do-some-see-it-as-white-and-gold-and-others
